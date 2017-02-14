@@ -1,14 +1,15 @@
-import React from 'react'
-import { render } from 'react-dom'
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
+import { render } from 'react-dom'
+
+import React from 'react'
+
 import store from './store'
 import App from './components/App'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Upload from './components/Upload'
-
 
 const history = syncHistoryWithStore(browserHistory, store)
 
