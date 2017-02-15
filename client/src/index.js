@@ -1,4 +1,4 @@
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
@@ -6,7 +6,9 @@ import { render } from 'react-dom'
 import React from 'react'
 
 import store from './store'
+
 import App from './components/App'
+import Home from './components/Home'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Upload from './components/Upload'
@@ -17,9 +19,10 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/upload" component={Upload}/>
+        <IndexRoute component={Home} />
+        <Route path="signup" component={Signup} />
+        <Route path="login" component={Login} />
+        <Route path="upload" component={Upload} />
       </Route>
     </Router>
   </Provider>,

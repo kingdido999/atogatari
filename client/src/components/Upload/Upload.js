@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { upload } from '../actions/file'
+import { upload } from '../../actions/file'
 
 import './Upload.css'
 

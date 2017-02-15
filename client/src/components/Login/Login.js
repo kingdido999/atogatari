@@ -1,15 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { signup } from '../actions/auth'
+import { login } from '../../actions/auth'
 
-class Signup extends Component {
+class Login extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
       email: '',
-      password: '',
-      username: ''
+      password: ''
     }
   }
 
@@ -25,10 +24,11 @@ class Signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.dispatch(signup(this.state))
+    this.props.dispatch(login(this.state))
   }
 
   render() {
+
     const { errorMessage } = this.props
 
     return (
@@ -44,9 +44,6 @@ class Signup extends Component {
           <label htmlFor="password">Password</label>
           <input type="password" name="password" className="u-full-width" id="password" onChange={this.handleInputChange} />
 
-          <label htmlFor="username">Username</label>
-          <input type="text" name="username" className="u-full-width" id="username" onChange={this.handleInputChange} />
-
           <input className="button-primary" type="submit" value="Submit" onClick={this.handleSubmit} />
         </form>
       </section>
@@ -54,7 +51,7 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
+Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
   errorMessage: PropTypes.string
 }
@@ -70,4 +67,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Signup)
+export default connect(mapStateToProps)(Login)

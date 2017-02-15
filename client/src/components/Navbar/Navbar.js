@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { logout } from '../actions/auth'
+import { logout } from '../../actions/auth'
 import './Navbar.css'
 
 class Navbar extends Component {
