@@ -3,29 +3,29 @@ const Schema = mongoose.Schema
 
 const screenshotSchema = new Schema({
   bangumi_id: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     required: true
   },
   episode: {
     type: Number,
-    required: true
+    required: false
   },
   uploader_id: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     required: true
   },
   timestamp: {
     type: String,
     required: false
   },
-  thumbnail_url: {
+  thumbnail_filename: {
     type: String,
     required: true
   },
-  original_url: {
+  original_filename: {
     type: String,
     required: true
   },
 })
 
-export default mongoose.model('User', screenshotSchema)
+export default mongoose.model('Screenshot', screenshotSchema)

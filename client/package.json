@@ -58,7 +58,7 @@
     "redux-logger": "^2.8.1",
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.2.0",
-    "zooming": "^1.0.11"
+    "zooming": "^1.1.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

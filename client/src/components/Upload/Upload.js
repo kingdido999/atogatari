@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { upload } from '../../actions/file'
+import Zooming from 'zooming'
 
 import './Upload.css'
 
@@ -10,7 +11,8 @@ class Upload extends Component {
     super(props)
     this.state = {
       file: null,
-      imagePreviewUrl: ''
+      imagePreviewUrl: '',
+      bangumi_title: ''
     }
   }
 
@@ -35,6 +37,10 @@ class Upload extends Component {
         file: file,
         imagePreviewUrl: reader.result
       })
+
+      new Zooming({
+        defaultZoomable: '.img-preview'
+      })
     }
 
     reader.readAsDataURL(file)
@@ -43,7 +49,10 @@ class Upload extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData()
+    data.append('token', localStorage.getItem('token'))
     data.append('file', this.state.file)
+    data.append('bangumi_title', this.state.bangumi_title)
+    // data.append('episode', this.state.episode)
     this.props.dispatch(upload(data))
   }
 
@@ -67,10 +76,10 @@ class Upload extends Component {
           <input className="u-full-width" type="file" onChange={this.handleImageChange} />
 
           <label htmlFor="bangumi">Bangumi</label>
-          <input type="text" name="bangumi" className="u-full-width" onChange={this.handleInputChange} />
+          <input type="text" name="bangumi_title" className="u-full-width" onChange={this.handleInputChange} />
 
-          <label htmlFor="episode">Episode</label>
-          <input type="number" step="1" min="0" name="episode" className="u-full-width" onChange={this.handleInputChange} />
+          {/* <label htmlFor="episode">Episode</label>
+          <input type="number" step="1" min="0" name="episode" className="u-full-width" onChange={this.handleInputChange} /> */}
 
           {this.state.file &&
             <input className="button-primary" type="submit" value="Submit" onClick={this.handleSubmit} />

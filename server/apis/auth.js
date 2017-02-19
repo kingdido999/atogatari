@@ -29,7 +29,7 @@ async function signup (ctx, next) {
       ctx.response.body = {
         token: generateToken(user, config.secret)
       }
-      
+
       ctx.status = 201
     } catch (err) {
       ctx.throw(400, err)
@@ -62,7 +62,9 @@ async function login (ctx, next) {
 }
 
 function generateToken (user, secret) {
-  const token = jwt.sign(user, secret, {
+  const token = jwt.sign({
+    uid: user.id
+  }, secret, {
     expiresIn: '1 day'
   })
 

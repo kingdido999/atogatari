@@ -9,13 +9,13 @@ const bangumiSchema = new Schema({
   episodes: [{
     index: {
       type: Number,
-      required: true
+      required: false
     },
     title: {
       type: String,
-      required: true
+      required: false
     }
   }]
 })
 
-export default mongoose.model('User', bangumiSchema)
+export default mongoose.model('Bangumi', bangumiSchema)

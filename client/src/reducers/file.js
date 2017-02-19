@@ -1,12 +1,13 @@
-const initialState = {
-  isUploaded: false
-}
 
-export default function file(state = initialState, action) {
+export default function file (state = {
+  isUploaded: false,
+  errorMessage: ''
+}, action) {
   switch (action.type) {
     case 'UPLOAD_PENDING':
       return { ...state,
-        isUploaded: false
+        isUploaded: false,
+        errorMessage: ''
       }
     case 'UPLOAD_FULFILLED':
       return { ...state,
