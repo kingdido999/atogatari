@@ -41,6 +41,7 @@ export function logout () {
     payload: new Promise((resolve, reject) => {
       try {
         localStorage.removeItem('token')
+        browserHistory.push('/')
         resolve()
       } catch(e) {
         reject(e)

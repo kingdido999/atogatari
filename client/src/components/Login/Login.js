@@ -1,18 +1,16 @@
 import React, { Component, PropTypes } from 'react'
+import { Message, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
 
 class Login extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: '',
-      password: ''
-    }
+  state = {
+    email: '',
+    password: ''
   }
 
-  handleInputChange = (event) => {
+  handleChange = (event) => {
     const target = event.target
     const value = target.value
     const name = target.name
@@ -32,21 +30,23 @@ class Login extends Component {
     const { errorMessage } = this.props
 
     return (
-      <section className="container">
-        <form>
-          {errorMessage &&
-          <p>{errorMessage}</p>
-          }
+      <Form onSubmit={this.handleSubmit}>
+        {errorMessage &&
+          <Message negative content={errorMessage} />
+        }
 
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" className="u-full-width" id="email" onChange={this.handleInputChange} />
+        <Form.Field>
+          <label>Email</label>
+          <input type="email" name="email" onChange={this.handleChange} />
+        </Form.Field>
 
-          <label htmlFor="password">Password</label>
-          <input type="password" name="password" className="u-full-width" id="password" onChange={this.handleInputChange} />
+        <Form.Field>
+          <label>Password</label>
+          <input type="password" name="password" onChange={this.handleChange} />
+        </Form.Field>
 
-          <input className="button-primary" type="submit" value="Submit" onClick={this.handleSubmit} />
-        </form>
-      </section>
+        <Form.Button type="submit">Submit</Form.Button>
+      </Form>
     )
   }
 }

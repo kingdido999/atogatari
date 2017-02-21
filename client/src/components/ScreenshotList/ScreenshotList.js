@@ -4,8 +4,6 @@ import Zooming from 'zooming'
 class ScreenshotList extends Component {
 
   componentDidUpdate () {
-    console.log('ScreenshotList did mount')
-
     const { quantity, numRendered } = this.props
 
     if (quantity === numRendered) {

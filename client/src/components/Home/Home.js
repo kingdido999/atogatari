@@ -8,7 +8,6 @@ import Screenshot from '../Screenshot'
 class Home extends Component {
 
   componentDidMount() {
-    console.log('Home did mount')
     this.props.dispatch(getAllScreenshots())
   }
 

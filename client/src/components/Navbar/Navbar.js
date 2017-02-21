@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import { logout } from '../../actions/auth'
-import './Navbar.css'
+// import './Navbar.css'
 
 class Navbar extends Component {
 
@@ -14,29 +15,27 @@ class Navbar extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <nav className="navbar">
-        <div className="container">
-          <ul className="navbar-list">
-            <li className="navbar-item"><Link to="/" className="navbar-link">Bangumi Pic</Link></li>
+      <Menu secondary>
+        <Menu.Item as={Link} to="/" name='bangumi pic' />
 
-            {!isAuthenticated &&
-              <li className="navbar-item"><Link to="/signup" className="navbar-link" activeClassName="active">Signup</Link></li>
-            }
+        <Menu.Menu position='right'>
+          {!isAuthenticated &&
+            <Menu.Item as={Link} to="/signup" name='signup' activeClassName="active" />
+          }
 
-            {!isAuthenticated &&
-              <li className="navbar-item"><Link to="/login" className="navbar-link" activeClassName="active">Login</Link></li>
-            }
+          {!isAuthenticated &&
+            <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
+          }
 
-            {isAuthenticated &&
-              <li className="navbar-item"><Link to="/upload" className="navbar-link" activeClassName="active">Upload</Link></li>
-            }
+          {isAuthenticated &&
+            <Menu.Item as={Link} to="/upload" name='upload' activeClassName="active" />
+          }
 
-            {isAuthenticated &&
-              <li className="navbar-item"><a href="" className="navbar-link" onClick={this.handleLogout}>Logout</a></li>
-            }
-          </ul>
-        </div>
-      </nav>
+          {isAuthenticated &&
+            <Menu.Item name='logout' onClick={this.handleLogout} />
+          }
+        </Menu.Menu>
+      </Menu>
     )
   }
 }

@@ -1,23 +1,26 @@
 import React, { Component, PropTypes } from 'react'
+import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Navbar from '../Navbar'
 
-import './normalize.css'
-import './skeleton.css'
 import './App.css'
 
 class App extends Component {
+
   render() {
     const { dispatch, isAuthenticated, errorMessage } = this.props
 
     return (
       <div className="App">
-        <Navbar
-          dispatch={dispatch}
-          isAuthenticated={isAuthenticated}
-          errorMessage={errorMessage}
-        />
-        {this.props.children}
+        <Container>
+          <Navbar
+            dispatch={dispatch}
+            isAuthenticated={isAuthenticated}
+            errorMessage={errorMessage}
+          />
+
+          {this.props.children}
+        </Container>
       </div>
     )
   }

@@ -1,19 +1,19 @@
 import React, { Component, PropTypes } from 'react'
+import { Message, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { upload } from '../../actions/file'
+
 import Zooming from 'zooming'
 
 import './Upload.css'
 
 class Upload extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      file: null,
-      imagePreviewUrl: '',
-      bangumi_title: ''
-    }
+  state = {
+    file: null,
+    imagePreviewUrl: '',
+    bangumi_title: '',
+    zooming: new Zooming()
   }
 
   handleInputChange = (event) => {
@@ -38,9 +38,7 @@ class Upload extends Component {
         imagePreviewUrl: reader.result
       })
 
-      new Zooming({
-        defaultZoomable: '.img-preview'
-      })
+      this.state.zooming.listen('.img-preview')
     }
 
     reader.readAsDataURL(file)
@@ -61,31 +59,29 @@ class Upload extends Component {
     let { imagePreviewUrl } = this.state
 
     return (
-      <section className="container">
+      <div>
         {imagePreviewUrl &&
-          <div className="imgPreview">
-            <img src={imagePreviewUrl} className="img-preview" alt="preview" />
-          </div>
+          <Image src={imagePreviewUrl} className="img-preview" />
         }
 
-        <form>
+        <Form onSubmit={this.handleSubmit}>
           {errorMessage &&
-          <p>{errorMessage}</p>
+            <Message negative content={errorMessage} />
           }
 
-          <input className="u-full-width" type="file" onChange={this.handleImageChange} />
+          <Form.Field>
+            <label>File</label>
+            <input type="file" onChange={this.handleImageChange} />
+          </Form.Field>
 
-          <label htmlFor="bangumi">Bangumi</label>
-          <input type="text" name="bangumi_title" className="u-full-width" onChange={this.handleInputChange} />
+          <Form.Field>
+            <label>Bangumi Title</label>
+            <input type="text" name="bangumi_title" onChange={this.handleInputChange} />
+          </Form.Field>
 
-          {/* <label htmlFor="episode">Episode</label>
-          <input type="number" step="1" min="0" name="episode" className="u-full-width" onChange={this.handleInputChange} /> */}
-
-          {this.state.file &&
-            <input className="button-primary" type="submit" value="Submit" onClick={this.handleSubmit} />
-          }
-        </form>
-      </section>
+          <Form.Button type="submit" disabled={!this.state.file}>Submit</Form.Button>
+        </Form>
+      </div>
     )
   }
 }
