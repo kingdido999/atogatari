@@ -16,7 +16,7 @@ class Home extends Component {
     const { dispatch, screenshots, numRendered } = this.props
 
     return (
-      <section className="container">
+      <div>
         <FilterBar />
 
         <ScreenshotList quantity={screenshots.length} numRendered={numRendered}>
@@ -29,7 +29,7 @@ class Home extends Component {
             />
           )}
         </ScreenshotList>
-      </section>
+      </div>
     )
   }
 }

@@ -30,10 +30,8 @@ class Signup extends Component {
 
     return (
 
-      <Form onSubmit={this.handleSubmit}>
-        {errorMessage &&
-          <Message negative content={errorMessage} />
-        }
+      <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
+        <Message error content={errorMessage} />
 
         <Form.Field>
           <label>Email</label>

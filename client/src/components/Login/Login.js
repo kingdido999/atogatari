@@ -30,10 +30,8 @@ class Login extends Component {
     const { errorMessage } = this.props
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        {errorMessage &&
-          <Message negative content={errorMessage} />
-        }
+      <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
+        <Message error content={errorMessage} />
 
         <Form.Field>
           <label>Email</label>

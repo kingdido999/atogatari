@@ -3,8 +3,6 @@ import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Header from '../Header'
 
-// import './App.css'
-
 class App extends Component {
 
   render() {
@@ -12,13 +10,13 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Container>
           <Header
             dispatch={dispatch}
             isAuthenticated={isAuthenticated}
             errorMessage={errorMessage}
           />
 
+        <Container>
           {this.props.children}
         </Container>
       </div>

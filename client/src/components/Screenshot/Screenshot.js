@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import { Image } from 'semantic-ui-react'
 import { screenshotRendered } from '../../actions/screenshot'
-
-import './Screenshot.css'
 
 class Screenshot extends Component {
 
@@ -16,14 +15,15 @@ class Screenshot extends Component {
     const originalUrl = `${path}/${original_filename}`
 
     return (
-      <div>
-        <img
+      <figure>
+        <Image
           src={thumbnailUrl}
           data-original={originalUrl}
           className="screenshot"
           alt=""
         />
-      </div>
+      </figure>
+
     )
   }
 }

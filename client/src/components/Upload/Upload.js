@@ -5,8 +5,6 @@ import { upload } from '../../actions/file'
 
 import Zooming from 'zooming'
 
-import './Upload.css'
-
 class Upload extends Component {
 
   state = {
@@ -64,10 +62,8 @@ class Upload extends Component {
           <Image src={imagePreviewUrl} className="img-preview" />
         }
 
-        <Form onSubmit={this.handleSubmit}>
-          {errorMessage &&
-            <Message negative content={errorMessage} />
-          }
+        <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
+          <Message error content={errorMessage} />
 
           <Form.Field>
             <label>File</label>

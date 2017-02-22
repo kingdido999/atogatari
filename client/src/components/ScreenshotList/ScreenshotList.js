@@ -7,7 +7,6 @@ class ScreenshotList extends Component {
     const { quantity, numRendered } = this.props
 
     if (quantity === numRendered) {
-      console.log('All screenshots rendered!')
       new Zooming({
         defaultZoomable: '.screenshot'
       })
