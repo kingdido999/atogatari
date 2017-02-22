@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import Navbar from '../Navbar'
+import Header from '../Header'
 
-import './App.css'
+// import './App.css'
 
 class App extends Component {
 
@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <div className="App">
         <Container>
-          <Navbar
+          <Header
             dispatch={dispatch}
             isAuthenticated={isAuthenticated}
             errorMessage={errorMessage}

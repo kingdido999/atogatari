@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getAllScreenshots } from '../../actions/screenshot'
 
+import FilterBar from '../FilterBar'
 import ScreenshotList from '../ScreenshotList'
 import Screenshot from '../Screenshot'
 
@@ -16,6 +17,8 @@ class Home extends Component {
 
     return (
       <section className="container">
+        <FilterBar />
+
         <ScreenshotList quantity={screenshots.length} numRendered={numRendered}>
           {screenshots.map(screenshot =>
             <Screenshot

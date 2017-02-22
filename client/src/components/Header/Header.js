@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import { logout } from '../../actions/auth'
-// import './Navbar.css'
 
-class Navbar extends Component {
+class Header extends Component {
 
   handleLogout = (event) => {
     event.preventDefault()
@@ -40,4 +39,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar
+export default Header
