@@ -1,31 +1,51 @@
-import { getRandomString, sha512 } from '../utils/index'
+import { getRandomString, sha512 } from '../utils'
 
-import Screentshot from '../models/Screenshot'
+import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
+import User from '../models/User'
+import config from '../config'
 
+import mongoose from 'mongoose'
 import faker from 'faker'
 
 const NUM_USER = 5
 const NUM_BANGUMI = 20
 const NUM_SCREENSHOT = 12
 
+mongoose.Promise = global.Promise
+mongoose.connect(config.database.dev, {
+  promiseLibrary: global.Promise
+})
+
+seed()
+.then(res => {
+  console.log('Seed successfully!')
+  process.exit()
+})
+.catch(err => {
+  console.log(err)
+  process.exit()
+})
+
 async function seed () {
 
   const userList = []
 
+  console.log('Creating users...')
   for (let i = 0; i < NUM_USER; i++) {
     const salt = getRandomString(16)
-    const hash = sha512(faker.internet.password, salt)
+    const hash = sha512(faker.internet.password(), salt)
 
     const user = new User({
-      email: faker.internet.email,
-      username: faker.internet.username,
+      email: faker.internet.email(),
+      username: faker.internet.userName(),
       salt: salt,
       hash: hash
     })
 
     try {
       await user.save()
+      console.log('user saved');
     } catch (e) {
       console.log(e)
     }
@@ -33,9 +53,10 @@ async function seed () {
     userList.push(user)
   }
 
+  console.log('Creating bangumis...')
   for (let i = 0; i < NUM_BANGUMI; i++) {
     const bangumi = new Bangumi({
-      title: faker.name.title
+      title: faker.name.title()
     })
 
     try {
@@ -44,13 +65,16 @@ async function seed () {
       console.log(e)
     }
 
+    console.log('Creating screenshots...');
     for (let j = 0; j < NUM_SCREENSHOT; j++) {
+      const image = faker.image.image(300, 200)
+
       const screenshot = new Screenshot({
         bangumi_id: bangumi.id,
         episode: faker.random.number({ min: 0, max: 24 }),
         uploader_id: faker.random.arrayElement(userList).id,
-        thumbnail_filename: faker.image.image(300, 300),
-        original_filename: faker.image.image(1920, 1080)
+        thumbnail_filename: image,
+        original_filename: image
       })
 
       try {
@@ -60,6 +84,8 @@ async function seed () {
       }
     }
   }
-}
 
-seed()
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
+}
