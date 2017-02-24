@@ -45,7 +45,6 @@ async function seed () {
 
     try {
       await user.save()
-      console.log('user saved');
     } catch (e) {
       console.log(e)
     }

@@ -15,6 +15,15 @@ import Upload from './components/Upload'
 
 const history = syncHistoryWithStore(browserHistory, store)
 
+function requireAuth (nextState, replace) {
+  if (!localStorage.getItem('token')) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}
+
 render(
   <Provider store={store}>
     <Router history={history}>
@@ -22,7 +31,7 @@ render(
         <IndexRoute component={Home} />
         <Route path="signup" component={Signup} />
         <Route path="login" component={Login} />
-        <Route path="upload" component={Upload} />
+        <Route path="upload" component={Upload} onEnter={requireAuth} />
       </Route>
     </Router>
   </Provider>,
