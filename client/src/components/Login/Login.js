@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Message, Form } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
 
@@ -27,11 +27,13 @@ class Login extends Component {
 
   render() {
 
-    const { size, errorMessage } = this.props
+    const { size, isFetching } = this.props
 
     return (
-      <Form size={size} onSubmit={this.handleSubmit} error={errorMessage !== ''}>
-        <Message error content={errorMessage} />
+      <Form
+        size={size}
+        loading={isFetching}
+        onSubmit={this.handleSubmit}>
 
         <Form.Field>
           <label>Email</label>
@@ -52,17 +54,17 @@ class Login extends Component {
 Login.propTypes = {
   size: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
+  isFetching: PropTypes.bool.isRequired
 }
 
 // These props come from the application's
 // state when it is started
 function mapStateToProps(state) {
   const { auth } = state
-  const { errorMessage } = auth
+  const { isFetching } = auth
 
   return {
-    errorMessage
+    isFetching
   }
 }
 

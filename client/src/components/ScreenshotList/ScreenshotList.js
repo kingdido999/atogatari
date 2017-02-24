@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 class ScreenshotList extends Component {
@@ -15,9 +16,9 @@ class ScreenshotList extends Component {
 
   render () {
     return (
-      <div>
+      <Card.Group>
         {this.props.children}
-      </div>
+      </Card.Group>
     )
   }
 }

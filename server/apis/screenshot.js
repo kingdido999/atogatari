@@ -2,7 +2,10 @@ import Screenshot from '../models/Screenshot'
 
 async function getAllScreenshots (ctx, next) {
   try {
-    const screenshots = await Screenshot.find({}).exec()
+    const screenshots = await Screenshot
+      .find({})
+      .populate('bangumi')
+      .exec()
 
     ctx.response.body = {
       screenshots: screenshots

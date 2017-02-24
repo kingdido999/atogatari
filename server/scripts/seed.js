@@ -69,9 +69,9 @@ async function seed () {
       const image = faker.image.image(300, 200)
 
       const screenshot = new Screenshot({
-        bangumi_id: bangumi.id,
+        bangumi: bangumi.id,
         episode: faker.random.number({ min: 0, max: 24 }),
-        uploader_id: faker.random.arrayElement(userList).id,
+        uploader: faker.random.arrayElement(userList).id,
         thumbnail_filename: image,
         original_filename: image
       })

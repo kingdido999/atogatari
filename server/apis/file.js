@@ -76,8 +76,8 @@ async function upload (ctx, next) {
 
   // Save screenshot
   const screenshot = new Screenshot({
-    bangumi_id: bangumi.id,
-    uploader_id: decoded.uid,
+    bangumi: bangumi.id,
+    uploader: decoded.uid,
     thumbnail_filename: filenameThumbnail,
     original_filename: filenameOriginal
   })

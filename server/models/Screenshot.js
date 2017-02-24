@@ -2,17 +2,17 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const screenshotSchema = new Schema({
-  bangumi_id: {
+  bangumi: {
     type: Schema.Types.ObjectId,
-    required: true
+    ref: 'Bangumi'
   },
   episode: {
     type: Number,
     required: false
   },
-  uploader_id: {
+  uploader: {
     type: Schema.Types.ObjectId,
-    required: true
+    ref: 'User'
   },
   timestamp: {
     type: String,

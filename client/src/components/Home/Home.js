@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { getAllScreenshots } from '../../actions/screenshot'
 
@@ -17,21 +18,25 @@ class Home extends Component {
     const limitedScreenshots = screenshots.slice(0, 20)
 
     return (
-      <div>
-        <FilterBar />
+      <Grid>
+        <Grid.Row>
+          <FilterBar />
+        </Grid.Row>
 
-        <ScreenshotList quantity={limitedScreenshots.length} numRendered={numRendered}>
-          {limitedScreenshots.map(screenshot =>
-            <Screenshot
-              key={screenshot._id}
-              bangumi_title={screenshot.bangumi_title}
-              thumbnail_filename={screenshot.thumbnail_filename}
-              original_filename={screenshot.original_filename}
-              dispatch={dispatch}
-            />
-          )}
-        </ScreenshotList>
-      </div>
+        <Grid.Row>
+          <ScreenshotList quantity={limitedScreenshots.length} numRendered={numRendered}>
+            {limitedScreenshots.map(screenshot =>
+              <Screenshot
+                key={screenshot._id}
+                bangumi_title={screenshot.bangumi.title}
+                thumbnail_filename={screenshot.thumbnail_filename}
+                original_filename={screenshot.original_filename}
+                dispatch={dispatch}
+              />
+            )}
+          </ScreenshotList>
+        </Grid.Row>
+      </Grid>
     )
   }
 }

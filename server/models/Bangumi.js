@@ -15,6 +15,10 @@ const bangumiSchema = new Schema({
       type: String,
       required: false
     }
+  }],
+  screenshots: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Screenshot'
   }]
 })
 
