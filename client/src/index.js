@@ -9,8 +9,7 @@ import store from './store'
 
 import App from './components/App'
 import Home from './components/Home'
-import Signup from './components/Signup'
-import Login from './components/Login'
+import LoginAndSignup from './components/LoginAndSignup'
 import Upload from './components/Upload'
 
 const history = syncHistoryWithStore(browserHistory, store)
@@ -29,8 +28,7 @@ render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="signup" component={Signup} />
-        <Route path="login" component={Login} />
+        <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
       </Route>
     </Router>

@@ -26,11 +26,10 @@ class Signup extends Component {
   }
 
   render() {
-    const { errorMessage } = this.props
+    const { size, errorMessage } = this.props
 
     return (
-
-      <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
+      <Form size={size} onSubmit={this.handleSubmit} error={errorMessage !== ''}>
         <Message error content={errorMessage} />
 
         <Form.Field>
@@ -48,13 +47,14 @@ class Signup extends Component {
           <input type="text" name="username" onChange={this.handleChange} />
         </Form.Field>
 
-        <Form.Button type="submit">Submit</Form.Button>
+        <Form.Button type="submit" size={size} fluid primary>Create Account</Form.Button>
       </Form>
     )
   }
 }
 
 Signup.propTypes = {
+  size: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   errorMessage: PropTypes.string
 }

@@ -14,15 +14,17 @@ class Home extends Component {
 
   render() {
     const { dispatch, screenshots, numRendered } = this.props
+    const limitedScreenshots = screenshots.slice(0, 20)
 
     return (
       <div>
         <FilterBar />
 
-        <ScreenshotList quantity={screenshots.length} numRendered={numRendered}>
-          {screenshots.map(screenshot =>
+        <ScreenshotList quantity={limitedScreenshots.length} numRendered={numRendered}>
+          {limitedScreenshots.map(screenshot =>
             <Screenshot
               key={screenshot._id}
+              bangumi_title={screenshot.bangumi_title}
               thumbnail_filename={screenshot.thumbnail_filename}
               original_filename={screenshot.original_filename}
               dispatch={dispatch}

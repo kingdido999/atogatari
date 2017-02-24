@@ -18,9 +18,9 @@ class Header extends Component {
         <Menu.Item as={Link} to="/" name='bangumi pic' />
 
         <Menu.Menu position='right'>
-          {!isAuthenticated &&
+          {/* {!isAuthenticated &&
             <Menu.Item as={Link} to="/signup" name='signup' activeClassName="active" />
-          }
+          } */}
 
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />

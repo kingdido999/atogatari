@@ -27,10 +27,10 @@ class Login extends Component {
 
   render() {
 
-    const { errorMessage } = this.props
+    const { size, errorMessage } = this.props
 
     return (
-      <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
+      <Form size={size} onSubmit={this.handleSubmit} error={errorMessage !== ''}>
         <Message error content={errorMessage} />
 
         <Form.Field>
@@ -43,13 +43,14 @@ class Login extends Component {
           <input type="password" name="password" onChange={this.handleChange} />
         </Form.Field>
 
-        <Form.Button type="submit">Submit</Form.Button>
+        <Form.Button type="submit" size={size} fluid primary>Log In</Form.Button>
       </Form>
     )
   }
 }
 
 Login.propTypes = {
+  size: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   errorMessage: PropTypes.string
 }

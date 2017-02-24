@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Image } from 'semantic-ui-react'
+import { Card, Image } from 'semantic-ui-react'
 import { screenshotRendered } from '../../actions/screenshot'
 
 import './screenshot.css'
@@ -11,7 +11,7 @@ class Screenshot extends Component {
   }
 
   render () {
-    const { thumbnail_filename, original_filename } = this.props
+    const { bangumi_title, thumbnail_filename, original_filename } = this.props
     const path = 'http://localhost:3001/screenshots'
     const thumbnailUrl = isFullUrl(thumbnail_filename)
       ? thumbnail_filename
@@ -22,15 +22,28 @@ class Screenshot extends Component {
       : `${path}/${original_filename}`
 
     return (
-      <figure>
+      <Card>
         <Image
           src={thumbnailUrl}
           data-original={originalUrl}
           className="screenshot"
           alt=""
         />
-      </figure>
 
+        <Card.Content>
+          <Card.Header>
+            {bangumi_title}
+          </Card.Header>
+          {/* <Card.Meta>
+            <span className='date'>
+              Joined in 2015
+            </span>
+          </Card.Meta>
+          <Card.Description>
+            Matthew is a musician living in Nashville.
+          </Card.Description> */}
+        </Card.Content>
+      </Card>
     )
   }
 }
@@ -40,6 +53,7 @@ function isFullUrl (url) {
 }
 
 Screenshot.propTypes = {
+  bangumi_title: PropTypes.string.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
   original_filename: PropTypes.string.isRequired
 }
