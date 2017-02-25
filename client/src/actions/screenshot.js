@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export function getAllScreenshots () {
+export function getScreenshots (params) {
   return {
-    type: 'GET_ALL_SCREENSHOTS',
-    payload: axios.get('/api/screenshots')
+    type: 'GET_SCREENSHOTS',
+    payload: axios.get('/api/screenshots', { params })
   }
 }
 

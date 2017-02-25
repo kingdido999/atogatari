@@ -1,21 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { getAllScreenshots } from '../../actions/screenshot'
 
 import FilterBar from '../FilterBar'
-import ScreenshotList from '../ScreenshotList'
-import Screenshot from '../Screenshot'
+import BangumiList from '../BangumiList'
+import Bangumi from '../Bangumi'
+
+import { getBangumis } from '../../actions/bangumi'
 
 class Home extends Component {
 
-  componentDidMount() {
-    this.props.dispatch(getAllScreenshots())
+  componentDidMount () {
+    this.props.dispatch(getBangumis())
   }
 
   render() {
-    const { dispatch, screenshots, numRendered } = this.props
-    const limitedScreenshots = screenshots.slice(0, 20)
+    const { bangumis } = this.props
 
     return (
       <Grid>
@@ -24,17 +24,15 @@ class Home extends Component {
         </Grid.Row>
 
         <Grid.Row>
-          <ScreenshotList quantity={limitedScreenshots.length} numRendered={numRendered}>
-            {limitedScreenshots.map(screenshot =>
-              <Screenshot
-                key={screenshot._id}
-                bangumi_title={screenshot.bangumi.title}
-                thumbnail_filename={screenshot.thumbnail_filename}
-                original_filename={screenshot.original_filename}
-                dispatch={dispatch}
+          <BangumiList>
+            {bangumis.map(bangumi =>
+              <Bangumi
+                key={bangumi._id}
+                title={bangumi.title}
+                episodes={bangumi.episodes}
               />
             )}
-          </ScreenshotList>
+          </BangumiList>
         </Grid.Row>
       </Grid>
     )
@@ -43,22 +41,19 @@ class Home extends Component {
 
 Home.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
-  screenshots: PropTypes.array.isRequired,
-  numRendered: PropTypes.number.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  bangumis: PropTypes.array.isRequired
 }
 
 // These props come from the application's
 // state when it is started
 function mapStateToProps(state) {
-  const { screenshot } = state
-  const { isFetching, errorMessage, screenshots, numRendered } = screenshot
+  const { bangumi } = state
+  const { isFetching, bangumis } = bangumi
 
   return {
     isFetching,
-    errorMessage,
-    screenshots,
-    numRendered
+    bangumis
   }
 }
 

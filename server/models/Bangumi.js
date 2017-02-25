@@ -7,18 +7,8 @@ const bangumiSchema = new Schema({
     required: true
   },
   episodes: [{
-    index: {
-      type: Number,
-      required: false
-    },
-    title: {
-      type: String,
-      required: false
-    }
-  }],
-  screenshots: [{
     type: Schema.Types.ObjectId,
-    ref: 'Screenshot'
+    ref: 'Episode'
   }]
 })
 

@@ -21,3 +21,8 @@ export function sha512(password, salt) {
   const value = hash.digest('hex')
   return value
 }
+
+
+export function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+}

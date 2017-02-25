@@ -7,8 +7,8 @@ const screenshotSchema = new Schema({
     ref: 'Bangumi'
   },
   episode: {
-    type: Number,
-    required: false
+    type: Schema.Types.ObjectId,
+    ref: 'Episode'
   },
   uploader: {
     type: Schema.Types.ObjectId,

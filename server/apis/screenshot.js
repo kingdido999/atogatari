@@ -1,10 +1,20 @@
 import Screenshot from '../models/Screenshot'
+import { escapeRegex } from '../utils'
 
-async function getAllScreenshots (ctx, next) {
+async function getScreenshots (ctx, next) {
+  const { search } = ctx.request.query
+
+  const populate = search
+    ? {
+      path: 'bangumi',
+      match: { title: new RegExp(escapeRegex(search), 'gi') }
+    }
+    : 'bangumi'
+
   try {
     const screenshots = await Screenshot
       .find({})
-      .populate('bangumi')
+      .populate(populate)
       .exec()
 
     ctx.response.body = {
@@ -18,5 +28,5 @@ async function getAllScreenshots (ctx, next) {
 }
 
 export default {
-  getAllScreenshots
+  getScreenshots
 }

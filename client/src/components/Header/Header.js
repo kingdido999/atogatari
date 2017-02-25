@@ -14,7 +14,7 @@ class Header extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <Menu pointing secondary>
+      <Menu pointing secondary size="big">
         <Menu.Item as={Link} to="/" name='bangumi pic' />
 
         <Menu.Menu position='right'>
