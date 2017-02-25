@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { Item } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 class BangumiList extends Component {
 
   render () {
     return (
-      <Item.Group divided>
+      <Card.Group>
         {this.props.children}
-      </Item.Group>
+      </Card.Group>
     )
   }
 }

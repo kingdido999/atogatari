@@ -1,25 +1,22 @@
 import React, { Component, PropTypes } from 'react'
-import { Item } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 
 class Bangumi extends Component {
 
   render () {
-    const { title } = this.props
+    const { title, episodes } = this.props
+    const numScreenshots = episodes.reduce((sum, episode) => {
+      return sum + episode.screenshots.length
+    }, 0)
 
     return (
-      <Item>
-        <Item.Content>
-          <Item.Header>{ title }</Item.Header>
-          {/* <Item.Group>
-            {screenshots.map(screenshot =>
-              <Item>
-                <Item.Image  />
-              </Item>
-            )}
-          </Item.Group> */}
-        </Item.Content>
-      </Item>
+      <Card>
+        <Card.Content>
+          <Card.Header>{ title }</Card.Header>
+          <Card.Meta>{ numScreenshots } screenshots</Card.Meta>
+        </Card.Content>
+      </Card>
     )
   }
 }

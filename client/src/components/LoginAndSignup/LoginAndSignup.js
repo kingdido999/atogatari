@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Grid, Message } from 'semantic-ui-react'
+import { Segment, Grid, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Login from '../Login'
@@ -8,35 +8,37 @@ import Signup from '../Signup'
 class LoginAndSignup extends Component {
 
   render() {
-    const size = 'huge'
-    const { errorMessage } = this.props
+    const size = 'large'
+    const { isFetching, errorMessage } = this.props
 
     return (
+      <Segment basic loading={isFetching}>
+        <Grid columns={2} divided>
 
-      <Grid columns={2} divided>
+          <Grid.Row columns={1}>
+            <Grid.Column>
+              {errorMessage &&
+                <Message error content={errorMessage} />
+              }
+            </Grid.Column>
+          </Grid.Row>
 
-        <Grid.Row columns={1}>
-          <Grid.Column>
-            {errorMessage &&
-              <Message error content={errorMessage} />
-            }
-          </Grid.Column>
-        </Grid.Row>
-
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            <Signup size={size} />
-          </Grid.Column>
-          <Grid.Column>
-            <Login size={size} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Signup size={size} />
+            </Grid.Column>
+            <Grid.Column>
+              <Login size={size} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
     )
   }
 }
 
 LoginAndSignup.propTypes = {
+  isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string
 }
 
@@ -44,9 +46,10 @@ LoginAndSignup.propTypes = {
 // state when it is started
 function mapStateToProps(state) {
   const { auth } = state
-  const { errorMessage } = auth
+  const { isFetching, errorMessage } = auth
 
   return {
+    isFetching,
     errorMessage
   }
 }

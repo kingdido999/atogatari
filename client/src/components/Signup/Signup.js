@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Form } from 'semantic-ui-react'
+import { Segment, Header, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { signup } from '../../actions/auth'
 
@@ -26,31 +26,34 @@ class Signup extends Component {
   }
 
   render() {
-    const { size, isFetching } = this.props
+    const { size } = this.props
 
     return (
-      <Form
-        size={size}
-        loading={isFetching}
-        onSubmit={this.handleSubmit}>
+      <Segment basic>
+        <Header size={size}>Sign Up for a Free Account</Header>
 
-        <Form.Field>
-          <label>Email</label>
-          <input type="email" name="email" onChange={this.handleChange} />
-        </Form.Field>
+        <Form
+          size={size}
+          onSubmit={this.handleSubmit}>
 
-        <Form.Field>
-          <label>Password</label>
-          <input type="password" name="password" onChange={this.handleChange} />
-        </Form.Field>
+          <Form.Field>
+            <label>Email</label>
+            <input type="email" name="email" onChange={this.handleChange} />
+          </Form.Field>
 
-        <Form.Field>
-          <label>Username</label>
-          <input type="text" name="username" onChange={this.handleChange} />
-        </Form.Field>
+          <Form.Field>
+            <label>Password</label>
+            <input type="password" name="password" onChange={this.handleChange} />
+          </Form.Field>
 
-        <Form.Button type="submit" size={size} fluid primary>Create Account</Form.Button>
-      </Form>
+          <Form.Field>
+            <label>Username</label>
+            <input type="text" name="username" onChange={this.handleChange} />
+          </Form.Field>
+
+          <Form.Button type="submit" size={size} fluid primary>Create Account</Form.Button>
+        </Form>
+      </Segment>
     )
   }
 }

@@ -3,6 +3,8 @@ import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import { logout } from '../../actions/auth'
 
+import SearchBar from '../SearchBar'
+
 class Header extends Component {
 
   handleLogout = (event) => {
@@ -14,13 +16,13 @@ class Header extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <Menu pointing secondary size="large">
+      <Menu size="huge">
         <Menu.Item as={Link} to="/" name='bangumi pic' />
 
         <Menu.Menu position='right'>
-          {/* {!isAuthenticated &&
-            <Menu.Item as={Link} to="/signup" name='signup' activeClassName="active" />
-          } */}
+          <Menu.Item>
+            <SearchBar />
+          </Menu.Item>
 
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />

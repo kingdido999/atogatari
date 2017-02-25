@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import FilterBar from '../FilterBar'
 import BangumiList from '../BangumiList'
 import Bangumi from '../Bangumi'
 
@@ -19,10 +18,6 @@ class Home extends Component {
 
     return (
       <Grid>
-        <Grid.Row>
-          <FilterBar />
-        </Grid.Row>
-
         <Grid.Row>
           <BangumiList>
             {bangumis.map(bangumi =>
