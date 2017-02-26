@@ -25,7 +25,7 @@ function writeFile (input, output) {
   })
 }
 
-async function upload (ctx, next) {
+async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
   const { bangumi_title, token } = fields

@@ -1,7 +1,7 @@
 import Screenshot from '../models/Screenshot'
 import { escapeRegex } from '../utils'
 
-async function getScreenshots (ctx, next) {
+async function getScreenshots (ctx) {
   const { search } = ctx.request.query
 
   const populate = search

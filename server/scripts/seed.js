@@ -33,7 +33,6 @@ async function seed () {
 
   const userList = []
 
-  console.log('Creating users...')
   for (let i = 0; i < NUM_USER; i++) {
     const salt = getRandomString(16)
     const hash = sha512(faker.internet.password(), salt)
@@ -45,30 +44,18 @@ async function seed () {
       hash: hash
     })
 
-    try {
-      await user.save()
-    } catch (e) {
-      console.log(e)
-    }
-
+    await user.save()
     userList.push(user)
   }
 
-  console.log('Creating bangumis...')
   for (let i = 0; i < NUM_BANGUMI; i++) {
     const bangumi = new Bangumi({
       title: faker.lorem.words()
     })
 
-    try {
-      await bangumi.save()
-    } catch (e) {
-      console.log(e)
-    }
-
+    await bangumi.save()
     const episodeList = []
 
-    console.log('Creating episodes...')
     for (let j = 0; j < NUM_EPISODE; j++) {
       const episode = new Episode({
         index: j,
@@ -76,17 +63,10 @@ async function seed () {
         bangumi: bangumi._id
       })
 
-      try {
-        await episode.save()
-      } catch (e) {
-        console.log(e)
-      }
-
+      await episode.save()
       episodeList.push(episode)
-
       const screenshotList = []
 
-      console.log('Creating screenshots...')
       for (let k = 0; k < NUM_SCREENSHOT; k++) {
         const image = faker.image.image(300, 200)
 
@@ -98,29 +78,15 @@ async function seed () {
           original_filename: image
         })
 
-        try {
-          await screenshot.save()
-        } catch (e) {
-          console.log(e)
-        }
-
+        await screenshot.save()
         screenshotList.push(screenshot)
       }
 
-      try {
-        episode.screenshots = screenshotList
-        await episode.save()
-      } catch (e) {
-        console.log(e)
-      }
+      episode.screenshots = screenshotList
     }
 
-    try {
-      bangumi.episodes = episodeList
-      await bangumi.save()
-    } catch (e) {
-      console.log(e)
-    }
+    bangumi.episodes = episodeList
+    await bangumi.save()
   }
 
   return new Promise((resolve, reject) => {

@@ -1,0 +1,17 @@
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": true
+    }
+  },
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "semi": ["off", "always"],
+    "quotes": ["error", "single"]
+  }
+}

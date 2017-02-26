@@ -3,7 +3,7 @@ import config from '../config'
 import User from '../models/User'
 import { getRandomString, sha512 } from '../utils/index'
 
-async function signup (ctx, next) {
+async function signup (ctx) {
   const { email, password, username } = ctx.request.body
 
   const existedUser = await User.findOne({
@@ -37,7 +37,7 @@ async function signup (ctx, next) {
   }
 }
 
-async function login (ctx, next) {
+async function login (ctx) {
   const { email, password } = ctx.request.body
 
   const user = await User.findOne({
