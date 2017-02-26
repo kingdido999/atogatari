@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiList from '../BangumiList'
@@ -14,22 +14,20 @@ class Home extends Component {
   }
 
   render() {
-    const { bangumis } = this.props
+    const { isFetching, bangumis } = this.props
 
     return (
-      <Grid>
-        <Grid.Row>
-          <BangumiList>
-            {bangumis.map(bangumi =>
-              <Bangumi
-                key={bangumi._id}
-                title={bangumi.title}
-                episodes={bangumi.episodes}
-              />
-            )}
-          </BangumiList>
-        </Grid.Row>
-      </Grid>
+      <Segment basic loading={isFetching}>
+        <BangumiList>
+          {bangumis.map(bangumi =>
+            <Bangumi
+              key={bangumi._id}
+              title={bangumi.title}
+              episodes={bangumi.episodes}
+            />
+          )}
+        </BangumiList>
+      </Segment>
     )
   }
 }

@@ -33,7 +33,6 @@ class SearchBar extends Component {
         onSearchChange={this.handleSearchChange}
         results={bangumis}
         value={search}
-        minCharacters={3}
         resultRenderer={resultRenderer}
       />
     )

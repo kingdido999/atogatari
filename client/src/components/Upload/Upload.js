@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Message, Form, Image } from 'semantic-ui-react'
+import { Segment, Message, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { upload } from '../../actions/file'
 
@@ -57,11 +57,7 @@ class Upload extends Component {
     let { imagePreviewUrl } = this.state
 
     return (
-      <div>
-        {imagePreviewUrl &&
-          <Image src={imagePreviewUrl} className="img-preview" />
-        }
-
+      <Segment basic>
         <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
           <Message error content={errorMessage} />
 
@@ -70,14 +66,18 @@ class Upload extends Component {
             <input type="file" onChange={this.handleImageChange} />
           </Form.Field>
 
+          {imagePreviewUrl &&
+            <Image src={imagePreviewUrl} className="img-preview" />
+          }
+
           <Form.Field>
             <label>Bangumi Title</label>
             <input type="text" name="bangumi_title" onChange={this.handleInputChange} />
           </Form.Field>
 
-          <Form.Button type="submit" disabled={!this.state.file}>Submit</Form.Button>
+          <Form.Button type="submit" disabled={!this.state.file} primary>Submit</Form.Button>
         </Form>
-      </div>
+      </Segment>
     )
   }
 }
