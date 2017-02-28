@@ -12,7 +12,8 @@
     "es6": true
   },
   "rules": {
-    "semi": ["off", "always"],
-    "quotes": ["error", "single"]
+    "semi": [ "off", "always" ],
+    "quotes": [ "error", "single" ],
+    "no-console": [ "off" ]
   }
 }

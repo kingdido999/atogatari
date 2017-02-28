@@ -19,15 +19,55 @@ mongoose.connect(config.database.dev, {
   promiseLibrary: global.Promise
 })
 
+purge()
 seed()
-.then(res => {
-  console.log('Seed successfully!')
-  process.exit()
-})
-.catch(err => {
-  console.log(err)
-  process.exit()
-})
+process.exit()
+
+async function purge () {
+  console.log('Removing current data...')
+
+  await User.remove({})
+  await Bangumi.remove({})
+  await Episode.remove({})
+  await Screenshot.remove({})
+}
+
+async function seed () {
+  console.log('Seeding new data...')
+
+  const userList = []
+
+  for (let i = 0; i < NUM_USER; i++) {
+    const user = createUser()
+    await user.save()
+    userList.push(user)
+  }
+
+  for (let i = 0; i < NUM_BANGUMI; i++) {
+    const bangumi = createBangumi()
+    const episodeList = []
+
+    for (let j = 0; j < NUM_EPISODE; j++) {
+      const episode = createEpisode(j, bangumi)
+      episodeList.push(episode)
+
+      const screenshotList = []
+
+      for (let k = 0; k < NUM_SCREENSHOT; k++) {
+        const randUser = faker.random.arrayElement(userList)
+        const screenshot = createScreenshot(bangumi, episode, randUser)
+        await screenshot.save()
+        screenshotList.push(screenshot)
+      }
+
+      episode.screenshots = screenshotList
+      await episode.save()
+    }
+
+    bangumi.episodes = episodeList
+    await bangumi.save()
+  }
+}
 
 function createUser () {
   const salt = getRandomString(16)
@@ -64,44 +104,5 @@ function createScreenshot (bangumi, episode, user) {
     uploader: user._id,
     thumbnail_filename: image,
     original_filename: image
-  })
-}
-
-async function seed () {
-
-  const userList = []
-
-  for (let i = 0; i < NUM_USER; i++) {
-    const user = createUser()
-    await user.save()
-    userList.push(user)
-  }
-
-  for (let i = 0; i < NUM_BANGUMI; i++) {
-    const bangumi = createBangumi()
-    await bangumi.save()
-    const episodeList = []
-
-    for (let j = 0; j < NUM_EPISODE; j++) {
-      const episode = createEpisode(j, bangumi)
-      await episode.save()
-      episodeList.push(episode)
-      const screenshotList = []
-
-      for (let k = 0; k < NUM_SCREENSHOT; k++) {
-        const screenshot = createScreenshot(bangumi, episode, faker.random.arrayElement(userList))
-        await screenshot.save()
-        screenshotList.push(screenshot)
-      }
-
-      episode.screenshots = screenshotList
-    }
-
-    bangumi.episodes = episodeList
-    await bangumi.save()
-  }
-
-  return new Promise((resolve, reject) => {
-    resolve()
   })
 }
