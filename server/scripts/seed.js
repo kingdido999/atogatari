@@ -29,55 +29,67 @@ seed()
   process.exit()
 })
 
+function createUser () {
+  const salt = getRandomString(16)
+  const hash = sha512(faker.internet.password(), salt)
+
+  return new User({
+    email: faker.internet.email(),
+    username: faker.internet.userName(),
+    salt: salt,
+    hash: hash
+  })
+}
+
+function createBangumi () {
+  return new Bangumi({
+    title: faker.lorem.words()
+  })
+}
+
+function createEpisode (index, bangumi) {
+  return new Episode({
+    index: index,
+    title: faker.lorem.sentence(),
+    bangumi: bangumi._id
+  })
+}
+
+function createScreenshot (bangumi, episode, user) {
+  const image = faker.image.image(300, 200)
+
+  return new Screenshot({
+    bangumi: bangumi._id,
+    episode: episode._id,
+    uploader: user._id,
+    thumbnail_filename: image,
+    original_filename: image
+  })
+}
+
 async function seed () {
 
   const userList = []
 
   for (let i = 0; i < NUM_USER; i++) {
-    const salt = getRandomString(16)
-    const hash = sha512(faker.internet.password(), salt)
-
-    const user = new User({
-      email: faker.internet.email(),
-      username: faker.internet.userName(),
-      salt: salt,
-      hash: hash
-    })
-
+    const user = createUser()
     await user.save()
     userList.push(user)
   }
 
   for (let i = 0; i < NUM_BANGUMI; i++) {
-    const bangumi = new Bangumi({
-      title: faker.lorem.words()
-    })
-
+    const bangumi = createBangumi()
     await bangumi.save()
     const episodeList = []
 
     for (let j = 0; j < NUM_EPISODE; j++) {
-      const episode = new Episode({
-        index: j,
-        title: faker.lorem.sentence(),
-        bangumi: bangumi._id
-      })
-
+      const episode = createEpisode(j, bangumi)
       await episode.save()
       episodeList.push(episode)
       const screenshotList = []
 
       for (let k = 0; k < NUM_SCREENSHOT; k++) {
-        const image = faker.image.image(300, 200)
-
-        const screenshot = new Screenshot({
-          bangumi: bangumi._id,
-          episode: episode._id,
-          uploader: faker.random.arrayElement(userList)._id,
-          thumbnail_filename: image,
-          original_filename: image
-        })
-
+        const screenshot = createScreenshot(bangumi, episode, faker.random.arrayElement(userList))
         await screenshot.save()
         screenshotList.push(screenshot)
       }
