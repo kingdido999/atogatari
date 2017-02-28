@@ -10,7 +10,8 @@ class Upload extends Component {
   state = {
     file: null,
     imagePreviewUrl: '',
-    bangumi_title: '',
+    bangumiTitle: '',
+    episodeIndex: 0,
     zooming: new Zooming()
   }
 
@@ -47,8 +48,8 @@ class Upload extends Component {
     const data = new FormData()
     data.append('token', localStorage.getItem('token'))
     data.append('file', this.state.file)
-    data.append('bangumi_title', this.state.bangumi_title)
-    // data.append('episode', this.state.episode)
+    data.append('bangumiTitle', this.state.bangumiTitle)
+    data.append('episodeIndex', this.state.episodeIndex)
     this.props.dispatch(upload(data))
   }
 
@@ -72,7 +73,12 @@ class Upload extends Component {
 
           <Form.Field>
             <label>Bangumi Title</label>
-            <input type="text" name="bangumi_title" onChange={this.handleInputChange} />
+            <input type="text" name="bangumiTitle" onChange={this.handleInputChange} />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Episode</label>
+            <input type="number" min="0" step="1" name="episodeIndex" onChange={this.handleInputChange} />
           </Form.Field>
 
           <Form.Button type="submit" disabled={!this.state.file} primary>Submit</Form.Button>

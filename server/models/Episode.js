@@ -8,7 +8,7 @@ const episodeSchema = new Schema({
   },
   title: {
     type: String,
-    required: true
+    required: false
   },
   bangumi: {
     type: Schema.Types.ObjectId,

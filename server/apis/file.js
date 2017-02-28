@@ -6,8 +6,8 @@ import path from 'path'
 import fs from 'fs'
 
 import Screenshot from '../models/Screenshot'
+import Episode from '../models/Episode'
 import Bangumi from '../models/Bangumi'
-import User from '../models/User'
 
 import config from '../config'
 
@@ -28,7 +28,7 @@ function writeFile (input, output) {
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
-  const { bangumi_title, token } = fields
+  const { bangumiTitle, episodeIndex, token } = fields
 
   let decoded = null
 
@@ -36,6 +36,30 @@ async function upload (ctx) {
     decoded = jwt.verify(token, config.secret)
   } catch (e) {
     ctx.throw(401, e)
+  }
+
+  let bangumi = await Bangumi.findOne({
+    title: bangumiTitle
+  }).exec()
+
+  if (!bangumi) {
+    bangumi = new Bangumi({
+      title: bangumiTitle
+    })
+  }
+
+  let episode = await Episode.findOne({
+    bangumi: bangumi._id,
+    index: episodeIndex
+  })
+
+  if (!episode) {
+    episode = new Episode({
+      bangumi: bangumi._id,
+      index: episodeIndex,
+    })
+
+    bangumi.episodes.push(episode)
   }
 
   const uploadPath = 'assets/screenshots'
@@ -53,36 +77,19 @@ async function upload (ctx) {
   // Save thumbnail
   sharp(fileOriginal).resize(300, 300).max().toFile(fileThumbnail)
 
-  // Save bangumi if necessary
-  let bangumi = null
-
-  const existedBangumi = await Bangumi.findOne({
-    title: bangumi_title
-  }).exec()
-
-  if (existedBangumi) {
-    bangumi = existedBangumi
-  } else {
-    bangumi = new Bangumi({
-      title:bangumi_title
-    })
-
-    try {
-      await bangumi.save()
-    } catch (e) {
-      ctx.throw(500, e)
-    }
-  }
-
-  // Save screenshot
   const screenshot = new Screenshot({
-    bangumi: bangumi.id,
+    bangumi: bangumi._id,
+    episode: episode._id,
     uploader: decoded.uid,
     thumbnail_filename: filenameThumbnail,
     original_filename: filenameOriginal
   })
 
+  episode.screenshots.push(screenshot)
+  
   try {
+    await bangumi.save()
+    await episode.save()
     await screenshot.save()
   } catch (e) {
     ctx.throw(500, e)
