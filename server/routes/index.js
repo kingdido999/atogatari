@@ -9,5 +9,7 @@ export default function route (router) {
   router.post('/api/upload', file.upload)
 
   router.get('/api/bangumis', bangumi.getBangumis)
+  router.get('/api/bangumi', bangumi.getBangumi)
+
   router.get('/api/screenshots', screenshot.getScreenshots)
 }

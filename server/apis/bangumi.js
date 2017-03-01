@@ -28,6 +28,23 @@ async function getBangumis (ctx) {
   }
 }
 
+async function getBangumi (ctx) {
+  const { id } = ctx.request.query
+
+  try {
+    const bangumi = await Bangumi.findById(id).exec()
+
+    ctx.response.body = {
+      bangumi: bangumi
+    }
+
+    ctx.status = 200
+  } catch (e) {
+    ctx.throw(500, e)
+  }
+}
+
 export default {
-  getBangumis
+  getBangumis,
+  getBangumi
 }

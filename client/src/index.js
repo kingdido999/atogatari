@@ -11,6 +11,7 @@ import App from './components/App'
 import Home from './components/Home'
 import LoginAndSignup from './components/LoginAndSignup'
 import Upload from './components/Upload'
+import Bangumi from './components/Bangumi'
 
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -30,6 +31,7 @@ render(
         <IndexRoute component={Home} />
         <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
+        <Route path="bangumi/:bangumiId" component={Bangumi} />
       </Route>
     </Router>
   </Provider>,

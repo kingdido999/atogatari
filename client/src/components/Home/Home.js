@@ -3,25 +3,28 @@ import { Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiList from '../BangumiList'
-import Bangumi from '../Bangumi'
+import BangumiItem from '../BangumiItem'
 
 import { getBangumis } from '../../actions/bangumi'
 
 class Home extends Component {
 
-  componentDidMount () {
+  componentWillMount () {
     this.props.dispatch(getBangumis())
   }
 
   render() {
     const { isFetching, bangumis } = this.props
 
+    console.log(`bangumis: ${bangumis}`)
+
     return (
       <Segment basic loading={isFetching}>
         <BangumiList>
           {bangumis.map(bangumi =>
-            <Bangumi
+            <BangumiItem
               key={bangumi._id}
+              id={bangumi._id}
               title={bangumi.title}
               episodes={bangumi.episodes}
             />

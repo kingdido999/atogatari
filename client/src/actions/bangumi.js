@@ -6,3 +6,10 @@ export function getBangumis (params) {
     payload: axios.get('/api/bangumis', { params })
   }
 }
+
+export function getBangumi (params) {
+  return {
+    type: 'GET_BANGUMI',
+    payload: axios.get('/api/bangumi', { params })
+  }
+}
