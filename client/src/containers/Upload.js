@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Segment, Message, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { upload } from '../../actions/file'
+import { upload } from '../actions/file'
 
 import Zooming from 'zooming'
 

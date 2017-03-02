@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Segment, Header, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { login } from '../../actions/auth'
+import { login } from '../actions/auth'
 
 class Login extends Component {
 

@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { Segment, Header, Item } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
-import EpisodeItem from '../EpisodeItem'
+import EpisodeItem from '../components/EpisodeItem'
 
-import { getBangumi } from '../../actions/bangumi'
+import { getBangumi } from '../actions/bangumi'
 
 class Bangumi extends Component {
 

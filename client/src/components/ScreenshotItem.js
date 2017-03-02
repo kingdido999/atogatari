@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Image } from 'semantic-ui-react'
-import { screenshotRendered } from '../../actions/screenshot'
-
-import './screenshot.css'
+import { screenshotRendered } from '../actions/screenshot'
 
 class ScreenshotItem extends Component {
 
@@ -37,6 +35,7 @@ function isFullUrl (url) {
 }
 
 ScreenshotItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
   original_filename: PropTypes.string.isRequired
 }

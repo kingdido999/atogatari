@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Item, Search } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import { getBangumis } from '../../actions/bangumi'
+import { getBangumis } from '../actions/bangumi'
 
 const resultRenderer = ({ title }) => (
   <Item>

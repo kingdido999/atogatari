@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router'
-import { logout } from '../../actions/auth'
+import { logout } from '../actions/auth'
 
-import SearchBar from '../SearchBar'
+import SearchBar from './SearchBar'
 
 class Header extends Component {
 

@@ -7,11 +7,11 @@ import React from 'react'
 
 import store from './store'
 
-import App from './components/App'
-import Home from './components/Home'
-import LoginAndSignup from './components/LoginAndSignup'
-import Upload from './components/Upload'
-import Bangumi from './components/Bangumi'
+import App from './containers/App'
+import Home from './containers/Home'
+import LoginAndSignup from './containers/LoginAndSignup'
+import Upload from './containers/Upload'
+import Bangumi from './containers/Bangumi'
 
 const history = syncHistoryWithStore(browserHistory, store)
 

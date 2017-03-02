@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Item } from 'semantic-ui-react'
 
-import ScreenshotList from '../ScreenshotList'
-import ScreenshotItem from '../ScreenshotItem'
+import ScreenshotList from './ScreenshotList'
+import ScreenshotItem from './ScreenshotItem'
 
 class EpisodeItem extends Component {
 

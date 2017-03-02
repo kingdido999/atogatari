@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import { Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import BangumiList from '../BangumiList'
-import BangumiItem from '../BangumiItem'
+import BangumiList from '../components/BangumiList'
+import BangumiItem from '../components/BangumiItem'
 
-import { getBangumis } from '../../actions/bangumi'
+import { getBangumis } from '../actions/bangumi'
 
 class Home extends Component {
 

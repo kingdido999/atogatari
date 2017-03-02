@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import Header from '../Header'
+import Header from '../components/Header'
 
 class App extends Component {
 

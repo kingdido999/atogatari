@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { Segment, Grid, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import Login from '../Login'
-import Signup from '../Signup'
+import Login from '../components/Login'
+import Signup from '../components/Signup'
 
 class LoginAndSignup extends Component {
 
