@@ -1,31 +1,15 @@
-import React, { Component, PropTypes } from 'react'
-import { Card } from 'semantic-ui-react'
-import Zooming from 'zooming'
+import React, { Component } from 'react'
+import { Image } from 'semantic-ui-react'
 
 class ScreenshotList extends Component {
 
-  componentDidUpdate () {
-    const { quantity, numRendered } = this.props
-
-    if (quantity === numRendered) {
-      new Zooming({
-        defaultZoomable: '.screenshot'
-      })
-    }
-  }
-
   render () {
     return (
-      <Card.Group>
+      <Image.Group>
         {this.props.children}
-      </Card.Group>
+      </Image.Group>
     )
   }
-}
-
-ScreenshotList.propTypes = {
-  quantity: PropTypes.number.isRequired,
-  numRendered: PropTypes.number.isRequired
 }
 
 export default ScreenshotList

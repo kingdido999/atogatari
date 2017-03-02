@@ -32,7 +32,13 @@ async function getBangumi (ctx) {
   const { id } = ctx.request.query
 
   try {
-    const bangumi = await Bangumi.findById(id).exec()
+    const bangumi = await Bangumi
+      .findById(id)
+      .populate({
+        path: 'episodes',
+        populate: { path: 'screenshots' }
+      })
+      .exec()
 
     ctx.response.body = {
       bangumi: bangumi

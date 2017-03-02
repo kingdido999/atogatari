@@ -37,6 +37,7 @@ function isFullUrl (url) {
 }
 
 ScreenshotItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
   original_filename: PropTypes.string.isRequired
 }

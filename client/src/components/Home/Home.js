@@ -16,8 +16,6 @@ class Home extends Component {
   render() {
     const { isFetching, bangumis } = this.props
 
-    console.log(`bangumis: ${bangumis}`)
-
     return (
       <Segment basic loading={isFetching}>
         <BangumiList>
