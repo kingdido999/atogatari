@@ -4622,9 +4622,9 @@ sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
-semantic-ui-react@^0.65.0:
-  version "0.65.0"
-  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.65.0.tgz#82dd4588d6d707d273611927c320fbf5db0fe0e9"
+semantic-ui-react@^0.67.0:
+  version "0.67.0"
+  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.67.0.tgz#6a39b34b566bc0cb9ec2d7c0430b12d9a7e11dd4"
   dependencies:
     babel-runtime "^6.22.0"
     classnames "^2.1.5"

@@ -17,6 +17,8 @@ class Bangumi extends Component {
   componentDidUpdate () {
     const { bangumiItem, numRendered } = this.props
 
+    if (!bangumiItem) return
+
     const totalScreenshots = bangumiItem.episodes.reduce((sum, episode) => {
       return sum + episode.screenshots.length
     }, 0)
