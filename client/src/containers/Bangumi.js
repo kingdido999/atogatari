@@ -55,7 +55,9 @@ class Bangumi extends Component {
 
 Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  bangumiItem: PropTypes.object,
+  numRendered: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {

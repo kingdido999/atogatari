@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Item } from 'semantic-ui-react'
+import { Item, Image } from 'semantic-ui-react'
 
-import ScreenshotList from './ScreenshotList'
 import ScreenshotItem from './ScreenshotItem'
 
 class EpisodeItem extends Component {
@@ -13,7 +12,7 @@ class EpisodeItem extends Component {
       <Item>
         <Item.Content>
           <Item.Header>Episode {index}</Item.Header>
-          <ScreenshotList>
+          <Image.Group>
             {screenshots.map(screenshot =>
               <ScreenshotItem
                 dispatch={dispatch}
@@ -22,7 +21,7 @@ class EpisodeItem extends Component {
                 original_filename={screenshot.original_filename}
               />
             )}
-          </ScreenshotList>
+          </Image.Group>
         </Item.Content>
       </Item>
     )

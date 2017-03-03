@@ -6,14 +6,14 @@ import Header from '../components/Header'
 class App extends Component {
 
   render() {
-    const { dispatch, isAuthenticated, errorMessage } = this.props
+    const { dispatch, isAuthenticated, bangumis } = this.props
 
     return (
       <div className="App">
           <Header
             dispatch={dispatch}
             isAuthenticated={isAuthenticated}
-            errorMessage={errorMessage}
+            bangumis={bangumis}
           />
 
         <Container>
@@ -25,17 +25,19 @@ class App extends Component {
 }
 
 App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string
+  bangumis: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
-  const { isAuthenticated, errorMessage } = auth
+  const { auth, bangumi } = state
+  const { isAuthenticated } = auth
+  const { bangumis } = bangumi
 
   return {
     isAuthenticated,
-    errorMessage
+    bangumis
   }
 }
 

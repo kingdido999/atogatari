@@ -13,7 +13,7 @@ class Header extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props
+    const { dispatch, bangumis, isAuthenticated } = this.props
 
     return (
       <Menu size="huge">
@@ -21,7 +21,10 @@ class Header extends Component {
 
         <Menu.Menu position='right'>
           <Menu.Item>
-            <SearchBar />
+            <SearchBar
+              dispatch={dispatch}
+              bangumis={bangumis}
+            />
           </Menu.Item>
 
           {!isAuthenticated &&

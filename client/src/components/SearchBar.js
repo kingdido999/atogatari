@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { Item, Search } from 'semantic-ui-react'
-import { connect } from 'react-redux'
 
 import { getBangumis } from '../actions/bangumi'
 
@@ -24,12 +23,11 @@ class SearchBar extends Component {
   }
 
   render () {
-    const { isFetching, bangumis } = this.props
+    const { bangumis } = this.props
     const { search } = this.state
 
     return (
       <Search
-        loading={isFetching}
         onSearchChange={this.handleSearchChange}
         results={bangumis}
         value={search}
@@ -41,20 +39,7 @@ class SearchBar extends Component {
 
 SearchBar.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   bangumis: PropTypes.array.isRequired
 }
 
-// These props come from the application's
-// state when it is started
-function mapStateToProps(state) {
-  const { bangumi } = state
-  const { isFetching, bangumis } = bangumi
-
-  return {
-    isFetching,
-    bangumis
-  }
-}
-
-export default connect(mapStateToProps)(SearchBar)
+export default SearchBar

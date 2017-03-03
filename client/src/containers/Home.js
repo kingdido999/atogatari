@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import BangumiList from '../components/BangumiList'
-import BangumiItem from '../components/BangumiItem'
+import BangumiCard from '../components/BangumiCard'
 
 import { getBangumis } from '../actions/bangumi'
 
@@ -18,16 +17,16 @@ class Home extends Component {
 
     return (
       <Segment basic loading={isFetching}>
-        <BangumiList>
+        <Card.Group>
           {bangumis.map(bangumi =>
-            <BangumiItem
+            <BangumiCard
               key={bangumi._id}
               id={bangumi._id}
               title={bangumi.title}
               episodes={bangumi.episodes}
             />
           )}
-        </BangumiList>
+        </Card.Group>
       </Segment>
     )
   }
@@ -39,8 +38,6 @@ Home.propTypes = {
   bangumis: PropTypes.array.isRequired
 }
 
-// These props come from the application's
-// state when it is started
 function mapStateToProps(state) {
   const { bangumi } = state
   const { isFetching, bangumis } = bangumi

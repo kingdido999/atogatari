@@ -9,7 +9,7 @@ class LoginAndSignup extends Component {
 
   render() {
     const size = 'large'
-    const { isFetching, errorMessage } = this.props
+    const { dispatch, isFetching, errorMessage } = this.props
 
     return (
       <Segment basic loading={isFetching}>
@@ -25,10 +25,10 @@ class LoginAndSignup extends Component {
 
           <Grid.Row columns={2}>
             <Grid.Column>
-              <Signup size={size} />
+              <Signup size={size} dispatch={dispatch}/>
             </Grid.Column>
             <Grid.Column>
-              <Login size={size} />
+              <Login size={size} dispatch={dispatch} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -38,6 +38,7 @@ class LoginAndSignup extends Component {
 }
 
 LoginAndSignup.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string
 }

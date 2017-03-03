@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router'
 import { Card } from 'semantic-ui-react'
 
 
-class BangumiItem extends Component {
+class BangumiCard extends Component {
 
   handleOnClick = () => {
     const { id } = this.props
@@ -27,9 +27,9 @@ class BangumiItem extends Component {
   }
 }
 
-BangumiItem.propTypes = {
+BangumiCard.propTypes = {
   title: PropTypes.string.isRequired,
   episodes: PropTypes.array.isRequired
 }
 
-export default BangumiItem
+export default BangumiCard
