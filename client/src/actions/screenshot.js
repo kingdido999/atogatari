@@ -6,9 +6,3 @@ export function getScreenshots (params) {
     payload: axios.get('/api/screenshots', { params })
   }
 }
-
-export function screenshotRendered () {
-  return {
-    type: 'SCREENSHOT_RENDERED'
-  }
-}

@@ -2,16 +2,14 @@
 export default function screenshot (state = {
   isFetching: false,
   errorMessage: '',
-  screenshots: [],
-  numRendered: 0
+  screenshots: []
 }, action) {
   switch (action.type) {
     case 'GET_ALL_SCREENSHOTS_PENDING':
       return { ...state,
         isFetching: true,
         errorMessage: '',
-        screenshots: [],
-        numRendered: 0
+        screenshots: []
       }
     case 'GET_ALL_SCREENSHOTS_FULFILLED':
       return { ...state,
@@ -24,10 +22,6 @@ export default function screenshot (state = {
         isFetching: false,
         errorMessage: action.payload,
         screenshots: []
-      }
-    case 'SCREENSHOT_RENDERED':
-      return { ...state,
-        numRendered: state.numRendered + 1
       }
     default:
       return state

@@ -14,19 +14,10 @@ class Bangumi extends Component {
     this.props.dispatch(getBangumi({ id: id }))
   }
 
-  componentDidUpdate () {
-    const { bangumiItem, numRendered } = this.props
-
-    if (!bangumiItem) return
-
-    const totalScreenshots = bangumiItem.episodes.reduce((sum, episode) => {
-      return sum + episode.screenshots.length
-    }, 0)
-
-    if (totalScreenshots === numRendered) {
-      new Zooming({
-        defaultZoomable: '.screenshot'
-      })
+  componentWillReceiveProps(nextProps) {
+    const id = nextProps.params.bangumiId
+    if (id !== this.props.params.bangumiId) {
+      this.props.dispatch(getBangumi({ id: id }))
     }
   }
 
@@ -36,6 +27,7 @@ class Bangumi extends Component {
     if (!bangumiItem) return null
 
     const { title, episodes } = bangumiItem
+    const zooming = new Zooming()
 
     return (
       <Segment basic>
@@ -47,6 +39,7 @@ class Bangumi extends Component {
               key={episode._id}
               index={episode.index}
               screenshots={episode.screenshots}
+              zooming={zooming}
             />
           )}
         </Item.Group>

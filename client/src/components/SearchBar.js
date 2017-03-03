@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Item, Search } from 'semantic-ui-react'
+import { browserHistory } from 'react-router'
 
 import { getBangumis } from '../actions/bangumi'
 
@@ -22,6 +23,10 @@ class SearchBar extends Component {
     this.props.dispatch(getBangumis(this.state))
   }
 
+  handleResultSelect = (e, item) => {
+    browserHistory.push(`/bangumi/${item._id}`)
+  }
+
   render () {
     const { bangumis } = this.props
     const { search } = this.state
@@ -29,6 +34,7 @@ class SearchBar extends Component {
     return (
       <Search
         onSearchChange={this.handleSearchChange}
+        onResultSelect={this.handleResultSelect}
         results={bangumis}
         value={search}
         resultRenderer={resultRenderer}

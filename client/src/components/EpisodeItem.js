@@ -6,7 +6,7 @@ import ScreenshotItem from './ScreenshotItem'
 class EpisodeItem extends Component {
 
   render () {
-    const { index, screenshots, dispatch } = this.props
+    const { index, screenshots, dispatch, zooming } = this.props
 
     return (
       <Item>
@@ -17,8 +17,10 @@ class EpisodeItem extends Component {
               <ScreenshotItem
                 dispatch={dispatch}
                 key={screenshot._id}
+                id={screenshot._id}
                 thumbnail_filename={screenshot.thumbnail_filename}
                 original_filename={screenshot.original_filename}
+                zooming={zooming}
               />
             )}
           </Image.Group>
