@@ -32,7 +32,7 @@ class Bangumi extends Component {
     return (
       <Segment basic>
         <Header as="h1">{title}</Header>
-        <Item.Group>
+        <Item.Group divided>
           {episodes.map(episode =>
             <EpisodeItem
               dispatch={dispatch}

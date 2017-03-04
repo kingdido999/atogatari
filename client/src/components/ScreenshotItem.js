@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Image } from 'semantic-ui-react'
 
+import { getScreenshotUrl } from '../utils'
+
 class ScreenshotItem extends Component {
 
   componentDidMount () {
@@ -11,14 +13,8 @@ class ScreenshotItem extends Component {
 
   render () {
     const { id, thumbnail_filename, original_filename } = this.props
-    const path = 'http://localhost:3001/screenshots'
-    const thumbnailUrl = isFullUrl(thumbnail_filename)
-      ? thumbnail_filename
-      : `${path}/${thumbnail_filename}`
-
-    const originalUrl = isFullUrl(original_filename)
-      ? original_filename
-      : `${path}/${original_filename}`
+    const thumbnailUrl = getScreenshotUrl(thumbnail_filename)
+    const originalUrl = getScreenshotUrl(original_filename)
 
     return (
       <Image
@@ -30,10 +26,6 @@ class ScreenshotItem extends Component {
       />
     )
   }
-}
-
-function isFullUrl (url) {
-  return url.includes('http')
 }
 
 ScreenshotItem.propTypes = {

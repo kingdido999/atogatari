@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { browserHistory } from 'react-router'
-import { Card } from 'semantic-ui-react'
+import { Card, Image } from 'semantic-ui-react'
 
+import { getScreenshotUrl } from '../utils'
 
 class BangumiCard extends Component {
 
@@ -16,8 +17,12 @@ class BangumiCard extends Component {
       return sum + episode.screenshots.length
     }, 0)
 
+    const thumbnailFilename = episodes[0].screenshots[0].thumbnail_filename
+    const screenshotUrl = getScreenshotUrl(thumbnailFilename)
+
     return (
       <Card onClick={this.handleOnClick}>
+        <Image src={screenshotUrl} />
         <Card.Content>
           <Card.Header>{ title }</Card.Header>
           <Card.Meta>{ numScreenshots } screenshots</Card.Meta>
