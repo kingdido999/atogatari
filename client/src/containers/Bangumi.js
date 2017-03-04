@@ -31,7 +31,7 @@ class Bangumi extends Component {
 
     return (
       <Segment basic>
-        <Header as="h2">{title}</Header>
+        <Header as="h1">{title}</Header>
         <Item.Group>
           {episodes.map(episode =>
             <EpisodeItem
@@ -52,18 +52,15 @@ Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   bangumiItem: PropTypes.object,
-  numRendered: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {
-  const { bangumi, screenshot } = state
+  const { bangumi } = state
   const { isFetching, bangumiItem } = bangumi
-  const { numRendered } = screenshot
 
   return {
     isFetching,
-    bangumiItem,
-    numRendered
+    bangumiItem
   }
 }
 

@@ -5,6 +5,7 @@ import { render } from 'react-dom'
 
 import React from 'react'
 
+import { resetErrorMessage } from './actions/common'
 import store from './store'
 
 import App from './containers/App'
@@ -14,15 +15,7 @@ import Upload from './containers/Upload'
 import Bangumi from './containers/Bangumi'
 
 const history = syncHistoryWithStore(browserHistory, store)
-
-function requireAuth (nextState, replace) {
-  if (!localStorage.getItem('token')) {
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    })
-  }
-}
+history.listen(location => store.dispatch(resetErrorMessage()))
 
 render(
   <Provider store={store}>
@@ -37,3 +30,12 @@ render(
   </Provider>,
   document.getElementById('app')
 )
+
+function requireAuth (nextState, replace) {
+  if (!localStorage.getItem('token')) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}

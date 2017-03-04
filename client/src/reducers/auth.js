@@ -1,9 +1,8 @@
-const initialState = {
+
+export default function auth(state = {
   isFetching: false,
   isAuthenticated: localStorage.getItem('token') ? true : false
-}
-
-export default function auth(state = initialState, action) {
+}, action) {
   switch (action.type) {
     case 'LOGIN_PENDING':
       return { ...state,
@@ -13,14 +12,12 @@ export default function auth(state = initialState, action) {
     case 'LOGIN_FULFILLED':
       return { ...state,
         isFetching: false,
-        isAuthenticated: true,
-        errorMessage: ''
+        isAuthenticated: true
       }
     case 'LOGIN_REJECTED':
       return { ...state,
         isFetching: false,
-        isAuthenticated: false,
-        errorMessage: action.payload
+        isAuthenticated: false
       }
     case 'SIGNUP_PENDING':
       return { ...state,
@@ -30,14 +27,12 @@ export default function auth(state = initialState, action) {
     case 'SIGNUP_FULFILLED':
       return { ...state,
         isFetching: false,
-        isAuthenticated: true,
-        errorMessage: ''
+        isAuthenticated: true
       }
     case 'SIGNUP_REJECTED':
       return { ...state,
         isFetching: false,
-        isAuthenticated: false,
-        errorMessage: action.payload
+        isAuthenticated: false
       }
     case 'LOGOUT_PENDING':
       return { ...state,
@@ -47,14 +42,12 @@ export default function auth(state = initialState, action) {
     case 'LOGOUT_FULFILLED':
       return { ...state,
         isFetching: false,
-        isAuthenticated: false,
-        errorMessage: ''
+        isAuthenticated: false
       }
     case 'LOGOUT_REJECTED':
       return { ...state,
         isFetching: false,
-        isAuthenticated: true,
-        errorMessage: action.payload
+        isAuthenticated: true
       }
     default:
       return state

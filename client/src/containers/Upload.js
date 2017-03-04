@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Message, Form, Image } from 'semantic-ui-react'
+import { Segment, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { upload } from '../actions/file'
 
@@ -54,13 +54,11 @@ class Upload extends Component {
   }
 
   render() {
-    const { errorMessage } = this.props
     let { imagePreviewUrl } = this.state
 
     return (
       <Segment basic>
-        <Form onSubmit={this.handleSubmit} error={errorMessage !== ''}>
-          <Message error content={errorMessage} />
+        <Form onSubmit={this.handleSubmit}>
 
           <Form.Field>
             <label>File</label>
@@ -90,16 +88,10 @@ class Upload extends Component {
 
 Upload.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
 }
 
 function mapStateToProps(state) {
-  const { file } = state
-  const { errorMessage } = file
-
-  return {
-    errorMessage
-  }
+  return { }
 }
 
 export default connect(mapStateToProps)(Upload)
