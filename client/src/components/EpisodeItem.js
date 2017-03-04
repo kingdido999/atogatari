@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { Item, Image } from 'semantic-ui-react'
+import { Item, Card } from 'semantic-ui-react'
 
-import ScreenshotItem from './ScreenshotItem'
+import ScreenshotCard from './ScreenshotCard'
 
 class EpisodeItem extends Component {
 
@@ -12,9 +12,9 @@ class EpisodeItem extends Component {
       <Item>
         <Item.Content>
           <Item.Header>Episode {index}</Item.Header>
-          <Image.Group>
+          <Card.Group>
             {screenshots.map(screenshot =>
-              <ScreenshotItem
+              <ScreenshotCard
                 dispatch={dispatch}
                 key={screenshot._id}
                 id={screenshot._id}
@@ -23,7 +23,7 @@ class EpisodeItem extends Component {
                 zooming={zooming}
               />
             )}
-          </Image.Group>
+          </Card.Group>
         </Item.Content>
       </Item>
     )

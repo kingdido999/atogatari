@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { Image } from 'semantic-ui-react'
 
-import { getScreenshotUrl } from '../utils'
+import { getImageUrl } from '../utils'
 
-class ScreenshotItem extends Component {
+class ZoomableImage extends Component {
 
   componentDidMount () {
     const { id, zooming } = this.props
@@ -13,8 +13,8 @@ class ScreenshotItem extends Component {
 
   render () {
     const { id, thumbnail_filename, original_filename } = this.props
-    const thumbnailUrl = getScreenshotUrl(thumbnail_filename)
-    const originalUrl = getScreenshotUrl(original_filename)
+    const thumbnailUrl = getImageUrl(thumbnail_filename)
+    const originalUrl = getImageUrl(original_filename)
 
     return (
       <Image
@@ -28,10 +28,12 @@ class ScreenshotItem extends Component {
   }
 }
 
-ScreenshotItem.propTypes = {
+ZoomableImage.propTypes = {
+  id: PropTypes.string.isRequired,
+  zooming: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
   original_filename: PropTypes.string.isRequired
 }
 
-export default ScreenshotItem
+export default ZoomableImage
