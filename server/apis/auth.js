@@ -6,34 +6,34 @@ import { getRandomString, sha512 } from '../utils/index'
 async function signup (ctx) {
   const { email, password, username } = ctx.request.body
 
-  const existedUser = await User.findOne({
+  let user = await User.findOne({
     $or: [{ email: email }, { username: username }]
   }).exec()
 
-  if (existedUser) {
+  if (user) {
     ctx.throw(400, 'User with this email or username already exists.')
-  } else {
-    const salt = getRandomString(16)
-    const hash = sha512(password, salt)
+  }
 
-    const user = new User({
-      email: email,
-      username: username,
-      salt: salt,
-      hash: hash
-    })
+  const salt = getRandomString(16)
+  const hash = sha512(password, salt)
 
-    try {
-      await user.save()
+  user = new User({
+    email: email,
+    username: username,
+    salt: salt,
+    hash: hash
+  })
 
-      ctx.response.body = {
-        token: generateToken(user, config.secret)
-      }
+  try {
+    await user.save()
 
-      ctx.status = 201
-    } catch (err) {
-      ctx.throw(400, err)
+    ctx.response.body = {
+      token: generateToken(user, config.secret)
     }
+
+    ctx.status = 201
+  } catch (err) {
+    ctx.throw(400, err)
   }
 }
 
@@ -58,6 +58,7 @@ async function login (ctx) {
   ctx.response.body = {
     token: generateToken(user, config.secret)
   }
+
   ctx.status = 200
 }
 
