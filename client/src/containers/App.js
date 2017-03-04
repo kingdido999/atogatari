@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Message } from 'semantic-ui-react'
+import { Segment, Container, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Header from '../components/Header'
@@ -17,11 +17,13 @@ class App extends Component {
           bangumis={bangumis}
         />
 
-        <Container>
+        <Container fluid>
           {errorMessage &&
-            <Message error content={errorMessage} />
+            <Segment basic>
+              <Message error content={errorMessage} />
+            </Segment>
           }
-          
+
           {this.props.children}
         </Container>
       </div>
