@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { browserHistory } from 'react-router'
 import { Card, Image } from 'semantic-ui-react'
 
-import { getImageUrl } from '../utils'
+import { getImageUrl, pluralize } from '../utils'
 
 class BangumiCard extends Component {
 
@@ -25,7 +25,7 @@ class BangumiCard extends Component {
         <Image src={screenshotUrl} />
         <Card.Content>
           <Card.Header>{ title }</Card.Header>
-          <Card.Meta>{ numScreenshots } screenshots</Card.Meta>
+          <Card.Meta>{ numScreenshots } { pluralize('screenshot', numScreenshots) }</Card.Meta>
         </Card.Content>
       </Card>
     )

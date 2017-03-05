@@ -21,3 +21,7 @@ export function downloadFromUrl (url, filename) {
   a.click()
   document.body.removeChild(a)
 }
+
+export function pluralize (singular, count) {
+  return singular + (count > 1 ? 's' : '')
+}
