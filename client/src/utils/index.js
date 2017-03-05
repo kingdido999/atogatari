@@ -11,3 +11,13 @@ export function getImageUrl (filename) {
 
   return `${imagePath}/${filename}`
 }
+
+export function downloadFromUrl (url, filename) {
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename // Set the file name.
+  a.style.display = 'none'
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
