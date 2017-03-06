@@ -6,12 +6,17 @@ import Zooming from 'zooming'
 import EpisodeItem from '../components/EpisodeItem'
 
 import { getBangumi } from '../actions/bangumi'
+import { getFavorites } from '../actions/favorite'
 
 class Bangumi extends Component {
 
   componentWillMount () {
-    const id = this.props.params.bangumiId
-    this.props.dispatch(getBangumi({ id: id }))
+    const { params, dispatch } = this.props
+    dispatch(getBangumi({ id: params.bangumiId }))
+
+    dispatch(getFavorites({
+      token: localStorage.getItem('token')
+    }))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,9 +27,9 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { bangumiItem, dispatch } = this.props
+    const { bangumiItem, favorites, dispatch } = this.props
 
-    if (!bangumiItem) return null
+    if (!bangumiItem || !favorites) return null
 
     const { title, episodes } = bangumiItem
     const zooming = new Zooming()
@@ -40,6 +45,7 @@ class Bangumi extends Component {
               index={episode.index}
               screenshots={episode.screenshots}
               zooming={zooming}
+              favorites={favorites}
             />
           )}
         </Item.Group>
@@ -52,15 +58,18 @@ Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   bangumiItem: PropTypes.object,
+  favorites: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
-  const { bangumi } = state
+  const { bangumi, favorite } = state
   const { isFetching, bangumiItem } = bangumi
+  const { favorites } = favorite
 
   return {
     isFetching,
-    bangumiItem
+    bangumiItem,
+    favorites
   }
 }
 

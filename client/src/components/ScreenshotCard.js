@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { Card, Button } from 'semantic-ui-react'
 
 import ZoomableImage from './ZoomableImage'
+import FavoriteButton from './FavoriteButton'
 
 import { getImageUrl, downloadFromUrl } from '../utils'
 
 class ScreenshotCard extends Component {
 
-  handleDownload = (event, data) => {
+  handleDownload = () => {
     const { original_filename } = this.props
     const originalUrl = getImageUrl(original_filename)
 
@@ -15,7 +16,7 @@ class ScreenshotCard extends Component {
   }
 
   render () {
-    const { id, zooming, dispatch, thumbnail_filename, original_filename } = this.props
+    const { id, zooming, dispatch, thumbnail_filename, original_filename, favorites } = this.props
 
     return (
       <Card>
@@ -28,7 +29,11 @@ class ScreenshotCard extends Component {
         />
         <Card.Content>
           <Button.Group basic fluid>
-            <Button icon="favorite" />
+            <FavoriteButton
+              dispatch={dispatch}
+              screenshotId={id}
+              favorite={favorites.includes(id)}
+            />
             <Button icon="download" onClick={this.handleDownload} />
           </Button.Group>
         </Card.Content>
@@ -42,7 +47,8 @@ ScreenshotCard.propTypes = {
   zooming: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
-  original_filename: PropTypes.string.isRequired
+  original_filename: PropTypes.string.isRequired,
+  favorites: PropTypes.array.isRequired
 }
 
 export default ScreenshotCard

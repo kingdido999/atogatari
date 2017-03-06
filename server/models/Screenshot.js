@@ -26,6 +26,10 @@ const screenshotSchema = new Schema({
     type: String,
     required: true
   },
+  favorites: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Favorite'
+  }]
 })
 
 export default mongoose.model('Screenshot', screenshotSchema)

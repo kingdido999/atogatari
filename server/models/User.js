@@ -21,6 +21,10 @@ const userSchema = new Schema({
   screenshots: [{
     type: Schema.Types.ObjectId,
     ref: 'Screenshot'
+  }],
+  favorites: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Favorite'
   }]
 })
 

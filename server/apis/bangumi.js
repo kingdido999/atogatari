@@ -14,7 +14,9 @@ async function getBangumis (ctx) {
       .select('title episodes')
       .populate({
         path: 'episodes',
-        populate: { path: 'screenshots' }
+        populate: {
+          path: 'screenshots'
+        }
       })
       .exec()
 

@@ -14,7 +14,9 @@ mongoose.connect(config.database.dev, {
 })
 
 const app = new Koa()
-const router = new Router()
+const router = new Router({
+  prefix: '/api'
+})
 
 app.use(logger())
 app.use(serve('assets'))

@@ -6,7 +6,7 @@ import ScreenshotCard from './ScreenshotCard'
 class EpisodeItem extends Component {
 
   render () {
-    const { index, screenshots, dispatch, zooming } = this.props
+    const { index, screenshots, dispatch, zooming, favorites } = this.props
 
     return (
       <Item>
@@ -21,6 +21,7 @@ class EpisodeItem extends Component {
                 thumbnail_filename={screenshot.thumbnail_filename}
                 original_filename={screenshot.original_filename}
                 zooming={zooming}
+                favorites={favorites}
               />
             )}
           </Card.Group>
@@ -33,6 +34,7 @@ class EpisodeItem extends Component {
 EpisodeItem.propTypes = {
   index: PropTypes.number.isRequired,
   screenshots: PropTypes.array.isRequired,
+  favorites: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
