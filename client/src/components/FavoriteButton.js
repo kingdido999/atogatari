@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Button, Icon } from 'semantic-ui-react'
+import { Button, Icon, Popup } from 'semantic-ui-react'
+import { Link } from 'react-router'
 
 import { addFavorite, removeFavorite } from '../actions/favorite'
 
@@ -29,9 +30,21 @@ class FavoriteButton extends Component {
 
   render () {
     const icon = this.renderIcon()
+    const { isAuthenticated } = this.props
+
+    if (isAuthenticated) {
+      return (
+        <Button icon={icon} onClick={this.toggleFavorite} />
+      )
+    }
 
     return (
-      <Button icon={icon} onClick={this.toggleFavorite} />
+      <Popup
+        trigger={<Button icon='favorite' />}
+        content={<Button color='green' content='Login' as={Link} to="/login" />}
+        on='click'
+        position='bottom center'
+      />
     )
   }
 }
@@ -39,7 +52,8 @@ class FavoriteButton extends Component {
 FavoriteButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
   screenshotId: PropTypes.string.isRequired,
-  favorite: PropTypes.bool.isRequired
+  favorite: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
 export default FavoriteButton

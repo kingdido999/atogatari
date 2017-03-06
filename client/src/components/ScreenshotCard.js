@@ -16,7 +16,8 @@ class ScreenshotCard extends Component {
   }
 
   render () {
-    const { id, zooming, dispatch, thumbnail_filename, original_filename, favorites } = this.props
+    const { id, zooming, dispatch, thumbnail_filename, original_filename,
+      favorites, isAuthenticated } = this.props
 
     return (
       <Card>
@@ -33,6 +34,7 @@ class ScreenshotCard extends Component {
               dispatch={dispatch}
               screenshotId={id}
               favorite={favorites.includes(id)}
+              isAuthenticated={isAuthenticated}
             />
             <Button icon="download" onClick={this.handleDownload} />
           </Button.Group>
@@ -48,7 +50,8 @@ ScreenshotCard.propTypes = {
   dispatch: PropTypes.func.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
   original_filename: PropTypes.string.isRequired,
-  favorites: PropTypes.array.isRequired
+  favorites: PropTypes.array.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
 export default ScreenshotCard

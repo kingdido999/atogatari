@@ -11,12 +11,14 @@ import { getFavorites } from '../actions/favorite'
 class Bangumi extends Component {
 
   componentWillMount () {
-    const { params, dispatch } = this.props
+    const { params, dispatch, isAuthenticated } = this.props
     dispatch(getBangumi({ id: params.bangumiId }))
 
-    dispatch(getFavorites({
-      token: localStorage.getItem('token')
-    }))
+    if (isAuthenticated) {
+      dispatch(getFavorites({
+        token: localStorage.getItem('token')
+      }))
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,7 +29,7 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { bangumiItem, favorites, dispatch } = this.props
+    const { dispatch, isAuthenticated, bangumiItem, favorites } = this.props
 
     if (!bangumiItem || !favorites) return null
 
@@ -46,6 +48,7 @@ class Bangumi extends Component {
               screenshots={episode.screenshots}
               zooming={zooming}
               favorites={favorites}
+              isAuthenticated={isAuthenticated}
             />
           )}
         </Item.Group>
@@ -56,17 +59,20 @@ class Bangumi extends Component {
 
 Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
   bangumiItem: PropTypes.object,
   favorites: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
-  const { bangumi, favorite } = state
+  const { auth, bangumi, favorite } = state
+  const { isAuthenticated } = auth
   const { isFetching, bangumiItem } = bangumi
   const { favorites } = favorite
 
   return {
+    isAuthenticated,
     isFetching,
     bangumiItem,
     favorites
