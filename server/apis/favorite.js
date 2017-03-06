@@ -1,21 +1,8 @@
-import jwt from 'jsonwebtoken'
-import config from '../config'
-
 import Favorite from '../models/Favorite'
 
 async function getFavorites (ctx) {
-  const { token } = ctx.request.body
-
-  let decoded = null
-
-  try {
-    decoded = jwt.verify(token, config.secret)
-  } catch (e) {
-    ctx.throw(401, e)
-  }
-
   const favorites = await Favorite.find({
-    user: decoded.uid
+    user: ctx.state.uid
   }).exec()
 
   ctx.response.body = {
@@ -28,22 +15,14 @@ async function getFavorites (ctx) {
 }
 
 async function addFavorite (ctx) {
-  const { screenshotId, token } = ctx.request.body
+  const { screenshotId } = ctx.request.body
 
   if (!screenshotId) {
     ctx.throw(400)
   }
 
-  let decoded = null
-
-  try {
-    decoded = jwt.verify(token, config.secret)
-  } catch (e) {
-    ctx.throw(401, e)
-  }
-
   const favorite = new Favorite({
-    user: decoded.uid,
+    user: ctx.state.uid,
     screenshot: screenshotId
   })
 
@@ -59,22 +38,14 @@ async function addFavorite (ctx) {
 }
 
 async function removeFavorite (ctx) {
-  const { screenshotId, token } = ctx.request.body
+  const { screenshotId } = ctx.request.body
 
   if (!screenshotId) {
     ctx.throw(400)
   }
 
-  let decoded = null
-
-  try {
-    decoded = jwt.verify(token, config.secret)
-  } catch (e) {
-    ctx.throw(401, e)
-  }
-
   const favorite = await Favorite.findOne({
-    user: decoded.uid,
+    user: ctx.state.uid,
     screenshot: screenshotId
   }).exec()
 
