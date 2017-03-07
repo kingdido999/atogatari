@@ -16,15 +16,15 @@ class ScreenshotCard extends Component {
   }
 
   render () {
-    const { id, zooming, dispatch, thumbnail_filename, original_filename,
-      favorites, isAuthenticated } = this.props
+    const { zooming, dispatch, screenshot, favorites, isAuthenticated } = this.props
+    const { _id, thumbnail_filename, original_filename } = screenshot
+    const isFavorited = favorites.includes(_id)
 
     return (
       <Card>
         <ZoomableImage
-          id={id}
+          id={_id}
           zooming={zooming}
-          dispatch={dispatch}
           thumbnail_filename={thumbnail_filename}
           original_filename={original_filename}
         />
@@ -32,8 +32,8 @@ class ScreenshotCard extends Component {
           <Button.Group basic fluid>
             <FavoriteButton
               dispatch={dispatch}
-              screenshotId={id}
-              favorite={favorites.includes(id)}
+              screenshotId={_id}
+              isFavorited={isFavorited}
               isAuthenticated={isAuthenticated}
             />
             <Button icon="download" onClick={this.handleDownload} />
@@ -45,11 +45,9 @@ class ScreenshotCard extends Component {
 }
 
 ScreenshotCard.propTypes = {
-  id: PropTypes.string.isRequired,
   zooming: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  thumbnail_filename: PropTypes.string.isRequired,
-  original_filename: PropTypes.string.isRequired,
+  screenshot: PropTypes.object.isRequired,
   favorites: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 }

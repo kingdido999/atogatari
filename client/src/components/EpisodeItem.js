@@ -17,9 +17,7 @@ class EpisodeItem extends Component {
               <ScreenshotCard
                 dispatch={dispatch}
                 key={screenshot._id}
-                id={screenshot._id}
-                thumbnail_filename={screenshot.thumbnail_filename}
-                original_filename={screenshot.original_filename}
+                screenshot={screenshot}
                 zooming={zooming}
                 favorites={favorites}
                 isAuthenticated={isAuthenticated}

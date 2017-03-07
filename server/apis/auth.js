@@ -24,17 +24,14 @@ async function signup (ctx) {
     hash: hash
   })
 
-  try {
-    await user.save()
+  await user.save()
 
-    ctx.response.body = {
-      token: generateToken(user, config.secret)
-    }
-
-    ctx.status = 201
-  } catch (err) {
-    ctx.throw(400, err)
+  ctx.response.body = {
+    uid: user._id,
+    token: generateToken(user, config.secret)
   }
+
+  ctx.status = 201
 }
 
 async function login (ctx) {
@@ -56,6 +53,7 @@ async function login (ctx) {
   }
 
   ctx.response.body = {
+    uid: user._id,
     token: generateToken(user, config.secret)
   }
 
@@ -66,7 +64,7 @@ function generateToken (user, secret) {
   const token = jwt.sign({
     uid: user.id
   }, secret, {
-    expiresIn: '1 day'
+    expiresIn: '7 day'
   })
 
   return token

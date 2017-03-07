@@ -3,7 +3,8 @@ import Favorite from '../models/Favorite'
 async function getFavorites (ctx) {
   const favorites = await Favorite.find({
     user: ctx.state.uid
-  }).exec()
+  })
+  .exec()
 
   ctx.response.body = {
     favorites: favorites.map(favorite => {

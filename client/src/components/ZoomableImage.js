@@ -31,7 +31,6 @@ class ZoomableImage extends Component {
 ZoomableImage.propTypes = {
   id: PropTypes.string.isRequired,
   zooming: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
   thumbnail_filename: PropTypes.string.isRequired,
   original_filename: PropTypes.string.isRequired
 }

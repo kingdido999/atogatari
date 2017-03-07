@@ -13,6 +13,7 @@ import Home from './containers/Home'
 import LoginAndSignup from './containers/LoginAndSignup'
 import Upload from './containers/Upload'
 import Bangumi from './containers/Bangumi'
+import User from './containers/User'
 
 const history = syncHistoryWithStore(browserHistory, store)
 history.listen(location => store.dispatch(resetErrorMessage()))
@@ -25,6 +26,7 @@ render(
         <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
         <Route path="bangumi/:bangumiId" component={Bangumi} />
+        <Route path="user/:userId" component={User} />
       </Route>
     </Router>
   </Provider>,

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
+import React, { Component, PropTypes } from 'react'
+import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import { logout } from '../actions/auth'
 
@@ -13,7 +13,7 @@ class Header extends Component {
   }
 
   render() {
-    const { dispatch, bangumis, isAuthenticated } = this.props
+    const { dispatch, bangumis, isAuthenticated, uid } = this.props
 
     return (
       <Menu size="huge" fluid>
@@ -36,12 +36,25 @@ class Header extends Component {
           }
 
           {isAuthenticated &&
-            <Menu.Item name='logout' onClick={this.handleLogout} />
+            <Dropdown item icon='user outline'>
+              <Dropdown.Menu>
+                <Dropdown.Item icon='favorite' text='My favorites' as={Link} to={`user/${uid}`} />
+                <Dropdown.Item icon='settings' text='Account Settings' />
+                <Dropdown.Item icon='log out' text='Logout' onClick={this.handleLogout} />
+              </Dropdown.Menu>
+            </Dropdown>
           }
         </Menu.Menu>
       </Menu>
     )
   }
+}
+
+Header.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  uid: PropTypes.string,
+  bangumis: PropTypes.array.isRequired
 }
 
 export default Header

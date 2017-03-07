@@ -7,13 +7,13 @@ import { addFavorite, removeFavorite } from '../actions/favorite'
 class FavoriteButton extends Component {
 
   toggleFavorite = () => {
-    const { dispatch, screenshotId, favorite } = this.props
+    const { dispatch, screenshotId, isFavorited } = this.props
     const data = {
       screenshotId: screenshotId,
       token: localStorage.getItem('token')
     }
 
-    if (favorite) {
+    if (isFavorited) {
       dispatch(removeFavorite(data))
     } else {
       dispatch(addFavorite(data))
@@ -21,10 +21,10 @@ class FavoriteButton extends Component {
   }
 
   renderIcon () {
-    const { favorite } = this.props
+    const { isFavorited } = this.props
 
     return (
-      <Icon name="favorite" color={ favorite ? 'yellow' : 'grey' } />
+      <Icon name="favorite" color={ isFavorited ? 'yellow' : 'grey' } />
     )
   }
 
@@ -52,7 +52,7 @@ class FavoriteButton extends Component {
 FavoriteButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
   screenshotId: PropTypes.string.isRequired,
-  favorite: PropTypes.bool.isRequired,
+  isFavorited: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired
 }
 
