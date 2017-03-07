@@ -13,7 +13,7 @@ class Header extends Component {
   }
 
   render() {
-    const { dispatch, bangumis, isAuthenticated, uid } = this.props
+    const { dispatch, bangumis, isAuthenticated } = this.props
 
     return (
       <Menu size="huge" fluid>
@@ -38,7 +38,7 @@ class Header extends Component {
           {isAuthenticated &&
             <Dropdown item icon='user outline'>
               <Dropdown.Menu>
-                <Dropdown.Item icon='favorite' text='My favorites' as={Link} to={`user/${uid}`} />
+                <Dropdown.Item icon='favorite' text='My favorites' as={Link} to={`/user`} />
                 <Dropdown.Item icon='settings' text='Account Settings' />
                 <Dropdown.Item icon='log out' text='Logout' onClick={this.handleLogout} />
               </Dropdown.Menu>
@@ -53,7 +53,6 @@ class Header extends Component {
 Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  uid: PropTypes.string,
   bangumis: PropTypes.array.isRequired
 }
 

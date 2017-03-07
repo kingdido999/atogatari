@@ -17,6 +17,7 @@ class ScreenshotCard extends Component {
 
   render () {
     const { zooming, dispatch, screenshot, favorites, isAuthenticated } = this.props
+    console.log(`screenshot: ${JSON.stringify(screenshot)}`)
     const { _id, thumbnail_filename, original_filename } = screenshot
     const isFavorited = favorites.filter(favorite => favorite.screenshot._id === _id).length > 0
 

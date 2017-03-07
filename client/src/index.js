@@ -26,7 +26,7 @@ render(
         <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
         <Route path="bangumi/:bangumiId" component={Bangumi} />
-        <Route path="user/:userId" component={User} />
+        <Route path="user" component={User} />
       </Route>
     </Router>
   </Provider>,

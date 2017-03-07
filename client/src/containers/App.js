@@ -7,14 +7,13 @@ import Header from '../components/Header'
 class App extends Component {
 
   render() {
-    const { dispatch, isAuthenticated, uid, bangumis, errorMessage } = this.props
+    const { dispatch, isAuthenticated, bangumis, errorMessage } = this.props
 
     return (
       <div className="App">
         <Header
           dispatch={dispatch}
           isAuthenticated={isAuthenticated}
-          uid={uid}
           bangumis={bangumis}
         />
 
@@ -42,12 +41,11 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { auth, bangumi, errorMessage } = state
-  const { isAuthenticated, uid } = auth
+  const { isAuthenticated } = auth
   const { bangumis } = bangumi
 
   return {
     isAuthenticated,
-    uid,
     bangumis,
     errorMessage
   }
