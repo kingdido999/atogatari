@@ -19,9 +19,13 @@ mongoose.connect(config.database.dev, {
   promiseLibrary: global.Promise
 })
 
-purge()
-seed()
-process.exit()
+run()
+
+async function run () {
+  await purge()
+  await seed()
+  process.exit()
+}
 
 async function purge () {
   console.log('Removing current data...')
