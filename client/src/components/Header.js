@@ -38,8 +38,9 @@ class Header extends Component {
           {isAuthenticated &&
             <Dropdown item icon='user outline'>
               <Dropdown.Menu>
-                <Dropdown.Item icon='favorite' text='My favorites' as={Link} to={`/user`} />
-                <Dropdown.Item icon='settings' text='Account Settings' />
+                <Dropdown.Item icon='favorite' text='My favorites' as={Link} to='/user' />
+                <Dropdown.Item icon='upload' text='My uploads' as={Link} to='/user' />
+                <Dropdown.Item icon='settings' text='Settings' />
                 <Dropdown.Item icon='log out' text='Logout' onClick={this.handleLogout} />
               </Dropdown.Menu>
             </Dropdown>

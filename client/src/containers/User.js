@@ -22,7 +22,6 @@ class User extends Component {
     const zooming = new Zooming()
 
     if (isFetching) return null
-    console.log(favorites)
 
     return (
       <Segment basic>
