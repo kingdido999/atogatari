@@ -17,12 +17,12 @@ export default function favorite (state = {
       }
     case 'ADD_FAVORITE_FULFILLED':
       return { ...state,
-        favorites: [ ...state.favorites, action.payload.data.screenshotId ]
+        favorites: [ ...state.favorites, action.payload.data.favorite ]
       }
     case 'REMOVE_FAVORITE_FULFILLED':
       return { ...state,
         favorites: state.favorites.filter(favorite => {
-          return favorite !== action.payload.data.screenshotId
+          return favorite.screenshot._id !== action.payload.data.favorite.screenshot
         })
       }
     default:

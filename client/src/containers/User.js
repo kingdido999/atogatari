@@ -5,8 +5,11 @@ import { connect } from 'react-redux'
 
 // import ScreenshotCard from '../components/ScreenshotCard'
 
-
 class User extends Component {
+
+  componentWillMount () {
+
+  }
 
   render() {
     // const { dispatch, favorites, isAuthenticated } = this.props

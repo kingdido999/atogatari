@@ -1,15 +1,15 @@
 import Favorite from '../models/Favorite'
+import Screenshot from '../models/Screenshot'
 
 async function getFavorites (ctx) {
   const favorites = await Favorite.find({
     user: ctx.state.uid
   })
+  .populate('screenshot')
   .exec()
 
   ctx.response.body = {
-    favorites: favorites.map(favorite => {
-      return favorite.screenshot
-    })
+    favorites: favorites
   }
 
   ctx.status = 200
@@ -22,20 +22,18 @@ async function addFavorite (ctx) {
     ctx.throw(400)
   }
 
+  const screenshot = await Screenshot.findById(screenshotId).exec()
+
   const favorite = new Favorite({
     user: ctx.state.uid,
-    screenshot: screenshotId
+    screenshot: screenshot
   })
 
-  try {
-    favorite.save()
-    ctx.response.body = {
-      screenshotId: screenshotId
-    }
-    ctx.status = 201
-  } catch (e) {
-    ctx.throw(500, e)
+  await favorite.save()
+  ctx.response.body = {
+    favorite: favorite
   }
+  ctx.status = 201
 }
 
 async function removeFavorite (ctx) {
@@ -50,15 +48,11 @@ async function removeFavorite (ctx) {
     screenshot: screenshotId
   }).exec()
 
-  try {
-    favorite.remove()
-    ctx.response.body = {
-      screenshotId: screenshotId
-    }
-    ctx.status = 202
-  } catch (e) {
-    ctx.throw(500, e)
+  await favorite.remove()
+  ctx.response.body = {
+    favorite: favorite
   }
+  ctx.status = 202
 }
 
 export default {
