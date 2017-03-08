@@ -2,24 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
-import { getFavorites } from '../actions/favorite'
 import ScreenshotCard from '../components/ScreenshotCard'
 
 class UserFavorites extends Component {
 
-  componentWillMount () {
-    const { dispatch } = this.props
-
-    dispatch(getFavorites({
-      token: localStorage.getItem('token')
-    }))
-  }
-
   render() {
-    const { dispatch, isFetching, favorites, isAuthenticated } = this.props
+    const { dispatch, favorites, isAuthenticated } = this.props
     const zooming = new Zooming()
-
-    if (isFetching) return null
 
     return (
       <Card.Group>
@@ -39,9 +28,9 @@ class UserFavorites extends Component {
 }
 
 UserFavorites.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  favorites: PropTypes.array.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  dispatch: PropTypes.func,
+  favorites: PropTypes.array,
+  isAuthenticated: PropTypes.bool
 }
 
 export default UserFavorites

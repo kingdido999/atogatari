@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Segment, Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import { getFavorites } from '../actions/favorite'
 
@@ -31,9 +32,9 @@ class User extends Component {
     return (
       <Segment basic>
         <Menu secondary>
-          <Menu.Item name='My favorites' />
-          <Menu.Item name='My uploads' />
-          <Menu.Item name='Settings' />
+          <Menu.Item as={Link} to='/user/favorites' name='My favorites' activeClassName="active" />
+          {/* <Menu.Item name='My uploads' activeClassName="active" /> */}
+          {/* <Menu.Item name='Settings' activeClassName="active" /> */}
         </Menu>
 
         {childrenWithProps}

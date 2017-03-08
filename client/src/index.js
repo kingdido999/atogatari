@@ -27,7 +27,7 @@ render(
         <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
         <Route path="bangumi/:bangumiId" component={Bangumi} />
-        <Route path="user" component={User}>
+        <Route path="user" component={User} onEnter={requireAuth}>
           <Route path="favorites" component={UserFavorites} />
         </Route>
       </Route>
