@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Card } from 'semantic-ui-react'
+import { Segment, Item } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import BangumiCard from '../components/BangumiCard'
+import BangumiItem from '../components/BangumiItem'
 
 import { getBangumis } from '../actions/bangumi'
 
@@ -17,14 +17,14 @@ class Home extends Component {
 
     return (
       <Segment basic loading={isFetching}>
-        <Card.Group>
+        <Item.Group divided>
           {bangumis.map(bangumi =>
-            <BangumiCard
+            <BangumiItem
               key={bangumi._id}
               { ...bangumi }
             />
           )}
-        </Card.Group>
+        </Item.Group>
       </Segment>
     )
   }
