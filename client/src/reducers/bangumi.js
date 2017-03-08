@@ -1,14 +1,13 @@
 
 export default function bangumi (state = {
   isFetching: false,
+  selectedBangumi: null,
   bangumis: []
 }, action) {
   switch (action.type) {
     case 'GET_BANGUMIS_PENDING':
       return { ...state,
-        isFetching: true,
-        errorMessage: '',
-        bangumis: []
+        isFetching: true
       }
     case 'GET_BANGUMIS_FULFILLED':
       return { ...state,
@@ -17,23 +16,20 @@ export default function bangumi (state = {
       }
     case 'GET_BANGUMIS_REJECTED':
       return { ...state,
-        isFetching: false,
-        bangumis: []
+        isFetching: false
       }
     case 'GET_BANGUMI_PENDING':
       return { ...state,
-        isFetching: true,
-        bangumiItem: null
+        isFetching: true
       }
     case 'GET_BANGUMI_FULFILLED':
       return { ...state,
         isFetching: false,
-        bangumiItem: action.payload.data.bangumi
+        selectedBangumi: action.payload.data.bangumi
       }
     case 'GET_BANGUMI_REJECTED':
       return { ...state,
-        isFetching: false,
-        bangumiItem: null
+        isFetching: false
       }
     default:
       return state

@@ -22,7 +22,7 @@ class ZoomableImage extends Component {
         src={thumbnailUrl}
         data-original={originalUrl}
         className="screenshot"
-        alt=""
+        alt="screenshot"
       />
     )
   }

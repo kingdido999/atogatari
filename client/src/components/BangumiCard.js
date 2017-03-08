@@ -7,8 +7,8 @@ import { getImageUrl, pluralize } from '../utils'
 class BangumiCard extends Component {
 
   handleOnClick = () => {
-    const { id } = this.props
-    browserHistory.push(`/bangumi/${id}`)
+    const { _id } = this.props
+    browserHistory.push(`/bangumi/${_id}`)
   }
 
   render () {
@@ -33,6 +33,7 @@ class BangumiCard extends Component {
 }
 
 BangumiCard.propTypes = {
+  _id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   episodes: PropTypes.array.isRequired
 }

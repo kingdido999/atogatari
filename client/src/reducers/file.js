@@ -1,19 +1,19 @@
 
 export default function file (state = {
-  isUploaded: false
+  isUploading: false
 }, action) {
   switch (action.type) {
     case 'UPLOAD_PENDING':
       return { ...state,
-        isUploaded: false,
+        isUploading: true,
       }
     case 'UPLOAD_FULFILLED':
       return { ...state,
-        isUploaded: true,
+        isUploading: false,
       }
     case 'UPLOAD_REJECTED':
       return { ...state,
-        isUploaded: false,
+        isUploading: true,
       }
     default:
       return state

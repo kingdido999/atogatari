@@ -35,7 +35,6 @@ App.propTypes = {
   errorMessage: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  uid: PropTypes.string,
   bangumis: PropTypes.array.isRequired
 }
 

@@ -29,11 +29,11 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, isAuthenticated, bangumiItem, favorites } = this.props
+    const { dispatch, isAuthenticated, selectedBangumi, favorites } = this.props
 
-    if (!bangumiItem || !favorites) return null
+    if (!selectedBangumi || !favorites) return null
 
-    const { title, episodes } = bangumiItem
+    const { title, episodes } = selectedBangumi
     const zooming = new Zooming()
 
     return (
@@ -61,20 +61,20 @@ Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  bangumiItem: PropTypes.object,
+  selectedBangumi: PropTypes.object,
   favorites: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
   const { auth, bangumi, favorite } = state
   const { isAuthenticated } = auth
-  const { isFetching, bangumiItem } = bangumi
+  const { isFetching, selectedBangumi } = bangumi
   const { favorites } = favorite
 
   return {
     isAuthenticated,
     isFetching,
-    bangumiItem,
+    selectedBangumi,
     favorites
   }
 }

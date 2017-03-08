@@ -55,9 +55,10 @@ class Upload extends Component {
 
   render() {
     let { imagePreviewUrl } = this.state
+    const { isUploading } = this.props
 
     return (
-      <Segment basic>
+      <Segment basic loading={isUploading}>
         <Form onSubmit={this.handleSubmit}>
 
           <Form.Field>
@@ -88,10 +89,16 @@ class Upload extends Component {
 
 Upload.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isUploading: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state) {
-  return { }
+  const { file } = state
+  const { isUploading } = file
+
+  return {
+    isUploading
+  }
 }
 
 export default connect(mapStateToProps)(Upload)

@@ -21,9 +21,7 @@ class Home extends Component {
           {bangumis.map(bangumi =>
             <BangumiCard
               key={bangumi._id}
-              id={bangumi._id}
-              title={bangumi.title}
-              episodes={bangumi.episodes}
+              { ...bangumi }
             />
           )}
         </Card.Group>

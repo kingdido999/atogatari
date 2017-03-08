@@ -14,8 +14,8 @@ export default function route (router) {
   router.post('/login', auth.login)
   router.post('/upload', file.upload)
 
-  router.post('/screenshots', tokenAuth(), screenshot.getScreenshots)
-  router.post('/favorites', tokenAuth(), favorite.getFavorites)
-  router.post('/favorite', tokenAuth(), favorite.addFavorite)
-  router.delete('/favorite', tokenAuth(), favorite.removeFavorite)
+  router.post('/user/screenshots', tokenAuth(), screenshot.getScreenshots)
+  router.post('/user/favorites', tokenAuth(), favorite.getFavorites)
+  router.post('/user/favorite', tokenAuth(), favorite.addFavorite)
+  router.delete('/user/favorite', tokenAuth(), favorite.removeFavorite)
 }

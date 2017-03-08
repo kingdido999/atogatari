@@ -7,7 +7,6 @@ export default function favorite (state = {
     case 'GET_FAVORITES_PENDING':
       return { ...state,
         isFetching: true,
-        favorites: []
       }
     case 'GET_FAVORITES_FULFILLED':
       return { ...state,
@@ -17,7 +16,6 @@ export default function favorite (state = {
     case 'GET_FAVORITES_REJECTED':
       return { ...state,
         isFetching: false,
-        favorites: []
       }
     case 'ADD_FAVORITE_PENDING':
       return { ...state,
