@@ -1,9 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Header, Card } from 'semantic-ui-react'
+import { Segment, Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import Zooming from 'zooming'
-
-import ScreenshotCard from '../components/ScreenshotCard'
 
 import { getFavorites } from '../actions/favorite'
 
@@ -19,25 +16,27 @@ class User extends Component {
 
   render() {
     const { dispatch, isFetching, favorites, isAuthenticated } = this.props
-    const zooming = new Zooming()
 
     if (isFetching) return null
 
+    const childrenWithProps = React.Children.map(this.props.children,
+     (child) => React.cloneElement(child, {
+       dispatch,
+       isFetching,
+       favorites,
+       isAuthenticated
+     })
+    )
+
     return (
       <Segment basic>
-        <Header as="h1">My favorites</Header>
-        <Card.Group>
-          {favorites.map(favorite =>
-            <ScreenshotCard
-              dispatch={dispatch}
-              key={favorite.screenshot._id}
-              screenshot={favorite.screenshot}
-              zooming={zooming}
-              favorites={favorites}
-              isAuthenticated={isAuthenticated}
-            />
-          )}
-        </Card.Group>
+        <Menu secondary>
+          <Menu.Item name='My favorites' />
+          <Menu.Item name='My uploads' />
+          <Menu.Item name='Settings' />
+        </Menu>
+
+        {childrenWithProps}
       </Segment>
     )
   }
