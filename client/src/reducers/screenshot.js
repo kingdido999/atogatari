@@ -4,20 +4,18 @@ export default function screenshot (state = {
   screenshots: []
 }, action) {
   switch (action.type) {
-    case 'GET_ALL_SCREENSHOTS_PENDING':
+    case 'GET_SCREENSHOTS_PENDING':
       return { ...state,
-        isFetching: true,
-        screenshots: []
+        isFetching: true
       }
-    case 'GET_ALL_SCREENSHOTS_FULFILLED':
+    case 'GET_SCREENSHOTS_FULFILLED':
       return { ...state,
         isFetching: false,
         screenshots: action.payload.data.screenshots
       }
-    case 'GET_ALL_SCREENSHOTS_REJECTED':
+    case 'GET_SCREENSHOTS_REJECTED':
       return { ...state,
-        isFetching: false,
-        screenshots: []
+        isFetching: false
       }
     default:
       return state

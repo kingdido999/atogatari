@@ -39,7 +39,7 @@ class Header extends Component {
             <Dropdown item icon='user outline'>
               <Dropdown.Menu>
                 <Dropdown.Item icon='favorite' text='My favorites' as={Link} to='/user/favorites' />
-                {/* <Dropdown.Item icon='upload' text='My uploads' as={Link} to='/user/uploads' /> */}
+                <Dropdown.Item icon='upload' text='My uploads' as={Link} to='/user/uploads' />
                 {/* <Dropdown.Item icon='settings' text='Settings' as={Link} to='/user/settings' /> */}
                 <Dropdown.Item icon='log out' text='Logout' onClick={this.handleLogout} />
               </Dropdown.Menu>

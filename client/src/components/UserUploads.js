@@ -3,18 +3,18 @@ import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
 
-class UserFavorites extends Component {
+class UserUploads extends Component {
 
   render() {
-    const { dispatch, favorites, zooming, isAuthenticated } = this.props
+    const { dispatch, favorites, screenshots, zooming, isAuthenticated } = this.props
 
     return (
       <Card.Group>
-        {favorites.map(favorite =>
+        {screenshots.map(screenshot =>
           <ScreenshotCard
             dispatch={dispatch}
-            key={favorite.screenshot._id}
-            screenshot={favorite.screenshot}
+            key={screenshot._id}
+            screenshot={screenshot}
             zooming={zooming}
             favorites={favorites}
             isAuthenticated={isAuthenticated}
@@ -25,4 +25,4 @@ class UserFavorites extends Component {
   }
 }
 
-export default UserFavorites
+export default UserUploads
