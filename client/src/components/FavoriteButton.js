@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Button, Icon, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
-import { addFavorite, removeFavorite } from '../actions/favorite'
+import { addFavorite, removeFavorite } from '../actions/authed'
 
 class FavoriteButton extends Component {
 
@@ -21,10 +21,13 @@ class FavoriteButton extends Component {
   }
 
   renderIcon () {
-    const { isFavorited } = this.props
-
+    // const { isFavorited } = this.props
+    //
+    // return (
+    //   <Icon name="favorite" color={ isFavorited ? 'yellow' : 'grey' } />
+    // )
     return (
-      <Icon name="favorite" color={ isFavorited ? 'yellow' : 'grey' } />
+      <Icon name="favorite" color={ 'grey' } />
     )
   }
 
@@ -59,7 +62,7 @@ class FavoriteButton extends Component {
 FavoriteButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
   screenshotId: PropTypes.string.isRequired,
-  isFavorited: PropTypes.bool,
+  // isFavorited: PropTypes.bool,
   favoriteCount: PropTypes.number.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 }

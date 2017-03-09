@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Item, Search } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
-import { getBangumis } from '../actions/bangumi'
+import { getBangumis } from '../actions/entities'
 
 const resultRenderer = ({ title }) => (
   <Item>

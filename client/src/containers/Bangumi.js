@@ -1,57 +1,55 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header, Item } from 'semantic-ui-react'
+import { Segment, Header, Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
-import EpisodeItem from '../components/EpisodeItem'
+import ScreenshotCard from '../components/ScreenshotCard'
 
-import { getBangumi } from '../actions/bangumi'
-import { getFavorites } from '../actions/favorite'
+import { getScreenshots } from '../actions/entities'
 
 class Bangumi extends Component {
 
   componentWillMount () {
-    const { params, dispatch, isAuthenticated } = this.props
-    dispatch(getBangumi({ id: params.bangumiId }))
+    const { params, dispatch } = this.props
+    const { bangumiId } = params
+    dispatch(getScreenshots({ bangumiId: bangumiId }))
 
-    if (isAuthenticated) {
-      dispatch(getFavorites({
-        token: localStorage.getItem('token')
-      }))
-    }
+    // if (isAuthenticated) {
+    //   dispatch(getFavorites({
+    //     token: localStorage.getItem('token')
+    //   }))
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    const id = nextProps.params.bangumiId
-    if (id !== this.props.params.bangumiId) {
-      this.props.dispatch(getBangumi({ id: id }))
+    const { params, dispatch } = this.props
+
+    const bangumiId = nextProps.params.bangumiId
+    if (bangumiId !== params.bangumiId) {
+      dispatch(getScreenshots({ bangumiId: bangumiId }))
     }
   }
 
   render () {
-    const { dispatch, isAuthenticated, selectedBangumi, favorites } = this.props
+    const { dispatch, isAuthenticated, title, screenshots } = this.props
 
-    if (!selectedBangumi || !favorites) return null
-
-    const { title, episodes } = selectedBangumi
     const zooming = new Zooming()
 
     return (
       <Segment basic>
         <Header as="h1">{title}</Header>
-        <Item.Group divided>
-          {episodes.map(episode =>
-            <EpisodeItem
-              dispatch={dispatch}
-              key={episode._id}
-              index={episode.index}
-              screenshots={episode.screenshots}
-              zooming={zooming}
-              favorites={favorites}
-              isAuthenticated={isAuthenticated}
-            />
-          )}
-        </Item.Group>
+          <Card.Group>
+            {screenshots.map(screenshot =>
+              <ScreenshotCard
+                dispatch={dispatch}
+                key={screenshot._id}
+                screenshot={screenshot}
+                zooming={zooming}
+                // favorites={favorites}
+                isAuthenticated={isAuthenticated}
+              />
+            )}
+          </Card.Group>
       </Segment>
     )
   }
@@ -61,20 +59,19 @@ Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  selectedBangumi: PropTypes.object,
   favorites: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
-  const { auth, bangumi, favorite } = state
+  const { auth, authed, entities } = state
   const { isAuthenticated } = auth
-  const { isFetching, selectedBangumi } = bangumi
-  const { favorites } = favorite
+  const { isFetching, screenshots } = entities
+  const { favorites } = authed
 
   return {
     isAuthenticated,
     isFetching,
-    selectedBangumi,
+    screenshots,
     favorites
   }
 }

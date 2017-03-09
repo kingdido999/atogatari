@@ -9,6 +9,8 @@ import tokenAuth from '../middlewares/tokenAuth'
 export default function route (router) {
   router.get('/bangumi', bangumi.getBangumi)
   router.get('/bangumis', bangumi.getBangumis)
+  router.get('/screenshots', screenshot.getScreenshots)
+  router.get('/favorites', favorite.getFavorites)
 
   router.post('/signup', auth.signup)
   router.post('/login', auth.login)

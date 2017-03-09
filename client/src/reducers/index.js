@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 
 import auth from './auth'
 import file from './file'
-import bangumi from './bangumi'
+import entities from './entities'
 import favorite from './favorite'
 import screenshot from './screenshot'
 
@@ -23,7 +23,7 @@ const errorMessage = (state = null, action) => {
 export default combineReducers({
   auth,
   file,
-  bangumi,
+  entities,
   favorite,
   screenshot,
   errorMessage,

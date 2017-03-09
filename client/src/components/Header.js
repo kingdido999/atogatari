@@ -3,7 +3,7 @@ import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import { logout } from '../actions/auth'
 
-import SearchBar from './SearchBar'
+// import SearchBar from './SearchBar'
 
 class Header extends Component {
 
@@ -30,19 +30,19 @@ class Header extends Component {
   }
 
   render() {
-    const { dispatch, bangumis, isAuthenticated } = this.props
+    const { isAuthenticated } = this.props
 
     return (
       <Menu size="huge" fluid>
         <Menu.Item as={Link} to="/" name='bangumi pic' />
 
         <Menu.Menu position='right'>
-          <Menu.Item>
+          {/* <Menu.Item>
             <SearchBar
               dispatch={dispatch}
               bangumis={bangumis}
             />
-          </Menu.Item>
+          </Menu.Item> */}
 
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
@@ -60,9 +60,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  bangumis: PropTypes.array.isRequired
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
 export default Header

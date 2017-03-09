@@ -1,5 +1,4 @@
 import Bangumi from '../models/Bangumi'
-import Episode from '../models/Episode'
 import { escapeRegex } from '../utils'
 
 async function getBangumis (ctx) {
@@ -10,13 +9,6 @@ async function getBangumis (ctx) {
 
   const bangumis = await Bangumi
     .find(criteria)
-    .select('title episodes')
-    .populate({
-      path: 'episodes',
-      populate: {
-        path: 'screenshots'
-      }
-    })
     .exec()
 
   ctx.response.body = {
@@ -31,15 +23,6 @@ async function getBangumi (ctx) {
 
   const bangumi = await Bangumi
     .findById(id)
-    .populate({
-      path: 'episodes',
-      populate: {
-        path: 'screenshots' ,
-        populate: {
-          path: 'favorites'
-        }
-      }
-    })
     .exec()
 
   ctx.response.body = {

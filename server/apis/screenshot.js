@@ -2,9 +2,7 @@ import Screenshot from '../models/Screenshot'
 
 async function getScreenshots (ctx) {
   const screenshots = await Screenshot
-    .find({
-      uploader: ctx.state.uid
-    })
+    .find(ctx.request.query)
     .exec()
 
   ctx.response.body = {

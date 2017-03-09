@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import BangumiItem from '../components/BangumiItem'
 
-import { getBangumis } from '../actions/bangumi'
+import { getBangumis } from '../actions/entities'
 
 class Home extends Component {
 
@@ -37,8 +37,8 @@ Home.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { bangumi } = state
-  const { isFetching, bangumis } = bangumi
+  const { entities } = state
+  const { isFetching, bangumis } = entities
 
   return {
     isFetching,

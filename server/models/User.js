@@ -17,15 +17,7 @@ const userSchema = new Schema({
   hash: {
     type: String,
     required: true
-  },
-  screenshots: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Screenshot'
-  }],
-  favorites: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Favorite'
-  }]
+  }
 })
 
 export default mongoose.model('User', userSchema)

@@ -2,11 +2,9 @@ import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 
 async function getFavorites (ctx) {
-  const favorites = await Favorite.find({
-    user: ctx.state.uid
-  })
-  .populate('screenshot')
-  .exec()
+  const favorites = await Favorite
+    .find(ctx.request.query)
+    .exec()
 
   ctx.response.body = {
     favorites: favorites
@@ -18,20 +16,22 @@ async function getFavorites (ctx) {
 async function addFavorite (ctx) {
   const { screenshotId } = ctx.request.body
 
-  if (!screenshotId) {
+  const screenshot = await Screenshot
+    .findById(screenshotId)
+    .exec()
+
+  if (!screenshot) {
     ctx.throw(400)
   }
 
-  const screenshot = await Screenshot.findById(screenshotId).exec()
-
   const favorite = new Favorite({
-    user: ctx.state.uid,
-    screenshot: screenshot
+    userId: ctx.state.uid,
+    screenshotId: screenshotId
   })
 
-  await favorite.save()
+  screenshot.meta.favoritesCount += 1
 
-  screenshot.favorites.push(favorite)
+  await favorite.save()
   await screenshot.save()
 
   ctx.response.body = {
@@ -43,19 +43,34 @@ async function addFavorite (ctx) {
 async function removeFavorite (ctx) {
   const { screenshotId } = ctx.request.body
 
-  if (!screenshotId) {
+  const screenshot = await Screenshot
+    .findById(screenshotId)
+    .exec()
+
+  if (!screenshot) {
     ctx.throw(400)
   }
 
-  const favorite = await Favorite.findOne({
-    user: ctx.state.uid,
-    screenshot: screenshotId
-  }).exec()
+  const favorite = await Favorite
+    .findOne({
+      userId: ctx.state.uid,
+      screenshotId: screenshotId
+    })
+    .exec()
+
+  if (!favorite) {
+    ctx.throw(400)
+  }
+
+  screenshot.meta.favoritesCount -= 1
 
   await favorite.remove()
+  await screenshot.save()
+
   ctx.response.body = {
     favorite: favorite
   }
+  
   ctx.status = 202
 }
 

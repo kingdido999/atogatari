@@ -2,13 +2,13 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const favoriteSchema = new Schema({
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    required: true
   },
-  screenshot: {
+  screenshotId: {
     type: Schema.Types.ObjectId,
-    ref: 'Screenshot'
+    required: true
   }
 })
 
