@@ -30,6 +30,10 @@ async function addFavorite (ctx) {
   })
 
   await favorite.save()
+
+  screenshot.favorites.push(favorite)
+  await screenshot.save()
+
   ctx.response.body = {
     favorite: favorite
   }

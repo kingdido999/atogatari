@@ -30,11 +30,16 @@ class FavoriteButton extends Component {
 
   render () {
     const icon = this.renderIcon()
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, favoriteCount } = this.props
 
     if (isAuthenticated) {
       return (
-        <Button icon={icon} onClick={this.toggleFavorite} />
+        <Button
+          icon={icon}
+          onClick={this.toggleFavorite}
+          label={{ as: 'a', basic: true, content: favoriteCount }}
+          labelPosition='right'
+        />
       )
     }
 
@@ -44,6 +49,8 @@ class FavoriteButton extends Component {
         content={<Button color='green' content='Login' as={Link} to="/login" />}
         on='click'
         position='bottom center'
+        label={{ as: 'a', basic: true, content: favoriteCount }}
+        labelPosition='right'
       />
     )
   }
@@ -53,6 +60,7 @@ FavoriteButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
   screenshotId: PropTypes.string.isRequired,
   isFavorited: PropTypes.bool,
+  favoriteCount: PropTypes.number.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 }
 

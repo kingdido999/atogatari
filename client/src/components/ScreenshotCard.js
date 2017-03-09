@@ -19,6 +19,7 @@ class ScreenshotCard extends Component {
     const { zooming, dispatch, screenshot, favorites, isAuthenticated } = this.props
     const { _id, thumbnail_filename, original_filename } = screenshot
     const isFavorited = favorites.filter(favorite => favorite.screenshot._id === _id).length > 0
+    const favoriteCount = screenshot.favorites.length
 
     return (
       <Card>
@@ -34,6 +35,7 @@ class ScreenshotCard extends Component {
               dispatch={dispatch}
               screenshotId={_id}
               isFavorited={isFavorited}
+              favoriteCount={favoriteCount}
               isAuthenticated={isAuthenticated}
             />
             <Button icon="download" onClick={this.handleDownload} />
