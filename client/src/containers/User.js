@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Zooming from 'zooming'
 
-import { getFavorites } from '../actions/favorite'
-import { getScreenshots } from '../actions/screenshot'
+import { getFavorites } from '../actions/authed'
+// import { getScreenshots } from '../actions/entities'
 
 class User extends Component {
 
@@ -17,9 +17,7 @@ class User extends Component {
       token: token
     }))
 
-    dispatch(getScreenshots({
-      token: token
-    }))
+    // dispatch(getScreenshots({ }))
   }
 
   render() {
@@ -40,7 +38,7 @@ class User extends Component {
       <Segment basic>
         <Menu secondary>
           <Menu.Item as={Link} to='/user/favorites' name='My favorites' activeClassName="active" />
-          <Menu.Item as={Link} to='/user/uploads' name='My uploads' activeClassName="active" />
+          {/* <Menu.Item as={Link} to='/user/uploads' name='My uploads' activeClassName="active" /> */}
           {/* <Menu.Item name='Settings' activeClassName="active" /> */}
         </Menu>
 
@@ -58,10 +56,10 @@ User.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth, favorite, screenshot } = state
+  const { auth, authed, entities } = state
   const { isAuthenticated } = auth
-  const { favorites } = favorite
-  const { screenshots } = screenshot
+  const { favorites } = authed
+  const { screenshots } = entities
 
   return {
     isAuthenticated,

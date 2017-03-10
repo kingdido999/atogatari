@@ -5,7 +5,6 @@ import auth from './auth'
 import file from './file'
 import authed from './authed'
 import entities from './entities'
-import screenshot from './screenshot'
 
 const errorMessage = (state = null, action) => {
   const { type, payload } = action
@@ -25,7 +24,6 @@ export default combineReducers({
   file,
   authed,
   entities,
-  screenshot,
   errorMessage,
   routing: routerReducer
 })
