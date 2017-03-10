@@ -6,19 +6,20 @@ import Zooming from 'zooming'
 import ScreenshotCard from '../components/ScreenshotCard'
 
 import { getScreenshots } from '../actions/entities'
+import { getFavorites } from '../actions/authed'
 
 class Bangumi extends Component {
 
   componentWillMount () {
-    const { params, dispatch } = this.props
+    const { params, dispatch, isAuthenticated } = this.props
     const { bangumiId } = params
     dispatch(getScreenshots({ bangumiId: bangumiId }))
 
-    // if (isAuthenticated) {
-    //   dispatch(getFavorites({
-    //     token: localStorage.getItem('token')
-    //   }))
-    // }
+    if (isAuthenticated) {
+      dispatch(getFavorites({
+        token: localStorage.getItem('token')
+      }))
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,7 +32,7 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, isAuthenticated, title, screenshots } = this.props
+    const { dispatch, isAuthenticated, title, screenshots, favorites } = this.props
 
     const zooming = new Zooming()
 
@@ -45,7 +46,7 @@ class Bangumi extends Component {
                 key={screenshot._id}
                 screenshot={screenshot}
                 zooming={zooming}
-                // favorites={favorites}
+                favorites={favorites}
                 isAuthenticated={isAuthenticated}
               />
             )}

@@ -24,7 +24,7 @@ export default function authed (state = {
     case 'ADD_FAVORITE_FULFILLED':
       return { ...state,
         isFetching: false,
-        favorites: [ ...state.favorites, action.payload.data.favorite ]
+        favorites: [ ...state.favorites, action.payload.data.screenshotId ]
       }
     case 'ADD_FAVORITE_REJECTED':
       return { ...state,
@@ -37,11 +37,28 @@ export default function authed (state = {
     case 'REMOVE_FAVORITE_FULFILLED':
       return { ...state,
         isFetching: false,
-        favorites: state.favorites.filter(favorite => {
-          return favorite.screenshot._id !== action.payload.data.favorite.screenshot
+        favorites: state.favorites.filter(screenshotId => {
+          return screenshotId !== action.payload.data.screenshotId
         })
       }
     case 'REMOVE_FAVORITE_REJECTED':
+      return { ...state,
+        isFetching: false
+      }
+    case 'TOGGLE_FAVORITE_PENDING':
+      return { ...state,
+        isFetching: true
+      }
+    case 'TOGGLE_FAVORITE_FULFILLED':      
+      return { ...state,
+        isFetching: false,
+        favorites: action.payload.status === 201
+          ? [ ...state.favorites, action.payload.data.screenshotId ]
+          : state.favorites.filter(screenshotId => {
+            return screenshotId !== action.payload.data.screenshotId
+          })
+      }
+    case 'TOGGLE_FAVORITE_REJECTED':
       return { ...state,
         isFetching: false
       }

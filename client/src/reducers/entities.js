@@ -3,7 +3,7 @@ const initialState = {
   isFetching: false,
   selectedBangumi: null,
   bangumis: [],
-  screenshots: []
+  screenshots: [],
 }
 
 export default function entities (state = initialState, action) {
