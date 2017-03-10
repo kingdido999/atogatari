@@ -5,7 +5,7 @@ import Zooming from 'zooming'
 
 import ScreenshotCard from '../components/ScreenshotCard'
 
-import { getScreenshots } from '../actions/entities'
+import { getBangumi, getScreenshots } from '../actions/entities'
 import { getFavorites } from '../actions/authed'
 
 class Bangumi extends Component {
@@ -13,6 +13,7 @@ class Bangumi extends Component {
   componentWillMount () {
     const { params, dispatch, isAuthenticated } = this.props
     const { bangumiId } = params
+    dispatch(getBangumi({ id: bangumiId }))
     dispatch(getScreenshots({ bangumiId: bangumiId }))
 
     if (isAuthenticated) {
@@ -27,20 +28,21 @@ class Bangumi extends Component {
 
     const bangumiId = nextProps.params.bangumiId
     if (bangumiId !== params.bangumiId) {
+      dispatch(getBangumi({ id: bangumiId }))
       dispatch(getScreenshots({ bangumiId: bangumiId }))
     }
   }
 
   render () {
-    const { dispatch, isAuthenticated, isFetching, title, screenshots, favorites } = this.props
+    const { dispatch, isAuthenticated, isFetching, selectedBangumi, screenshots, favorites } = this.props
 
-    if (isFetching) return null
+    if (isFetching || !selectedBangumi) return null
 
     const zooming = new Zooming()
 
     return (
       <Segment basic>
-        <Header as="h1">{title}</Header>
+        <Header as="h1">{selectedBangumi.title}</Header>
           <Card.Group>
             {screenshots.map(screenshot =>
               <ScreenshotCard
@@ -68,12 +70,13 @@ Bangumi.propTypes = {
 function mapStateToProps(state) {
   const { auth, authed, entities } = state
   const { isAuthenticated } = auth
-  const { isFetching, screenshots } = entities
+  const { isFetching, selectedBangumi, screenshots } = entities
   const { favorites } = authed
 
   return {
     isAuthenticated,
     isFetching,
+    selectedBangumi,
     screenshots,
     favorites
   }
