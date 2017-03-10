@@ -54,7 +54,28 @@ async function toggleFavorite (ctx) {
   }
 }
 
+async function getFavoriteScreenshots (ctx) {
+  const favorites = await Favorite
+    .find({
+      userId: ctx.state.uid
+    })
+    .exec()
+
+  const screenshots = await Screenshot
+    .find()
+    .where('_id')
+    .in(favorites.map(favorite => favorite.screenshotId))
+    .exec()
+
+  ctx.response.body = {
+    screenshots: screenshots
+  }
+
+  ctx.status = 200
+}
+
 export default {
   getFavorites,
-  toggleFavorite
+  toggleFavorite,
+  getFavoriteScreenshots
 }

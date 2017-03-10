@@ -6,15 +6,15 @@ import ScreenshotCard from '../components/ScreenshotCard'
 class UserFavorites extends Component {
 
   render() {
-    const { dispatch, favorites, screenshots, zooming, isAuthenticated } = this.props
+    const { dispatch, favorites, favoriteScreenshots, zooming, isAuthenticated } = this.props
 
     return (
       <Card.Group>
-        {favorites.map(favorite =>
+        {favoriteScreenshots.map(screenshot =>
           <ScreenshotCard
             dispatch={dispatch}
-            key={favorite.screenshotId}
-            screenshot={screenshots}
+            key={screenshot._id}
+            screenshot={screenshot}
             zooming={zooming}
             favorites={favorites}
             isAuthenticated={isAuthenticated}

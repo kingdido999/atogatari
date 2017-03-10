@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Zooming from 'zooming'
 
-import { getFavorites } from '../actions/authed'
-// import { getScreenshots } from '../actions/entities'
+import { getFavorites, getFavoriteScreenshots } from '../actions/authed'
 
 class User extends Component {
 
@@ -17,17 +16,20 @@ class User extends Component {
       token: token
     }))
 
-    // dispatch(getScreenshots({ }))
+    dispatch(getFavoriteScreenshots({
+      token: token
+    }))
   }
 
   render() {
-    const { dispatch, favorites, screenshots, isAuthenticated } = this.props
+    const { dispatch, favorites, favoriteScreenshots, screenshots, isAuthenticated } = this.props
     const zooming = new Zooming()
 
     const childrenWithProps = React.Children.map(this.props.children,
      (child) => React.cloneElement(child, {
        dispatch,
        favorites,
+       favoriteScreenshots,
        screenshots,
        zooming,
        isAuthenticated
@@ -58,12 +60,13 @@ User.propTypes = {
 function mapStateToProps(state) {
   const { auth, authed, entities } = state
   const { isAuthenticated } = auth
-  const { favorites } = authed
+  const { favorites, favoriteScreenshots } = authed
   const { screenshots } = entities
 
   return {
     isAuthenticated,
     favorites,
+    favoriteScreenshots,
     screenshots
   }
 }

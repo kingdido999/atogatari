@@ -15,6 +15,13 @@ export function toggleFavorite (params) {
   }
 }
 
+export function getFavoriteScreenshots (params) {
+  return {
+    type: 'GET_FAVORITE_SCREENSHOTS',
+    payload: axios.post('/api/user/favoriteScreenshots', params)
+  }
+}
+
 export function upload (data) {
   return {
     type: 'UPLOAD',
