@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Item } from 'semantic-ui-react'
+import { Container, Segment, Item } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiItem from '../components/BangumiItem'
@@ -16,16 +16,18 @@ class Home extends Component {
     const { isFetching, bangumis } = this.props
 
     return (
-      <Segment basic loading={isFetching}>
-        <Item.Group divided>
-          {bangumis.map(bangumi =>
-            <BangumiItem
-              key={bangumi._id}
-              { ...bangumi }
-            />
-          )}
-        </Item.Group>
-      </Segment>
+      <Container text>
+        <Segment basic loading={isFetching}>
+          <Item.Group divided>
+            {bangumis.map(bangumi =>
+              <BangumiItem
+                key={bangumi._id}
+                { ...bangumi }
+              />
+            )}
+          </Item.Group>
+        </Segment>
+      </Container>
     )
   }
 }

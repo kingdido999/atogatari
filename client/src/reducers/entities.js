@@ -47,6 +47,24 @@ export default function entities (state = initialState, action) {
       return { ...state,
         isFetching: false
       }
+    case 'TOGGLE_FAVORITE_FULFILLED':
+      const added = action.payload.status === 201
+      return { ...state,
+        screenshots: state.screenshots.map(screenshot => {
+          if (screenshot._id !== action.payload.data.screenshotId) {
+            return screenshot
+          }
+
+          return {
+            ...screenshot,
+            meta: {
+              favoritesCount: added
+              ? screenshot.meta.favoritesCount + 1
+              : screenshot.meta.favoritesCount - 1
+            }
+          }
+        })
+      }
     default:
       return state
   }

@@ -32,7 +32,9 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, isAuthenticated, title, screenshots, favorites } = this.props
+    const { dispatch, isAuthenticated, isFetching, title, screenshots, favorites } = this.props
+
+    if (isFetching) return null
 
     const zooming = new Zooming()
 

@@ -17,7 +17,7 @@ class ScreenshotCard extends Component {
 
   render () {
     const { zooming, dispatch, screenshot, favorites, isAuthenticated } = this.props
-    const { _id, bangumiId, path } = screenshot
+    const { _id, path } = screenshot
     const { thumbnail, original } = path
     const isFavorited = favorites.filter(screenshotId => screenshotId === _id).length > 0
     const favoritesCount = screenshot.meta.favoritesCount
@@ -31,17 +31,14 @@ class ScreenshotCard extends Component {
           original_filename={original}
         />
         <Card.Content>
-          <Button.Group basic fluid>
-            <FavoriteButton
-              dispatch={dispatch}
-              screenshotId={_id}
-              bangumiId={bangumiId}
-              isFavorited={isFavorited}
-              favoritesCount={favoritesCount}
-              isAuthenticated={isAuthenticated}
-            />
-            <Button icon="download" onClick={this.handleDownload} />
-          </Button.Group>
+          <FavoriteButton
+            dispatch={dispatch}
+            screenshotId={_id}
+            isFavorited={isFavorited}
+            favoritesCount={favoritesCount}
+            isAuthenticated={isAuthenticated}
+          />
+          <Button floated="right" icon="download" onClick={this.handleDownload} />
         </Card.Content>
       </Card>
     )
