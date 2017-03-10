@@ -13,68 +13,6 @@ async function getFavorites (ctx) {
   ctx.status = 200
 }
 
-async function addFavorite (ctx) {
-  const { screenshotId } = ctx.request.body
-
-  const screenshot = await Screenshot
-    .findById(screenshotId)
-    .exec()
-
-  if (!screenshot) {
-    ctx.throw(400)
-  }
-
-  const favorite = new Favorite({
-    userId: ctx.state.uid,
-    screenshotId: screenshotId
-  })
-
-  screenshot.meta.favoritesCount += 1
-
-  await favorite.save()
-  await screenshot.save()
-
-  ctx.response.body = {
-    screenshotId: screenshotId
-  }
-
-  ctx.status = 201
-}
-
-async function removeFavorite (ctx) {
-  const { screenshotId } = ctx.request.body
-
-  const screenshot = await Screenshot
-    .findById(screenshotId)
-    .exec()
-
-  if (!screenshot) {
-    ctx.throw(400)
-  }
-
-  const favorite = await Favorite
-    .findOne({
-      userId: ctx.state.uid,
-      screenshotId: screenshotId
-    })
-    .exec()
-
-  if (!favorite) {
-    ctx.throw(400)
-  }
-
-  screenshot.meta.favoritesCount -= 1
-
-  await favorite.remove()
-  await screenshot.save()
-
-  ctx.response.body = {
-    screenshotId: screenshotId
-  }
-
-  ctx.status = 202
-}
-
 async function toggleFavorite (ctx) {
   const { screenshotId } = ctx.request.body
 
@@ -118,7 +56,5 @@ async function toggleFavorite (ctx) {
 
 export default {
   getFavorites,
-  addFavorite,
-  removeFavorite,
   toggleFavorite
 }
