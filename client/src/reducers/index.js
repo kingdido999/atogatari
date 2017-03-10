@@ -2,7 +2,6 @@ import { routerReducer } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
 import auth from './auth'
-import file from './file'
 import authed from './authed'
 import entities from './entities'
 
@@ -21,7 +20,6 @@ const errorMessage = (state = null, action) => {
 
 export default combineReducers({
   auth,
-  file,
   authed,
   entities,
   errorMessage,

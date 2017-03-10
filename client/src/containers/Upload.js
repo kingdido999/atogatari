@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Segment, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { upload } from '../actions/file'
+import { upload } from '../actions/authed'
 
 import Zooming from 'zooming'
 
@@ -93,8 +93,8 @@ Upload.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { file } = state
-  const { isUploading } = file
+  const { authed } = state
+  const { isUploading } = authed
 
   return {
     isUploading

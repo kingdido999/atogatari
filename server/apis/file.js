@@ -27,7 +27,7 @@ function writeFile (input, output) {
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
-  const { bangumiTitle, token } = fields
+  const { bangumiTitle, episodeIndex, token } = fields
 
   let decoded = null
 
@@ -43,23 +43,12 @@ async function upload (ctx) {
 
   if (!bangumi) {
     bangumi = new Bangumi({
-      title: bangumiTitle
+      title: bangumiTitle,
+      meta: {
+        screenshotsCount: 1
+      }
     })
   }
-
-  // let episode = await Episode.findOne({
-  //   bangumi: bangumi._id,
-  //   index: episodeIndex
-  // })
-  //
-  // if (!episode) {
-  //   episode = new Episode({
-  //     bangumi: bangumi._id,
-  //     index: episodeIndex,
-  //   })
-  //
-  //   bangumi.episodes.push(episode)
-  // }
 
   const uploadPath = 'assets/screenshots'
   const filenameOriginal = uuid() + path.extname(file.filename)
@@ -77,18 +66,17 @@ async function upload (ctx) {
   sharp(fileOriginal).resize(300, 300).max().toFile(fileThumbnail)
 
   const screenshot = new Screenshot({
-    bangumi: bangumi._id,
-    // episode: episode._id,
-    uploader: decoded.uid,
-    thumbnail_filename: filenameThumbnail,
-    original_filename: filenameOriginal
+    bangumiId: bangumi._id,
+    userId: decoded.uid,
+    episode: episodeIndex,
+    path: {
+      thumbnail: filenameThumbnail,
+      original: filenameOriginal
+    }
   })
-
-  // episode.screenshots.push(screenshot)
 
   try {
     await bangumi.save()
-    // await episode.save()
     await screenshot.save()
   } catch (e) {
     ctx.throw(500, e)
