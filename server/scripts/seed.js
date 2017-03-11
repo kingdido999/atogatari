@@ -54,8 +54,6 @@ async function seed () {
       const screenshot = createScreenshot(bangumi, user)
       await screenshot.save()
       bangumi.screenshots.push(screenshot)
-      user.screenshots.push(screenshot)
-      await user.save()
     }
 
     await bangumi.save()

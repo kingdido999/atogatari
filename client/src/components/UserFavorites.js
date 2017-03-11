@@ -3,17 +3,28 @@ import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
 
+import { getFavoriteScreenshots } from '../actions/authed'
+
 class UserFavorites extends Component {
 
+  componentWillMount () {
+    const { dispatch } = this.props
+    const token = localStorage.getItem('token')
+
+    dispatch(getFavoriteScreenshots({
+      token: token
+    }))
+  }
+
   render() {
-    const { dispatch, favoriteScreenshots, zooming, isAuthenticated } = this.props
+    const { dispatch, screenshots, zooming, isAuthenticated } = this.props
 
     return (
       <Card.Group>
-        {favoriteScreenshots.map(screenshot =>
+        {screenshots.map((screenshot, index) =>
           <ScreenshotCard
             dispatch={dispatch}
-            key={screenshot._id}
+            key={index}
             screenshot={screenshot}
             zooming={zooming}
             isAuthenticated={isAuthenticated}
@@ -26,7 +37,7 @@ class UserFavorites extends Component {
 
 UserFavorites.propTypes = {
   dispatch: PropTypes.func,
-  favoriteScreenshots: PropTypes.array,
+  screenshots: PropTypes.array,
   zooming: PropTypes.object,
   isAuthenticated: PropTypes.bool
 }

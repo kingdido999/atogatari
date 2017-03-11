@@ -25,7 +25,7 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, isAuthenticated, isFetching, selectedBangumi } = this.props
+    const { dispatch, isAuthenticated, isFetching, selectedBangumi, screenshots } = this.props
 
     if (isFetching || !selectedBangumi) return null
 
@@ -35,7 +35,7 @@ class Bangumi extends Component {
       <Segment basic>
         <Header as="h1">{selectedBangumi.title}</Header>
           <Card.Group>
-            {selectedBangumi.screenshots.map(screenshot =>
+            {screenshots.map(screenshot =>
               <ScreenshotCard
                 dispatch={dispatch}
                 key={screenshot._id}
@@ -59,12 +59,13 @@ Bangumi.propTypes = {
 function mapStateToProps(state) {
   const { auth, entities } = state
   const { isAuthenticated } = auth
-  const { isFetching, selectedBangumi } = entities
+  const { isFetching, selectedBangumi, screenshots } = entities
 
   return {
     isAuthenticated,
     isFetching,
-    selectedBangumi
+    selectedBangumi,
+    screenshots
   }
 }
 

@@ -29,7 +29,6 @@ async function toggleFavorite (ctx) {
       user: ctx.state.uid,
       screenshot: screenshotId
     })
-    .populate('screenshot')
     .exec()
 
   if (favorite) {
@@ -46,7 +45,6 @@ async function toggleFavorite (ctx) {
       screenshot: screenshotId
     })
 
-    favorite.screenshot = screenshot
     await favorite.save()
 
     screenshot.favorites.push(favorite)
@@ -67,8 +65,6 @@ async function getFavoriteScreenshots (ctx) {
     })
     .exec()
 
-  console.log(favorites)
-
   const screenshots = await Screenshot
     .find()
     .where('_id')
@@ -76,7 +72,20 @@ async function getFavoriteScreenshots (ctx) {
     .populate('favorites')
     .exec()
 
-  // console.log(screenshots)
+  ctx.response.body = {
+    screenshots: screenshots
+  }
+
+  ctx.status = 200
+}
+
+async function getUploadedScreenshots (ctx) {
+  const screenshots = await Screenshot
+    .find({
+      user: ctx.state.uid
+    })
+    .populate('favorites')
+    .exec()
 
   ctx.response.body = {
     screenshots: screenshots
@@ -88,5 +97,6 @@ async function getFavoriteScreenshots (ctx) {
 export default {
   getFavorites,
   toggleFavorite,
-  getFavoriteScreenshots
+  getFavoriteScreenshots,
+  getUploadedScreenshots
 }

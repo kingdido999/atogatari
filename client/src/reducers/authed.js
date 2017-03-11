@@ -1,7 +1,6 @@
 
 export default function authed (state = {
   isFetching: false,
-  favoriteScreenshots: [],
   isUploading: false
 }, action) {
   switch (action.type) {
@@ -10,16 +9,8 @@ export default function authed (state = {
         isFetching: true
       }
     case 'TOGGLE_FAVORITE_FULFILLED':
-      const added = action.payload.status === 201
-      const targetFavorite = action.payload.data.favorite
-
       return { ...state,
-        isFetching: false,
-        favoriteScreenshots: added
-          ? [ ...state.favoriteScreenshots, targetFavorite.screenshot ]
-          : state.favoriteScreenshots.filter(screenshot => {
-            return screenshot._id !== targetFavorite.screenshot._id
-          })
+        isFetching: false
       }
     case 'TOGGLE_FAVORITE_REJECTED':
       return { ...state,
@@ -27,8 +18,11 @@ export default function authed (state = {
       }
     case 'GET_FAVORITE_SCREENSHOTS_FULFILLED':
       return { ...state,
-        isFetching: false,
-        favoriteScreenshots: action.payload.data.screenshots
+        isFetching: false
+      }
+    case 'GET_UPLOADED_SCREENSHOTS_FULFILLED':
+      return { ...state,
+        isFetching: false
       }
     case 'UPLOAD_PENDING':
       return { ...state,

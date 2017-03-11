@@ -3,20 +3,30 @@ import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
 
+import { getUploadedScreenshots } from '../actions/authed'
+
 class UserUploads extends Component {
 
+  componentWillMount () {
+    const { dispatch } = this.props
+    const token = localStorage.getItem('token')
+
+    dispatch(getUploadedScreenshots({
+      token: token
+    }))
+  }
+
   render() {
-    const { dispatch, favorites, screenshots, zooming, isAuthenticated } = this.props
+    const { dispatch, screenshots, zooming, isAuthenticated } = this.props
 
     return (
       <Card.Group>
-        {screenshots.map(screenshot =>
+        {screenshots.map((screenshot, index) =>
           <ScreenshotCard
             dispatch={dispatch}
-            key={screenshot._id}
+            key={index}
             screenshot={screenshot}
             zooming={zooming}
-            favorites={favorites}
             isAuthenticated={isAuthenticated}
           />
         )}

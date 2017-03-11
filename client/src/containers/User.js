@@ -4,28 +4,17 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Zooming from 'zooming'
 
-import { getFavoriteScreenshots } from '../actions/authed'
-
 class User extends Component {
 
-  componentWillMount () {
-    const { dispatch } = this.props
-    const token = localStorage.getItem('token')
-
-    dispatch(getFavoriteScreenshots({
-      token: token
-    }))
-  }
-
   render() {
-    const { dispatch, favoriteScreenshots, isAuthenticated } = this.props
+    const { dispatch, screenshots, isAuthenticated } = this.props
 
     const zooming = new Zooming()
 
     const childrenWithProps = React.Children.map(this.props.children,
      (child) => React.cloneElement(child, {
        dispatch,
-       favoriteScreenshots,
+       screenshots,
        zooming,
        isAuthenticated
      })
@@ -35,7 +24,7 @@ class User extends Component {
       <Segment basic>
         <Menu secondary>
           <Menu.Item as={Link} to='/user/favorites' name='My favorites' activeClassName="active" />
-          {/* <Menu.Item as={Link} to='/user/uploads' name='My uploads' activeClassName="active" /> */}
+          <Menu.Item as={Link} to='/user/uploads' name='My uploads' activeClassName="active" />
           {/* <Menu.Item name='Settings' activeClassName="active" /> */}
         </Menu>
 
@@ -47,17 +36,18 @@ class User extends Component {
 
 User.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  screenshots: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
-  const { auth, authed } = state
+  const { auth, entities } = state
   const { isAuthenticated } = auth
-  const { favoriteScreenshots } = authed
+  const { screenshots } = entities
 
   return {
     isAuthenticated,
-    favoriteScreenshots,
+    screenshots
   }
 }
 

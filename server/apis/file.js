@@ -44,9 +44,6 @@ async function upload (ctx) {
   if (!bangumi) {
     bangumi = new Bangumi({
       title: bangumiTitle,
-      meta: {
-        screenshotsCount: 1
-      }
     })
   }
 
@@ -66,14 +63,16 @@ async function upload (ctx) {
   sharp(fileOriginal).resize(300, 300).max().toFile(fileThumbnail)
 
   const screenshot = new Screenshot({
-    bangumiId: bangumi._id,
-    userId: decoded.uid,
+    bangumi: bangumi._id,
+    user: decoded.uid,
     episode: episodeIndex,
     path: {
       thumbnail: filenameThumbnail,
       original: filenameOriginal
     }
   })
+
+  bangumi.screenshots.push(screenshot)
 
   try {
     await bangumi.save()

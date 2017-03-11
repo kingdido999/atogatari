@@ -18,4 +18,5 @@ export default function route (router) {
   router.post('/user/favorites', tokenAuth(), user.getFavorites)
   router.post('/user/favorite', tokenAuth(), user.toggleFavorite)
   router.post('/user/favoriteScreenshots', tokenAuth(), user.getFavoriteScreenshots)
+  router.post('/user/uploadedScreenshots', tokenAuth(), user.getUploadedScreenshots)
 }

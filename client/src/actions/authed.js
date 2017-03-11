@@ -22,6 +22,20 @@ export function getFavoriteScreenshots (params) {
   }
 }
 
+export function getUploadedScreenshots (params) {
+  return {
+    type: 'GET_UPLOADED_SCREENSHOTS',
+    payload: axios.post('/api/user/uploadedScreenshots', params)
+  }
+}
+
+export function removeScreenshot (id) {
+  return {
+    type: 'REMOVE_SCREENSHOT',
+    payload: id
+  }
+}
+
 export function upload (data) {
   return {
     type: 'UPLOAD',
