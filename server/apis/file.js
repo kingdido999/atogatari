@@ -1,5 +1,4 @@
 import asyncBusboy from 'async-busboy'
-import jwt from 'jsonwebtoken'
 import uuid from 'uuid/v4'
 import sharp from 'sharp'
 import path from 'path'
@@ -7,8 +6,6 @@ import fs from 'fs'
 
 import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
-
-import config from '../config'
 
 function writeFile (input, output) {
   const writable = fs.createWriteStream(output)
@@ -27,15 +24,7 @@ function writeFile (input, output) {
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
-  const { bangumiTitle, episodeIndex, token } = fields
-
-  let decoded = null
-
-  try {
-    decoded = jwt.verify(token, config.secret)
-  } catch (e) {
-    ctx.throw(401, e)
-  }
+  const { bangumiTitle, episodeIndex } = fields
 
   let bangumi = await Bangumi.findOne({
     title: bangumiTitle
@@ -64,7 +53,7 @@ async function upload (ctx) {
 
   const screenshot = new Screenshot({
     bangumi: bangumi._id,
-    user: decoded.uid,
+    user: ctx.state.uid,
     episode: episodeIndex,
     path: {
       thumbnail: filenameThumbnail,

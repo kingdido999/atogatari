@@ -13,7 +13,7 @@ export default function route (router) {
 
   router.post('/signup', auth.signup)
   router.post('/login', auth.login)
-  router.post('/upload', file.upload)
+  router.post('/upload', tokenAuth(), file.upload)
 
   router.post('/user/favorites', tokenAuth(), user.getFavorites)
   router.post('/user/favorite', tokenAuth(), user.toggleFavorite)

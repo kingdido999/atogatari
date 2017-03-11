@@ -49,11 +49,10 @@ class Upload extends Component {
     const { dispatch } = this.props
 
     const data = new FormData()
-    data.append('token', localStorage.getItem('token'))
     data.append('file', this.state.file)
     data.append('bangumiTitle', this.state.bangumiTitle)
     data.append('episodeIndex', this.state.episodeIndex)
-    
+
     dispatch(upload(data))
     .then(() => browserHistory.push('/'))
   }

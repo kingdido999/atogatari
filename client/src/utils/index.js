@@ -25,3 +25,20 @@ export function downloadFromUrl (url, filename) {
 export function pluralize (singular, count) {
   return singular + (count > 1 ? 's' : '')
 }
+
+export function getAuthHeader () {
+  return {
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    }
+  }
+}
+
+export function requireAuth (nextState, replace) {
+  if (!localStorage.getItem('token')) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}

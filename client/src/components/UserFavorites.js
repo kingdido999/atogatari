@@ -9,11 +9,7 @@ class UserFavorites extends Component {
 
   componentWillMount () {
     const { dispatch } = this.props
-    const token = localStorage.getItem('token')
-
-    dispatch(getFavoriteScreenshots({
-      token: token
-    }))
+    dispatch(getFavoriteScreenshots())
   }
 
   render() {

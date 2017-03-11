@@ -6,6 +6,7 @@ import { render } from 'react-dom'
 import React from 'react'
 
 import { resetErrorMessage } from './actions/common'
+import { requireAuth } from './utils'
 import store from './store'
 
 import App from './containers/App'
@@ -37,12 +38,3 @@ render(
   </Provider>,
   document.getElementById('app')
 )
-
-function requireAuth (nextState, replace) {
-  if (!localStorage.getItem('token')) {
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    })
-  }
-}
