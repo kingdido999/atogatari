@@ -3,6 +3,7 @@ import { Container, Segment, Item } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiItem from '../components/BangumiItem'
+import SearchBar from '../components/SearchBar'
 
 import { getBangumis } from '../actions/entities'
 
@@ -13,11 +14,16 @@ class Home extends Component {
   }
 
   render() {
-    const { isFetching, bangumis } = this.props
+    const { dispatch, isFetching, bangumis } = this.props
 
     return (
       <Container text>
-        <Segment basic loading={isFetching}>
+        <Segment basic>
+          <SearchBar
+            dispatch={dispatch}
+            isFetching={isFetching}
+          />
+
           <Item.Group divided>
             {bangumis.map(bangumi =>
               <BangumiItem

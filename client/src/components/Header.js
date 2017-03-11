@@ -3,8 +3,6 @@ import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import { logout } from '../actions/auth'
 
-// import SearchBar from './SearchBar'
-
 class Header extends Component {
 
   handleLogout = (event) => {
@@ -37,13 +35,6 @@ class Header extends Component {
         <Menu.Item as={Link} to="/" name='bangumi pic' />
 
         <Menu.Menu position='right'>
-          {/* <Menu.Item>
-            <SearchBar
-              dispatch={dispatch}
-              bangumis={bangumis}
-            />
-          </Menu.Item> */}
-
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
           }

@@ -1,16 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { Item, Search } from 'semantic-ui-react'
-import { browserHistory } from 'react-router'
+import { Input } from 'semantic-ui-react'
 
 import { getBangumis } from '../actions/entities'
-
-const resultRenderer = ({ title }) => (
-  <Item>
-    <Item.Content>
-      <Item.Header>{ title }</Item.Header>
-    </Item.Content>
-  </Item>
-)
 
 class SearchBar extends Component {
 
@@ -18,26 +9,22 @@ class SearchBar extends Component {
     search: ''
   }
 
-  handleSearchChange = (e, value) => {
+  handleSearchChange = (e, data) => {
+    const { value } = data
     this.setState({ search: value })
     this.props.dispatch(getBangumis(this.state))
   }
 
-  handleResultSelect = (e, item) => {
-    browserHistory.push(`/bangumi/${item._id}`)
-  }
-
   render () {
-    const { bangumis } = this.props
-    const { search } = this.state
-
+    const { isFetching } = this.props
     return (
-      <Search
-        onSearchChange={this.handleSearchChange}
-        onResultSelect={this.handleResultSelect}
-        results={bangumis}
-        value={search}
-        resultRenderer={resultRenderer}
+      <Input
+        fluid
+        size='big'
+        icon='search'
+        placeholder='Search...'
+        loading={isFetching}
+        onChange={this.handleSearchChange}
       />
     )
   }
@@ -45,7 +32,7 @@ class SearchBar extends Component {
 
 SearchBar.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  bangumis: PropTypes.array.isRequired
+  isFetching: PropTypes.bool.isRequired
 }
 
 export default SearchBar
