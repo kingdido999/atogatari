@@ -7,19 +7,7 @@ import fs from 'fs'
 import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
 
-function writeFile (input, output) {
-  const writable = fs.createWriteStream(output)
-
-  return new Promise((resolve, reject) => {
-    input.pipe(writable)
-    input.on('close', () => {
-      resolve()
-    })
-    input.on('error', err => {
-      reject(err)
-    })
-  })
-}
+const UPLOAD_PATH = 'assets/screenshots'
 
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
@@ -36,11 +24,10 @@ async function upload (ctx) {
     })
   }
 
-  const uploadPath = 'assets/screenshots'
   const filenameOriginal = uuid() + path.extname(file.filename)
   const filenameThumbnail = uuid() + '.jpg'
-  const fileOriginal = `${uploadPath}/${filenameOriginal}`
-  const fileThumbnail = `${uploadPath}/${filenameThumbnail}`
+  const fileOriginal = `${UPLOAD_PATH}/${filenameOriginal}`
+  const fileThumbnail = `${UPLOAD_PATH}/${filenameThumbnail}`
 
   try {
     await writeFile(file, fileOriginal)
@@ -71,6 +58,16 @@ async function upload (ctx) {
   }
 
   ctx.status = 200
+}
+
+function writeFile (input, output) {
+  const writable = fs.createWriteStream(output)
+
+  return new Promise((resolve, reject) => {
+    input.pipe(writable)
+    input.on('close', () => resolve())
+    input.on('error', err => reject(err))
+  })
 }
 
 export default {

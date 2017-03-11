@@ -1,13 +1,14 @@
-import jwt from 'jsonwebtoken'
 import config from '../config'
 import User from '../models/User'
-import { getRandomString, sha512 } from '../utils/index'
+import { getRandomString, sha512, generateToken } from '../utils'
+
+const TOKEN_EXPIRES_IN = '7 days'
 
 async function signup (ctx) {
   const { email, password, username } = ctx.request.body
 
   let user = await User.findOne({
-    $or: [{ email: email }, { username: username }]
+    $or: [{ email }, { username }]
   }).exec()
 
   if (user) {
@@ -17,18 +18,16 @@ async function signup (ctx) {
   const salt = getRandomString(16)
   const hash = sha512(password, salt)
 
-  user = new User({
-    email: email,
-    username: username,
-    salt: salt,
-    hash: hash
-  })
+  user = new User({ email, username, salt, hash })
 
-  await user.save()
+  try {
+    await user.save()
+  } catch (e) {
+    ctx.throw(500, e)
+  }
 
   ctx.response.body = {
-    uid: user._id,
-    token: generateToken(user, config.secret)
+    token: generateToken(user._id, config.secret, TOKEN_EXPIRES_IN)
   }
 
   ctx.status = 201
@@ -53,21 +52,10 @@ async function login (ctx) {
   }
 
   ctx.response.body = {
-    uid: user._id,
-    token: generateToken(user, config.secret)
+    token: generateToken(user._id, config.secret, TOKEN_EXPIRES_IN)
   }
 
   ctx.status = 200
-}
-
-function generateToken (user, secret) {
-  const token = jwt.sign({
-    uid: user.id
-  }, secret, {
-    expiresIn: '7 day'
-  })
-
-  return token
 }
 
 export default {

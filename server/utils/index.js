@@ -1,8 +1,9 @@
 import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
 
 /**
- * generates random string of characters i.e salt
- * @param {number} length - Length of the random string.
+ * Generates random string of characters, i.e salt
+ * @param {number} length
  */
 export function getRandomString(length) {
   return crypto.randomBytes(Math.ceil(length/2))
@@ -11,15 +12,26 @@ export function getRandomString(length) {
 }
 
 /**
- * hash password with sha512.
- * @param {string} password - List of required fields.
- * @param {string} salt - Data to be validated.
+ * Hash password with sha512.
+ * @param {string} password
+ * @param {string} salt
  */
 export function sha512(password, salt) {
-  const hash = crypto.createHmac('sha512', salt) /** Hashing algorithm sha512 */
+  const hash = crypto.createHmac('sha512', salt)
   hash.update(password)
   const value = hash.digest('hex')
   return value
+}
+
+/**
+ * Generate a Json Web Token.
+ * @param  {string} uid       User ID
+ * @param  {string} secret
+ * @param  {string} expiresIn
+ */
+export function generateToken (uid, secret, expiresIn) {
+  const token = jwt.sign({ uid }, secret, { expiresIn })
+  return token
 }
 
 
