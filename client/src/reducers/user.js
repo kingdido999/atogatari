@@ -1,8 +1,10 @@
 
-export default function auth(state = {
+const initialState = {
   isFetching: false,
   isAuthenticated: localStorage.getItem('token') ? true : false,
-}, action) {
+}
+
+export default function user(state = initialState, action) {
   switch (action.type) {
     case 'LOGIN_PENDING':
       return { ...state,

@@ -4,7 +4,6 @@ import { Segment, Header, Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import ScreenshotCard from '../components/ScreenshotCard'
-
 import { getBangumi } from '../actions/entities'
 
 class Bangumi extends Component {
@@ -57,8 +56,8 @@ Bangumi.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth, entities } = state
-  const { isAuthenticated } = auth
+  const { user, entities } = state
+  const { isAuthenticated } = user
   const { isFetching, selectedBangumi, screenshots } = entities
 
   return {

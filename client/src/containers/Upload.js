@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { Container, Segment, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { upload } from '../actions/authed'
-
+import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
+
+import { upload } from '../actions/authed'
 
 class Upload extends Component {
 
@@ -45,12 +46,16 @@ class Upload extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+    const { dispatch } = this.props
+
     const data = new FormData()
     data.append('token', localStorage.getItem('token'))
     data.append('file', this.state.file)
     data.append('bangumiTitle', this.state.bangumiTitle)
     data.append('episodeIndex', this.state.episodeIndex)
-    this.props.dispatch(upload(data))
+    
+    dispatch(upload(data))
+    .then(() => browserHistory.push('/'))
   }
 
   render() {

@@ -10,9 +10,11 @@ class SearchBar extends Component {
   }
 
   handleSearchChange = (e, data) => {
+    const { dispatch } = this.props
     const { value } = data
     this.setState({ search: value })
-    this.props.dispatch(getBangumis(this.state))
+
+    dispatch(getBangumis(this.state))
   }
 
   render () {

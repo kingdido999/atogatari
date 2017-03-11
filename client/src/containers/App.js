@@ -14,7 +14,6 @@ class App extends Component {
         <Header
           dispatch={dispatch}
           isAuthenticated={isAuthenticated}
-          // bangumis={bangumis}
         />
 
         <Container fluid>
@@ -38,8 +37,8 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth, errorMessage } = state
-  const { isAuthenticated } = auth
+  const { user, errorMessage } = state
+  const { isAuthenticated } = user
 
   return {
     isAuthenticated,

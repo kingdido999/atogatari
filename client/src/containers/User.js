@@ -41,8 +41,8 @@ User.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth, entities } = state
-  const { isAuthenticated } = auth
+  const { user, entities } = state
+  const { isAuthenticated } = user
   const { screenshots } = entities
 
   return {

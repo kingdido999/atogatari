@@ -12,9 +12,9 @@ class ZoomableImage extends Component {
   }
 
   render () {
-    const { id, thumbnail_filename, original_filename } = this.props
-    const thumbnailUrl = getImageUrl(thumbnail_filename)
-    const originalUrl = getImageUrl(original_filename)
+    const { id, path } = this.props
+    const thumbnailUrl = getImageUrl(path.thumbnail)
+    const originalUrl = getImageUrl(path.original)
 
     return (
       <Image
@@ -30,9 +30,8 @@ class ZoomableImage extends Component {
 
 ZoomableImage.propTypes = {
   id: PropTypes.string.isRequired,
+  path: PropTypes.object.isRequired,
   zooming: PropTypes.object.isRequired,
-  thumbnail_filename: PropTypes.string.isRequired,
-  original_filename: PropTypes.string.isRequired
 }
 
 export default ZoomableImage

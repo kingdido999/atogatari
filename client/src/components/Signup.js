@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Segment, Header, Form } from 'semantic-ui-react'
-import { signup } from '../actions/auth'
+import { browserHistory } from 'react-router'
+
+import { signup } from '../actions/user'
 
 class Signup extends Component {
 
@@ -11,17 +13,19 @@ class Signup extends Component {
 
   handleChange = (event) => {
     const target = event.target
-    const value = target.value
-    const name = target.name
+    const { value, name } = target
 
     this.setState({
       [name]: value
     })
   }
-
+  
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.dispatch(signup(this.state))
+    const { dispatch } = this.props
+
+    dispatch(signup(this.state))
+    .then(() => browserHistory.push('/'))
   }
 
   render() {

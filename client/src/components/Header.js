@@ -1,13 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router'
-import { logout } from '../actions/auth'
+import { browserHistory } from 'react-router'
+
+import { logout } from '../actions/user'
 
 class Header extends Component {
 
   handleLogout = (event) => {
     event.preventDefault()
-    this.props.dispatch(logout())
+    const { dispatch } = this.props
+
+    dispatch(logout())
+    .then(() => browserHistory.push('/'))
   }
 
   renderDropdown () {

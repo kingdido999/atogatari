@@ -1,29 +1,10 @@
 
-export default function authed (state = {
-  isFetching: false,
+const initialState = {
   isUploading: false
-}, action) {
+}
+
+export default function authed (state = initialState, action) {
   switch (action.type) {
-    case 'TOGGLE_FAVORITE_PENDING':
-      return { ...state,
-        isFetching: true
-      }
-    case 'TOGGLE_FAVORITE_FULFILLED':
-      return { ...state,
-        isFetching: false
-      }
-    case 'TOGGLE_FAVORITE_REJECTED':
-      return { ...state,
-        isFetching: false
-      }
-    case 'GET_FAVORITE_SCREENSHOTS_FULFILLED':
-      return { ...state,
-        isFetching: false
-      }
-    case 'GET_UPLOADED_SCREENSHOTS_FULFILLED':
-      return { ...state,
-        isFetching: false
-      }
     case 'UPLOAD_PENDING':
       return { ...state,
         isUploading: true,

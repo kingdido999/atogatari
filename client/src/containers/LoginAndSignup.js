@@ -36,8 +36,8 @@ LoginAndSignup.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { auth } = state
-  const { isFetching } = auth
+  const { user } = state
+  const { isFetching } = user
 
   return {
     isFetching

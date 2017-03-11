@@ -1,4 +1,3 @@
-import { browserHistory } from 'react-router'
 import axios from 'axios'
 
 export function login (creds) {
@@ -8,7 +7,6 @@ export function login (creds) {
       axios.post('/api/login', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
-        browserHistory.push('/')
         resolve(res)
       })
       .catch(err => {
@@ -25,7 +23,6 @@ export function signup (creds) {
       axios.post('/api/signup', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
-        browserHistory.push('/')
         resolve(res)
       })
       .catch(err => {
@@ -41,7 +38,6 @@ export function logout () {
     payload: new Promise((resolve, reject) => {
       try {
         localStorage.removeItem('token')
-        browserHistory.push('/')
         resolve()
       } catch(e) {
         reject(e)

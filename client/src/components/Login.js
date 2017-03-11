@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Segment, Header, Form } from 'semantic-ui-react'
-import { login } from '../actions/auth'
+import { browserHistory } from 'react-router'
+
+import { login } from '../actions/user'
 
 class Login extends Component {
 
@@ -11,8 +13,7 @@ class Login extends Component {
 
   handleChange = (event) => {
     const target = event.target
-    const value = target.value
-    const name = target.name
+    const { value, name } = target
 
     this.setState({
       [name]: value
@@ -21,7 +22,10 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.dispatch(login(this.state))
+    const { dispatch } = this.props
+
+    dispatch(login(this.state))
+    .then(() => browserHistory.push('/'))
   }
 
   render() {
