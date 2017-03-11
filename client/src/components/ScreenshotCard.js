@@ -36,6 +36,7 @@ class ScreenshotCard extends Component {
           original_filename={original}
         />
         <Card.Content>
+          <Button icon="download" onClick={this.handleDownload} />
           <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}
@@ -43,7 +44,6 @@ class ScreenshotCard extends Component {
             favoritesCount={favoritesCount}
             isAuthenticated={isAuthenticated}
           />
-          <Button floated="right" icon="download" onClick={this.handleDownload} />
         </Card.Content>
       </Card>
     )

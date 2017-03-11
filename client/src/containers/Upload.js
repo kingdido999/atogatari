@@ -58,7 +58,7 @@ class Upload extends Component {
     const { isUploading } = this.props
 
     return (
-      <Container>
+      <Container text>
         <Segment basic loading={isUploading}>
           <Form onSubmit={this.handleSubmit}>
 

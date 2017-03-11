@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Grid } from 'semantic-ui-react'
+import { Container, Segment, Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Login from '../components/Login'
@@ -12,18 +12,20 @@ class LoginAndSignup extends Component {
     const { dispatch, isFetching } = this.props
 
     return (
-      <Segment basic loading={isFetching}>
-        <Grid columns={2} divided>
-          <Grid.Row columns={2}>
-            <Grid.Column>
-              <Signup size={size} dispatch={dispatch}/>
-            </Grid.Column>
-            <Grid.Column>
-              <Login size={size} dispatch={dispatch} />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
+      <Container text>
+        <Segment basic loading={isFetching}>
+          <Grid columns={2} divided>
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                <Signup size={size} dispatch={dispatch}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Login size={size} dispatch={dispatch} />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+      </Container>
     )
   }
 }
