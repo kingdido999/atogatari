@@ -7,7 +7,9 @@ import { toggleFavorite } from '../actions/authed'
 class FavoriteButton extends Component {
 
   toggleFavorite = () => {
-    const { dispatch, screenshotId } = this.props
+    const { dispatch, isAuthenticated, screenshotId } = this.props
+
+    if (!isAuthenticated) return
 
     dispatch(toggleFavorite({
       screenshotId: screenshotId,
@@ -21,40 +23,50 @@ class FavoriteButton extends Component {
     )
   }
 
-  render () {
-    const { isAuthenticated, isFavorited, favoritesCount } = this.props
+  renderButton (isFavorited, favoritesCount) {
     const icon = this.renderIcon(isFavorited)
 
-    if (isAuthenticated) {
-      if (favoritesCount === 0) {
-        return (
-          <Button
-            icon={icon}
-            onClick={this.toggleFavorite}
-          />
-        )
-      } else {
-        return (
-          <Button
-            icon={icon}
-            label={{ as: 'a', content: favoritesCount }}
-            labelPosition='right'
-            onClick={this.toggleFavorite}
-          />
-        )
-      }
+    if (favoritesCount === 0) {
+      return (
+        <Button
+          icon={icon}
+          onClick={this.toggleFavorite}
+        />
+      )
     } else {
       return (
-        <Popup
-          trigger={<Button icon={icon} />}
-          content={<Button color='green' content='Login' as={Link} to="/login" />}
-          on='click'
-          position='bottom center'
+        <Button
+          icon={icon}
+          onClick={this.toggleFavorite}
           label={{ as: 'a', content: favoritesCount }}
           labelPosition='right'
         />
       )
     }
+  }
+
+  renderLoginButton () {
+    return (
+      <Button color='green' content='Login' as={Link} to="/login" />
+    )
+  }
+
+  render () {
+    const { isAuthenticated, isFavorited, favoritesCount } = this.props
+    const button = this.renderButton(isFavorited, favoritesCount)
+
+    if (!isAuthenticated) {
+      return (
+        <Popup
+          trigger={button}
+          content={this.renderLoginButton()}
+          on='click'
+          position='bottom center'
+        />
+      )
+    }
+
+    return button
   }
 }
 

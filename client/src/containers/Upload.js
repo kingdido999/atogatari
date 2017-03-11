@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Form, Image } from 'semantic-ui-react'
+import { Container, Segment, Form, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { upload } from '../actions/authed'
 
@@ -58,31 +58,33 @@ class Upload extends Component {
     const { isUploading } = this.props
 
     return (
-      <Segment basic loading={isUploading}>
-        <Form onSubmit={this.handleSubmit}>
+      <Container>
+        <Segment basic loading={isUploading}>
+          <Form onSubmit={this.handleSubmit}>
 
-          <Form.Field>
-            <label>File</label>
-            <input type="file" onChange={this.handleImageChange} />
-          </Form.Field>
+            <Form.Field>
+              <label>File</label>
+              <input type="file" onChange={this.handleImageChange} />
+            </Form.Field>
 
-          {imagePreviewUrl &&
-            <Image src={imagePreviewUrl} className="img-preview" />
-          }
+            {imagePreviewUrl &&
+              <Image src={imagePreviewUrl} className="img-preview" />
+            }
 
-          <Form.Field>
-            <label>Bangumi Title</label>
-            <input type="text" name="bangumiTitle" onChange={this.handleInputChange} />
-          </Form.Field>
+            <Form.Field>
+              <label>Bangumi Title</label>
+              <input type="text" name="bangumiTitle" onChange={this.handleInputChange} />
+            </Form.Field>
 
-          <Form.Field>
-            <label>Episode</label>
-            <input type="number" min="0" step="1" name="episodeIndex" onChange={this.handleInputChange} />
-          </Form.Field>
+            <Form.Field>
+              <label>Episode</label>
+              <input type="number" min="0" step="1" name="episodeIndex" onChange={this.handleInputChange} />
+            </Form.Field>
 
-          <Form.Button type="submit" disabled={!this.state.file} primary>Submit</Form.Button>
-        </Form>
-      </Segment>
+            <Form.Button type="submit" disabled={!this.state.file} primary>Submit</Form.Button>
+          </Form>
+        </Segment>
+      </Container>
     )
   }
 }

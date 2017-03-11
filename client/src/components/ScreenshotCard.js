@@ -20,7 +20,8 @@ class ScreenshotCard extends Component {
     const { _id, path } = screenshot
     const { thumbnail, original } = path
 
-    const isFavorited = screenshot.favorites
+    const isFavorited = isAuthenticated &&
+      screenshot.favorites
       .filter(favorite => favorite.screenshot === _id)
       .length > 0
 
