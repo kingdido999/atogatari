@@ -1,6 +1,7 @@
 import { getRandomString, sha512 } from '../utils'
 
 import Screenshot from '../models/Screenshot'
+import Favorite from '../models/Favorite'
 import Bangumi from '../models/Bangumi'
 import User from '../models/User'
 import config from '../config'
@@ -30,6 +31,7 @@ async function purge () {
 
   await User.remove({})
   await Bangumi.remove({})
+  await Favorite.remove({})
   await Screenshot.remove({})
 }
 
@@ -45,12 +47,15 @@ async function seed () {
   }
 
   for (let i = 0; i < NUM_BANGUMI; i++) {
-    const bangumi = createBangumi(NUM_BANGUMI_SCREENSHOT)
+    const bangumi = createBangumi()
 
     for (let j = 0; j < NUM_BANGUMI_SCREENSHOT; j++) {
-      const randUser = faker.random.arrayElement(userList)
-      const screenshot = createScreenshot(bangumi, randUser)
+      const user = faker.random.arrayElement(userList)
+      const screenshot = createScreenshot(bangumi, user)
       await screenshot.save()
+      bangumi.screenshots.push(screenshot)
+      user.screenshots.push(screenshot)
+      await user.save()
     }
 
     await bangumi.save()
@@ -69,12 +74,9 @@ function createUser () {
   })
 }
 
-function createBangumi (screenshotsCount) {
+function createBangumi () {
   return new Bangumi({
-    title: faker.lorem.words(),
-    meta: {
-      screenshotsCount: screenshotsCount
-    }
+    title: faker.lorem.words()
   })
 }
 
@@ -82,8 +84,8 @@ function createScreenshot (bangumi, user) {
   const image = faker.image.image(300, 200)
 
   return new Screenshot({
-    bangumiId: bangumi._id,
-    userId: user._id,
+    bangumi: bangumi._id,
+    user: user._id,
     episode: faker.random.number(24),
     path: {
       thumbnail: image,

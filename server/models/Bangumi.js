@@ -6,12 +6,10 @@ const bangumiSchema = new Schema({
     type: String,
     required: true
   },
-  meta: {
-    screenshotsCount: {
-      type: Number,
-      default: 0
-    }
-  }
+  screenshots: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Screenshot'
+  }]
 })
 
 export default mongoose.model('Bangumi', bangumiSchema)

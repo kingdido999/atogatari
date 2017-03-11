@@ -23,6 +23,12 @@ async function getBangumi (ctx) {
 
   const bangumi = await Bangumi
     .findById(id)
+    .populate({
+      path: 'screenshots',
+      populate: {
+        path: 'favorites'
+      }
+    })
     .exec()
 
   ctx.response.body = {

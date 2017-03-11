@@ -2,13 +2,13 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const screenshotSchema = new Schema({
-  bangumiId: {
+  bangumi: {
     type: Schema.Types.ObjectId,
-    required: true
+    ref: 'Bangumi'
   },
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
-    required: true
+    ref: 'User'
   },
   episode: {
     type: Number,
@@ -28,12 +28,10 @@ const screenshotSchema = new Schema({
       required: true
     },
   },
-  meta: {
-    favoritesCount: {
-      type: Number,
-      default: 0
-    }
-  }
+  favorites: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Favorite'
+  }]
 })
 
 export default mongoose.model('Screenshot', screenshotSchema)

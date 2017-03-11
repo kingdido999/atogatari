@@ -7,7 +7,7 @@ async function getFavorites (ctx) {
     .exec()
 
   ctx.response.body = {
-    favorites: favorites.map(favorite => favorite.screenshotId)
+    favorites: favorites
   }
 
   ctx.status = 200
@@ -26,46 +26,57 @@ async function toggleFavorite (ctx) {
 
   let favorite = await Favorite
     .findOne({
-      userId: ctx.state.uid,
-      screenshotId: screenshotId
+      user: ctx.state.uid,
+      screenshot: screenshotId
     })
+    .populate('screenshot')
     .exec()
 
   if (favorite) {
-    screenshot.meta.favoritesCount -= 1
     await favorite.remove()
-    ctx.status = 202
-  } else {
-    screenshot.meta.favoritesCount += 1
 
-    favorite = new Favorite({
-      userId: ctx.state.uid,
-      screenshotId: screenshotId
+    await Screenshot.update({ _id: screenshotId }, {
+      $pull: { favorites: { _id: favorite._id } }
     })
 
+    ctx.status = 202
+  } else {
+    favorite = new Favorite({
+      user: ctx.state.uid,
+      screenshot: screenshotId
+    })
+
+    favorite.screenshot = screenshot
     await favorite.save()
+
+    screenshot.favorites.push(favorite)
+    await screenshot.save()
+
     ctx.status = 201
   }
 
-  await screenshot.save()
-
   ctx.response.body = {
-    screenshotId: screenshotId
+    favorite: favorite
   }
 }
 
 async function getFavoriteScreenshots (ctx) {
   const favorites = await Favorite
     .find({
-      userId: ctx.state.uid
+      user: ctx.state.uid
     })
     .exec()
+
+  console.log(favorites)
 
   const screenshots = await Screenshot
     .find()
     .where('_id')
-    .in(favorites.map(favorite => favorite.screenshotId))
+    .in(favorites.map(favorite => favorite.screenshot))
+    .populate('favorites')
     .exec()
+
+  // console.log(screenshots)
 
   ctx.response.body = {
     screenshots: screenshots

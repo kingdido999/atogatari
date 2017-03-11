@@ -7,8 +7,8 @@ import { pluralize } from '../utils'
 class BangumiItem extends Component {
 
   render () {
-    const { _id, title, meta } = this.props
-    const { screenshotsCount } = meta
+    const { _id, title, screenshots } = this.props
+    const screenshotsCount = screenshots.length
 
     return (
       <Item as={Link} to={`/bangumi/${_id}`}>
@@ -23,7 +23,8 @@ class BangumiItem extends Component {
 
 BangumiItem.propTypes = {
   _id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  screenshots: PropTypes.array.isRequired
 }
 
 export default BangumiItem

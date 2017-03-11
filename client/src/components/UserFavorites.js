@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
@@ -6,7 +6,7 @@ import ScreenshotCard from '../components/ScreenshotCard'
 class UserFavorites extends Component {
 
   render() {
-    const { dispatch, favorites, favoriteScreenshots, zooming, isAuthenticated } = this.props
+    const { dispatch, favoriteScreenshots, zooming, isAuthenticated } = this.props
 
     return (
       <Card.Group>
@@ -16,13 +16,19 @@ class UserFavorites extends Component {
             key={screenshot._id}
             screenshot={screenshot}
             zooming={zooming}
-            favorites={favorites}
             isAuthenticated={isAuthenticated}
           />
         )}
       </Card.Group>
     )
   }
+}
+
+UserFavorites.propTypes = {
+  dispatch: PropTypes.func,
+  favoriteScreenshots: PropTypes.array,
+  zooming: PropTypes.object,
+  isAuthenticated: PropTypes.bool
 }
 
 export default UserFavorites
