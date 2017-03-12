@@ -1,19 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { Card, Button } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 import ZoomableImage from './ZoomableImage'
+import DownloadButton from './DownloadButton'
 import FavoriteButton from './FavoriteButton'
 
-import { getImageUrl, downloadFromUrl } from '../utils'
-
 class ScreenshotCard extends Component {
-
-  handleDownload = () => {
-    const { original_filename } = this.props
-    const originalUrl = getImageUrl(original_filename)
-
-    downloadFromUrl(originalUrl, original_filename)
-  }
 
   render () {
     const { zooming, dispatch, screenshot, isAuthenticated } = this.props
@@ -34,7 +26,9 @@ class ScreenshotCard extends Component {
           zooming={zooming}
         />
         <Card.Content>
-          <Button icon="download" onClick={this.handleDownload} />
+          <DownloadButton
+            file={file}
+          />
           <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}

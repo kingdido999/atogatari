@@ -5442,6 +5442,6 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-zooming@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/zooming/-/zooming-1.1.1.tgz#bfac75f365a10ba02321f3061b83d62e7c61b909"
+zooming@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/zooming/-/zooming-1.1.3.tgz#8ce25577d175c0623d54e7641392d5c4edd7b36f"

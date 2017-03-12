@@ -11,10 +11,7 @@ class FavoriteButton extends Component {
 
     if (!isAuthenticated) return
 
-    dispatch(toggleFavorite({
-      screenshotId: screenshotId,
-      token: localStorage.getItem('token')
-    }))
+    dispatch(toggleFavorite({ screenshotId: screenshotId }))
   }
 
   renderIcon (isFavorited) {
