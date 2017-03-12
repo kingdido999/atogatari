@@ -17,7 +17,7 @@ class ScreenshotCard extends Component {
 
   render () {
     const { zooming, dispatch, screenshot, isAuthenticated } = this.props
-    const { _id, path } = screenshot
+    const { _id, file } = screenshot
 
     const isFavorited = isAuthenticated &&
       screenshot.favorites
@@ -30,7 +30,7 @@ class ScreenshotCard extends Component {
       <Card>
         <ZoomableImage
           id={_id}
-          path={path}
+          file={file}
           zooming={zooming}
         />
         <Card.Content>

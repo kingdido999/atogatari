@@ -12,15 +12,15 @@ class ZoomableImage extends Component {
   }
 
   render () {
-    const { id, path } = this.props
-    const thumbnailUrl = getImageUrl(path.thumbnail)
-    const originalUrl = getImageUrl(path.original)
+    const { id, file } = this.props
+    const smallUrl = getImageUrl(file.small)
+    const largeUrl = getImageUrl(file.large)
 
     return (
       <Image
         id={id}
-        src={thumbnailUrl}
-        data-original={originalUrl}
+        src={smallUrl}
+        data-original={largeUrl}
         className="screenshot"
         alt="screenshot"
       />
@@ -30,7 +30,7 @@ class ZoomableImage extends Component {
 
 ZoomableImage.propTypes = {
   id: PropTypes.string.isRequired,
-  path: PropTypes.object.isRequired,
+  file: PropTypes.object.isRequired,
   zooming: PropTypes.object.isRequired,
 }
 

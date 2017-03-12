@@ -14,6 +14,10 @@ async function upload (ctx) {
   const file = files[0]
   const { bangumiTitle, episodeIndex } = fields
 
+  if (!bangumiTitle) {
+    ctx.throw(400, 'Bangumi title cannot be empty.')
+  }
+
   let bangumi = await Bangumi.findOne({
     title: bangumiTitle
   }).exec()
@@ -24,10 +28,14 @@ async function upload (ctx) {
     })
   }
 
-  const filenameOriginal = uuid() + path.extname(file.filename)
-  const filenameThumbnail = uuid() + '.jpg'
-  const fileOriginal = `${UPLOAD_PATH}/${filenameOriginal}`
-  const fileThumbnail = `${UPLOAD_PATH}/${filenameThumbnail}`
+  const filenames = {
+    small: uuid() + '.jpg',
+    medium: uuid() + '.jpg',
+    large: uuid() + '.jpg',
+    original: uuid() + path.extname(file.filename)
+  }
+
+  const fileOriginal = `${UPLOAD_PATH}/${filenames.original}`
 
   try {
     await writeFile(file, fileOriginal)
@@ -35,16 +43,19 @@ async function upload (ctx) {
     ctx.throw(500, e)
   }
 
-  // Save thumbnail
-  sharp(fileOriginal).resize(300, 300).max().toFile(fileThumbnail)
+  sharp(fileOriginal).resize(380).toFile(`${UPLOAD_PATH}/${filenames.small}`)
+  sharp(fileOriginal).resize(1024).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
+  sharp(fileOriginal).resize(1920).toFile(`${UPLOAD_PATH}/${filenames.large}`)
 
   const screenshot = new Screenshot({
     bangumi: bangumi._id,
     user: ctx.state.uid,
     episode: episodeIndex,
-    path: {
-      thumbnail: filenameThumbnail,
-      original: filenameOriginal
+    file: {
+      small: filenames.small,
+      medium: filenames.medium,
+      large: filenames.large,
+      original: filenames.original
     }
   })
 

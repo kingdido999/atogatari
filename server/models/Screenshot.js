@@ -18,8 +18,16 @@ const screenshotSchema = new Schema({
     type: String,
     required: false
   },
-  path: {
-    thumbnail: {
+  file: {
+    small: {
+      type: String,
+      required: true
+    },
+    medium: {
+      type: String,
+      required: true
+    },
+    large: {
       type: String,
       required: true
     },
