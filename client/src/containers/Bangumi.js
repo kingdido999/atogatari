@@ -9,36 +9,43 @@ import { getBangumi } from '../actions/entities'
 class Bangumi extends Component {
 
   componentWillMount () {
-    const { params, dispatch } = this.props
+    const { params, dispatch, bangumiIds } = this.props
     const { bangumiId } = params
-    dispatch(getBangumi({ id: bangumiId }))
+
+    if (!bangumiIds.includes(bangumiId)) {
+      dispatch(getBangumi({ id: bangumiId }))
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params, dispatch } = this.props
+    const { params, dispatch, bangumiIds } = this.props
 
     const bangumiId = nextProps.params.bangumiId
-    if (bangumiId !== params.bangumiId) {
+    if (bangumiId !== params.bangumiId && !bangumiIds.includes(bangumiId)) {
       dispatch(getBangumi({ id: bangumiId }))
     }
   }
 
   render () {
-    const { dispatch, isAuthenticated, isFetching, selectedBangumi, screenshots } = this.props
+    const { dispatch, isAuthenticated, params, bangumis, favorites } = this.props
+    const { bangumiId } = params
 
-    if (isFetching || !selectedBangumi) return null
+    const bangumi = bangumis[bangumiId]
 
+    if (!bangumi) return null
+    const screenshotIds = bangumi.screenshots
     const zooming = new Zooming()
 
     return (
       <Segment basic>
-        <Header as="h1">{selectedBangumi.title}</Header>
+        <Header as="h1">{bangumi.title}</Header>
           <Card.Group>
-            {screenshots.map(screenshot =>
+            {screenshotIds.map(screenshotId =>
               <ScreenshotCard
                 dispatch={dispatch}
-                key={screenshot._id}
-                screenshot={screenshot}
+                key={screenshotId}
+                screenshotId={screenshotId}
+                favorites={favorites}
                 zooming={zooming}
                 isAuthenticated={isAuthenticated}
               />
@@ -52,19 +59,16 @@ class Bangumi extends Component {
 Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
 }
 
 function mapStateToProps(state) {
-  const { user, entities } = state
+  const { user, entities, bangumis } = state
   const { isAuthenticated } = user
-  const { isFetching, selectedBangumi, screenshots } = entities
 
   return {
     isAuthenticated,
-    isFetching,
-    selectedBangumi,
-    screenshots
+    bangumiIds: bangumis.items,
+    bangumis: entities.bangumis,
   }
 }
 

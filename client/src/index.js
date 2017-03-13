@@ -14,6 +14,7 @@ import Home from './containers/Home'
 import LoginAndSignup from './containers/LoginAndSignup'
 import Upload from './containers/Upload'
 import Bangumi from './containers/Bangumi'
+import Screenshot from './containers/Screenshot'
 import User from './containers/User'
 import UserFavorites from './components/UserFavorites'
 import UserUploads from './components/UserUploads'
@@ -29,6 +30,7 @@ render(
         <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
         <Route path="bangumi/:bangumiId" component={Bangumi} />
+        <Route path="screenshot/:screenshotId" component={Screenshot} />
         <Route path="user" component={User} onEnter={requireAuth}>
           <Route path="favorites" component={UserFavorites} />
           <Route path="uploads" component={UserUploads} />

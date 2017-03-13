@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { Button, Icon, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
-import { toggleFavorite } from '../actions/authed'
+import { toggleFavorite } from '../../actions/authed'
 
 class FavoriteButton extends Component {
 
@@ -49,7 +50,19 @@ class FavoriteButton extends Component {
   }
 
   render () {
-    const { isAuthenticated, isFavorited, favoritesCount } = this.props
+    const { isAuthenticated, screenshotId, favorites, screenshots } = this.props
+    const screenshot = screenshots[screenshotId]
+    let isFavorited = false
+
+    for (let favorite in favorites) {
+      if (favorite.screenshot === screenshotId) {
+        isFavorited = true
+        break
+      }
+    }
+
+    const favoritesCount = screenshot.favorites.length
+
     const button = this.renderButton(isFavorited, favoritesCount)
 
     if (!isAuthenticated) {
@@ -70,9 +83,20 @@ class FavoriteButton extends Component {
 FavoriteButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
   screenshotId: PropTypes.string.isRequired,
-  isFavorited: PropTypes.bool,
-  favoritesCount: PropTypes.number.isRequired,
+  favorites: PropTypes.object,
+  screenshots: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 }
 
-export default FavoriteButton
+function mapStateToProps(state) {
+  const { entities, authed } = state
+  const { screenshots } = entities
+  const { favorites } = authed
+
+  return {
+    favorites,
+    screenshots
+  }
+}
+
+export default connect(mapStateToProps)(FavoriteButton)

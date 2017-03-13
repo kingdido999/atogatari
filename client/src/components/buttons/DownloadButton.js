@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Button } from 'semantic-ui-react'
 
-import { getImageUrl, downloadFromUrl } from '../utils'
+import { getImageUrl, downloadFromUrl } from '../../utils'
 
 class FavoriteButton extends Component {
 

@@ -1,14 +1,14 @@
 import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 
-async function getFavorites (ctx) {
+async function getUserFavorites (ctx) {
   const favorites = await Favorite
-    .find(ctx.request.query)
+    .find({
+      user: ctx.state.uid
+    })
     .exec()
 
-  ctx.response.body = {
-    favorites: favorites
-  }
+  ctx.response.body = favorites
 
   ctx.status = 200
 }
@@ -53,9 +53,7 @@ async function toggleFavorite (ctx) {
     ctx.status = 201
   }
 
-  ctx.response.body = {
-    favorite: favorite
-  }
+  ctx.response.body = favorite
 }
 
 async function getFavoriteScreenshots (ctx) {
@@ -95,7 +93,7 @@ async function getUploadedScreenshots (ctx) {
 }
 
 export default {
-  getFavorites,
+  getUserFavorites,
   toggleFavorite,
   getFavoriteScreenshots,
   getUploadedScreenshots

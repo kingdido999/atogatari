@@ -1,10 +1,30 @@
+import { normalize } from 'normalizr'
 import axios from 'axios'
 import { getAuthHeader } from '../utils'
+
+import * as schemas from '../constants/schemas'
+
+export function getUserFavorites () {
+  return {
+    type: 'GET_FAVORITES',
+    payload: axios.post('/api/user/favorites', {}, {
+      headers: getAuthHeader().headers,
+      transformResponse: [function(data) {
+        return normalize(JSON.parse(data), schemas.favoriteListSchema).entities
+      }]
+    })
+  }
+}
 
 export function toggleFavorite (params) {
   return {
     type: 'TOGGLE_FAVORITE',
-    payload: axios.post('/api/user/favorite', params, getAuthHeader())
+    payload: axios.post('/api/user/favorite', params, {
+      headers: getAuthHeader().headers,
+      transformResponse: [function(data) {
+        return normalize(JSON.parse(data), schemas.favoriteSchema).entities
+      }]
+    })
   }
 }
 

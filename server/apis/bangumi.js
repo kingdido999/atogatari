@@ -11,9 +11,7 @@ async function getBangumis (ctx) {
     .find(criteria)
     .exec()
 
-  ctx.response.body = {
-    bangumis: bangumis
-  }
+  ctx.response.body = bangumis
 
   ctx.status = 200
 }
@@ -31,9 +29,7 @@ async function getBangumi (ctx) {
     })
     .exec()
 
-  ctx.response.body = {
-    bangumi: bangumi
-  }
+  ctx.response.body = bangumi
 
   ctx.status = 200
 }

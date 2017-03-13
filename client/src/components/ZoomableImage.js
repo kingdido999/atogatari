@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Image } from 'semantic-ui-react'
 
-import { getImageUrl } from '../utils'
-
 class ZoomableImage extends Component {
 
   componentDidMount () {
@@ -12,15 +10,14 @@ class ZoomableImage extends Component {
   }
 
   render () {
-    const { id, file } = this.props
-    const smallUrl = getImageUrl(file.small)
-    const largeUrl = getImageUrl(file.large)
+    const { id, src, dataOriginal } = this.props
 
     return (
       <Image
+        centered
         id={id}
-        src={smallUrl}
-        data-original={largeUrl}
+        src={src}
+        data-original={dataOriginal}
         className="screenshot"
         alt="screenshot"
       />
@@ -30,7 +27,8 @@ class ZoomableImage extends Component {
 
 ZoomableImage.propTypes = {
   id: PropTypes.string.isRequired,
-  file: PropTypes.object.isRequired,
+  src: PropTypes.string.isRequired,
+  dataOriginal: PropTypes.string,
   zooming: PropTypes.object.isRequired,
 }
 
