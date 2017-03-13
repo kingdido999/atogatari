@@ -9,6 +9,10 @@ async function getBangumis (ctx) {
 
   const bangumis = await Bangumi
     .find(criteria)
+    .populate({
+      path: 'screenshots',
+      populate: 'favorites'
+    })
     .exec()
 
   ctx.response.body = bangumis
@@ -23,9 +27,7 @@ async function getBangumi (ctx) {
     .findById(id)
     .populate({
       path: 'screenshots',
-      populate: {
-        path: 'favorites'
-      }
+      populate: 'favorites'
     })
     .exec()
 

@@ -1,33 +1,35 @@
 import { combineReducers } from 'redux'
 
 export default combineReducers({
-  byId: screenshotsById,
-  allIds: allScreenshots
+  byId: favoritesById,
+  allIds: allFavorites
 })
 
-function screenshotsById (state = {}, action) {
+function favoritesById (state = {}, action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
     case 'GET_BANGUMI_FULFILLED':
-      const { screenshots } = action.payload.data.entities
+      const { favorites } = action.payload.data.entities
       return {
         ...state,
-        ...screenshots
+        ...favorites
       }
     default:
       return state
   }
 }
 
-function allScreenshots (state = [], action) {
+function allFavorites (state = [], action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
-    case 'GET_BANGUMI_FULFILLED':
-      console.log(action.payload.data)
-      const { result } = action.payload.data
       return [
         ...state,
-        ...result
+        ...action.payload.data.result
+      ]
+    case 'GET_BANGUMI_FULFILLED':
+      return [
+        ...state,
+        action.payload.data.result
       ]
     default:
       return state

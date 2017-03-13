@@ -14,7 +14,7 @@ class Home extends Component {
   }
 
   render() {
-    const { dispatch, bangumis, bangumiIds } = this.props
+    const { dispatch, bangumis } = this.props
 
     return (
       <Container text>
@@ -25,10 +25,10 @@ class Home extends Component {
           />
 
           <Item.Group divided>
-            {bangumiIds.map(bangumiId =>
+            {bangumis.allIds.map(id =>
               <BangumiItem
-                key={bangumiId}
-                { ...bangumis[bangumiId] }
+                key={id}
+                { ...bangumis.byId[id] }
               />
             )}
           </Item.Group>
@@ -40,17 +40,14 @@ class Home extends Component {
 
 Home.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   bangumis: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
-  const { entities, bangumis } = state
+  const { bangumis } = state
 
   return {
-    isFetching: bangumis.isFetching,
-    bangumis: entities.bangumis,
-    bangumiIds: bangumis.items
+    bangumis
   }
 }
 

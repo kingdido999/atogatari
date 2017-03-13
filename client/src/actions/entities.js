@@ -1,4 +1,4 @@
-import { normalize } from 'normalizr'
+import { normalize, schema } from 'normalizr'
 import axios from 'axios'
 
 import * as schemas from '../constants/schemas'
@@ -8,7 +8,7 @@ export function getBangumis (params) {
     type: 'GET_BANGUMIS',
     payload: axios.get('/api/bangumis', { params,
       transformResponse: [function (data) {
-        return normalize(JSON.parse(data), schemas.bangumiListSchema)
+        return normalize(JSON.parse(data), [schemas.bangumiSchema])
       }]
     })
   }

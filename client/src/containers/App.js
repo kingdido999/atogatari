@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 
 import Header from '../components/Header'
 
-import { getUserFavorites } from '../actions/authed'
+// import { getUserFavorites } from '../actions/authed'
 
 class App extends Component {
 
-  componentDidMount () {
-    const { dispatch, isAuthenticated } = this.props
-
-    if (isAuthenticated) {
-      dispatch(getUserFavorites())
-    }
-  }
+  // componentDidMount () {
+  //   const { dispatch, isAuthenticated } = this.props
+  //
+  //   if (isAuthenticated) {
+  //     dispatch(getUserFavorites())
+  //   }
+  // }
 
   render() {
     const { dispatch, isAuthenticated, errorMessage } = this.props

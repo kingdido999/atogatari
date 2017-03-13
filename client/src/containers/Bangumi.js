@@ -9,30 +9,30 @@ import { getBangumi } from '../actions/entities'
 class Bangumi extends Component {
 
   componentWillMount () {
-    const { params, dispatch, bangumiIds } = this.props
+    const { params, dispatch, bangumis } = this.props
     const { bangumiId } = params
 
-    if (!bangumiIds.includes(bangumiId)) {
+    if (!bangumis.byId[bangumiId]) {
       dispatch(getBangumi({ id: bangumiId }))
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params, dispatch, bangumiIds } = this.props
+    const { params, dispatch, bangumis } = this.props
 
     const bangumiId = nextProps.params.bangumiId
-    if (bangumiId !== params.bangumiId && !bangumiIds.includes(bangumiId)) {
+    if (bangumiId !== params.bangumiId && !bangumis.byId[bangumiId]) {
       dispatch(getBangumi({ id: bangumiId }))
     }
   }
 
   render () {
-    const { dispatch, isAuthenticated, params, bangumis, favorites } = this.props
+    const { dispatch, isAuthenticated, params, bangumis, screenshots } = this.props
     const { bangumiId } = params
 
-    const bangumi = bangumis[bangumiId]
-
+    const bangumi = bangumis.byId[bangumiId]
     if (!bangumi) return null
+
     const screenshotIds = bangumi.screenshots
     const zooming = new Zooming()
 
@@ -40,12 +40,11 @@ class Bangumi extends Component {
       <Segment basic>
         <Header as="h1">{bangumi.title}</Header>
           <Card.Group>
-            {screenshotIds.map(screenshotId =>
+            {screenshotIds.map(id =>
               <ScreenshotCard
                 dispatch={dispatch}
-                key={screenshotId}
-                screenshotId={screenshotId}
-                favorites={favorites}
+                key={id}
+                screenshot={screenshots.byId[id]}
                 zooming={zooming}
                 isAuthenticated={isAuthenticated}
               />
@@ -62,13 +61,13 @@ Bangumi.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { user, entities, bangumis } = state
+  const { user, bangumis, screenshots } = state
   const { isAuthenticated } = user
 
   return {
     isAuthenticated,
-    bangumiIds: bangumis.items,
-    bangumis: entities.bangumis,
+    bangumis,
+    screenshots
   }
 }
 

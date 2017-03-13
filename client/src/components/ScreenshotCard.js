@@ -12,10 +12,7 @@ import { getImageUrl } from '../utils'
 class ScreenshotCard extends Component {
 
   render () {
-    const { zooming, dispatch, screenshotId, screenshots, isAuthenticated } = this.props
-    const screenshot = screenshots[screenshotId]
-
-    if (!screenshot) return null
+    const { zooming, dispatch, screenshot, isAuthenticated } = this.props
 
     const { _id, file } = screenshot
 
@@ -31,13 +28,13 @@ class ScreenshotCard extends Component {
           <DownloadButton
             file={file}
           />
-          <FavoriteButton
+          {/* <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}
             // isFavorited={isFavorited}
             // favoritesCount={favoritesCount}
             isAuthenticated={isAuthenticated}
-          />
+          /> */}
           <DetailsButton
             floated="right"
             screenshotId={_id}
@@ -49,20 +46,20 @@ class ScreenshotCard extends Component {
 }
 
 ScreenshotCard.propTypes = {
-  zooming: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  screenshotId: PropTypes.string.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  screenshot: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  zooming: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
-  const { entities } = state
-  const { screenshots } = entities
+// function mapStateToProps(state) {
+//   const { entities } = state
+//   const { screenshots } = entities
+//
+//   return {
+//     screenshots
+//   }
+// }
 
-  return {
-    screenshots
-  }
-}
-
-export default connect(mapStateToProps)(ScreenshotCard)
+// export default connect(mapStateToProps)(ScreenshotCard)
+export default ScreenshotCard
