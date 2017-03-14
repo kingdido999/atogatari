@@ -7,22 +7,11 @@ export default combineReducers({
 
 function favoritesById (state = {}, action) {
   switch (action.type) {
-    case 'GET_BANGUMIS_FULFILLED':
-    case 'GET_BANGUMI_FULFILLED':
-      if (!action.payload.data.entities.favorites) return state
-
-      return {
-        ...state,
-        ...action.payload.data.entities.favorites
-      }
     case 'GET_USER_FAVORITES_FULFILLED':
       if (action.payload.data.result.length === 0) {
         return state
       }
-      return {
-        ...state,
-        ...action.payload.data.entities.favorites
-      }
+      return action.payload.data.entities.favorites
     case 'ADD_FAVORITE':
       return {
         ...state,
@@ -40,20 +29,6 @@ function favoritesById (state = {}, action) {
 
 function allFavorites (state = [], action) {
   switch (action.type) {
-    case 'GET_BANGUMIS_FULFILLED':
-      if (!action.payload.data.entities.favorites) return state
-
-      return [
-        ...state,
-        ...action.payload.data.result
-      ]
-    case 'GET_BANGUMI_FULFILLED':
-      if (!action.payload.data.entities.favorites) return state
-      
-      return [
-        ...state,
-        action.payload.data.result
-      ]
     case 'GET_USER_FAVORITES_FULFILLED':
       return action.payload.data.result
     case 'ADD_FAVORITE':

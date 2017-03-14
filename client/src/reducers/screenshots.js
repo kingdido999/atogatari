@@ -8,11 +8,11 @@ export default combineReducers({
 function screenshotsById (state = {}, action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
+      return action.payload.data.entities.screenshots
     case 'GET_BANGUMI_FULFILLED':
-      const { screenshots } = action.payload.data.entities
       return {
         ...state,
-        ...screenshots
+        ...action.payload.data.entities.screenshots
       }
     default:
       return state
@@ -22,12 +22,11 @@ function screenshotsById (state = {}, action) {
 function allScreenshots (state = [], action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
+      return Object.keys(action.payload.data.entities.screenshots)
     case 'GET_BANGUMI_FULFILLED':
-      console.log(action.payload.data)
-      const { result } = action.payload.data
       return [
         ...state,
-        ...result
+        ...Object.keys(action.payload.data.entities.screenshots)
       ]
     default:
       return state

@@ -6,25 +6,42 @@ import * as schemas from '../constants/schemas'
 
 export function getUserFavorites () {
   return {
-    type: 'GET_FAVORITES',
+    type: 'GET_USER_FAVORITES',
     payload: axios.post('/api/user/favorites', {}, {
       headers: getAuthHeader().headers,
       transformResponse: [function(data) {
-        return normalize(JSON.parse(data), schemas.favoriteListSchema).entities
+        return normalize(JSON.parse(data), [schemas.favoriteSchema])
       }]
     })
   }
 }
 
 export function toggleFavorite (params) {
-  return {
-    type: 'TOGGLE_FAVORITE',
-    payload: axios.post('/api/user/favorite', params, {
-      headers: getAuthHeader().headers,
-      transformResponse: [function(data) {
-        return normalize(JSON.parse(data), schemas.favoriteSchema).entities
-      }]
+  return dispatch => {
+    axios.post('/api/user/favorite', params, {
+      headers: getAuthHeader().headers
     })
+    .then(res => {
+      if (res.status === 201) {
+        dispatch(addFavorite(res.data))
+      } else {
+        dispatch(removeFavorite(res.data))
+      }
+    })
+  }
+}
+
+export function addFavorite (favorite) {
+  return {
+    type: 'ADD_FAVORITE',
+    favorite
+  }
+}
+
+export function removeFavorite (favorite) {
+  return {
+    type: 'REMOVE_FAVORITE',
+    favorite
   }
 }
 

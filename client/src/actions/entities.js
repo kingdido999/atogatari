@@ -1,4 +1,4 @@
-import { normalize, schema } from 'normalizr'
+import { normalize } from 'normalizr'
 import axios from 'axios'
 
 import * as schemas from '../constants/schemas'

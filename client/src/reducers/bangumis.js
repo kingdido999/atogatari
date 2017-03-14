@@ -8,11 +8,11 @@ export default combineReducers({
 function bangumisById (state = {}, action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
+      return action.payload.data.entities.bangumis
     case 'GET_BANGUMI_FULFILLED':
-      const { bangumis } = action.payload.data.entities
       return {
         ...state,
-        ...bangumis
+        ...action.payload.data.entities.bangumis
       }
     default:
       return state
@@ -22,11 +22,7 @@ function bangumisById (state = {}, action) {
 function allBangumis (state = [], action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
-      console.log(action.payload.data)
-      return [
-        ...state,
-        ...action.payload.data.result
-      ]
+      return action.payload.data.result
     case 'GET_BANGUMI_FULFILLED':
       return [
         ...state,

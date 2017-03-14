@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import { Card } from 'semantic-ui-react'
 
 import ZoomableImage from './ZoomableImage'
@@ -12,8 +11,7 @@ import { getImageUrl } from '../utils'
 class ScreenshotCard extends Component {
 
   render () {
-    const { zooming, dispatch, screenshot, isAuthenticated } = this.props
-
+    const { dispatch, isAuthenticated, zooming, screenshot, isFavorited, favoritesCount } = this.props
     const { _id, file } = screenshot
 
     return (
@@ -28,13 +26,13 @@ class ScreenshotCard extends Component {
           <DownloadButton
             file={file}
           />
-          {/* <FavoriteButton
+          <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}
-            // isFavorited={isFavorited}
-            // favoritesCount={favoritesCount}
+            isFavorited={isFavorited}
+            favoritesCount={favoritesCount}
             isAuthenticated={isAuthenticated}
-          /> */}
+          />
           <DetailsButton
             floated="right"
             screenshotId={_id}
@@ -47,19 +45,11 @@ class ScreenshotCard extends Component {
 
 ScreenshotCard.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  screenshot: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  zooming: PropTypes.object.isRequired
+  zooming: PropTypes.object.isRequired,
+  screenshot: PropTypes.object.isRequired,
+  isFavorited: PropTypes.bool.isRequired,
+  favoritesCount: PropTypes.number.isRequired,
 }
 
-// function mapStateToProps(state) {
-//   const { entities } = state
-//   const { screenshots } = entities
-//
-//   return {
-//     screenshots
-//   }
-// }
-
-// export default connect(mapStateToProps)(ScreenshotCard)
 export default ScreenshotCard

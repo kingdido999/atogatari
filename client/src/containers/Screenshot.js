@@ -28,9 +28,9 @@ class Screenshot extends Component {
   }
 
   render () {
-    const { dispatch, isAuthenticated, isFetching, selectedScreenshot } = this.props
+    const { dispatch, isAuthenticated, selectedScreenshot } = this.props
 
-    if (isFetching || !selectedScreenshot) return null
+    if (!selectedScreenshot) return null
 
     const { _id, file, episode, bangumi } = selectedScreenshot
 
@@ -80,17 +80,15 @@ class Screenshot extends Component {
 Screenshot.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
 }
 
 function mapStateToProps(state) {
   const { user, entities } = state
   const { isAuthenticated } = user
-  const { isFetching, selectedScreenshot } = entities
+  const { selectedScreenshot } = entities
 
   return {
     isAuthenticated,
-    isFetching,
     selectedScreenshot
   }
 }

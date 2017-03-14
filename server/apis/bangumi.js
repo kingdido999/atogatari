@@ -11,7 +11,9 @@ async function getBangumis (ctx) {
     .find(criteria)
     .populate({
       path: 'screenshots',
-      populate: 'favorites'
+      populate: {
+        path: 'favorites'
+      }
     })
     .exec()
 
