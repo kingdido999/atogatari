@@ -28,9 +28,7 @@ export function pluralize (singular, count) {
 
 export function getAuthHeader () {
   return {
-    headers: {
-      'Authorization': localStorage.getItem('token')
-    }
+    'Authorization': localStorage.getItem('token')
   }
 }
 
