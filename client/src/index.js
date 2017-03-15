@@ -19,6 +19,8 @@ import User from './containers/User'
 import UserFavorites from './components/UserFavorites'
 import UserUploads from './components/UserUploads'
 
+import '../semantic/dist/semantic.min.css'
+
 const history = syncHistoryWithStore(browserHistory, store)
 history.listen(location => store.dispatch(resetErrorMessage()))
 
