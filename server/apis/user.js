@@ -70,9 +70,7 @@ async function getFavoriteScreenshots (ctx) {
     .populate('favorites')
     .exec()
 
-  ctx.response.body = {
-    screenshots: screenshots
-  }
+  ctx.response.body = screenshots
 
   ctx.status = 200
 }
@@ -85,9 +83,7 @@ async function getUploadedScreenshots (ctx) {
     .populate('favorites')
     .exec()
 
-  ctx.response.body = {
-    screenshots: screenshots
-  }
+  ctx.response.body = screenshots
 
   ctx.status = 200
 }

@@ -12,17 +12,19 @@ class UserUploads extends Component {
   }
 
   render() {
-    const { dispatch, screenshots, zooming, isAuthenticated } = this.props
+    const { dispatch, userScreenshots, allFavorites, userFavorites, zooming, isAuthenticated } = this.props
 
     return (
       <Card.Group>
-        {screenshots.map((screenshot, index) =>
+        {userScreenshots.allIds.map(id =>
           <ScreenshotCard
             dispatch={dispatch}
-            key={index}
-            screenshot={screenshot}
+            key={id}
+            screenshot={userScreenshots.byId[id]}
             zooming={zooming}
             isAuthenticated={isAuthenticated}
+            allFavorites={allFavorites}
+            userFavorites={userFavorites}
           />
         )}
       </Card.Group>

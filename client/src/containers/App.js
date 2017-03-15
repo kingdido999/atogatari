@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Header from '../components/Header'
 
 import { getBangumis } from '../actions/entities'
-import { getUserFavorites } from '../actions/authed'
+import { getUserFavorites, getUploadedScreenshots } from '../actions/authed'
 
 class App extends Component {
 
@@ -15,6 +15,7 @@ class App extends Component {
 
     if (isAuthenticated) {
       dispatch(getUserFavorites())
+      dispatch(getUploadedScreenshots())
     }
   }
 

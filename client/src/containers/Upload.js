@@ -100,7 +100,8 @@ Upload.propTypes = {
 
 function mapStateToProps(state) {
   const { authed } = state
-  const { isUploading } = authed
+  const { upload } = authed
+  const { isUploading } = upload
 
   return {
     isUploading

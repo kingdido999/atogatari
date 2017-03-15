@@ -52,10 +52,15 @@ export function getFavoriteScreenshots (params) {
   }
 }
 
-export function getUploadedScreenshots (params) {
+export function getUploadedScreenshots () {
   return {
     type: 'GET_UPLOADED_SCREENSHOTS',
-    payload: axios.post('/api/user/uploadedScreenshots', params, getAuthHeader())
+    payload: axios.post('/api/user/uploadedScreenshots', {}, {
+      headers: getAuthHeader().headers,
+      transformResponse: [function(data) {
+        return normalize(JSON.parse(data), [schemas.screenshotSchema])
+      }]
+    })
   }
 }
 
