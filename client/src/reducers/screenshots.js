@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { union } from 'lodash'
 
 export default combineReducers({
   byId: screenshotsById,
@@ -14,6 +15,11 @@ function screenshotsById (state = {}, action) {
         ...state,
         ...action.payload.data.entities.screenshots
       }
+    case 'GET_SCREENSHOT_FULFILLED':
+      return {
+        ...state,
+        ...action.payload.data.entities.screenshots
+      }
     default:
       return state
   }
@@ -24,10 +30,9 @@ function allScreenshots (state = [], action) {
     case 'GET_BANGUMIS_FULFILLED':
       return Object.keys(action.payload.data.entities.screenshots)
     case 'GET_BANGUMI_FULFILLED':
-      return [
-        ...state,
-        ...Object.keys(action.payload.data.entities.screenshots)
-      ]
+      return union(state, Object.keys(action.payload.data.entities.screenshots))
+    case 'GET_SCREENSHOT_FULFILLED':
+      return union(state, [action.payload.data.result])
     default:
       return state
   }

@@ -7,7 +7,7 @@ import Zooming from 'zooming'
 class User extends Component {
 
   render() {
-    const { dispatch, screenshots, isAuthenticated } = this.props
+    const { dispatch, screenshots, allFavorites, userFavorites, isAuthenticated } = this.props
 
     const zooming = new Zooming()
 
@@ -15,6 +15,8 @@ class User extends Component {
      (child) => React.cloneElement(child, {
        dispatch,
        screenshots,
+       allFavorites,
+       userFavorites,
        zooming,
        isAuthenticated
      })
@@ -37,17 +39,18 @@ class User extends Component {
 User.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  screenshots: PropTypes.array.isRequired
+  screenshots: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
-  const { user, entities } = state
+  const { user, screenshots, favorites, authed } = state
   const { isAuthenticated } = user
-  const { screenshots } = entities
 
   return {
     isAuthenticated,
-    screenshots
+    screenshots,
+    allFavorites: favorites,
+    userFavorites: authed.favorites
   }
 }
 

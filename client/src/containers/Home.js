@@ -5,13 +5,7 @@ import { connect } from 'react-redux'
 import BangumiItem from '../components/BangumiItem'
 import SearchBar from '../components/SearchBar'
 
-import { getBangumis } from '../actions/entities'
-
 class Home extends Component {
-
-  componentWillMount () {
-    this.props.dispatch(getBangumis())
-  }
 
   render() {
     const { dispatch, bangumis } = this.props

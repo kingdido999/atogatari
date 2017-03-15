@@ -4,7 +4,19 @@ import { connect } from 'react-redux'
 
 import Header from '../components/Header'
 
+import { getBangumis } from '../actions/entities'
+import { getUserFavorites } from '../actions/authed'
+
 class App extends Component {
+
+  componentWillMount () {
+    const { dispatch, isAuthenticated } = this.props
+    dispatch(getBangumis())
+
+    if (isAuthenticated) {
+      dispatch(getUserFavorites())
+    }
+  }
 
   render() {
     const { dispatch, isAuthenticated, errorMessage } = this.props
@@ -31,9 +43,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  errorMessage: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
 }
 
 function mapStateToProps(state) {

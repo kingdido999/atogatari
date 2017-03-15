@@ -5,20 +5,15 @@ import Zooming from 'zooming'
 
 import ScreenshotCard from '../components/ScreenshotCard'
 import { getBangumi } from '../actions/entities'
-import { getUserFavorites } from '../actions/authed'
 
 class Bangumi extends Component {
 
   componentWillMount () {
-    const { params, dispatch, isAuthenticated, bangumis } = this.props
+    const { params, dispatch, bangumis } = this.props
     const { bangumiId } = params
 
     if (!bangumis.byId[bangumiId]) {
       dispatch(getBangumi({ id: bangumiId }))
-    }
-
-    if (isAuthenticated) {
-      dispatch(getUserFavorites())
     }
   }
 
@@ -31,36 +26,8 @@ class Bangumi extends Component {
     }
   }
 
-  renderScreenshotCard = (id) => {
-    const { dispatch, isAuthenticated, screenshots, allFavorites, userFavorites } = this.props
-
-    const screenshot = screenshots.byId[id]
-    const screenshotFavorites = allFavorites.allIds.filter(favoriteId => {
-      return allFavorites.byId[favoriteId].screenshot === id
-    })
-
-    const isFavorited = isAuthenticated &&
-      screenshotFavorites.filter(favoriteId => {
-        return userFavorites.allIds.includes(favoriteId)
-      }).length > 0
-
-    const favoritesCount = screenshotFavorites.length
-
-    return (
-      <ScreenshotCard
-        key={id}
-        dispatch={dispatch}
-        isAuthenticated={isAuthenticated}
-        zooming={new Zooming()}
-        screenshot={screenshot}
-        isFavorited={isFavorited}
-        favoritesCount={favoritesCount}
-      />
-    )
-  }
-
   render () {
-    const { params, bangumis } = this.props
+    const { dispatch, params, isAuthenticated, bangumis, screenshots, allFavorites, userFavorites } = this.props
     const { bangumiId } = params
 
     const bangumi = bangumis.byId[bangumiId]
@@ -72,7 +39,17 @@ class Bangumi extends Component {
       <Segment basic>
         <Header as="h1">{bangumi.title}</Header>
           <Card.Group>
-            {screenshotIds.map(this.renderScreenshotCard)}
+            {screenshotIds.map(id =>
+              <ScreenshotCard
+                key={id}
+                dispatch={dispatch}
+                isAuthenticated={isAuthenticated}
+                zooming={new Zooming()}
+                screenshot={screenshots.byId[id]}
+                allFavorites={allFavorites}
+                userFavorites={userFavorites}
+              />
+            )}
           </Card.Group>
       </Segment>
     )

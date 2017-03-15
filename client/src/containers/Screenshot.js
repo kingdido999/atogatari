@@ -13,35 +13,44 @@ import { getImageUrl } from '../utils'
 class Screenshot extends Component {
 
   componentWillMount () {
-    const { params, dispatch } = this.props
+    const { params, dispatch, screenshots } = this.props
     const { screenshotId } = params
-    dispatch(getScreenshot({ id: screenshotId }))
+    const screenshot = screenshots.byId[screenshotId]
+    if (!screenshot) {
+      dispatch(getScreenshot({ id: screenshotId }))
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params, dispatch } = this.props
+    const { params, dispatch, screenshots } = this.props
 
     const screenshotId = nextProps.params.screenshotId
-    if (screenshotId !== params.screenshotId) {
+    const screenshot = screenshots.byId[screenshotId]
+    if (screenshotId !== params.screenshotId && !screenshot) {
       dispatch(getScreenshot({ id: screenshotId }))
     }
   }
 
   render () {
-    const { dispatch, isAuthenticated, selectedScreenshot } = this.props
+    const { params, dispatch, isAuthenticated, bangumis, screenshots, allFavorites, userFavorites } = this.props
+    const { screenshotId } = params
+    const screenshot = screenshots.byId[screenshotId]
 
-    if (!selectedScreenshot) return null
-
-    const { _id, file, episode, bangumi } = selectedScreenshot
-
-    const zooming = new Zooming()
+    if (!screenshot) return null
+    const { _id, file, episode } = screenshot
+    const bangumi = bangumis.byId[screenshot.bangumi]
+    if (!bangumi) return null
+    
+    const screenshotFavorites = allFavorites.allIds.filter(favoriteId => {
+      return allFavorites.byId[favoriteId].screenshot === _id
+    })
 
     const isFavorited = isAuthenticated &&
-      selectedScreenshot.favorites
-      .filter(favorite => favorite.screenshot === _id)
-      .length > 0
+      screenshotFavorites.filter(favoriteId => {
+        return userFavorites.allIds.includes(favoriteId)
+      }).length > 0
 
-    const favoritesCount = selectedScreenshot.favorites.length
+    const favoritesCount = screenshotFavorites.length
 
     return (
       <Container>
@@ -56,7 +65,7 @@ class Screenshot extends Component {
           id={_id}
           src={getImageUrl(file.medium)}
           dataOriginal={getImageUrl(file.large)}
-          zooming={zooming}
+          zooming={new Zooming()}
         />
 
         <Segment basic>
@@ -80,16 +89,19 @@ class Screenshot extends Component {
 Screenshot.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  screenshot: PropTypes.object
 }
 
-function mapStateToProps(state) {
-  const { user, entities } = state
+function mapStateToProps(state, ownProps) {
+  const { user, bangumis, screenshots, favorites, authed } = state
   const { isAuthenticated } = user
-  const { selectedScreenshot } = entities
 
   return {
     isAuthenticated,
-    selectedScreenshot
+    bangumis,
+    screenshots,
+    allFavorites: favorites,
+    userFavorites: authed.favorites
   }
 }
 
