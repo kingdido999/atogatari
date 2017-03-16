@@ -32,8 +32,12 @@ export function getAuthHeader () {
   }
 }
 
+export function isLoggedIn () {
+  return localStorage.getItem('token') ? true : false
+}
+
 export function requireAuth (nextState, replace) {
-  if (!localStorage.getItem('token')) {
+  if (!isLoggedIn()) {
     replace({
       pathname: '/login',
       state: { nextPathname: nextState.location.pathname }

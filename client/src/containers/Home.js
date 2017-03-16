@@ -12,7 +12,7 @@ class Home extends Component {
 
     return (
       <Container text>
-        <Segment basic>
+        <Segment basic loading={bangumis.isFetching}>
           <SearchBar
             dispatch={dispatch}
             isFetching={false}

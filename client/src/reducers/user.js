@@ -1,50 +1,33 @@
+import { combineReducers } from 'redux'
+import { isLoggedIn } from '../utils'
 
-const initialState = {
-  isFetching: false,
-  isAuthenticated: localStorage.getItem('token') ? true : false,
-}
+export default combineReducers({
+  isFetching: isFetching,
+  isAuthenticated: isAuthenticated
+})
 
-export default function user(state = initialState, action) {
+function isFetching (state = false, action) {
   switch (action.type) {
     case 'LOGIN_PENDING':
-      return { ...state,
-        isFetching: true
-      }
-    case 'LOGIN_FULFILLED':
-      return { ...state,
-        isFetching: false,
-        isAuthenticated: true
-      }
-    case 'LOGIN_REJECTED':
-      return { ...state,
-        isFetching: false
-      }
     case 'SIGNUP_PENDING':
-      return { ...state,
-        isFetching: true
-      }
+      return true
+    case 'LOGIN_FULFILLED':
     case 'SIGNUP_FULFILLED':
-      return { ...state,
-        isFetching: false,
-        isAuthenticated: true
-      }
+    case 'LOGIN_REJECTED':
     case 'SIGNUP_REJECTED':
-      return { ...state,
-        isFetching: false
-      }
-    case 'LOGOUT_PENDING':
-      return { ...state,
-        isFetching: true
-      }
+      return false
+    default:
+      return state
+  }
+}
+
+function isAuthenticated (state = isLoggedIn(), action) {
+  switch (action.type) {
+    case 'LOGIN_FULFILLED':
+    case 'SIGNUP_FULFILLED':
+      return true
     case 'LOGOUT_FULFILLED':
-      return { ...state,
-        isFetching: false,
-        isAuthenticated: false
-      }
-    case 'LOGOUT_REJECTED':
-      return { ...state,
-        isFetching: false
-      }
+      return false
     default:
       return state
   }

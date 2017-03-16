@@ -7,27 +7,23 @@ import ZoomableImage from '../components/ZoomableImage'
 import DownloadButton from '../components/buttons/DownloadButton'
 import FavoriteButton from '../components/buttons/FavoriteButton'
 
-import { getScreenshot } from '../actions/entities'
+import { getScreenshotIfNeeded } from '../actions/entities'
 import { getImageUrl } from '../utils'
 
 class Screenshot extends Component {
 
   componentWillMount () {
-    const { params, dispatch, screenshots } = this.props
+    const { params, dispatch } = this.props
     const { screenshotId } = params
-    const screenshot = screenshots.byId[screenshotId]
-    if (!screenshot) {
-      dispatch(getScreenshot({ id: screenshotId }))
-    }
+    dispatch(getScreenshotIfNeeded(screenshotId))
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params, dispatch, screenshots } = this.props
-
+    const { params, dispatch } = this.props
     const screenshotId = nextProps.params.screenshotId
-    const screenshot = screenshots.byId[screenshotId]
-    if (screenshotId !== params.screenshotId && !screenshot) {
-      dispatch(getScreenshot({ id: screenshotId }))
+    
+    if (screenshotId !== params.screenshotId) {
+      dispatch(getScreenshotIfNeeded(screenshotId))
     }
   }
 
@@ -40,7 +36,7 @@ class Screenshot extends Component {
     const { _id, file, episode } = screenshot
     const bangumi = bangumis.byId[screenshot.bangumi]
     if (!bangumi) return null
-    
+
     const screenshotFavorites = allFavorites.allIds.filter(favoriteId => {
       return allFavorites.byId[favoriteId].screenshot === _id
     })

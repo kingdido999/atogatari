@@ -72,7 +72,9 @@ class Upload extends Component {
             </Form.Field>
 
             {imagePreviewUrl &&
-              <Image src={imagePreviewUrl} className="img-preview" />
+              <Form.Field>
+                <Image src={imagePreviewUrl} className="img-preview" />
+              </Form.Field>
             }
 
             <Form.Field>
