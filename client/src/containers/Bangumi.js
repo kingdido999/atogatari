@@ -2,8 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Segment, Header, Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
+import { uniq } from 'lodash'
 
 import ScreenshotCard from '../components/ScreenshotCard'
+import ScreenshotFilters from '../components/ScreenshotFilters'
 import { getBangumiIfNeeded } from '../actions/entities'
 
 class Bangumi extends Component {
@@ -35,10 +37,20 @@ class Bangumi extends Component {
 
     const bangumi = bangumis.byId[bangumiId]
     const screenshotIds = bangumi.screenshots
+    const episodes = uniq(screenshotIds
+    .reduce((acc, id) => {
+      return acc.concat(screenshots.byId[id].episode)
+    }, []))
+    .sort((a, b) => a - b)
 
     return (
       <Segment basic>
         <Header as="h1">{bangumi.title}</Header>
+        <ScreenshotFilters
+          dispatch={dispatch}
+          episodes={episodes}
+        />
+
         <Card.Group>
           {screenshotIds.map(id =>
             <ScreenshotCard
