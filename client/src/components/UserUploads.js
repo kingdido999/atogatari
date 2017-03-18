@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
-import { getUploadedScreenshotsIfNeeded } from '../actions/authed'
+import { getUploadedScreenshotsIfNeeded } from '../actions/user'
 
 class UserUploads extends Component {
 

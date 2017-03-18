@@ -44,7 +44,7 @@ User.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { entities, user, authed, screenshotFavorites } = state
+  const { entities, user, screenshotFavorites } = state
   const { isAuthenticated } = user
   const { screenshots, favorites } = entities
 
@@ -53,8 +53,8 @@ function mapStateToProps(state) {
     screenshots,
     favorites,
     screenshotFavorites,
-    myScreenshots: authed.screenshots,
-    myFavorites: authed.favorites
+    myScreenshots: user.screenshots,
+    myFavorites: user.favorites
   }
 }
 

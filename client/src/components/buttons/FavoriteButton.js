@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Button, Icon, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
-import { toggleFavorite } from '../../actions/authed'
+import { toggleFavorite } from '../../actions/user'
 
 class FavoriteButton extends Component {
 

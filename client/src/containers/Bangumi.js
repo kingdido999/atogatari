@@ -7,7 +7,7 @@ import { uniq } from 'lodash'
 import ScreenshotCard from '../components/ScreenshotCard'
 import ScreenshotFilters from '../components/ScreenshotFilters'
 import { getBangumiIfNeeded } from '../actions/entities'
-import { getUserFavoritesIfNeeded } from '../actions/authed'
+import { getUserFavoritesIfNeeded } from '../actions/user'
 
 class Bangumi extends Component {
 
@@ -88,8 +88,8 @@ Bangumi.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { authed, entities, user, bangumiScreenshots, screenshotFavorites } = state
-  const { isAuthenticated } = user
+  const { entities, user, bangumiScreenshots, screenshotFavorites } = state
+  const { isAuthenticated, favorites } = user
   const { bangumis, screenshots } = entities
 
   return {
@@ -98,7 +98,7 @@ function mapStateToProps(state, ownProps) {
     bangumiScreenshots,
     screenshots,
     screenshotFavorites,
-    myFavorites: authed.favorites
+    myFavorites: favorites
   }
 }
 

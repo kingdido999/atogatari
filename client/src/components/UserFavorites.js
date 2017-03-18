@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
-import { getUserFavoritesIfNeeded } from '../actions/authed'
+import { getUserFavoritesIfNeeded } from '../actions/user'
 
 class UserFavorites extends Component {
 

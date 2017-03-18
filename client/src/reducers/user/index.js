@@ -1,9 +1,16 @@
 import { combineReducers } from 'redux'
-import { isLoggedIn } from '../utils'
+import screenshots from './screenshots'
+import favorites from './favorites'
+import upload from './upload'
+
+import { isLoggedIn } from '../../utils'
 
 export default combineReducers({
   isFetching,
-  isAuthenticated
+  isAuthenticated,
+  screenshots,
+  favorites,
+  upload
 })
 
 function isFetching (state = false, action) {

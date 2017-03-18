@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
 
-import { upload } from '../actions/authed'
+import { upload } from '../actions/user'
 
 class Upload extends Component {
 
@@ -101,8 +101,8 @@ Upload.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { authed } = state
-  const { upload } = authed
+  const { user } = state
+  const { upload } = user
   const { isUploading } = upload
 
   return {
