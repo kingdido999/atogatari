@@ -65,6 +65,17 @@ export function getFavoriteScreenshots (params) {
   }
 }
 
+export function getUploadedScreenshotsIfNeeded () {
+  return (dispatch, getState) => {
+    const { authed } = getState()
+    const { screenshots } = authed
+
+    if (screenshots.ids.length === 0) {
+      dispatch(getUploadedScreenshots())
+    }
+  }
+}
+
 export function getUploadedScreenshots () {
   return {
     type: 'GET_UPLOADED_SCREENSHOTS',

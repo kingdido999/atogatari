@@ -4,6 +4,8 @@ export default function screenshotFavorites (state = {}, action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
     case 'GET_BANGUMI_FULFILLED':
+    case 'GET_USER_FAVORITES_FULFILLED':
+    case 'GET_UPLOADED_SCREENSHOTS_FULFILLED':
       const { screenshots } = action.payload.data.entities
       const items = {}
 
@@ -12,7 +14,11 @@ export default function screenshotFavorites (state = {}, action) {
           ids: screenshot.favorites
         }
       })
-      return items
+
+      return {
+        ...state,
+        ...items
+      }
     case 'GET_SCREENSHOT_FULFILLED':
       return {
         ...state,
@@ -25,7 +31,7 @@ export default function screenshotFavorites (state = {}, action) {
         ...state,
         [action.favorite.screenshot]: {
           ids: [
-            ...state,
+            ...state[action.favorite.screenshot].ids,
             action.favorite._id
           ]
         }

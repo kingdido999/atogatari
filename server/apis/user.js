@@ -7,6 +7,7 @@ async function getUserFavorites (ctx) {
     .find({
       user: ctx.state.uid
     })
+    .populate('user screenshot')
     .exec()
 
   ctx.response.body = favorites

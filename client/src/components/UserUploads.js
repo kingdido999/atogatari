@@ -2,29 +2,29 @@ import React, { Component } from 'react'
 import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from '../components/ScreenshotCard'
-import { getUploadedScreenshots } from '../actions/authed'
+import { getUploadedScreenshotsIfNeeded } from '../actions/authed'
 
 class UserUploads extends Component {
 
   componentWillMount () {
     const { dispatch } = this.props
-    dispatch(getUploadedScreenshots())
+    dispatch(getUploadedScreenshotsIfNeeded())
   }
 
   render() {
-    const { dispatch, userScreenshots, allFavorites, userFavorites, zooming, isAuthenticated } = this.props
+    const { dispatch, isAuthenticated, screenshots, myScreenshots, myFavorites, screenshotFavorites, zooming } = this.props
 
     return (
       <Card.Group>
-        {userScreenshots.allIds.map(id =>
+        {myScreenshots.ids.map(id =>
           <ScreenshotCard
-            dispatch={dispatch}
             key={id}
-            screenshot={userScreenshots.byId[id]}
-            zooming={zooming}
+            dispatch={dispatch}
             isAuthenticated={isAuthenticated}
-            allFavorites={allFavorites}
-            userFavorites={userFavorites}
+            zooming={zooming}
+            screenshot={screenshots[id]}
+            myFavorites={myFavorites}
+            screenshotFavorites={screenshotFavorites[id]}
           />
         )}
       </Card.Group>
