@@ -11,7 +11,7 @@ class DetailsButton extends Component {
 
   render () {
     const { floated } = this.props
-    
+
     return (
       <Button
         content='Details'

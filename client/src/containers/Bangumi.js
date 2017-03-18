@@ -7,6 +7,7 @@ import { uniq } from 'lodash'
 import ScreenshotCard from '../components/ScreenshotCard'
 import ScreenshotFilters from '../components/ScreenshotFilters'
 import { getBangumiIfNeeded } from '../actions/entities'
+import { getUserFavoritesIfNeeded } from '../actions/authed'
 
 class Bangumi extends Component {
 
@@ -14,6 +15,7 @@ class Bangumi extends Component {
     const { params, dispatch } = this.props
     const { bangumiId } = params
     dispatch(getBangumiIfNeeded(bangumiId))
+    dispatch(getUserFavoritesIfNeeded())
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,8 +28,10 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, params, isAuthenticated, bangumi, screenshots, bangumiScreenshots, favorites, userFavorites } = this.props
+    const { dispatch, params, isAuthenticated, bangumis, screenshots, bangumiScreenshots, screenshotFavorites, myFavorites } = this.props
     const { bangumiId } = params
+
+    const bangumi = bangumis[bangumiId]
 
     if (!bangumi) {
       return (
@@ -68,8 +72,8 @@ class Bangumi extends Component {
               isAuthenticated={isAuthenticated}
               zooming={new Zooming()}
               screenshot={screenshots[id]}
-              favorites={favorites}
-              userFavorites={userFavorites}
+              myFavorites={myFavorites}
+              screenshotFavorites={screenshotFavorites[id]}
             />
           )}
         </Card.Group>
@@ -84,21 +88,17 @@ Bangumi.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, bangumis, bangumiScreenshots, favorites, authed } = state
+  const { authed, entities, user, bangumiScreenshots, screenshotFavorites } = state
   const { isAuthenticated } = user
-  const { isFetching } = bangumis
-  const { screenshots } = entities
-
-  const bangumi = entities.bangumis[ownProps.params.bangumiId]
+  const { bangumis, screenshots } = entities
 
   return {
     isAuthenticated,
-    isFetching,
-    bangumi,
+    bangumis,
     bangumiScreenshots,
     screenshots,
-    favorites,
-    userFavorites: authed.favorites
+    screenshotFavorites,
+    myFavorites: authed.favorites
   }
 }
 

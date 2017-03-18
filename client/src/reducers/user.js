@@ -3,8 +3,7 @@ import { isLoggedIn } from '../utils'
 
 export default combineReducers({
   isFetching,
-  isAuthenticated,
-  userId
+  isAuthenticated
 })
 
 function isFetching (state = false, action) {
@@ -29,18 +28,6 @@ function isAuthenticated (state = isLoggedIn(), action) {
       return true
     case 'LOGOUT_FULFILLED':
       return false
-    default:
-      return state
-  }
-}
-
-function userId (state = null, action) {
-  switch (action.type) {
-    case 'LOGIN_FULFILLED':
-    case 'SIGNUP_FULFILLED':
-      return action.payload.data.userId
-    case 'LOGOUT_FULFILLED':
-      return null
     default:
       return state
   }

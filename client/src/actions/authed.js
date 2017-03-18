@@ -4,6 +4,17 @@ import { getAuthHeader } from '../utils'
 
 import * as schemas from '../constants/schemas'
 
+export function getUserFavoritesIfNeeded () {
+  return (dispatch, getState) => {
+    const { authed } = getState()
+    const { favorites } = authed
+
+    if (favorites.ids.length === 0) {
+      dispatch(getUserFavorites())
+    }
+  }
+}
+
 export function getUserFavorites () {
   return {
     type: 'GET_USER_FAVORITES',

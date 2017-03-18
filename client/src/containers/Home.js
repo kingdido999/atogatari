@@ -11,7 +11,6 @@ class Home extends Component {
 
   componentWillMount () {
     const { dispatch } = this.props
-
     dispatch(getBangumis())
   }
 

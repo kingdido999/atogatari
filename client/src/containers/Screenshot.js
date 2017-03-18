@@ -28,27 +28,22 @@ class Screenshot extends Component {
   }
 
   render () {
-    const { params, dispatch, isAuthenticated, bangumis, screenshots, allFavorites, userFavorites } = this.props
+    const { params, dispatch, isAuthenticated, bangumis, screenshots, screenshotFavorites, userFavorites } = this.props
     const { screenshotId } = params
     const screenshot = screenshots[screenshotId]
-
     if (!screenshot) return null
+
+    const bangumi = bangumis[screenshot.bangumi]
+
+    if (!bangumi) return null
     const { _id, file, episode } = screenshot
 
-    console.log(screenshot)
-    const bangumi = bangumis[screenshot.bangumi]
-    if (!bangumi) return null
-
-    const screenshotFavorites = allFavorites.allIds.filter(favoriteId => {
-      return allFavorites.byId[favoriteId].screenshot === _id
-    })
-
     const isFavorited = isAuthenticated &&
-      screenshotFavorites.filter(favoriteId => {
-        return userFavorites.allIds.includes(favoriteId)
+      screenshotFavorites[screenshotId].ids.filter(favoriteId => {
+        return userFavorites.ids.includes(favoriteId)
       }).length > 0
 
-    const favoritesCount = screenshotFavorites.length
+    const favoritesCount = screenshotFavorites[screenshotId].ids.length
 
     return (
       <Container>
@@ -91,7 +86,7 @@ Screenshot.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, favorites, authed } = state
+  const { entities, user, screenshotFavorites, authed } = state
   const { bangumis, screenshots } = entities
   const { isAuthenticated } = user
 
@@ -99,7 +94,7 @@ function mapStateToProps(state, ownProps) {
     isAuthenticated,
     bangumis,
     screenshots,
-    allFavorites: favorites,
+    screenshotFavorites,
     userFavorites: authed.favorites
   }
 }
