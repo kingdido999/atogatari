@@ -7,7 +7,7 @@ import Zooming from 'zooming'
 class User extends Component {
 
   render() {
-    const { dispatch, screenshots, favorites, screenshotFavorites, myScreenshots, myFavorites, isAuthenticated } = this.props
+    const { dispatch, screenshots, favorites, screenshotFavorites, userScreenshots, userFavorites, isAuthenticated } = this.props
 
     const zooming = new Zooming()
 
@@ -17,8 +17,8 @@ class User extends Component {
        screenshots,
        favorites,
        screenshotFavorites,
-       myScreenshots,
-       myFavorites,
+       userScreenshots,
+       userFavorites,
        zooming,
        isAuthenticated
      })
@@ -53,8 +53,8 @@ function mapStateToProps(state) {
     screenshots,
     favorites,
     screenshotFavorites,
-    myScreenshots: user.screenshots,
-    myFavorites: user.favorites
+    userScreenshots: user.screenshots,
+    userFavorites: user.favorites
   }
 }
 

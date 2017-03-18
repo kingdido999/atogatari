@@ -12,8 +12,8 @@ class UserFavorites extends Component {
   }
 
   render() {
-    const { dispatch, isAuthenticated, screenshots, favorites, screenshotFavorites, myFavorites, zooming } = this.props
-    const favoriteScreenshotIds = myFavorites.ids.map(favoriteId => {
+    const { dispatch, isAuthenticated, screenshots, favorites, screenshotFavorites, userFavorites, zooming } = this.props
+    const favoriteScreenshotIds = userFavorites.ids.map(favoriteId => {
       return favorites[favoriteId].screenshot
     })
 
@@ -26,7 +26,7 @@ class UserFavorites extends Component {
             isAuthenticated={isAuthenticated}
             zooming={zooming}
             screenshot={screenshots[id]}
-            myFavorites={myFavorites}
+            userFavorites={userFavorites}
             screenshotFavorites={screenshotFavorites[id]}
           />
         )}

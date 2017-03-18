@@ -28,7 +28,7 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, params, isAuthenticated, bangumis, screenshots, bangumiScreenshots, screenshotFavorites, myFavorites } = this.props
+    const { dispatch, params, isAuthenticated, bangumis, screenshots, bangumiScreenshots, screenshotFavorites, userFavorites } = this.props
     const { bangumiId } = params
 
     const bangumi = bangumis[bangumiId]
@@ -72,7 +72,7 @@ class Bangumi extends Component {
               isAuthenticated={isAuthenticated}
               zooming={new Zooming()}
               screenshot={screenshots[id]}
-              myFavorites={myFavorites}
+              userFavorites={userFavorites}
               screenshotFavorites={screenshotFavorites[id]}
             />
           )}
@@ -98,7 +98,7 @@ function mapStateToProps(state, ownProps) {
     bangumiScreenshots,
     screenshots,
     screenshotFavorites,
-    myFavorites: favorites
+    userFavorites: favorites
   }
 }
 
