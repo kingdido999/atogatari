@@ -1,22 +1,24 @@
 import React, { Component } from 'react'
 import { Menu, Label } from 'semantic-ui-react'
 
-
+import EpisodeLabel from './EpisodeLabel'
 
 class ScreenshotFilters extends Component {
 
-  filterByEpisode = () => {
-    // const { dispatch } = this.props
-  }
-
   render () {
-    const { episodes } = this.props
+    const { dispatch, bangumiId, episodes, bangumiScreenshots } = this.props
 
     return (
       <Menu secondary>
         <Label.Group circular>
-          {episodes.map((episode, index) =>
-            <Label as='a' key={index}>{episode}</Label>
+          {episodes.map(episode =>
+            <EpisodeLabel
+              key={episode}
+              dispatch={dispatch}
+              bangumiId={bangumiId}
+              episode={episode}
+              active={bangumiScreenshots.episode === episode}
+            />
           )}
         </Label.Group>
       </Menu>

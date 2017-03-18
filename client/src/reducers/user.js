@@ -2,8 +2,9 @@ import { combineReducers } from 'redux'
 import { isLoggedIn } from '../utils'
 
 export default combineReducers({
-  isFetching: isFetching,
-  isAuthenticated: isAuthenticated
+  isFetching,
+  isAuthenticated,
+  userId
 })
 
 function isFetching (state = false, action) {
@@ -28,6 +29,18 @@ function isAuthenticated (state = isLoggedIn(), action) {
       return true
     case 'LOGOUT_FULFILLED':
       return false
+    default:
+      return state
+  }
+}
+
+function userId (state = null, action) {
+  switch (action.type) {
+    case 'LOGIN_FULFILLED':
+    case 'SIGNUP_FULFILLED':
+      return action.payload.data.userId
+    case 'LOGOUT_FULFILLED':
+      return null
     default:
       return state
   }

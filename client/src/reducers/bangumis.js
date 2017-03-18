@@ -2,8 +2,7 @@ import { combineReducers } from 'redux'
 
 export default combineReducers({
   isFetching: isFetching,
-  byId: bangumisById,
-  allIds: allBangumis
+  ids: allBangumis
 })
 
 function isFetching (state = false, action) {
@@ -16,20 +15,6 @@ function isFetching (state = false, action) {
     case 'GET_BANGUMI_REJECTED':
     case 'GET_BANGUMIS_REJECTED':
       return false
-    default:
-      return state
-  }
-}
-
-function bangumisById (state = {}, action) {
-  switch (action.type) {
-    case 'GET_BANGUMIS_FULFILLED':
-      return action.payload.data.entities.bangumis
-    case 'GET_BANGUMI_FULFILLED':
-      return {
-        ...state,
-        ...action.payload.data.entities.bangumis
-      }
     default:
       return state
   }

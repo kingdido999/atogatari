@@ -4,20 +4,20 @@ import { connect } from 'react-redux'
 
 import Header from '../components/Header'
 
-import { getBangumis } from '../actions/entities'
-import { getUserFavorites, getUploadedScreenshots } from '../actions/authed'
+// import { getBangumis } from '../actions/entities'
+// import { getUserFavorites, getUploadedScreenshots } from '../actions/authed'
 
 class App extends Component {
 
-  componentWillMount () {
-    const { dispatch, isAuthenticated } = this.props
-    dispatch(getBangumis())
-
-    if (isAuthenticated) {
-      dispatch(getUserFavorites())
-      dispatch(getUploadedScreenshots())
-    }
-  }
+  // componentWillMount () {
+  //   const { dispatch, isAuthenticated } = this.props
+    // dispatch(getBangumis())
+    //
+    // if (isAuthenticated) {
+    //   dispatch(getUserFavorites())
+    //   dispatch(getUploadedScreenshots())
+    // }
+  // }
 
   render() {
     const { dispatch, isAuthenticated, errorMessage } = this.props

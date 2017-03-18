@@ -41,7 +41,8 @@
     "dropdown",
     "popup",
     "tab",
-    "form"
+    "form",
+    "transition"
   ],
   "version": "2.2.9"
 }

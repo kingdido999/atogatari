@@ -12,7 +12,7 @@ async function getBangumis (ctx) {
     .populate({
       path: 'screenshots',
       populate: {
-        path: 'favorites'
+        path: 'user favorites'
       }
     })
     .exec()
@@ -29,7 +29,9 @@ async function getBangumi (ctx) {
     .findById(id)
     .populate({
       path: 'screenshots',
-      populate: 'favorites'
+      populate: {
+        path: 'user favorites'
+      },
     })
     .exec()
 

@@ -26,40 +26,49 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, params, isAuthenticated, bangumis, screenshots, allFavorites, userFavorites } = this.props
+    const { dispatch, params, isAuthenticated, bangumi, screenshots, bangumiScreenshots, favorites, userFavorites } = this.props
     const { bangumiId } = params
 
-    if (bangumis.isFetching) {
+    if (!bangumi) {
       return (
         <Segment basic loading />
       )
     }
 
-    const bangumi = bangumis.byId[bangumiId]
-    const screenshotIds = bangumi.screenshots
+    const screenshotIds = bangumiScreenshots[bangumiId].ids
+
     const episodes = uniq(screenshotIds
     .reduce((acc, id) => {
-      return acc.concat(screenshots.byId[id].episode)
+      return acc.concat(screenshots[id].episode)
     }, []))
     .sort((a, b) => a - b)
+
+    const episode = bangumiScreenshots[bangumiId].episode
+    const filteredScreenshotIds = episode !== undefined
+    ? screenshotIds.filter(screenshotId => {
+      return screenshots[screenshotId].episode === episode
+    })
+    : screenshotIds
 
     return (
       <Segment basic>
         <Header as="h1">{bangumi.title}</Header>
         <ScreenshotFilters
           dispatch={dispatch}
+          bangumiId={bangumiId}
           episodes={episodes}
+          bangumiScreenshots={bangumiScreenshots[bangumiId]}
         />
 
         <Card.Group>
-          {screenshotIds.map(id =>
+          {filteredScreenshotIds.map(id =>
             <ScreenshotCard
               key={id}
               dispatch={dispatch}
               isAuthenticated={isAuthenticated}
               zooming={new Zooming()}
-              screenshot={screenshots.byId[id]}
-              allFavorites={allFavorites}
+              screenshot={screenshots[id]}
+              favorites={favorites}
               userFavorites={userFavorites}
             />
           )}
@@ -75,14 +84,20 @@ Bangumi.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { user, bangumis, screenshots, favorites, authed } = state
+  const { entities, user, bangumis, bangumiScreenshots, favorites, authed } = state
   const { isAuthenticated } = user
+  const { isFetching } = bangumis
+  const { screenshots } = entities
+
+  const bangumi = entities.bangumis[ownProps.params.bangumiId]
 
   return {
     isAuthenticated,
-    bangumis,
+    isFetching,
+    bangumi,
+    bangumiScreenshots,
     screenshots,
-    allFavorites: favorites,
+    favorites,
     userFavorites: authed.favorites
   }
 }

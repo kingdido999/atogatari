@@ -21,7 +21,7 @@ class Screenshot extends Component {
   componentWillReceiveProps(nextProps) {
     const { params, dispatch } = this.props
     const screenshotId = nextProps.params.screenshotId
-    
+
     if (screenshotId !== params.screenshotId) {
       dispatch(getScreenshotIfNeeded(screenshotId))
     }
@@ -30,11 +30,13 @@ class Screenshot extends Component {
   render () {
     const { params, dispatch, isAuthenticated, bangumis, screenshots, allFavorites, userFavorites } = this.props
     const { screenshotId } = params
-    const screenshot = screenshots.byId[screenshotId]
+    const screenshot = screenshots[screenshotId]
 
     if (!screenshot) return null
     const { _id, file, episode } = screenshot
-    const bangumi = bangumis.byId[screenshot.bangumi]
+
+    console.log(screenshot)
+    const bangumi = bangumis[screenshot.bangumi]
     if (!bangumi) return null
 
     const screenshotFavorites = allFavorites.allIds.filter(favoriteId => {
@@ -89,7 +91,8 @@ Screenshot.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { user, bangumis, screenshots, favorites, authed } = state
+  const { entities, user, favorites, authed } = state
+  const { bangumis, screenshots } = entities
   const { isAuthenticated } = user
 
   return {

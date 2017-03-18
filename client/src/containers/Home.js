@@ -5,24 +5,32 @@ import { connect } from 'react-redux'
 import BangumiItem from '../components/BangumiItem'
 import SearchBar from '../components/SearchBar'
 
+import { getBangumis } from '../actions/entities'
+
 class Home extends Component {
 
+  componentWillMount () {
+    const { dispatch } = this.props
+
+    dispatch(getBangumis())
+  }
+
   render() {
-    const { dispatch, bangumis } = this.props
+    const { dispatch, isFetching, bangumis, bangumiIds } = this.props
 
     return (
       <Container text>
-        <Segment basic loading={bangumis.isFetching}>
+        <Segment basic loading={isFetching}>
           <SearchBar
             dispatch={dispatch}
             isFetching={false}
           />
 
           <Item.Group divided>
-            {bangumis.allIds.map(id =>
+            {bangumiIds.map(id =>
               <BangumiItem
                 key={id}
-                { ...bangumis.byId[id] }
+                { ...bangumis[id] }
               />
             )}
           </Item.Group>
@@ -38,10 +46,13 @@ Home.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { bangumis } = state
+  const { entities, bangumis } = state
+  const { isFetching, ids } = bangumis
 
   return {
-    bangumis
+    isFetching,
+    bangumis: entities.bangumis,
+    bangumiIds: ids
   }
 }
 

@@ -1,3 +1,4 @@
+import User from '../models/User'
 import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 
@@ -24,6 +25,8 @@ async function toggleFavorite (ctx) {
     ctx.throw(400)
   }
 
+  const user = await User.findById(ctx.state.uid)
+
   let favorite = await Favorite
     .findOne({
       user: ctx.state.uid,
@@ -34,8 +37,12 @@ async function toggleFavorite (ctx) {
   if (favorite) {
     await favorite.remove()
 
+    await User.update({ _id: ctx.state.uid }, {
+      $pull: { favorites: favorite._id }
+    })
+
     await Screenshot.update({ _id: screenshotId }, {
-      $pull: { favorites: { _id: favorite._id } }
+      $pull: { favorites: favorite._id }
     })
 
     ctx.status = 202
@@ -46,6 +53,9 @@ async function toggleFavorite (ctx) {
     })
 
     await favorite.save()
+
+    user.favorites.push(favorite)
+    await user.save()
 
     screenshot.favorites.push(favorite)
     await screenshot.save()

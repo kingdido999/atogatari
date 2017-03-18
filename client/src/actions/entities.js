@@ -16,9 +16,10 @@ export function getBangumis (params) {
 
 export function getBangumiIfNeeded (id) {
   return (dispatch, getState) => {
-    const { bangumis } = getState()
+    const { entities } = getState()
+    const { bangumis } = entities
 
-    if (!bangumis.byId[id]) {
+    if (!bangumis[id]) {
       dispatch(getBangumiById(id))
     }
   }
@@ -48,9 +49,10 @@ export function getScreenshots (params) {
 
 export function getScreenshotIfNeeded (id) {
   return (dispatch, getState) => {
-    const { screenshots } = getState()
+    const { entities } = getState()
+    const { screenshots } = entities
 
-    if (!screenshots.byId[id]) {
+    if (!screenshots[id]) {
       dispatch(getScreenshotById(id))
     }
   }
@@ -65,5 +67,13 @@ export function getScreenshotById (id) {
         return normalize(JSON.parse(data), schemas.screenshotSchema)
       }]
     })
+  }
+}
+
+export function setBangumiEpisode (bangumiId, episode) {
+  return {
+    type: 'SET_BANGUMI_EPISODE',
+    bangumiId,
+    episode
   }
 }

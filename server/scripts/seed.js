@@ -53,6 +53,8 @@ async function seed () {
       const user = faker.random.arrayElement(userList)
       const screenshot = createScreenshot(bangumi, user)
       await screenshot.save()
+      user.screenshots.push(screenshot)
+      await user.save()
       bangumi.screenshots.push(screenshot)
     }
 
