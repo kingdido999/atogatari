@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Header, Segment } from 'semantic-ui-react'
+import { Container, Grid, Header } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import ZoomableImage from '../components/ZoomableImage'
@@ -46,7 +46,7 @@ class Screenshot extends Component {
     const favoritesCount = screenshotFavorites[screenshotId].ids.length
 
     return (
-      <Container>
+      <Container text>
         <Header as='h1' textAlign='center'>
           {bangumi.title}
           <Header.Subheader>
@@ -54,25 +54,33 @@ class Screenshot extends Component {
           </Header.Subheader>
         </Header>
 
-        <ZoomableImage
-          id={_id}
-          src={getImageUrl(file.medium)}
-          dataOriginal={getImageUrl(file.large)}
-          zooming={new Zooming()}
-        />
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <ZoomableImage
+                id={_id}
+                src={getImageUrl(file.medium)}
+                dataOriginal={getImageUrl(file.large)}
+                zooming={new Zooming()}
+              />
+            </Grid.Column>
+          </Grid.Row>
 
-        <Segment basic>
-          <DownloadButton
-            file={file}
-          />
-          <FavoriteButton
-            dispatch={dispatch}
-            screenshotId={_id}
-            isFavorited={isFavorited}
-            favoritesCount={favoritesCount}
-            isAuthenticated={isAuthenticated}
-          />
-        </Segment>
+          <Grid.Row>
+            <Grid.Column>
+              <DownloadButton
+                file={file}
+              />
+              <FavoriteButton
+                dispatch={dispatch}
+                screenshotId={_id}
+                isFavorited={isFavorited}
+                favoritesCount={favoritesCount}
+                isAuthenticated={isAuthenticated}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
 
       </Container>
     )

@@ -87,10 +87,10 @@ function createScreenshot (bangumi, user) {
     user: user._id,
     episode: faker.random.number(24),
     file: {
-      small: faker.image.image(380, 214),
-      medium: faker.image.image(1024, 600),
-      large: faker.image.image(1920, 1080),
-      original: faker.image.image(1920, 1080)
+      small: 'test-images/small.jpg',
+      medium: 'test-images/medium.jpg',
+      large: 'test-images/large.jpg',
+      original: 'test-images/original.png'
     }
   })
 }

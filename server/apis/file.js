@@ -8,6 +8,9 @@ import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
 
 const UPLOAD_PATH = 'assets/screenshots'
+const WIDTH_SMALL = 384
+const WIDTH_MEDIUM = 768
+const WIDTH_LARGE = 1920
 
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
@@ -43,9 +46,9 @@ async function upload (ctx) {
     ctx.throw(500, e)
   }
 
-  sharp(fileOriginal).resize(380).toFile(`${UPLOAD_PATH}/${filenames.small}`)
-  sharp(fileOriginal).resize(1024).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
-  sharp(fileOriginal).resize(1920).toFile(`${UPLOAD_PATH}/${filenames.large}`)
+  sharp(fileOriginal).resize(WIDTH_SMALL).toFile(`${UPLOAD_PATH}/${filenames.small}`)
+  sharp(fileOriginal).resize(WIDTH_MEDIUM).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
+  sharp(fileOriginal).resize(WIDTH_LARGE).toFile(`${UPLOAD_PATH}/${filenames.large}`)
 
   const screenshot = new Screenshot({
     bangumi: bangumi._id,

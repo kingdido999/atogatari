@@ -53,9 +53,9 @@ export function logout () {
 export function getUserFavoritesIfNeeded () {
   return (dispatch, getState) => {
     const { user } = getState()
-    const { favorites } = user
+    const { isAuthenticated, favorites } = user
 
-    if (favorites.ids.length === 0) {
+    if (isAuthenticated && favorites.ids.length === 0) {
       dispatch(getUserFavorites())
     }
   }
@@ -114,9 +114,9 @@ export function getFavoriteScreenshots (params) {
 export function getUploadedScreenshotsIfNeeded () {
   return (dispatch, getState) => {
     const { user } = getState()
-    const { screenshots } = user
+    const { isAuthenticated, screenshots } = user
 
-    if (screenshots.ids.length === 0) {
+    if (isAuthenticated && screenshots.ids.length === 0) {
       dispatch(getUploadedScreenshots())
     }
   }

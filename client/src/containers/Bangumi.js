@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header, Card } from 'semantic-ui-react'
+import { Container, Segment, Header, Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
 import { uniq } from 'lodash'
 
@@ -55,7 +55,7 @@ class Bangumi extends Component {
     : screenshotIds
 
     return (
-      <Segment basic>
+      <Container>
         <Header as="h1">{bangumi.title}</Header>
         <ScreenshotFilters
           dispatch={dispatch}
@@ -77,7 +77,7 @@ class Bangumi extends Component {
             />
           )}
         </Card.Group>
-      </Segment>
+      </Container>
     )
   }
 }
