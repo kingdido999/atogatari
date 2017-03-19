@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Card } from 'semantic-ui-react'
 
-import ScreenshotCard from '../components/ScreenshotCard'
+import ScreenshotCards from '../components/ScreenshotCards'
 import { getUploadedScreenshotsIfNeeded } from '../actions/user'
 
 class UserUploads extends Component {
@@ -12,22 +11,13 @@ class UserUploads extends Component {
   }
 
   render() {
-    const { dispatch, isAuthenticated, screenshots, userScreenshots, userFavorites, screenshotFavorites, zooming } = this.props
+    const { userScreenshots } = this.props
 
     return (
-      <Card.Group>
-        {userScreenshots.ids.map(id =>
-          <ScreenshotCard
-            key={id}
-            dispatch={dispatch}
-            isAuthenticated={isAuthenticated}
-            zooming={zooming}
-            screenshot={screenshots[id]}
-            userFavorites={userFavorites}
-            screenshotFavorites={screenshotFavorites[id]}
-          />
-        )}
-      </Card.Group>
+      <ScreenshotCards
+        screenshotIds={userScreenshots.ids}
+        { ...this.props }
+      />
     )
   }
 }

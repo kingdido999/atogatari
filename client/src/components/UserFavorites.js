@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Card } from 'semantic-ui-react'
 
-import ScreenshotCard from '../components/ScreenshotCard'
+import ScreenshotCards from '../components/ScreenshotCards'
 import { getUserFavoritesIfNeeded } from '../actions/user'
 
 class UserFavorites extends Component {
@@ -12,25 +11,16 @@ class UserFavorites extends Component {
   }
 
   render() {
-    const { dispatch, isAuthenticated, screenshots, favorites, screenshotFavorites, userFavorites, zooming } = this.props
+    const { favorites, userFavorites } = this.props
     const favoriteScreenshotIds = userFavorites.ids.map(favoriteId => {
       return favorites[favoriteId].screenshot
     })
 
     return (
-      <Card.Group>
-        {favoriteScreenshotIds.map(id =>
-          <ScreenshotCard
-            key={id}
-            dispatch={dispatch}
-            isAuthenticated={isAuthenticated}
-            zooming={zooming}
-            screenshot={screenshots[id]}
-            userFavorites={userFavorites}
-            screenshotFavorites={screenshotFavorites[id]}
-          />
-        )}
-      </Card.Group>
+      <ScreenshotCards
+        screenshotIds={favoriteScreenshotIds}
+        { ...this.props }
+      />
     )
   }
 }

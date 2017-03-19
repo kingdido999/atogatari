@@ -19,10 +19,9 @@ class Home extends Component {
 
     return (
       <Container text>
-        <Segment basic loading={isFetching.bangumis}>
+        <Segment basic loading={isFetching}>
           <SearchBar
             dispatch={dispatch}
-            isFetching={false}
           />
 
           <List divided verticalAlign='middle' size='big' relaxed='very'>

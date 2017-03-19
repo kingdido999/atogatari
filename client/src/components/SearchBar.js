@@ -18,14 +18,12 @@ class SearchBar extends Component {
   }
 
   render () {
-    const { isFetching } = this.props
     return (
       <Input
         fluid
         size='big'
         icon='search'
         placeholder='Search...'
-        loading={isFetching}
         onChange={this.handleSearchChange}
       />
     )
@@ -33,8 +31,7 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  dispatch: PropTypes.func.isRequired
 }
 
 export default SearchBar

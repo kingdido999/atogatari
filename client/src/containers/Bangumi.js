@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Header, Card } from 'semantic-ui-react'
+import { Container, Header } from 'semantic-ui-react'
 import Zooming from 'zooming'
 import { uniq } from 'lodash'
 
-import ScreenshotCard from '../components/ScreenshotCard'
+import ScreenshotCards from '../components/ScreenshotCards'
 import ScreenshotFilters from '../components/ScreenshotFilters'
 import { getBangumiIfNeeded } from '../actions/entities'
 import { getUserFavoritesIfNeeded } from '../actions/user'
@@ -28,7 +28,7 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, params, isAuthenticated, bangumi, screenshots, bangumiScreenshots, screenshotFavorites, userFavorites } = this.props
+    const { dispatch, params, bangumi, screenshots, bangumiScreenshots } = this.props
     const { bangumiId } = params
 
     if (!bangumi) return null
@@ -58,19 +58,11 @@ class Bangumi extends Component {
           bangumiScreenshots={bangumiScreenshots[bangumiId]}
         />
 
-        <Card.Group>
-          {filteredScreenshotIds.map(id =>
-            <ScreenshotCard
-              key={id}
-              dispatch={dispatch}
-              isAuthenticated={isAuthenticated}
-              zooming={new Zooming()}
-              screenshot={screenshots[id]}
-              userFavorites={userFavorites}
-              screenshotFavorites={screenshotFavorites[id]}
-            />
-          )}
-        </Card.Group>
+        <ScreenshotCards
+          screenshotIds={filteredScreenshotIds}
+          zooming={new Zooming()}
+          { ...this.props }
+        />
       </Container>
     )
   }
