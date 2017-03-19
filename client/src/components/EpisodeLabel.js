@@ -6,19 +6,19 @@ import { setBangumiEpisode } from '../actions/entities'
 class EpisodeLabel extends Component {
 
   handleClick = (event, data) => {
-    const { dispatch, bangumiId, episode, active } = this.props
+    const { dispatch, bangumiId, episode, isActive } = this.props
 
-    dispatch(setBangumiEpisode(bangumiId, active ? undefined : episode))
+    dispatch(setBangumiEpisode(bangumiId, isActive ? undefined : episode))
   }
 
   render () {
-    const { episode, active } = this.props
+    const { episode, isActive } = this.props
 
     return (
       <Label
         as='a'
         key={episode}
-        color={active ? 'orange' : 'grey'}
+        color={isActive ? 'orange' : 'grey'}
         onClick={this.handleClick}>
         {episode}
       </Label>

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Container, Header } from 'semantic-ui-react'
 import Zooming from 'zooming'
-import { uniq } from 'lodash'
 
 import ScreenshotCards from '../components/ScreenshotCards'
 import ScreenshotFilters from '../components/ScreenshotFilters'
@@ -28,34 +27,23 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, params, bangumi, screenshots, bangumiScreenshots } = this.props
-    const { bangumiId } = params
+    const { isFetching, bangumi, screenshots, bangumiScreenshots } = this.props
 
-    if (!bangumi) return null
+    if (isFetching) return null
 
-    const screenshotIds = bangumiScreenshots[bangumiId].ids
-
-    const episodes = uniq(screenshotIds
-    .reduce((acc, id) => {
-      return acc.concat(screenshots[id].episode)
-    }, []))
-    .sort((a, b) => a - b)
-
-    const episode = bangumiScreenshots[bangumiId].episode
+    const episode = bangumiScreenshots.episode
     const filteredScreenshotIds = episode !== undefined
-    ? screenshotIds.filter(screenshotId => {
+    ? bangumiScreenshots.ids.filter(screenshotId => {
       return screenshots[screenshotId].episode === episode
     })
-    : screenshotIds
+    : bangumiScreenshots.ids
 
     return (
       <Container>
         <Header as="h1">{bangumi.title}</Header>
+
         <ScreenshotFilters
-          dispatch={dispatch}
-          bangumiId={bangumiId}
-          episodes={episodes}
-          bangumiScreenshots={bangumiScreenshots[bangumiId]}
+          { ...this.props }
         />
 
         <ScreenshotCards
@@ -77,12 +65,15 @@ function mapStateToProps(state, ownProps) {
   const { entities, user, bangumiScreenshots, screenshotFavorites } = state
   const { isAuthenticated, favorites } = user
   const { bangumis, screenshots } = entities
-  const bangumi = bangumis[ownProps.params.bangumiId]
+  const { bangumiId } = ownProps.params
+  const isFetching = !(bangumiId in bangumis)
 
   return {
     isAuthenticated,
-    bangumi,
-    bangumiScreenshots,
+    isFetching,
+    bangumiId,
+    bangumi: bangumis[bangumiId],
+    bangumiScreenshots: bangumiScreenshots[bangumiId],
     screenshots,
     screenshotFavorites,
     userFavorites: favorites

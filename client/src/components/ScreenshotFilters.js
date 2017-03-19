@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
-import { Menu, Label } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
+import { uniq } from 'lodash'
 
-import EpisodeLabel from './EpisodeLabel'
+import EpisodeLabels from './EpisodeLabels'
 
 class ScreenshotFilters extends Component {
 
   render () {
-    const { dispatch, bangumiId, episodes, bangumiScreenshots } = this.props
+    const { screenshots, bangumiScreenshots } = this.props
+
+    const episodes = uniq(bangumiScreenshots.ids
+    .reduce((acc, id) => acc.concat(screenshots[id].episode), []))
+    .sort((a, b) => a - b)
 
     return (
       <Menu secondary>
-        <Label.Group circular>
-          {episodes.map(episode =>
-            <EpisodeLabel
-              key={episode}
-              dispatch={dispatch}
-              bangumiId={bangumiId}
-              episode={episode}
-              active={bangumiScreenshots.episode === episode}
-            />
-          )}
-        </Label.Group>
+        <EpisodeLabels
+          episodes={episodes}
+          selectedEpisode={bangumiScreenshots.episode}
+          { ...this.props }
+        />
       </Menu>
     )
   }
