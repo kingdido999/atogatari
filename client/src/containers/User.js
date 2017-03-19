@@ -1,29 +1,10 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Segment, Menu } from 'semantic-ui-react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import Zooming from 'zooming'
 
 class User extends Component {
 
   render() {
-    const { dispatch, screenshots, favorites, screenshotFavorites, userScreenshots, userFavorites, isAuthenticated } = this.props
-
-    const zooming = new Zooming()
-
-    const childrenWithProps = React.Children.map(this.props.children,
-     (child) => React.cloneElement(child, {
-       dispatch,
-       screenshots,
-       favorites,
-       screenshotFavorites,
-       userScreenshots,
-       userFavorites,
-       zooming,
-       isAuthenticated
-     })
-    )
-
     return (
       <Segment basic>
         <Menu secondary>
@@ -32,30 +13,12 @@ class User extends Component {
           {/* <Menu.Item name='Settings' activeClassName="active" /> */}
         </Menu>
 
-        {childrenWithProps}
+        {this.props.children}
       </Segment>
     )
   }
 }
 
-User.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-}
+User.propTypes = {}
 
-function mapStateToProps(state) {
-  const { entities, user, screenshotFavorites } = state
-  const { isAuthenticated } = user
-  const { screenshots, favorites } = entities
-
-  return {
-    isAuthenticated,
-    screenshots,
-    favorites,
-    screenshotFavorites,
-    userScreenshots: user.screenshots,
-    userFavorites: user.favorites
-  }
-}
-
-export default connect(mapStateToProps)(User)
+export default User

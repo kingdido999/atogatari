@@ -16,10 +16,6 @@ class Header extends Component {
   }
 
   renderDropdown () {
-    const { isAuthenticated } = this.props
-
-    if (!isAuthenticated) return null
-
     return (
       <Dropdown item icon='user outline'>
         <Dropdown.Menu>
@@ -48,7 +44,7 @@ class Header extends Component {
             <Menu.Item as={Link} to="/upload" name='upload' activeClassName="active" />
           }
 
-          {this.renderDropdown()}
+          {isAuthenticated && this.renderDropdown()}
         </Menu.Menu>
       </Menu>
     )

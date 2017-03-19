@@ -29,7 +29,6 @@ class Login extends Component {
   }
 
   render() {
-
     const { size } = this.props
 
     return (

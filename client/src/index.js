@@ -16,8 +16,8 @@ import Upload from './containers/Upload'
 import Bangumi from './containers/Bangumi'
 import Screenshot from './containers/Screenshot'
 import User from './containers/User'
-import UserFavorites from './components/UserFavorites'
-import UserUploads from './components/UserUploads'
+import UserFavorites from './containers/UserFavorites'
+import UserUploads from './containers/UserUploads'
 
 import '../semantic/dist/semantic.min.css'
 

@@ -11,15 +11,14 @@ import { getImageUrl } from '../utils'
 class ScreenshotCard extends Component {
 
   render () {
-    const { dispatch, isAuthenticated, zooming, screenshot, userFavorites, screenshotFavorites } = this.props
-
+    const { zooming, screenshot, userFavorites, screenshotFavorites } = this.props
     if (!screenshot) return null
+
     const { _id, file } = screenshot
 
-    const isFavorited = isAuthenticated &&
-      userFavorites.ids.filter(favoriteId => {
+    const isFavorited = userFavorites.ids.find(favoriteId => {
         return screenshotFavorites.ids.includes(favoriteId)
-      }).length > 0
+      }) !== undefined
 
     const favoritesCount = screenshotFavorites.ids.length
 
@@ -36,11 +35,10 @@ class ScreenshotCard extends Component {
             file={file}
           />
           <FavoriteButton
-            dispatch={dispatch}
+            { ...this.props }
             screenshotId={_id}
             isFavorited={isFavorited}
             favoritesCount={favoritesCount}
-            isAuthenticated={isAuthenticated}
           />
           <DetailsButton
             floated="right"
@@ -58,6 +56,7 @@ ScreenshotCard.propTypes = {
   zooming: PropTypes.object.isRequired,
   screenshot: PropTypes.object,
   screenshotFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object.isRequired,
 }
 
 export default ScreenshotCard

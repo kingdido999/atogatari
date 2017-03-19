@@ -8,9 +8,7 @@ class FavoriteButton extends Component {
 
   toggleFavorite = () => {
     const { dispatch, isAuthenticated, screenshotId } = this.props
-
     if (!isAuthenticated) return
-
     dispatch(toggleFavorite({ screenshotId: screenshotId }))
   }
 

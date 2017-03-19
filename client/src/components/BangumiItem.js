@@ -5,14 +5,14 @@ import { Link } from 'react-router'
 class BangumiItem extends Component {
 
   render () {
-    const { _id, title, screenshots } = this.props
-    const screenshotsCount = screenshots.length
+    const { bangumi } = this.props
+    const { _id, title, screenshots } = bangumi
 
     return (
       <List.Item as={Link} to={`/bangumi/${_id}`}>
         <List.Content floated='right'>
           <Label>
-            <Icon name='image' /> { screenshotsCount }
+            <Icon name='image' /> { screenshots.length }
           </Label>
         </List.Content>
         <List.Content>
@@ -24,9 +24,7 @@ class BangumiItem extends Component {
 }
 
 BangumiItem.propTypes = {
-  _id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  screenshots: PropTypes.array.isRequired
+  bangumi: PropTypes.object.isRequired
 }
 
 export default BangumiItem

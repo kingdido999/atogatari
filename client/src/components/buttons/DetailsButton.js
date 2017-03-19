@@ -14,7 +14,7 @@ class DetailsButton extends Component {
 
     return (
       <Button
-        content='Details'
+        content='More'
         onClick={this.handleClick}
         floated={floated}
       />

@@ -28,7 +28,7 @@ class Home extends Component {
             {bangumiIds.map(id =>
               <BangumiItem
                 key={id}
-                { ...bangumis[id] }
+                bangumi={bangumis[id]}
               />
             )}
           </List>
