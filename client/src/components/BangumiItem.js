@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Item } from 'semantic-ui-react'
+import { List, Label, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router'
-
-import { pluralize } from '../utils'
 
 class BangumiItem extends Component {
 
@@ -11,12 +9,16 @@ class BangumiItem extends Component {
     const screenshotsCount = screenshots.length
 
     return (
-      <Item as={Link} to={`/bangumi/${_id}`}>
-        <Item.Content>
-          <Item.Header>{ title }</Item.Header>
-          <Item.Meta>{ screenshotsCount } { pluralize('screenshot', screenshotsCount) }</Item.Meta>
-        </Item.Content>
-      </Item>
+      <List.Item as={Link} to={`/bangumi/${_id}`}>
+        <List.Content floated='right'>
+          <Label>
+            <Icon name='image' /> { screenshotsCount }
+          </Label>
+        </List.Content>
+        <List.Content>
+          <List.Header>{ title }</List.Header>
+        </List.Content>
+      </List.Item>
     )
   }
 }

@@ -1,3 +1,6 @@
 *
 !.gitignore
-!test-images/
+!small.jpg
+!medium.jpg
+!large.jpg
+!original.png

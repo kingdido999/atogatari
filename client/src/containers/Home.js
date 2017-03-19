@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Item } from 'semantic-ui-react'
+import { Container, Segment, List } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiItem from '../components/BangumiItem'
@@ -25,14 +25,14 @@ class Home extends Component {
             isFetching={false}
           />
 
-          <Item.Group divided>
+          <List divided verticalAlign='middle' size='big' relaxed='very'>
             {bangumiIds.map(id =>
               <BangumiItem
                 key={id}
                 { ...bangumis[id] }
               />
             )}
-          </Item.Group>
+          </List>
         </Segment>
       </Container>
     )

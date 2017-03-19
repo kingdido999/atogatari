@@ -81,16 +81,15 @@ function createBangumi () {
 }
 
 function createScreenshot (bangumi, user) {
-
   return new Screenshot({
     bangumi: bangumi._id,
     user: user._id,
     episode: faker.random.number(24),
     file: {
-      small: 'test-images/small.jpg',
-      medium: 'test-images/medium.jpg',
-      large: 'test-images/large.jpg',
-      original: 'test-images/original.png'
+      small: 'small.jpg',
+      medium: 'medium.jpg',
+      large: 'large.jpg',
+      original: 'original.png'
     }
   })
 }

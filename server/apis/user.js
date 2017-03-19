@@ -53,12 +53,11 @@ async function toggleFavorite (ctx) {
       screenshot: screenshotId
     })
 
-    await favorite.save()
-
     user.favorites.push(favorite)
-    await user.save()
-
     screenshot.favorites.push(favorite)
+    
+    await favorite.save()
+    await user.save()
     await screenshot.save()
 
     ctx.status = 201

@@ -7,8 +7,6 @@ export function isFullUrl (url) {
 }
 
 export function getImageUrl (filename) {
-  if (isFullUrl(filename)) return filename
-
   return `${imagePath}/${filename}`
 }
 
