@@ -19,7 +19,7 @@ class Home extends Component {
 
     return (
       <Container text>
-        <Segment basic loading={isFetching}>
+        <Segment basic loading={isFetching.bangumis}>
           <SearchBar
             dispatch={dispatch}
             isFetching={false}
@@ -46,7 +46,7 @@ Home.propTypes = {
 
 function mapStateToProps(state) {
   const { entities, bangumis } = state
-  const { isFetching, ids } = bangumis
+  const { ids, isFetching } = bangumis
 
   return {
     isFetching,

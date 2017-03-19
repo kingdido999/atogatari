@@ -3,6 +3,7 @@ import { forIn } from 'lodash'
 export default function bangumiScreenshots (state = {}, action) {
   switch (action.type) {
     case 'GET_BANGUMIS_FULFILLED':
+    case 'GET_BANGUMI_FULFILLED':
       const { bangumis } = action.payload.data.entities
       const items = {}
 
@@ -12,13 +13,9 @@ export default function bangumiScreenshots (state = {}, action) {
         }
       })
 
-      return items
-    case 'GET_BANGUMI_FULFILLED':
       return {
         ...state,
-        [action.payload.data.result]: {
-          ids: Object.keys(action.payload.data.entities.screenshots)
-        }
+        ...items
       }
     case 'SET_BANGUMI_EPISODE':
       return {

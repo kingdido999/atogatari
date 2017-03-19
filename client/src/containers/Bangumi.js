@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Segment, Header, Card } from 'semantic-ui-react'
+import { Container, Header, Card } from 'semantic-ui-react'
 import Zooming from 'zooming'
 import { uniq } from 'lodash'
 
@@ -28,16 +28,10 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { dispatch, params, isAuthenticated, bangumis, screenshots, bangumiScreenshots, screenshotFavorites, userFavorites } = this.props
+    const { dispatch, params, isAuthenticated, bangumi, screenshots, bangumiScreenshots, screenshotFavorites, userFavorites } = this.props
     const { bangumiId } = params
 
-    const bangumi = bangumis[bangumiId]
-
-    if (!bangumi) {
-      return (
-        <Segment basic loading />
-      )
-    }
+    if (!bangumi) return null
 
     const screenshotIds = bangumiScreenshots[bangumiId].ids
 
@@ -91,10 +85,11 @@ function mapStateToProps(state, ownProps) {
   const { entities, user, bangumiScreenshots, screenshotFavorites } = state
   const { isAuthenticated, favorites } = user
   const { bangumis, screenshots } = entities
+  const bangumi = bangumis[ownProps.params.bangumiId]
 
   return {
     isAuthenticated,
-    bangumis,
+    bangumi,
     bangumiScreenshots,
     screenshots,
     screenshotFavorites,
