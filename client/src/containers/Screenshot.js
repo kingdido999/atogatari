@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import BangumiTitle from '../components/BangumiTitle'
@@ -47,36 +47,31 @@ class Screenshot extends Component {
     const favoritesCount = screenshotFavorites[screenshotId].ids.length
 
     return (
-      <Grid columns={1}>
-        <Grid.Row>
-          <BangumiTitle size='huge' bangumi={bangumi} />
-        </Grid.Row>
+      <Container>
+        <BangumiTitle size='huge' bangumi={bangumi} />
 
-        <Grid.Row>
-          <ZoomableImage
-            id={_id}
-            src={getImageUrl(file.medium)}
-            dataOriginal={getImageUrl(file.large)}
-            zooming={new Zooming()}
+        <ZoomableImage
+          id={_id}
+          src={getImageUrl(file.medium)}
+          dataOriginal={getImageUrl(file.large)}
+          zooming={new Zooming()}
+        />
+
+        <br/>
+
+        <div className='ui two buttons'>
+          <FavoriteButton
+            dispatch={dispatch}
+            screenshotId={_id}
+            isFavorited={isFavorited}
+            favoritesCount={favoritesCount}
+            isAuthenticated={isAuthenticated}
           />
-        </Grid.Row>
-
-        <Grid.Row>
-          <div className='ui two buttons'>
-            <FavoriteButton
-              dispatch={dispatch}
-              screenshotId={_id}
-              isFavorited={isFavorited}
-              favoritesCount={favoritesCount}
-              isAuthenticated={isAuthenticated}
-            />
-            <DownloadButton
-              file={file}
-            />
-          </div>
-        </Grid.Row>
-
-      </Grid>
+          <DownloadButton
+            file={file}
+          />
+        </div>
+      </Container>
     )
   }
 }

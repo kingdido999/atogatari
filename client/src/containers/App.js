@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Container, Message } from 'semantic-ui-react'
+import { Segment, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Header from '../components/Header'
@@ -15,15 +15,10 @@ class App extends Component {
           isAuthenticated={isAuthenticated}
         />
 
-        <Container>
-          {errorMessage &&
-            <Segment basic>
-              <Message error content={errorMessage} />
-            </Segment>
-          }
-
+        <Segment basic>
+          {errorMessage && <Message error content={errorMessage} />}
           {this.props.children}
-        </Container>
+        </Segment>
       </div>
     )
   }

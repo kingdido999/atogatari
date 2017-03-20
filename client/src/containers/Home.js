@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Grid, List } from 'semantic-ui-react'
+import { Container, List } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiItem from '../components/BangumiItem'
@@ -19,22 +19,20 @@ class Home extends Component {
 
     return (
       <Container text>
-        <Grid>
-          <Grid.Column>
-            <SearchBar
-              dispatch={dispatch}
-            />
+        <SearchBar
+          dispatch={dispatch}
+        />
 
-            <List divided verticalAlign='middle' size='big' relaxed='very'>
-              {bangumiIds.map(id =>
-                <BangumiItem
-                  key={id}
-                  bangumi={bangumis[id]}
-                />
-              )}
-            </List>
-          </Grid.Column>
-        </Grid>
+        <br/>
+
+        <List divided verticalAlign='middle' size='big' relaxed='very'>
+          {bangumiIds.map(id =>
+            <BangumiItem
+              key={id}
+              bangumi={bangumis[id]}
+            />
+          )}
+        </List>
       </Container>
     )
   }

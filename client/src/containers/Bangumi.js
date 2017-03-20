@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import ScreenshotFilters from '../components/ScreenshotFilters'
@@ -40,25 +40,21 @@ class Bangumi extends Component {
     : bangumiScreenshots.ids
 
     return (
-      <Grid columns={1}>
-        <Grid.Row>
-          <BangumiTitle size='huge' bangumi={bangumi} />
-        </Grid.Row>
+      <Container>
+        <BangumiTitle size='huge' bangumi={bangumi} />
 
-        <Grid.Row>
-          <ScreenshotFilters
-            { ...this.props }
-          />
-        </Grid.Row>
+        <ScreenshotFilters
+          { ...this.props }
+        />
 
-        <Grid.Row>
-          <ScreenshotCards
-            screenshotIds={filteredScreenshotIds}
-            zooming={new Zooming()}
-            { ...this.props }
-          />
-        </Grid.Row>
-      </Grid>
+        <br/>
+
+        <ScreenshotCards
+          screenshotIds={filteredScreenshotIds}
+          zooming={new Zooming()}
+          { ...this.props }
+        />
+      </Container>
     )
   }
 }
