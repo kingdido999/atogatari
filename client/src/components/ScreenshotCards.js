@@ -6,7 +6,7 @@ import ScreenshotCard from './ScreenshotCard'
 class ScreenshotCards extends Component {
 
   render () {
-    const { screenshots, screenshotIds, screenshotFavorites } = this.props
+    const { users, screenshots, screenshotIds, screenshotFavorites } = this.props
 
     return (
       <Card.Group>
@@ -14,6 +14,7 @@ class ScreenshotCards extends Component {
           <ScreenshotCard
             { ...this.props }
             key={id}
+            user={users[screenshots[id].user]}
             screenshot={screenshots[id]}
             screenshotFavorites={screenshotFavorites[id]}
           />
@@ -27,6 +28,7 @@ ScreenshotCards.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
   userFavorites: PropTypes.object.isRequired,

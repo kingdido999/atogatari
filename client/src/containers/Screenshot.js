@@ -84,11 +84,12 @@ Screenshot.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities, user, screenshotFavorites } = state
-  const { bangumis, screenshots } = entities
+  const { users, bangumis, screenshots } = entities
   const { isAuthenticated, favorites } = user
 
   return {
     isAuthenticated,
+    users,
     bangumis,
     screenshots,
     screenshotFavorites,

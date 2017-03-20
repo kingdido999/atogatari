@@ -12,7 +12,7 @@ class LoginAndSignup extends Component {
     const { dispatch, isFetching } = this.props
 
     return (
-      <Container text>
+      <Container>
         <Segment basic loading={isFetching}>
           <Grid columns={2} divided>
             <Grid.Row columns={2}>

@@ -66,6 +66,7 @@ Bangumi.propTypes = {
   bangumiId: PropTypes.string.isRequired,
   bangumi: PropTypes.object,
   bangumiScreenshots: PropTypes.object,
+  users: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotFavorites: PropTypes.object.isRequired,
   userFavorites: PropTypes.object.isRequired,
@@ -74,7 +75,7 @@ Bangumi.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { entities, user, bangumiScreenshots, screenshotFavorites } = state
   const { isAuthenticated, favorites } = user
-  const { bangumis, screenshots } = entities
+  const { users, bangumis, screenshots } = entities
   const { bangumiId } = ownProps.params
   const isFetching = !(bangumiId in bangumis)
 
@@ -84,6 +85,7 @@ function mapStateToProps(state, ownProps) {
     bangumiId,
     bangumi: bangumis[bangumiId],
     bangumiScreenshots: bangumiScreenshots[bangumiId],
+    users,
     screenshots,
     screenshotFavorites,
     userFavorites: favorites
