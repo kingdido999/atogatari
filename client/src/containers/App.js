@@ -3,6 +3,7 @@ import { Segment, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 class App extends Component {
 
@@ -16,9 +17,13 @@ class App extends Component {
           isAuthenticated={isAuthenticated}
         />
 
-        <Segment basic>
+        <Segment vertical>
           {errorMessage && <Message error content={errorMessage} />}
           {this.props.children}
+        </Segment>
+
+        <Segment vertical>
+          <Footer />
         </Segment>
       </div>
     )

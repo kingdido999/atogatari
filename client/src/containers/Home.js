@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiCards from '../components/BangumiCards'
@@ -18,18 +18,26 @@ class Home extends Component {
     const { dispatch, bangumis, bangumiIds } = this.props
 
     return (
-      <Container text>
-        <SearchBar
-          dispatch={dispatch}
-        />
+      <div>
+        <Segment vertical>
+          <Container text>
+            <SearchBar
+              dispatch={dispatch}
+            />
+          </Container>
 
-        <br/>
+        </Segment>
 
-        <BangumiCards
-          bangumis={bangumis}
-          bangumiIds={bangumiIds}
-        />
-      </Container>
+        <Segment vertical>
+          <Container text>
+            <BangumiCards
+              bangumis={bangumis}
+              bangumiIds={bangumiIds}
+            />
+          </Container>
+
+        </Segment>
+      </div>
     )
   }
 }
