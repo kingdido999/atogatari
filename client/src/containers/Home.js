@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, List } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import BangumiItem from '../components/BangumiItem'
+import BangumiCards from '../components/BangumiCards'
 import SearchBar from '../components/SearchBar'
 
 import { getBangumis } from '../actions/entities'
@@ -25,14 +25,10 @@ class Home extends Component {
 
         <br/>
 
-        <List divided verticalAlign='middle' size='big' relaxed='very'>
-          {bangumiIds.map(id =>
-            <BangumiItem
-              key={id}
-              bangumi={bangumis[id]}
-            />
-          )}
-        </List>
+        <BangumiCards
+          bangumis={bangumis}
+          bangumiIds={bangumiIds}
+        />
       </Container>
     )
   }
