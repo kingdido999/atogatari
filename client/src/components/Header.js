@@ -53,6 +53,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 }
 

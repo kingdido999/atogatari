@@ -7,11 +7,12 @@ import Header from '../components/Header'
 class App extends Component {
 
   render() {
-    const { isAuthenticated, errorMessage } = this.props
+    const { dispatch, isAuthenticated, errorMessage } = this.props
 
     return (
       <div className="App">
         <Header
+          dispatch={dispatch}
           isAuthenticated={isAuthenticated}
         />
 
