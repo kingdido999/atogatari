@@ -10,13 +10,11 @@ class DetailsButton extends Component {
   }
 
   render () {
-    const { floated } = this.props
-
     return (
       <Button
-        content='More'
+        basic
+        icon='maximize'
         onClick={this.handleClick}
-        floated={floated}
       />
     )
   }
@@ -24,7 +22,6 @@ class DetailsButton extends Component {
 
 DetailsButton.propTypes = {
   screenshotId: PropTypes.string.isRequired,
-  floated: PropTypes.string
 }
 
 export default DetailsButton

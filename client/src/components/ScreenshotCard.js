@@ -31,19 +31,24 @@ class ScreenshotCard extends Component {
           zooming={zooming}
         />
         <Card.Content>
-          <DownloadButton
-            file={file}
-          />
-          <FavoriteButton
-            { ...this.props }
-            screenshotId={_id}
-            isFavorited={isFavorited}
-            favoritesCount={favoritesCount}
-          />
-          <DetailsButton
-            floated="right"
-            screenshotId={_id}
-          />
+
+          <div className='ui three buttons'>
+            <FavoriteButton
+              { ...this.props }
+              screenshotId={_id}
+              isFavorited={isFavorited}
+              favoritesCount={favoritesCount}
+            />
+
+            <DownloadButton
+              file={file}
+            />
+
+            <DetailsButton
+              screenshotId={_id}
+            />
+          </div>
+
         </Card.Content>
       </Card>
     )

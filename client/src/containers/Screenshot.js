@@ -62,16 +62,18 @@ class Screenshot extends Component {
         </Grid.Row>
 
         <Grid.Row>
-          <DownloadButton
-            file={file}
-          />
-          <FavoriteButton
-            dispatch={dispatch}
-            screenshotId={_id}
-            isFavorited={isFavorited}
-            favoritesCount={favoritesCount}
-            isAuthenticated={isAuthenticated}
-          />
+          <div className='ui two buttons'>
+            <FavoriteButton
+              dispatch={dispatch}
+              screenshotId={_id}
+              isFavorited={isFavorited}
+              favoritesCount={favoritesCount}
+              isAuthenticated={isAuthenticated}
+            />
+            <DownloadButton
+              file={file}
+            />
+          </div>
         </Grid.Row>
 
       </Grid>

@@ -13,31 +13,28 @@ class FavoriteButton extends Component {
   }
 
   renderIcon (isFavorited) {
-    return (
-      <Icon name="favorite" color={ isFavorited ? 'yellow' : 'grey' } />
-    )
+    if (isFavorited) {
+      return (
+        <Icon name="favorite" color='yellow' />
+      )
+    } else {
+      return (
+        <Icon name="favorite" />
+      )
+    }
   }
 
   renderButton (isFavorited, favoritesCount) {
     const icon = this.renderIcon(isFavorited)
 
-    if (favoritesCount === 0) {
-      return (
-        <Button
-          icon={icon}
-          onClick={this.toggleFavorite}
-        />
-      )
-    } else {
-      return (
-        <Button
-          icon={icon}
-          onClick={this.toggleFavorite}
-          label={{ as: 'a', content: favoritesCount }}
-          labelPosition='right'
-        />
-      )
-    }
+    return (
+      <Button
+        basic
+        icon={icon}
+        onClick={this.toggleFavorite}
+        content={favoritesCount > 1 && favoritesCount}
+      />
+    )
   }
 
   renderLoginButton () {

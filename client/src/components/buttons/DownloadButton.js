@@ -14,7 +14,11 @@ class FavoriteButton extends Component {
 
   render () {
     return (
-      <Button icon="download" onClick={this.handleDownload} />
+      <Button
+        basic
+        icon="download"
+        onClick={this.handleDownload}
+      />
     )
   }
 }
