@@ -9,7 +9,7 @@ import Bangumi from '../models/Bangumi'
 
 const UPLOAD_PATH = 'assets/screenshots'
 const WIDTH_SMALL = 384
-const WIDTH_MEDIUM = 768
+const WIDTH_MEDIUM = 1152
 const WIDTH_LARGE = 1920
 
 async function upload (ctx) {

@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { browserHistory } from 'react-router'
 
 import { logout } from '../actions/user'
+
+import GlobalSearch from '../components/GlobalSearch'
 
 class Header extends Component {
 
@@ -29,13 +32,19 @@ class Header extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props
+    const { dispatch, isAuthenticated, results } = this.props
 
     return (
       <Menu size="huge" color="orange" fluid>
         <Menu.Item as={Link} to="/" name='bangumi pic' />
 
         <Menu.Menu position='right'>
+          <Menu.Item>
+            <GlobalSearch
+              dispatch={dispatch}
+              results={results}
+            />
+          </Menu.Item>
 
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
@@ -53,7 +62,20 @@ class Header extends Component {
 }
 
 Header.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  results: PropTypes.array.isRequired
 }
 
-export default Header
+function mapStateToProps (state, ownProps) {
+  const { user, entities, bangumis } = state
+  const { isAuthenticated } = user
+  const results = bangumis.ids.map(id => entities.bangumis[id])
+
+  return {
+    isAuthenticated,
+    results
+  }
+}
+
+export default connect(mapStateToProps)(Header)

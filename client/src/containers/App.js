@@ -7,16 +7,15 @@ import Header from '../components/Header'
 class App extends Component {
 
   render() {
-    const { dispatch, isAuthenticated, errorMessage } = this.props
+    const { isAuthenticated, errorMessage } = this.props
 
     return (
       <div className="App">
         <Header
-          dispatch={dispatch}
           isAuthenticated={isAuthenticated}
         />
 
-        <Container fluid>
+        <Container>
           {errorMessage &&
             <Segment basic>
               <Message error content={errorMessage} />
@@ -42,7 +41,7 @@ function mapStateToProps(state) {
 
   return {
     isAuthenticated,
-    errorMessage
+    errorMessage,
   }
 }
 

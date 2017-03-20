@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { Menu } from 'semantic-ui-react'
 import { uniq } from 'lodash'
 
 import EpisodeLabels from './EpisodeLabels'
@@ -14,13 +13,11 @@ class ScreenshotFilters extends Component {
     .sort((a, b) => a - b)
 
     return (
-      <Menu secondary>
-        <EpisodeLabels
-          episodes={episodes}
-          selectedEpisode={bangumiScreenshots.episode}
-          { ...this.props }
-        />
-      </Menu>
+      <EpisodeLabels
+        episodes={episodes}
+        selectedEpisode={bangumiScreenshots.episode}
+        { ...this.props }
+      />
     )
   }
 }

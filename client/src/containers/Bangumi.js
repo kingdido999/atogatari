@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Header } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
-import ScreenshotCards from '../components/ScreenshotCards'
 import ScreenshotFilters from '../components/ScreenshotFilters'
+import ScreenshotCards from '../components/ScreenshotCards'
+import BangumiTitle from '../components/BangumiTitle'
 import { getBangumiIfNeeded } from '../actions/entities'
 import { getUserFavoritesIfNeeded } from '../actions/user'
 
@@ -39,19 +40,25 @@ class Bangumi extends Component {
     : bangumiScreenshots.ids
 
     return (
-      <Container>
-        <Header as="h1">{bangumi.title}</Header>
+      <Grid columns={1}>
+        <Grid.Row>
+          <BangumiTitle size='huge' bangumi={bangumi} />
+        </Grid.Row>
 
-        <ScreenshotFilters
-          { ...this.props }
-        />
+        <Grid.Row>
+          <ScreenshotFilters
+            { ...this.props }
+          />
+        </Grid.Row>
 
-        <ScreenshotCards
-          screenshotIds={filteredScreenshotIds}
-          zooming={new Zooming()}
-          { ...this.props }
-        />
-      </Container>
+        <Grid.Row>
+          <ScreenshotCards
+            screenshotIds={filteredScreenshotIds}
+            zooming={new Zooming()}
+            { ...this.props }
+          />
+        </Grid.Row>
+      </Grid>
     )
   }
 }
@@ -59,6 +66,13 @@ class Bangumi extends Component {
 Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  bangumiId: PropTypes.string.isRequired,
+  bangumi: PropTypes.object,
+  bangumiScreenshots: PropTypes.object,
+  screenshots: PropTypes.object.isRequired,
+  screenshotFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {

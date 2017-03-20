@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Grid, Header } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
+import BangumiTitle from '../components/BangumiTitle'
 import ZoomableImage from '../components/ZoomableImage'
 import DownloadButton from '../components/buttons/DownloadButton'
 import FavoriteButton from '../components/buttons/FavoriteButton'
@@ -36,7 +37,7 @@ class Screenshot extends Component {
     const bangumi = bangumis[screenshot.bangumi]
 
     if (!bangumi) return null
-    const { _id, file, episode } = screenshot
+    const { _id, file } = screenshot
 
     const isFavorited = isAuthenticated &&
       screenshotFavorites[screenshotId].ids.filter(favoriteId => {
@@ -46,43 +47,34 @@ class Screenshot extends Component {
     const favoritesCount = screenshotFavorites[screenshotId].ids.length
 
     return (
-      <Container text>
-        <Header as='h1' textAlign='center'>
-          {bangumi.title}
-          <Header.Subheader>
-            Episode {episode}
-          </Header.Subheader>
-        </Header>
+      <Grid columns={1}>
+        <Grid.Row>
+          <BangumiTitle size='huge' bangumi={bangumi} />
+        </Grid.Row>
 
-        <Grid>
-          <Grid.Row>
-            <Grid.Column>
-              <ZoomableImage
-                id={_id}
-                src={getImageUrl(file.medium)}
-                dataOriginal={getImageUrl(file.large)}
-                zooming={new Zooming()}
-              />
-            </Grid.Column>
-          </Grid.Row>
+        <Grid.Row>
+          <ZoomableImage
+            id={_id}
+            src={getImageUrl(file.medium)}
+            dataOriginal={getImageUrl(file.large)}
+            zooming={new Zooming()}
+          />
+        </Grid.Row>
 
-          <Grid.Row>
-            <Grid.Column>
-              <DownloadButton
-                file={file}
-              />
-              <FavoriteButton
-                dispatch={dispatch}
-                screenshotId={_id}
-                isFavorited={isFavorited}
-                favoritesCount={favoritesCount}
-                isAuthenticated={isAuthenticated}
-              />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Grid.Row>
+          <DownloadButton
+            file={file}
+          />
+          <FavoriteButton
+            dispatch={dispatch}
+            screenshotId={_id}
+            isFavorited={isFavorited}
+            favoritesCount={favoritesCount}
+            isAuthenticated={isAuthenticated}
+          />
+        </Grid.Row>
 
-      </Container>
+      </Grid>
     )
   }
 }

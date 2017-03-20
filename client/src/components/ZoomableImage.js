@@ -14,11 +14,10 @@ class ZoomableImage extends Component {
 
     return (
       <Image
-        centered
+        fluid
         id={id}
         src={src}
         data-original={dataOriginal}
-        className="screenshot"
         alt="screenshot"
       />
     )

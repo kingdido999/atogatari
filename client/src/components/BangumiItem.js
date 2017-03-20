@@ -16,7 +16,7 @@ class BangumiItem extends Component {
           </Label>
         </List.Content>
         <List.Content>
-          <List.Header>{ title }</List.Header>
+          <List.Header size='huge'>{ title }</List.Header>
         </List.Content>
       </List.Item>
     )

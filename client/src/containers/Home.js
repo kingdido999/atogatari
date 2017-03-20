@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, List } from 'semantic-ui-react'
+import { Container, Grid, List } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiItem from '../components/BangumiItem'
@@ -15,24 +15,26 @@ class Home extends Component {
   }
 
   render() {
-    const { dispatch, isFetching, bangumis, bangumiIds } = this.props
+    const { dispatch, bangumis, bangumiIds } = this.props
 
     return (
       <Container text>
-        <Segment basic loading={isFetching}>
-          <SearchBar
-            dispatch={dispatch}
-          />
+        <Grid>
+          <Grid.Column>
+            <SearchBar
+              dispatch={dispatch}
+            />
 
-          <List divided verticalAlign='middle' size='big' relaxed='very'>
-            {bangumiIds.map(id =>
-              <BangumiItem
-                key={id}
-                bangumi={bangumis[id]}
-              />
-            )}
-          </List>
-        </Segment>
+            <List divided verticalAlign='middle' size='big' relaxed='very'>
+              {bangumiIds.map(id =>
+                <BangumiItem
+                  key={id}
+                  bangumi={bangumis[id]}
+                />
+              )}
+            </List>
+          </Grid.Column>
+        </Grid>
       </Container>
     )
   }
