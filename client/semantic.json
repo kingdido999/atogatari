@@ -42,7 +42,8 @@
     "popup",
     "tab",
     "form",
-    "transition"
+    "transition",
+    "statistic"
   ],
   "version": "2.2.9"
 }

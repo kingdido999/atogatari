@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { List, Label, Icon } from 'semantic-ui-react'
+import { List, Statistic } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
 class BangumiItem extends Component {
@@ -11,9 +11,11 @@ class BangumiItem extends Component {
     return (
       <List.Item as={Link} to={`/bangumi/${_id}`}>
         <List.Content floated='right'>
-          <Label>
-            <Icon name='image' /> { screenshots.length }
-          </Label>
+          <Statistic size='mini' color='grey'>
+            <Statistic.Value>
+              { screenshots.length }
+            </Statistic.Value>
+          </Statistic>
         </List.Content>
         <List.Content>
           <List.Header size='huge'>{ title }</List.Header>

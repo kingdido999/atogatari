@@ -42,7 +42,7 @@ class Header extends Component {
           }
 
           {isAuthenticated &&
-            <Menu.Item as={Link} to="/upload" name='upload' activeClassName="active" />
+            <Menu.Item as={Link} to="/upload" name='upload' icon='upload' activeClassName="active" />
           }
 
           {isAuthenticated && this.renderDropdown()}
