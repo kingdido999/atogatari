@@ -6,6 +6,7 @@ import fs from 'fs'
 
 import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
+import Tag from '../models/Tag'
 
 const UPLOAD_PATH = 'assets/screenshots'
 const WIDTH_SMALL = 384
@@ -15,7 +16,7 @@ const WIDTH_LARGE = 1920
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
-  const { bangumiTitle, episodeIndex } = fields
+  const { bangumiTitle, episodeIndex, tags } = fields
 
   if (!bangumiTitle) {
     ctx.throw(400, 'Bangumi title cannot be empty.')
@@ -50,6 +51,8 @@ async function upload (ctx) {
   sharp(fileOriginal).resize(WIDTH_MEDIUM).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
   sharp(fileOriginal).resize(WIDTH_LARGE).toFile(`${UPLOAD_PATH}/${filenames.large}`)
 
+  const tagList = tags.trim().toLowerCase().split(',')
+
   const screenshot = new Screenshot({
     bangumi: bangumi._id,
     user: ctx.state.uid,
@@ -59,7 +62,8 @@ async function upload (ctx) {
       medium: filenames.medium,
       large: filenames.large,
       original: filenames.original
-    }
+    },
+    tags: tagList
   })
 
   bangumi.screenshots.push(screenshot)
@@ -67,6 +71,7 @@ async function upload (ctx) {
   try {
     await bangumi.save()
     await screenshot.save()
+    tagList.forEach(name => addTag(name, screenshot._id))
   } catch (e) {
     ctx.throw(500, e)
   }
@@ -82,6 +87,17 @@ function writeFile (input, output) {
     input.on('close', () => resolve())
     input.on('error', err => reject(err))
   })
+}
+
+async function addTag (name, screenshotId) {
+  let tag = await Tag.findOne({ name: name }).exec()
+
+  if (!tag) {
+    tag = new Tag({ name: name })
+  }
+
+  tag.screenshots.push(screenshotId)
+  await tag.save()
 }
 
 export default {

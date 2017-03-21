@@ -13,6 +13,7 @@ class Upload extends Component {
     imagePreviewUrl: '',
     bangumiTitle: '',
     episodeIndex: 1,
+    tags: '',
     zooming: new Zooming()
   }
 
@@ -47,11 +48,11 @@ class Upload extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     const { dispatch } = this.props
-
     const data = new FormData()
     data.append('file', this.state.file)
     data.append('bangumiTitle', this.state.bangumiTitle)
     data.append('episodeIndex', this.state.episodeIndex)
+    data.append('tags', this.state.tags)
 
     dispatch(upload(data))
     .then(() => browserHistory.push('/'))
@@ -94,9 +95,11 @@ class Upload extends Component {
           <Form.Field>
             <label>Tags</label>
             <Input
+              name='tags'
               icon='tags'
               iconPosition='left'
               placeholder='Enter tags'
+              onChange={this.handleInputChange}
             />
           </Form.Field>
 
