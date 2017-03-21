@@ -40,10 +40,8 @@
     "item",
     "dropdown",
     "popup",
-    "tab",
     "form",
-    "transition",
-    "statistic"
+    "transition"
   ],
   "version": "2.2.9"
 }

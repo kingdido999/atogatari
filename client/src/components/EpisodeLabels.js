@@ -6,11 +6,13 @@ import EpisodeLabel from './EpisodeLabel'
 class EpisodeLabels extends Component {
 
   render () {
-
-    const { episodes, selectedEpisode } = this.props
+    const { episodes, selectedEpisode, color } = this.props
 
     return (
       <Label.Group>
+        <Label color={color}>
+          Episode
+        </Label>
         {episodes.map(episode =>
           <EpisodeLabel
             key={episode}
@@ -29,6 +31,7 @@ Component.propTypes = {
   bangumiId: PropTypes.string.isRequired,
   episodes: PropTypes.array.isRequired,
   selectedEpisode: PropTypes.number,
+  color: PropTypes.string.isRequired,
 }
 
 export default EpisodeLabels

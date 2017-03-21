@@ -6,5 +6,5 @@
     Border Radius
 --------------------*/
 
-@relativeBorderRadius: @relative2px;
-@absoluteBorderRadius: @2px;
+@relativeBorderRadius: @relative1px;
+@absoluteBorderRadius: @1px;

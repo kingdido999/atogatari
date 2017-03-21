@@ -13,11 +13,14 @@ class ScreenshotFilters extends Component {
     .sort((a, b) => a - b)
 
     return (
-      <EpisodeLabels
-        episodes={episodes}
-        selectedEpisode={bangumiScreenshots.episode}
-        { ...this.props }
-      />
+      <div>
+        <EpisodeLabels
+          episodes={episodes}
+          selectedEpisode={bangumiScreenshots.episode}
+          color='grey'
+          { ...this.props }
+        />
+      </div>
     )
   }
 }

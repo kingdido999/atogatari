@@ -11,13 +11,13 @@ class EpisodeLabel extends Component {
   }
 
   renderActiveLabel = () => {
-    const { episode } = this.props
+    const { color, episode } = this.props
 
     return (
       <Label
         as='a'
         key={episode}
-        color='orange'
+        color={color}
         onClick={this.handleClick}>
         {episode}
       </Label>
@@ -50,6 +50,7 @@ EpisodeLabel.propTypes = {
   bangumiId: PropTypes.string.isRequired,
   episode: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
+  color: PropTypes.string.isRequired,
 }
 
 export default EpisodeLabel

@@ -29,13 +29,12 @@ class Home extends Component {
         </Segment>
 
         <Segment vertical>
-          <Container text>
+          <Container>
             <BangumiCards
               bangumis={bangumis}
               bangumiIds={bangumiIds}
             />
           </Container>
-
         </Segment>
       </div>
     )

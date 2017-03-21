@@ -15,11 +15,13 @@ class BangumiCard extends Component {
     const { title, screenshots } = bangumi
 
     return (
-      <Card onClick={this.handleClick} fluid>
+      <Card onClick={this.handleClick}>
         <Card.Content>
           <Card.Header>
             { title }
           </Card.Header>
+        </Card.Content>
+        <Card.Content extra>
           <Card.Meta>
             <Icon name='image' /> { screenshots.length }
           </Card.Meta>

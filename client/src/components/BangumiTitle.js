@@ -9,7 +9,7 @@ class BangumiTitle extends Component {
     const { _id, title } = bangumi
 
     return (
-      <Header size={size}>
+      <Header size={size} dividing>
         <Link to={`/bangumi/${_id}`}>
           {title}
         </Link>
