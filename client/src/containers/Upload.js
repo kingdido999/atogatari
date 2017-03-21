@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Form, Image, Header } from 'semantic-ui-react'
+import { Container, Form, Image, Header, Input } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
@@ -12,7 +12,7 @@ class Upload extends Component {
     file: null,
     imagePreviewUrl: '',
     bangumiTitle: '',
-    episodeIndex: 0,
+    episodeIndex: 1,
     zooming: new Zooming()
   }
 
@@ -89,6 +89,15 @@ class Upload extends Component {
           <Form.Field>
             <label>Episode</label>
             <input type="number" min="0" step="1" name="episodeIndex" onChange={this.handleInputChange} />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Tags</label>
+            <Input
+              icon='tags'
+              iconPosition='left'
+              placeholder='Enter tags'
+            />
           </Form.Field>
 
           <Form.Button type="submit" disabled={!this.state.file} size={size} primary fluid>Submit</Form.Button>
