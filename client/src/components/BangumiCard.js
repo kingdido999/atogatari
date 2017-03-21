@@ -15,7 +15,7 @@ class BangumiCard extends Component {
     const { title, screenshots } = bangumi
 
     return (
-      <Card onClick={this.handleClick}>
+      <Card onClick={this.handleClick} fluid>
         <Card.Content>
           <Card.Header>
             { title }

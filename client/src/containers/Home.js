@@ -19,7 +19,7 @@ class Home extends Component {
 
     return (
       <div>
-        <Segment vertical>
+        <Segment basic vertical>
           <Container text>
             <SearchBar
               dispatch={dispatch}
@@ -29,7 +29,7 @@ class Home extends Component {
         </Segment>
 
         <Segment vertical>
-          <Container>
+          <Container text>
             <BangumiCards
               bangumis={bangumis}
               bangumiIds={bangumiIds}

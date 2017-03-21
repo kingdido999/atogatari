@@ -39,7 +39,7 @@ class FavoriteButton extends Component {
 
   renderLoginButton () {
     return (
-      <Button color='green' content='Login' as={Link} to="/login" />
+      <Button primary content='Login' as={Link} to="/login" />
     )
   }
 

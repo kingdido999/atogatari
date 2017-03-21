@@ -34,9 +34,10 @@ class Header extends Component {
     return (
       <Menu size="huge" fluid>
         <Menu.Item as={Link} to="/" name='bangumi pic' />
+        <Menu.Item name='Random' />
+        <Menu.Item name='Popular' />
 
         <Menu.Menu position='right'>
-
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
           }
