@@ -48,10 +48,9 @@ Home.propTypes = {
 
 function mapStateToProps(state) {
   const { entities, bangumis } = state
-  const { ids, isFetching } = bangumis
+  const { ids } = bangumis
 
   return {
-    isFetching,
     bangumis: entities.bangumis,
     bangumiIds: ids
   }
