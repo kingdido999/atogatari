@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container } from 'semantic-ui-react'
+import { Container, Button } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
+import Tags from '../components/Tags'
 import BangumiTitle from '../components/BangumiTitle'
 import ZoomableImage from '../components/ZoomableImage'
 import DownloadButton from '../components/buttons/DownloadButton'
@@ -47,31 +48,40 @@ class Screenshot extends Component {
     const favoritesCount = screenshotFavorites[screenshotId].ids.length
 
     return (
-      <Container>
-        <BangumiTitle size='huge' bangumi={bangumi} />
+      <div>
+        <Container>
+          <BangumiTitle size='huge' bangumi={bangumi} />
 
-        <ZoomableImage
-          id={_id}
-          src={getImageUrl(file.medium)}
-          dataOriginal={getImageUrl(file.large)}
-          zooming={new Zooming()}
-        />
+          <ZoomableImage
+            id={_id}
+            src={getImageUrl(file.medium)}
+            dataOriginal={getImageUrl(file.large)}
+            zooming={new Zooming()}
+          />
+        </Container>
 
         <br/>
 
-        <div className='ui two buttons'>
-          <FavoriteButton
-            dispatch={dispatch}
-            screenshotId={_id}
-            isFavorited={isFavorited}
-            favoritesCount={favoritesCount}
-            isAuthenticated={isAuthenticated}
-          />
-          <DownloadButton
-            file={file}
-          />
-        </div>
-      </Container>
+        <Container>
+          <Tags tags={screenshot.tags} />
+
+          <Button.Group >
+            <FavoriteButton
+              dispatch={dispatch}
+              screenshotId={_id}
+              isFavorited={isFavorited}
+              favoritesCount={favoritesCount}
+              isAuthenticated={isAuthenticated}
+            />
+            <DownloadButton
+              file={file}
+            />
+          </Button.Group>
+
+        </Container>
+
+      </div>
+
     )
   }
 }
@@ -79,7 +89,6 @@ class Screenshot extends Component {
 Screenshot.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  screenshot: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
