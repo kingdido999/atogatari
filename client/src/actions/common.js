@@ -1,5 +1,11 @@
 export function resetErrorMessage() {
-  return {
-    type: 'RESET_ERROR_MESSAGE'
+  return (dispatch, getState) => {
+    const { errorMessage } = getState()
+
+    if (typeof errorMessage === 'string') {
+      dispatch({
+        type: 'RESET_ERROR_MESSAGE'
+      })
+    }
   }
 }
