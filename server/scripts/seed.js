@@ -4,6 +4,7 @@ import Screenshot from '../models/Screenshot'
 import Favorite from '../models/Favorite'
 import Bangumi from '../models/Bangumi'
 import User from '../models/User'
+import Tag from '../models/Tag'
 import config from '../config'
 
 import mongoose from 'mongoose'
@@ -29,6 +30,7 @@ async function run () {
 async function purge () {
   console.log('Removing current data...')
 
+  await Tag.remove({})
   await User.remove({})
   await Bangumi.remove({})
   await Favorite.remove({})
@@ -51,8 +53,12 @@ async function seed () {
 
     for (let j = 0; j < NUM_BANGUMI_SCREENSHOT; j++) {
       const user = faker.random.arrayElement(userList)
-      const screenshot = createScreenshot(bangumi, user)
+      const tags = createRandomTags(faker.random.number(10))
+      const screenshot = createScreenshot(bangumi, user, tags)
       await screenshot.save()
+
+      tags.forEach(tag => createTag(tag, screenshot._id))
+
       user.screenshots.push(screenshot)
       await user.save()
       bangumi.screenshots.push(screenshot)
@@ -60,6 +66,16 @@ async function seed () {
 
     await bangumi.save()
   }
+}
+
+function createRandomTags (count) {
+  const tags = []
+
+  for (let i = 0; i < count; i++) {
+    tags.push(faker.hacker.noun())
+  }
+
+  return tags
 }
 
 function createUser () {
@@ -80,7 +96,7 @@ function createBangumi () {
   })
 }
 
-function createScreenshot (bangumi, user) {
+function createScreenshot (bangumi, user, tags) {
   return new Screenshot({
     bangumi: bangumi._id,
     user: user._id,
@@ -90,6 +106,16 @@ function createScreenshot (bangumi, user) {
       medium: 'medium.jpg',
       large: 'large.jpg',
       original: 'original.png'
-    }
+    },
+    tags: tags
   })
+}
+
+async function createTag (name, screenshotId) {
+  const tag = new Tag({
+    name: name,
+  })
+
+  tag.screenshots.push(screenshotId)
+  await tag.save()
 }
