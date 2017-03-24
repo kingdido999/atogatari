@@ -5,7 +5,7 @@ import Favorite from '../models/Favorite'
 import Bangumi from '../models/Bangumi'
 import User from '../models/User'
 import Tag from '../models/Tag'
-import config from '../config'
+import env from '../../.env'
 
 import mongoose from 'mongoose'
 import faker from 'faker'
@@ -15,7 +15,7 @@ const NUM_BANGUMI = 10
 const NUM_BANGUMI_SCREENSHOT = 100
 
 mongoose.Promise = global.Promise
-mongoose.connect(config.database.dev, {
+mongoose.connect(env.database, {
   promiseLibrary: global.Promise
 })
 

@@ -14,14 +14,18 @@
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-2": "^6.22.0",
+    "babel-preset-env": "^1.2.2",
+    "babel-register": "^6.24.0",
     "eslint": "^3.16.1",
     "faker": "^4.1.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "pm2": "^2.4.2"
   },
   "scripts": {
-    "start": "DEBUG=koa* nodemon index.js --exec babel-node --presets es2015,stage-2",
-    "seed": "babel-node --presets es2015,stage-2 scripts/seed.js"
+    "start": "DEBUG=koa* nodemon src/index.js --exec babel-node",
+    "seed": "babel-node src/scripts/seed.js",
+    "build": "babel src -d build",
+    "serve": "pm2 start build/index.js",
+    "stop": "pm2 stop build/index.js"
   }
 }

@@ -1,4 +1,4 @@
-import config from '../config'
+import env from '../../.env'
 import User from '../models/User'
 import { getRandomString, sha512, generateToken } from '../utils'
 
@@ -28,7 +28,7 @@ async function signup (ctx) {
 
   ctx.response.body = {
     userId: user._id,
-    token: generateToken(user._id, config.secret, TOKEN_EXPIRES_IN)
+    token: generateToken(user._id, env.secret, TOKEN_EXPIRES_IN)
   }
 
   ctx.status = 201
@@ -54,7 +54,7 @@ async function login (ctx) {
 
   ctx.response.body = {
     userId: user._id,
-    token: generateToken(user._id, config.secret, TOKEN_EXPIRES_IN)
+    token: generateToken(user._id, env.secret, TOKEN_EXPIRES_IN)
   }
 
   ctx.status = 200

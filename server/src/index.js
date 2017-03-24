@@ -1,3 +1,5 @@
+require('babel-register')
+
 import Koa from 'koa'
 import Router from 'koa-router'
 import bodyParser from 'koa-bodyparser'
@@ -6,10 +8,10 @@ import mongoose from 'mongoose'
 
 import logger from './middlewares/logger'
 import route from './routes'
-import config from './config'
+import env from '../.env'
 
 mongoose.Promise = global.Promise
-mongoose.connect(config.database.dev, {
+mongoose.connect(env.database, {
   promiseLibrary: global.Promise
 })
 
