@@ -8,7 +8,7 @@ export function login (creds) {
   return {
     type: 'LOGIN',
     payload: new Promise((resolve, reject) => {
-      axios.post('/login', creds)
+      axios.post('api//login', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
         resolve(res)
@@ -24,7 +24,7 @@ export function signup (creds) {
   return {
     type: 'SIGNUP',
     payload: new Promise((resolve, reject) => {
-      axios.post('/signup', creds)
+      axios.post('/api/signup', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
         resolve(res)
@@ -64,7 +64,7 @@ export function getUserFavoritesIfNeeded () {
 export function getUserFavorites () {
   return {
     type: 'GET_USER_FAVORITES',
-    payload: axios.post('/user/favorites', {}, {
+    payload: axios.post('/api/user/favorites', {}, {
       headers: getAuthHeader(),
       transformResponse: [function(data) {
         return normalize(JSON.parse(data), [schemas.favoriteSchema])
@@ -75,7 +75,7 @@ export function getUserFavorites () {
 
 export function toggleFavorite (params) {
   return dispatch => {
-    axios.post('/user/favorite', params, {
+    axios.post('/api/user/favorite', params, {
       headers: getAuthHeader()
     })
     .then(res => {
@@ -105,7 +105,7 @@ export function removeFavorite (favorite) {
 export function getFavoriteScreenshots (params) {
   return {
     type: 'GET_FAVORITE_SCREENSHOTS',
-    payload: axios.post('/user/favoriteScreenshots', params, {
+    payload: axios.post('/api/user/favoriteScreenshots', params, {
       headers: getAuthHeader()
     })
   }
@@ -125,7 +125,7 @@ export function getUploadedScreenshotsIfNeeded () {
 export function getUploadedScreenshots () {
   return {
     type: 'GET_UPLOADED_SCREENSHOTS',
-    payload: axios.post('/user/uploadedScreenshots', {}, {
+    payload: axios.post('/api/user/uploadedScreenshots', {}, {
       headers: getAuthHeader(),
       transformResponse: [function(data) {
         return normalize(JSON.parse(data), [schemas.screenshotSchema])
@@ -137,7 +137,7 @@ export function getUploadedScreenshots () {
 export function upload (data) {
   return {
     type: 'UPLOAD',
-    payload: axios.post('/upload', data, {
+    payload: axios.post('/api/upload', data, {
       headers: getAuthHeader()
     })
   }

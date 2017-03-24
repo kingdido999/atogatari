@@ -16,7 +16,13 @@ mongoose.connect(env.database, {
 })
 
 const app = new Koa()
-const router = new Router()
+const router = new Router({
+  prefix: '/api'
+})
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(serve('../client/build'));
+}
 
 app.use(logger())
 app.use(serve('assets'))
