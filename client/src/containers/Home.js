@@ -3,7 +3,6 @@ import { Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import BangumiCards from '../components/BangumiCards'
-import SearchBar from '../components/SearchBar'
 
 import { getBangumis } from '../actions/entities'
 
@@ -15,19 +14,10 @@ class Home extends Component {
   }
 
   render() {
-    const { dispatch, bangumis, bangumiIds } = this.props
+    const { bangumis, bangumiIds } = this.props
 
     return (
       <div>
-        <Segment basic vertical>
-          <Container text>
-            <SearchBar
-              dispatch={dispatch}
-            />
-          </Container>
-
-        </Segment>
-
         <Segment vertical>
           <Container text>
             <BangumiCards

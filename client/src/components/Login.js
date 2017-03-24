@@ -39,8 +39,8 @@ class Login extends Component {
           onSubmit={this.handleSubmit}>
 
           <Form.Field>
-            <label>Email</label>
-            <input type="email" name="email" onChange={this.handleChange} />
+            <label>Email / Username</label>
+            <input type="text" name="email" onChange={this.handleChange} />
           </Form.Field>
 
           <Form.Field>

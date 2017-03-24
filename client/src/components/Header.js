@@ -5,6 +5,8 @@ import { browserHistory } from 'react-router'
 
 import { logout } from '../actions/user'
 
+// import GlobalSearch from './GlobalSearch'
+
 class Header extends Component {
 
   handleLogout = (event) => {
@@ -34,10 +36,14 @@ class Header extends Component {
     return (
       <Menu size="huge" fluid>
         <Menu.Item as={Link} to="/" name='bangumi pic' />
-        <Menu.Item name='Random' />
-        <Menu.Item name='Popular' />
+        {/* <Menu.Item name='Random' /> */}
+        {/* <Menu.Item name='Popular' /> */}
 
         <Menu.Menu position='right'>
+          {/* <Menu.Item>
+            <GlobalSearch />
+          </Menu.Item> */}
+
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
           }

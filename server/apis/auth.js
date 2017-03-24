@@ -38,18 +38,18 @@ async function login (ctx) {
   const { email, password } = ctx.request.body
 
   const user = await User.findOne({
-    email: email
+    $or: [{ email: email }, { username: email }]
   })
 
   if (!user) {
-    ctx.throw(400, 'Wrong email or/and password.')
+    ctx.throw(400, 'Invalid email/username or password.')
   }
 
   const actualHash = sha512(password, user.salt)
   const expectedHash = user.hash
 
   if (actualHash !== expectedHash) {
-    ctx.throw(400, 'Wrong email or/and password.')
+    ctx.throw(400, 'Invalid email/username or password.')
   }
 
   ctx.response.body = {
