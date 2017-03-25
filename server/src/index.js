@@ -20,10 +20,6 @@ const router = new Router({
   prefix: '/api'
 })
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(serve('../client/build'));
-}
-
 app.use(logger())
 app.use(serve('assets'))
 app.use(bodyParser())
