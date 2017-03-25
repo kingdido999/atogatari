@@ -8,7 +8,7 @@ import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
 import Tag from '../models/Tag'
 
-const UPLOAD_PATH = 'assets/screenshots'
+const UPLOAD_PATH = 'assets/images'
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
 const WIDTH_LARGE = 1920
@@ -51,7 +51,7 @@ async function upload (ctx) {
   sharp(fileOriginal).resize(WIDTH_MEDIUM).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
   sharp(fileOriginal).resize(WIDTH_LARGE).toFile(`${UPLOAD_PATH}/${filenames.large}`)
 
-  const tagList = tags.trim().toLowerCase().split(',')
+  const tagList = tags.trim().toLowerCase().split(',').filter(tag => tag !== '')
 
   const screenshot = new Screenshot({
     bangumi: bangumi._id,

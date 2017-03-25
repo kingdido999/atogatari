@@ -8,6 +8,8 @@ class Tags extends Component {
   render () {
     const { tags } = this.props
 
+    if (tags.length === 0) return null
+
     return (
       <Label.Group>
         {tags.map((tag, index) =>
