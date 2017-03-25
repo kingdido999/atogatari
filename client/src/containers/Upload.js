@@ -13,7 +13,7 @@ class Upload extends Component {
     imagePreviewUrl: '',
     bangumiTitle: '',
     episodeIndex: 1,
-    tags: '',
+    tags: [],
     zooming: new Zooming()
   }
 
@@ -103,7 +103,7 @@ class Upload extends Component {
             />
           </Form.Field>
 
-          <Form.Button type="submit" disabled={!this.state.file} size={size} primary fluid>Submit</Form.Button>
+          <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
         </Form>
       </Container>
     )

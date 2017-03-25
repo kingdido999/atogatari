@@ -14,7 +14,7 @@ export default function upload (state = initialState, action) {
       }
     case 'UPLOAD_REJECTED':
       return { ...state,
-        isUploading: true,
+        isUploading: false,
       }
     default:
       return state

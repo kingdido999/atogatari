@@ -13,9 +13,7 @@ export function login (creds) {
         localStorage.setItem('token', res.data.token)
         resolve(res)
       })
-      .catch(err => {
-        reject(err.response.data)
-      })
+      .catch(err => reject(err))
     })
   }
 }
@@ -29,9 +27,7 @@ export function signup (creds) {
         localStorage.setItem('token', res.data.token)
         resolve(res)
       })
-      .catch(err => {
-        reject(err.response.data)
-      })
+      .catch(err => reject(err))
     })
   }
 }

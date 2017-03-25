@@ -18,12 +18,16 @@ class App extends Component {
           dispatch={dispatch}
           isAuthenticated={isAuthenticated}
         />
+        
+        {errorMessage &&
+          <Segment basic vertical>
+            <Container text>
+              <Message error content={errorMessage} />
+            </Container>
+          </Segment>
+        }
 
         <Segment vertical className="site-content">
-          <Container text>
-            {errorMessage && <Message error content={errorMessage} />}
-          </Container>
-
           {this.props.children}
         </Segment>
 
