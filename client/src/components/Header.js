@@ -35,7 +35,7 @@ class Header extends Component {
 
     return (
       <Menu size="huge" fluid>
-        <Menu.Item as={Link} to="/" name='bangumi pic' />
+        <Menu.Item as={Link} to="/" name='atogatari' />
         {/* <Menu.Item name='Random' /> */}
         {/* <Menu.Item name='Popular' /> */}
 

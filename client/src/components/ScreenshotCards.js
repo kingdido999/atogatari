@@ -9,7 +9,7 @@ class ScreenshotCards extends Component {
     const { screenshots, screenshotIds, screenshotFavorites } = this.props
 
     return (
-      <Card.Group>
+      <Card.Group stackable>
         {screenshotIds.map(id =>
           <ScreenshotCard
             { ...this.props }

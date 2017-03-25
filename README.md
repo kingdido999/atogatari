@@ -1,9 +1,9 @@
-# Bangumi Pic
+# Atogatari
 
-Cool anime screenshots.
+Anime screenshots image board made with love <3
 
-- Client: [React](https://github.com/facebook/react), [Semantic UI](https://github.com/Semantic-Org/Semantic-UI-React)
-- Server: [Koa](https://github.com/koajs/koa)
+- Client: [Create React App](https://github.com/facebookincubator/create-react-app), [Semantic UI React](https://github.com/Semantic-Org/Semantic-UI-React)
+- Server: [Koa](https://github.com/koajs/koa), [MongoDB](https://www.mongodb.com/)
 
 ## Development
 

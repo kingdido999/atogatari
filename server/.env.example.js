@@ -1,4 +1,5 @@
 module.exports = {
-  secret: 'iloveu',
-  database: 'localhost/bangumi_pic'
+  NODE_ENV: 'local',
+  SECRET: 'ZIGAEXPERIENTIA',
+  DATABASE: 'localhost/bangumi_pic'
 }

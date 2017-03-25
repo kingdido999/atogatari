@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Card } from 'semantic-ui-react'
+import { Card, Button } from 'semantic-ui-react'
 
 import ZoomableImage from './ZoomableImage'
 import DownloadButton from './buttons/DownloadButton'
@@ -32,8 +32,7 @@ class ScreenshotCard extends Component {
         />
 
         <Card.Content>
-
-          <div className='ui three buttons'>
+          <Button.Group fluid>
             <FavoriteButton
               { ...this.props }
               screenshotId={_id}
@@ -48,8 +47,7 @@ class ScreenshotCard extends Component {
             <DetailsButton
               screenshotId={_id}
             />
-          </div>
-
+          </Button.Group>
         </Card.Content>
       </Card>
     )

@@ -9,10 +9,10 @@ import mongoose from 'mongoose'
 
 import logger from './middlewares/logger'
 import route from './routes'
-import env from '../.env'
+import { DATABASE, NODE_ENV } from '../.env'
 
 mongoose.Promise = global.Promise
-mongoose.connect(env.database, {
+mongoose.connect(DATABASE, {
   promiseLibrary: global.Promise
 })
 
@@ -22,8 +22,6 @@ const router = new Router({
 })
 
 app.use(logger())
-
-app.use(serve('../client/build'))
 app.use(serve('assets'))
 app.use(bodyParser())
 
@@ -31,8 +29,13 @@ route(router)
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-app.use(async function (ctx) {
-  await send(ctx, '/index.html', { root: '../client/build'});
-})
+if (NODE_ENV === 'production') {
+  app.use(serve('../client/build'))
+
+  // Serve 'index.html' for any unknown paths
+  app.use(async function (ctx) {
+    await send(ctx, '/index.html', { root: '../client/build'});
+  })
+}
 
 app.listen(3001)

@@ -1,4 +1,6 @@
 {
+  "name": "atogatari-server",
+  "private": true,
   "dependencies": {
     "async-busboy": "^0.3.4",
     "jsonwebtoken": "^7.2.1",
