@@ -31,12 +31,6 @@ class ScreenshotCard extends Component {
           zooming={zooming}
         />
 
-        {/* <Card.Content extra>
-          <Card.Meta>
-            { user.username }
-          </Card.Meta>
-        </Card.Content> */}
-
         <Card.Content>
 
           <div className='ui three buttons'>
@@ -66,7 +60,6 @@ ScreenshotCard.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   screenshot: PropTypes.object,
   screenshotFavorites: PropTypes.object.isRequired,
   userFavorites: PropTypes.object.isRequired,

@@ -15,6 +15,8 @@ function allFavorites (state = [], action) {
       ]
     case 'REMOVE_FAVORITE':
       return state.filter(favoriteId => favoriteId !== action.favorite._id)
+    case 'LOGOUT_FULFILLED':
+      return []
     default:
       return state
   }
