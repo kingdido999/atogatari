@@ -13,7 +13,10 @@ import { DATABASE, NODE_ENV } from '../.env'
 
 mongoose.Promise = global.Promise
 mongoose.connect(DATABASE, {
-  promiseLibrary: global.Promise
+  promiseLibrary: global.Promise,
+  config: {
+    autoIndex: NODE_ENV !== 'production'
+  }
 })
 
 const app = new Koa()

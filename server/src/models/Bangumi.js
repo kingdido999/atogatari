@@ -6,6 +6,10 @@ const bangumiSchema = new Schema({
     type: String,
     required: true
   },
+  aliases: {
+    type: [String],
+    index: true
+  },
   screenshots: [{
     type: Schema.Types.ObjectId,
     ref: 'Screenshot'

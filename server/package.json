@@ -11,6 +11,7 @@
     "koa-router": "next",
     "koa-send": "^3.3.0",
     "koa-static": "next",
+    "lodash": "^4.17.4",
     "mongoose": "^4.8.0",
     "sharp": "^0.17.2",
     "uuid": "^3.0.1"

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Form, Image, Header, Input, Label, Icon } from 'semantic-ui-react'
+import { Container, Form, Image, Label, Icon, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
@@ -13,41 +13,38 @@ class Upload extends Component {
     file: null,
     imagePreviewUrl: '',
     bangumiTitle: '',
-    episodeIndex: 1,
-    tagsValue: '',
-    tags: [],
+    episode: '',
+    alias: '',
+    tag: '',
+    aliasList: [],
+    tagList: [],
     zooming: new Zooming()
   }
 
   handleInputChange = (event) => {
-    const target = event.target
-    const value = target.value
-    const name = target.name
+    const { target } = event
+    const { value, name } = target
 
     this.setState({
       [name]: value
     })
-  }
 
-  handleTagEnter = (event, data) => {
-    const { value } = data
-    this.setState({
-      tagsValue: value
-    })
-    const len = value.length
-    if (len < 3 || value.trim() === '') return
+    if (name === 'tag' || name === 'alias') {
+      const len = value.length
+      if (len < 2 || value.trim() === '') return
 
-    if (value.charAt(len - 1) === ' ' && value.charAt(len - 2) === ' ') {
-      this.setState({
-        tagsValue: '',
-        tags: [ ...this.state.tags, trimEnd(value).toLowerCase() ]
-      })
+      if (value.charAt(len - 1) === ' ' && value.charAt(len - 2) === ' ') {
+        this.setState({
+          [name]: '',
+          [`${name}List`]: [ ...this.state[`${name}List`], trimEnd(value).toLowerCase() ]
+        })
+      }
     }
   }
 
-  handleTagDelete = (tagToDelete) => {
+  handleItemDelete = (name, itemToDelete) => {
     this.setState({
-      tags: this.state.tags.filter(tag => tag !== tagToDelete)
+      [name]: this.state[name].filter(item => item !== itemToDelete)
     })
   }
 
@@ -76,29 +73,48 @@ class Upload extends Component {
     const data = new FormData()
     data.append('file', this.state.file)
     data.append('bangumiTitle', this.state.bangumiTitle)
-    data.append('episodeIndex', this.state.episodeIndex)
-    data.append('tags', JSON.stringify(this.state.tags))
+    data.append('episode', this.state.episode)
+    data.append('aliases', JSON.stringify(this.state.aliasList))
+    data.append('tags', JSON.stringify(this.state.tagList))
     dispatch(upload(data))
     .then(() => browserHistory.push('/'))
   }
 
+  renderAliasInput = () => {
+    return (
+      <Form.Input
+        icon='talk outline'
+        iconPosition='left'
+        name="alias"
+        value={this.state.alias}
+        onChange={this.handleInputChange}
+        placeholder="Lucky Star, 幸运星"
+      />
+    )
+  }
+
+  renderTagInput = () => {
+    return (
+      <Form.Input
+        icon='tag'
+        iconPosition='left'
+        name='tag'
+        value={this.state.tag}
+        onChange={this.handleInputChange}
+        placeholder='sailor, uniform'
+      />
+    )
+  }
+
   render() {
-    let { imagePreviewUrl, file, bangumiTitle, episodeIndex, tags } = this.state
+    let { imagePreviewUrl, aliasList, tagList } = this.state
     const { isUploading } = this.props
     const size = 'large'
 
     return (
       <Container text>
-        <Header>Upload You Screenshot!</Header>
-
-        <br/>
 
         <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
-
-          <Form.Field>
-            <label>Screenshot</label>
-            <input type="file" onChange={this.handleImageChange} />
-          </Form.Field>
 
           {imagePreviewUrl &&
             <Form.Field>
@@ -106,50 +122,72 @@ class Upload extends Component {
             </Form.Field>
           }
 
-          <Form.Field>
-            <label>Bangumi Title</label>
-            <input type="text" name="bangumiTitle" onChange={this.handleInputChange} />
-          </Form.Field>
+          <Form.Input
+            icon="camera retro"
+            label="Screenshot"
+            type="file"
+            onChange={this.handleImageChange}
+            required
+          />
 
-          <Form.Field>
-            <label>Episode</label>
-            <input type="number" min="0" step="1" name="episodeIndex" onChange={this.handleInputChange} />
-          </Form.Field>
-
-          <Form.Field>
-            <label>Tags</label>
-
-            <Label.Group>
-              {tags.map((tag, index) =>
-                <Label key={index}>
-                  {tag}
-                  <Icon name='delete' onClick={(event) => { this.handleTagDelete(tag) }} />
-                </Label>
-              )}
-            </Label.Group>
-
-            <Input
-              icon='tags'
-              iconPosition='left'
-              placeholder='Hit SPACE twice to add a tag'
-              value={this.state.tagsValue}
-              onChange={this.handleTagEnter}
+          <Form.Group widths="equal">
+            <Form.Input
+              label="Official Bangumi Title"
+              name="bangumiTitle"
+              onChange={this.handleInputChange}
+              placeholder="らき☆すた"
+              required
             />
-          </Form.Field>
 
-          <Form.Button
-            type="submit"
-            size={size}
-            primary
-            fluid
-            disabled={
-              !this.state.file
-              || !this.state.bangumiTitle
-              || !this.state.episodeIndex
-            }
-          >
-            Submit
-          </Form.Button>
+            <Form.Input
+              label="Episode"
+              name="episode"
+              type="number"
+              min="0"
+              step="1"
+              value={this.state.episode}
+              onChange={this.handleInputChange}
+              required
+            />
+          </Form.Group>
+
+          <Segment basic textAlign='center' color='blue'>
+            <Icon name='info' />
+            Hit SPACE twice to add an alias or tag.
+          </Segment>
+
+          <Form.Group widths="equal">
+            {this.renderAliasInput()}
+            {this.renderTagInput()}
+          </Form.Group>
+
+          <Form.Group widths="equal">
+            <Form.Field>
+              <Label.Group>
+                {aliasList.map((alias, index) =>
+                  <Label key={index}>
+                    {alias}
+                    <Icon name='delete' onClick={(event) => { this.handleItemDelete('aliasList', alias) }} />
+                  </Label>
+                )}
+              </Label.Group>
+            </Form.Field>
+
+            <Form.Field>
+              <Label.Group>
+                {tagList.map((tag, index) =>
+                  <Label key={index}>
+                    {tag}
+                    <Icon name='delete' onClick={(event) => { this.handleItemDelete('tagList', tag) }} />
+                  </Label>
+                )}
+              </Label.Group>
+            </Form.Field>
+          </Form.Group>
+
+
+
+          <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
         </Form>
       </Container>
     )

@@ -3,6 +3,7 @@ import uuid from 'uuid/v4'
 import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
+import { union } from 'lodash'
 
 import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
@@ -18,15 +19,15 @@ const WIDTH_LARGE = 1920
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
-  const { bangumiTitle, episodeIndex, tags } = fields
+  const { bangumiTitle, episode, aliases, tags } = fields
+  const aliasList = JSON.parse(aliases)
   const tagList = JSON.parse(tags)
-  console.log(tagList)
 
   if (!bangumiTitle) {
     ctx.throw(400, 'Bangumi title cannot be empty.')
   }
 
-  if (!episodeIndex) {
+  if (!episode) {
     ctx.throw(400, 'Episode cannot be empty.')
   }
 
@@ -36,9 +37,11 @@ async function upload (ctx) {
 
   if (!bangumi) {
     bangumi = new Bangumi({
-      title: bangumiTitle,
+      title: bangumiTitle
     })
   }
+
+  bangumi.aliases = union(bangumi.aliases, aliasList)
 
   const filenames = {
     small: uuid() + '.jpg',
@@ -62,7 +65,7 @@ async function upload (ctx) {
   const screenshot = new Screenshot({
     bangumi: bangumi._id,
     user: ctx.state.uid,
-    episode: episodeIndex,
+    episode: episode,
     file: {
       small: filenames.small,
       medium: filenames.medium,
