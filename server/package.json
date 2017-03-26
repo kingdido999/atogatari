@@ -30,6 +30,7 @@
     "seed": "babel-node src/scripts/seed.js",
     "build": "babel src -d build",
     "serve": "pm2 start build/index.js",
-    "stop": "pm2 stop build/index.js"
+    "stop": "pm2 stop build/index.js",
+    "restart": "pm2 restart build/index.js"
   }
 }
