@@ -3,17 +3,24 @@ import { Label } from 'semantic-ui-react'
 
 class Tag extends Component {
 
+  handleDelete = (event) => {
+    const { onDelete } = this.props
+    onDelete()
+  }
+
   render () {
     const { tag } = this.props
 
     return (
-      <Label>{tag}</Label>
+      <Label as='a'>
+        {tag}
+      </Label>
     )
   }
 }
 
 Tag.propTypes = {
-  tag: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired
 }
 
 export default Tag

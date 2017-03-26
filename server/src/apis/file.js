@@ -8,6 +8,8 @@ import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
 import Tag from '../models/Tag'
 
+import { convertToSlug } from '../utils'
+
 const UPLOAD_PATH = 'assets/images'
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
@@ -17,9 +19,15 @@ async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
   const { bangumiTitle, episodeIndex, tags } = fields
+  const tagList = JSON.parse(tags)
+  console.log(tagList)
 
   if (!bangumiTitle) {
     ctx.throw(400, 'Bangumi title cannot be empty.')
+  }
+
+  if (!episodeIndex) {
+    ctx.throw(400, 'Episode cannot be empty.')
   }
 
   let bangumi = await Bangumi.findOne({
@@ -50,8 +58,6 @@ async function upload (ctx) {
   sharp(fileOriginal).resize(WIDTH_SMALL).toFile(`${UPLOAD_PATH}/${filenames.small}`)
   sharp(fileOriginal).resize(WIDTH_MEDIUM).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
   sharp(fileOriginal).resize(WIDTH_LARGE).toFile(`${UPLOAD_PATH}/${filenames.large}`)
-
-  const tagList = tags.trim().toLowerCase().split(',').filter(tag => tag !== '')
 
   const screenshot = new Screenshot({
     bangumi: bangumi._id,
@@ -90,10 +96,16 @@ function writeFile (input, output) {
 }
 
 async function addTag (name, screenshotId) {
-  let tag = await Tag.findOne({ name: name }).exec()
+  const slug = convertToSlug(name)
+  let tag = await Tag.findOne({
+    slug: slug
+  }).exec()
 
   if (!tag) {
-    tag = new Tag({ name: name })
+    tag = new Tag({
+      name: name,
+      slug: slug
+    })
   }
 
   tag.screenshots.push(screenshotId)

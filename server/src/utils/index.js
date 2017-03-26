@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
  * Generates random string of characters, i.e salt
  * @param {number} length
  */
-export function getRandomString(length) {
+export function getRandomString (length) {
   return crypto.randomBytes(Math.ceil(length/2))
     .toString('hex')
     .slice(0, length)
@@ -16,7 +16,7 @@ export function getRandomString(length) {
  * @param {string} password
  * @param {string} salt
  */
-export function sha512(password, salt) {
+export function sha512 (password, salt) {
   const hash = crypto.createHmac('sha512', salt)
   hash.update(password)
   const value = hash.digest('hex')
@@ -35,6 +35,13 @@ export function generateToken (uid, secret, expiresIn) {
 }
 
 
-export function escapeRegex(text) {
+export function escapeRegex (text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+}
+
+export function convertToSlug (text) {
+  return text
+    .toLowerCase()
+    .replace(/ /g,'-')
+    .replace(/[^\w-]+/g,'')
 }

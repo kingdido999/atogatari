@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Form, Image, Header, Input } from 'semantic-ui-react'
+import { Container, Form, Image, Header, Input, Label, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
+import { trimEnd } from 'lodash'
 
 import { upload } from '../actions/user'
 
@@ -13,6 +14,7 @@ class Upload extends Component {
     imagePreviewUrl: '',
     bangumiTitle: '',
     episodeIndex: 1,
+    tagsValue: '',
     tags: [],
     zooming: new Zooming()
   }
@@ -24,6 +26,28 @@ class Upload extends Component {
 
     this.setState({
       [name]: value
+    })
+  }
+
+  handleTagEnter = (event, data) => {
+    const { value } = data
+    this.setState({
+      tagsValue: value
+    })
+    const len = value.length
+    if (len < 3 || value.trim() === '') return
+
+    if (value.charAt(len - 1) === ' ' && value.charAt(len - 2) === ' ') {
+      this.setState({
+        tagsValue: '',
+        tags: [ ...this.state.tags, trimEnd(value).toLowerCase() ]
+      })
+    }
+  }
+
+  handleTagDelete = (tagToDelete) => {
+    this.setState({
+      tags: this.state.tags.filter(tag => tag !== tagToDelete)
     })
   }
 
@@ -47,19 +71,19 @@ class Upload extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+
     const { dispatch } = this.props
     const data = new FormData()
     data.append('file', this.state.file)
     data.append('bangumiTitle', this.state.bangumiTitle)
     data.append('episodeIndex', this.state.episodeIndex)
-    data.append('tags', this.state.tags)
-
+    data.append('tags', JSON.stringify(this.state.tags))
     dispatch(upload(data))
     .then(() => browserHistory.push('/'))
   }
 
   render() {
-    let { imagePreviewUrl } = this.state
+    let { imagePreviewUrl, file, bangumiTitle, episodeIndex, tags } = this.state
     const { isUploading } = this.props
     const size = 'large'
 
@@ -94,16 +118,38 @@ class Upload extends Component {
 
           <Form.Field>
             <label>Tags</label>
+
+            <Label.Group>
+              {tags.map((tag, index) =>
+                <Label key={index}>
+                  {tag}
+                  <Icon name='delete' onClick={(event) => { this.handleTagDelete(tag) }} />
+                </Label>
+              )}
+            </Label.Group>
+
             <Input
-              name='tags'
               icon='tags'
               iconPosition='left'
-              placeholder='Enter tags'
-              onChange={this.handleInputChange}
+              placeholder='Hit SPACE twice to add a tag'
+              value={this.state.tagsValue}
+              onChange={this.handleTagEnter}
             />
           </Form.Field>
 
-          <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
+          <Form.Button
+            type="submit"
+            size={size}
+            primary
+            fluid
+            disabled={
+              !this.state.file
+              || !this.state.bangumiTitle
+              || !this.state.episodeIndex
+            }
+          >
+            Submit
+          </Form.Button>
         </Form>
       </Container>
     )

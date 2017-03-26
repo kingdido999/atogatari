@@ -1,4 +1,4 @@
-import { getRandomString, sha512 } from '../utils'
+import { getRandomString, sha512, convertToSlug } from '../utils'
 
 import Screenshot from '../models/Screenshot'
 import Favorite from '../models/Favorite'
@@ -114,6 +114,7 @@ function createScreenshot (bangumi, user, tags) {
 async function createTag (name, screenshotId) {
   const tag = new Tag({
     name: name,
+    slug: convertToSlug(name)
   })
 
   tag.screenshots.push(screenshotId)
