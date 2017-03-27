@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Grid, Form, Image, Label, Icon, Segment, Card, List } from 'semantic-ui-react'
+import { Container, Grid, Form, Image, Label, Icon, Segment, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
@@ -88,18 +88,14 @@ class Upload extends Component {
     return (
       <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
 
-        <Segment.Group stacked size={size}>
+        <Segment.Group piled size={size}>
           <Segment>
-            <p>Before you upload a screenshot, make sure:</p>
+            <p>Just a few simple rules:</p>
 
-            <List bulleted>
-              <List.Item>
-                It is an ANIME Screenshot.
-              </List.Item>
-              <List.Item>
-                Image width is at least 1920px.
-              </List.Item>
-            </List>
+            <ul>
+              <li>It is an ANIME Screenshot.</li>
+              <li>Image width is at least 1920px.</li>
+            </ul>
           </Segment>
 
           <Segment>
@@ -109,67 +105,53 @@ class Upload extends Component {
               onChange={this.handleImageChange}
               required
             />
+
+            <Form.Group widths='equal'>
+              <Form.Input
+                label="What is the official name of this anime?"
+                name="bangumiTitle"
+                onChange={this.handleInputChange}
+                placeholder=""
+                required
+              />
+
+              <Form.Input
+                label='In my language, I call this anime:'
+                icon='talk outline'
+                iconPosition='left'
+                name="alias"
+                value={this.state.alias}
+                onChange={this.handleInputChange}
+                placeholder="Hit SPACE twice to add alias"
+              />
+            </Form.Group>
+
+            <Form.Group widths='equal'>
+              <Form.Input
+                label='Episode number'
+                name="episode"
+                type="number"
+                min="0"
+                step="1"
+                value={this.state.episode}
+                onChange={this.handleInputChange}
+                required
+              />
+
+              <Form.Input
+                label='Tag'
+                icon='tag'
+                iconPosition='left'
+                name='tag'
+                value={this.state.tag}
+                onChange={this.handleInputChange}
+                placeholder='Hit SPACE twice to add tag'
+              />
+            </Form.Group>
+            <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
           </Segment>
         </Segment.Group>
 
-
-        <Segment.Group stacked size={size}>
-          <Segment>
-            <p>Tell me something about this anime.</p>
-          </Segment>
-
-          <Segment>
-            <Form.Input
-              label="What is the official name of this anime?"
-              name="bangumiTitle"
-              onChange={this.handleInputChange}
-              placeholder=""
-              required
-            />
-
-            <Form.Input
-              label='In my language, I call it:'
-              icon='talk outline'
-              iconPosition='left'
-              name="alias"
-              value={this.state.alias}
-              onChange={this.handleInputChange}
-              placeholder="Hit SPACE twice to add an alias"
-            />
-          </Segment>
-
-        </Segment.Group>
-
-        <Segment.Group stacked size={size}>
-          <Segment>
-            <p>Let's add more details to the screenshot so others can easily discover it.</p>
-          </Segment>
-
-          <Segment>
-            <Form.Input
-              label='Episode number'
-              name="episode"
-              type="number"
-              min="0"
-              step="1"
-              value={this.state.episode}
-              onChange={this.handleInputChange}
-              required
-            />
-
-            <Form.Input
-              label='Tag'
-              icon='tag'
-              iconPosition='left'
-              name='tag'
-              value={this.state.tag}
-              onChange={this.handleInputChange}
-              placeholder='Hit SPACE twice to add a tag'
-            />
-          </Segment>
-        </Segment.Group>
-
-        <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
       </Form>
     )
   }
@@ -189,7 +171,7 @@ class Upload extends Component {
             {previewTitle}
           </Card.Header>
           <Card.Meta>
-            Episode {previewEpisode}
+            Ep. {previewEpisode}
           </Card.Meta>
         </Card.Content>
         <Card.Content extra>
@@ -243,10 +225,10 @@ class Upload extends Component {
       <Container>
         <Grid stackable>
           <Grid.Row columns={2}>
-            <Grid.Column>
+            <Grid.Column width={10}>
               {this.renderForm()}
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column width={6}>
               {this.renderPreview()}
             </Grid.Column>
           </Grid.Row>
