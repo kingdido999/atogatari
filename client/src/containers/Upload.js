@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Form, Image, Label, Icon, Segment } from 'semantic-ui-react'
+import { Container, Grid, Form, Image, Label, Icon, Segment, Card, List } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
-import { trimEnd } from 'lodash'
+import { trimStart, trimEnd, union } from 'lodash'
 
 import { upload } from '../actions/user'
 
@@ -13,7 +13,7 @@ class Upload extends Component {
     file: null,
     imagePreviewUrl: '',
     bangumiTitle: '',
-    episode: '',
+    episode: 1,
     alias: '',
     tag: '',
     aliasList: [],
@@ -34,9 +34,10 @@ class Upload extends Component {
       if (len < 2 || value.trim() === '') return
 
       if (value.charAt(len - 1) === ' ' && value.charAt(len - 2) === ' ') {
+        const trimmedItem = trimStart(trimEnd(value).toLowerCase())
         this.setState({
           [name]: '',
-          [`${name}List`]: [ ...this.state[`${name}List`], trimEnd(value).toLowerCase() ]
+          [`${name}List`]: union(this.state[`${name}List`], [trimmedItem])
         })
       }
     }
@@ -80,67 +81,73 @@ class Upload extends Component {
     .then(() => browserHistory.push('/'))
   }
 
-  renderAliasInput = () => {
-    return (
-      <Form.Input
-        icon='talk outline'
-        iconPosition='left'
-        name="alias"
-        value={this.state.alias}
-        onChange={this.handleInputChange}
-        placeholder="Lucky Star, 幸运星"
-      />
-    )
-  }
-
-  renderTagInput = () => {
-    return (
-      <Form.Input
-        icon='tag'
-        iconPosition='left'
-        name='tag'
-        value={this.state.tag}
-        onChange={this.handleInputChange}
-        placeholder='sailor, uniform'
-      />
-    )
-  }
-
-  render() {
-    let { imagePreviewUrl, aliasList, tagList } = this.state
+  renderForm = () => {
     const { isUploading } = this.props
     const size = 'large'
 
     return (
-      <Container text>
+      <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
 
-        <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
+        <Segment.Group stacked size={size}>
+          <Segment>
+            <p>Before you upload a screenshot, make sure:</p>
 
-          {imagePreviewUrl &&
-            <Form.Field>
-              <Image src={imagePreviewUrl} className="img-preview" />
-            </Form.Field>
-          }
+            <List bulleted>
+              <List.Item>
+                It is an ANIME Screenshot.
+              </List.Item>
+              <List.Item>
+                Image width is at least 1920px.
+              </List.Item>
+            </List>
+          </Segment>
 
-          <Form.Input
-            icon="camera retro"
-            label="Screenshot"
-            type="file"
-            onChange={this.handleImageChange}
-            required
-          />
-
-          <Form.Group widths="equal">
+          <Segment>
             <Form.Input
-              label="Official Bangumi Title"
+              type="file"
+              label="Screenshot"
+              onChange={this.handleImageChange}
+              required
+            />
+          </Segment>
+        </Segment.Group>
+
+
+        <Segment.Group stacked size={size}>
+          <Segment>
+            <p>Tell me something about this anime.</p>
+          </Segment>
+
+          <Segment>
+            <Form.Input
+              label="What is the official name of this anime?"
               name="bangumiTitle"
               onChange={this.handleInputChange}
-              placeholder="らき☆すた"
+              placeholder=""
               required
             />
 
             <Form.Input
-              label="Episode"
+              label='In my language, I call it:'
+              icon='talk outline'
+              iconPosition='left'
+              name="alias"
+              value={this.state.alias}
+              onChange={this.handleInputChange}
+              placeholder="Hit SPACE twice to add an alias"
+            />
+          </Segment>
+
+        </Segment.Group>
+
+        <Segment.Group stacked size={size}>
+          <Segment>
+            <p>Let's add more details to the screenshot so others can easily discover it.</p>
+          </Segment>
+
+          <Segment>
+            <Form.Input
+              label='Episode number'
               name="episode"
               type="number"
               min="0"
@@ -149,46 +156,101 @@ class Upload extends Component {
               onChange={this.handleInputChange}
               required
             />
-          </Form.Group>
 
-          <Segment basic textAlign='center' color='blue'>
-            <Icon name='info' />
-            Hit SPACE twice to add an alias or tag.
+            <Form.Input
+              label='Tag'
+              icon='tag'
+              iconPosition='left'
+              name='tag'
+              value={this.state.tag}
+              onChange={this.handleInputChange}
+              placeholder='Hit SPACE twice to add a tag'
+            />
           </Segment>
+        </Segment.Group>
 
-          <Form.Group widths="equal">
-            {this.renderAliasInput()}
-            {this.renderTagInput()}
-          </Form.Group>
+        <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
+      </Form>
+    )
+  }
 
-          <Form.Group widths="equal">
-            <Form.Field>
-              <Label.Group>
-                {aliasList.map((alias, index) =>
-                  <Label key={index}>
-                    {alias}
-                    <Icon name='delete' onClick={(event) => { this.handleItemDelete('aliasList', alias) }} />
-                  </Label>
-                )}
-              </Label.Group>
-            </Form.Field>
+  renderPreview = () => {
+    const { imagePreviewUrl, bangumiTitle, episode } = this.state
+    const previewSrc = imagePreviewUrl || 'http://placehold.it/640x360?text=Replace+me!'
+    const previewTitle = bangumiTitle || 'らき☆すた'
+    const previewEpisode = episode || '??'
 
-            <Form.Field>
-              <Label.Group>
-                {tagList.map((tag, index) =>
-                  <Label key={index}>
-                    {tag}
-                    <Icon name='delete' onClick={(event) => { this.handleItemDelete('tagList', tag) }} />
-                  </Label>
-                )}
-              </Label.Group>
-            </Form.Field>
-          </Form.Group>
+    return (
+      <Card fluid>
+        <Image src={previewSrc} className="img-preview" />
 
+        <Card.Content>
+          <Card.Header>
+            {previewTitle}
+          </Card.Header>
+          <Card.Meta>
+            Episode {previewEpisode}
+          </Card.Meta>
+        </Card.Content>
+        <Card.Content extra>
+          <Card.Meta>Aliases</Card.Meta>
+          <Card.Description>
+            {this.renderAliasLabels()}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <Card.Meta>Tags</Card.Meta>
+          <Card.Description>
+            {this.renderTagLabels()}
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    )
+  }
 
+  renderAliasLabels = () => {
+    const { aliasList } = this.state
 
-          <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
-        </Form>
+    return (
+      <Label.Group>
+        {aliasList.map((alias, index) =>
+          <Label key={index}>
+            {alias}
+            <Icon name='delete' onClick={(event) => { this.handleItemDelete('aliasList', alias) }} />
+          </Label>
+        )}
+      </Label.Group>
+    )
+  }
+
+  renderTagLabels = () => {
+    const { tagList } = this.state
+
+    return (
+      <Label.Group>
+        {tagList.map((tag, index) =>
+          <Label key={index}>
+            {tag}
+            <Icon name='delete' onClick={(event) => { this.handleItemDelete('tagList', tag) }} />
+          </Label>
+        )}
+      </Label.Group>
+    )
+  }
+
+  render() {
+    return (
+      <Container>
+        <Grid stackable>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              {this.renderForm()}
+            </Grid.Column>
+            <Grid.Column>
+              {this.renderPreview()}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Container>
     )
   }

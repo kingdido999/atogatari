@@ -14,7 +14,7 @@ class LoginAndSignup extends Component {
     return (
       <Container text>
         <Segment vertical loading={isFetching}>
-          <Grid columns={2} divided stackable>
+          <Grid divided stackable>
             <Grid.Row columns={2}>
               <Grid.Column>
                 <Signup size={size} dispatch={dispatch}/>
