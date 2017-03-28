@@ -88,7 +88,7 @@ class Upload extends Component {
     return (
       <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
 
-        <Segment.Group piled size={size}>
+        <Segment.Group size={size}>
           <Segment>
             <p>Just a few simple rules:</p>
 
