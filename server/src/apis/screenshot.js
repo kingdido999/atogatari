@@ -14,8 +14,11 @@ async function getScreenshot (ctx) {
 }
 
 async function getScreenshots (ctx) {
+  const { query } = ctx.request
+
   const screenshots = await Screenshot
-    .find(ctx.request.query)
+    .find(query)
+    .populate('bangumi user favorites')
     .exec()
 
   ctx.response.body = screenshots
