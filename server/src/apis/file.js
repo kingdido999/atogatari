@@ -19,7 +19,7 @@ const WIDTH_LARGE = 1920
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
-  const { bangumiTitle, episode, aliases, tags } = fields
+  const { bangumiTitle, episode, aliases, tags, nsfw } = fields
   const aliasList = JSON.parse(aliases)
   const tagList = JSON.parse(tags)
 
@@ -72,7 +72,8 @@ async function upload (ctx) {
       large: filenames.large,
       original: filenames.original
     },
-    tags: tagList
+    tags: tagList,
+    nsfw: nsfw
   })
 
   bangumi.screenshots.push(screenshot)

@@ -18,6 +18,7 @@ class Upload extends Component {
     tags: '',
     aliasesList: [],
     tagsList: [],
+    nsfw: false,
     zooming: new Zooming()
   }
 
@@ -63,16 +64,28 @@ class Upload extends Component {
     reader.readAsDataURL(file)
   }
 
+  handleInputToggle = (event, data) => {
+    const { name, checked } = data
+
+    this.setState({
+      [name]: checked
+    })
+  }
+
   handleSubmit = (event) => {
     event.preventDefault()
 
     const { dispatch } = this.props
+    const { file, bangumiTitle, episode, aliasesList, tagsList, nsfw } = this.state
+
     const data = new FormData()
-    data.append('file', this.state.file)
-    data.append('bangumiTitle', this.state.bangumiTitle)
-    data.append('episode', this.state.episode)
-    data.append('aliases', JSON.stringify(this.state.aliasesList))
-    data.append('tags', JSON.stringify(this.state.tagsList))
+    data.append('file', file)
+    data.append('bangumiTitle', bangumiTitle)
+    data.append('episode', episode)
+    data.append('aliases', JSON.stringify(aliasesList))
+    data.append('tags', JSON.stringify(tagsList))
+    data.append('nsfw', nsfw)
+
     dispatch(upload(data))
     .then(() => browserHistory.push('/'))
   }
@@ -142,7 +155,17 @@ class Upload extends Component {
                 placeholder='Konata Izumi, 泉 こなた'
               />
             </Form.Group>
-            <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
+
+            <Form.Group widths='equal'>
+              <Form.Checkbox
+                label='NSFW (Not Safe For Work)'
+                name='nsfw'
+                onChange={this.handleInputToggle}
+                toggle
+              />
+              <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
+            </Form.Group>
+
           </Segment>
         </Segment.Group>
 
@@ -158,7 +181,10 @@ class Upload extends Component {
 
     return (
       <Card fluid>
-        <Image src={previewSrc} className="img-preview" />
+        <Image
+          src={previewSrc}
+          className="img-preview"
+        />
 
         <Card.Content>
           <Card.Header>

@@ -18,6 +18,9 @@ const screenshotSchema = new Schema({
     type: String,
     required: false
   },
+  nsfw: {
+    type: Boolean
+  },
   file: {
     small: {
       type: String,

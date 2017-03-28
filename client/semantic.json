@@ -41,7 +41,8 @@
     "dropdown",
     "popup",
     "form",
-    "transition"
+    "transition",
+    "checkbox"
   ],
   "version": "2.2.9"
 }
