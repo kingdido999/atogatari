@@ -3,7 +3,7 @@ import { Container, Grid, Form, Image, Label, Icon, Segment, Card } from 'semant
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
-import { trimStart, trimEnd, union } from 'lodash'
+import { trimStart, trimEnd, uniq } from 'lodash'
 
 import { upload } from '../actions/user'
 
@@ -13,11 +13,11 @@ class Upload extends Component {
     file: null,
     imagePreviewUrl: '',
     bangumiTitle: '',
-    episode: 1,
-    alias: '',
-    tag: '',
-    aliasList: [],
-    tagList: [],
+    episode: '',
+    aliases: '',
+    tags: '',
+    aliasesList: [],
+    tagsList: [],
     zooming: new Zooming()
   }
 
@@ -27,20 +27,16 @@ class Upload extends Component {
 
     this.setState({
       [name]: value
-    })
-
-    if (name === 'tag' || name === 'alias') {
-      const len = value.length
-      if (len < 2 || value.trim() === '') return
-
-      if (value.charAt(len - 1) === ' ' && value.charAt(len - 2) === ' ') {
-        const trimmedItem = trimStart(trimEnd(value).toLowerCase())
+    }, () => {
+      if (name === 'tags' || name === 'aliases') {
         this.setState({
-          [name]: '',
-          [`${name}List`]: union(this.state[`${name}List`], [trimmedItem])
+          [`${name}List`]: uniq(this.state[name]
+            .split(',')
+            .map(item => trimStart(trimEnd(item)))
+            .filter(item => item !== ''))
         })
       }
-    }
+    })
   }
 
   handleItemDelete = (name, itemToDelete) => {
@@ -75,8 +71,8 @@ class Upload extends Component {
     data.append('file', this.state.file)
     data.append('bangumiTitle', this.state.bangumiTitle)
     data.append('episode', this.state.episode)
-    data.append('aliases', JSON.stringify(this.state.aliasList))
-    data.append('tags', JSON.stringify(this.state.tagList))
+    data.append('aliases', JSON.stringify(this.state.aliasesList))
+    data.append('tags', JSON.stringify(this.state.tagsList))
     dispatch(upload(data))
     .then(() => browserHistory.push('/'))
   }
@@ -111,24 +107,23 @@ class Upload extends Component {
                 label="What is the official name of this anime?"
                 name="bangumiTitle"
                 onChange={this.handleInputChange}
-                placeholder=""
+                placeholder="らき☆すた"
                 required
               />
 
               <Form.Input
-                label='In my language, I call this anime:'
+                label='I call this anime:'
                 icon='talk outline'
-                iconPosition='left'
-                name="alias"
-                value={this.state.alias}
+                name="aliases"
+                value={this.state.aliases}
                 onChange={this.handleInputChange}
-                placeholder="Hit SPACE twice to add alias"
+                placeholder="Lucky Star, 幸运星"
               />
             </Form.Group>
 
             <Form.Group widths='equal'>
               <Form.Input
-                label='Episode number'
+                label='Episode'
                 name="episode"
                 type="number"
                 min="0"
@@ -139,13 +134,12 @@ class Upload extends Component {
               />
 
               <Form.Input
-                label='Tag'
-                icon='tag'
-                iconPosition='left'
-                name='tag'
-                value={this.state.tag}
+                label='Tags'
+                icon='tags'
+                name='tags'
+                value={this.state.tags}
                 onChange={this.handleInputChange}
-                placeholder='Hit SPACE twice to add tag'
+                placeholder='Konata Izumi, 泉 こなた'
               />
             </Form.Group>
             <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
@@ -191,14 +185,14 @@ class Upload extends Component {
   }
 
   renderAliasLabels = () => {
-    const { aliasList } = this.state
+    const { aliasesList } = this.state
 
     return (
       <Label.Group>
-        {aliasList.map((alias, index) =>
+        {aliasesList.map((alias, index) =>
           <Label key={index}>
             {alias}
-            <Icon name='delete' onClick={(event) => { this.handleItemDelete('aliasList', alias) }} />
+            <Icon name='delete' onClick={(event) => { this.handleItemDelete('aliasesList', alias) }} />
           </Label>
         )}
       </Label.Group>
@@ -206,14 +200,14 @@ class Upload extends Component {
   }
 
   renderTagLabels = () => {
-    const { tagList } = this.state
+    const { tagsList } = this.state
 
     return (
       <Label.Group>
-        {tagList.map((tag, index) =>
+        {tagsList.map((tag, index) =>
           <Label key={index}>
             {tag}
-            <Icon name='delete' onClick={(event) => { this.handleItemDelete('tagList', tag) }} />
+            <Icon name='delete' onClick={(event) => { this.handleItemDelete('tagsList', tag) }} />
           </Label>
         )}
       </Label.Group>
