@@ -29,7 +29,7 @@ ScreenshotCards.propTypes = {
   zooming: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
-  userFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
   screenshotFavorites: PropTypes.object.isRequired,
 }
 

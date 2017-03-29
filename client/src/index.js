@@ -33,7 +33,7 @@ render(
         <Route path="upload" component={Upload} onEnter={requireAuth} />
         <Route path="bangumi/:bangumiId" component={Bangumi} />
         <Route path="screenshot/:screenshotId" component={Screenshot} />
-        <Route path="user" component={User} onEnter={requireAuth}>
+        <Route path="user/:userId" component={User} onEnter={requireAuth}>
           <Route path="favorites" component={UserFavorites} />
           <Route path="uploads" component={UserUploads} />
         </Route>

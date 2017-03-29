@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { Segment, Container, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
+import { getAuthedUserIfNeeded } from '../actions/user'
+
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
@@ -9,16 +11,22 @@ import '../styles/app.css'
 
 class App extends Component {
 
+  componentDidMount () {
+    const { dispatch } = this.props
+    dispatch(getAuthedUserIfNeeded())
+  }
+
   render() {
-    const { dispatch, isAuthenticated, errorMessage } = this.props
+    const { dispatch, isAuthenticated, uid, errorMessage } = this.props
 
     return (
       <div className="App site">
         <Header
           dispatch={dispatch}
           isAuthenticated={isAuthenticated}
+          uid={uid}
         />
-        
+
         {errorMessage &&
           <Segment basic vertical>
             <Container text>
@@ -47,10 +55,11 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { user, errorMessage } = state
-  const { isAuthenticated } = user
+  const { isAuthenticated, uid } = user
 
   return {
     isAuthenticated,
+    uid,
     errorMessage,
   }
 }

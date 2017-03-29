@@ -8,7 +8,7 @@ export function login (creds) {
   return {
     type: 'LOGIN',
     payload: new Promise((resolve, reject) => {
-      axios.post('api//login', creds)
+      axios.post('/api/login', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
         resolve(res)
@@ -46,12 +46,35 @@ export function logout () {
   }
 }
 
-export function getUserFavoritesIfNeeded () {
+export function getAuthedUserIfNeeded () {
   return (dispatch, getState) => {
     const { user } = getState()
-    const { isAuthenticated, favorites } = user
+    const { isAuthenticated, uid } = user
 
-    if (isAuthenticated && favorites.ids.length === 0) {
+    if (isAuthenticated && uid === null) {
+      dispatch(getAuthedUser())
+    }
+  }
+}
+
+export function getAuthedUser () {
+  return {
+    type: 'GET_AUTHED_USER',
+    payload: axios.post('/api/user', {}, {
+      headers: getAuthHeader(),
+      transformResponse: [function(data) {
+        return normalize(JSON.parse(data), schemas.userSchema)
+      }]
+    })
+  }
+}
+
+export function getUserFavoritesIfNeeded () {
+  return (dispatch, getState) => {
+    const { user, userFavorites } = getState()
+    const { isAuthenticated, uid } = user
+
+    if (isAuthenticated && userFavorites[uid] && userFavorites[uid].ids.length === 0) {
       dispatch(getUserFavorites())
     }
   }

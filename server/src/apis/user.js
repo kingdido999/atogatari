@@ -2,6 +2,20 @@ import User from '../models/User'
 import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 
+async function getAuthedUser (ctx) {
+  const user = await User
+    .findById(ctx.state.uid)
+    .populate('screenshots favorites')
+    .exec()
+
+    if (!user) {
+      ctx.throw(401, 'Unable to get authed user details.')
+    }
+
+    ctx.response.body = user
+    ctx.status = 200
+}
+
 async function getUserFavorites (ctx) {
   const favorites = await Favorite
     .find({
@@ -55,7 +69,7 @@ async function toggleFavorite (ctx) {
 
     user.favorites.push(favorite)
     screenshot.favorites.push(favorite)
-    
+
     await favorite.save()
     await user.save()
     await screenshot.save()
@@ -99,6 +113,7 @@ async function getUploadedScreenshots (ctx) {
 }
 
 export default {
+  getAuthedUser,
   getUserFavorites,
   toggleFavorite,
   getFavoriteScreenshots,

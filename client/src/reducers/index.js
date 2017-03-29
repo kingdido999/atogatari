@@ -6,6 +6,7 @@ import entities from './entities'
 import bangumis from './bangumis'
 import bangumiScreenshots from './bangumiScreenshots'
 import screenshotFavorites from './screenshotFavorites'
+import userFavorites from './userFavorites'
 import errorMessage from './errorMessage'
 
 export default combineReducers({
@@ -14,6 +15,7 @@ export default combineReducers({
   bangumis,
   bangumiScreenshots,
   screenshotFavorites,
+  userFavorites,
   errorMessage,
   routing: routerReducer
 })

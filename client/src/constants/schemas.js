@@ -9,6 +9,11 @@ const bangumiSchema = new schema.Entity('bangumis', {}, options)
 const screenshotSchema = new schema.Entity('screenshots', {}, options)
 const favoriteSchema = new schema.Entity('favorites', {}, options)
 
+userSchema.define({
+  screenshots: [screenshotSchema],
+  favorites: [favoriteSchema]
+})
+
 bangumiSchema.define({
   screenshots: [screenshotSchema]
 })
@@ -25,6 +30,7 @@ favoriteSchema.define({
 })
 
 export {
+  userSchema,
   bangumiSchema,
   screenshotSchema,
   favoriteSchema

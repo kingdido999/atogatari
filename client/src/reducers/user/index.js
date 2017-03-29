@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import screenshots from './screenshots'
-import favorites from './favorites'
 import upload from './upload'
 
 import { isLoggedIn } from '../../utils'
@@ -8,8 +7,8 @@ import { isLoggedIn } from '../../utils'
 export default combineReducers({
   isFetching,
   isAuthenticated,
+  uid,
   screenshots,
-  favorites,
   upload
 })
 
@@ -35,6 +34,20 @@ function isAuthenticated (state = isLoggedIn(), action) {
       return true
     case 'LOGOUT_FULFILLED':
       return false
+    default:
+      return state
+  }
+}
+
+function uid (state = null, action) {
+  switch (action.type) {
+    case 'LOGIN_FULFILLED':
+    case 'SIGNUP_FULFILLED':
+      return action.payload.data.uid
+    case 'GET_AUTHED_USER_FULFILLED':
+      return action.payload.data.result
+    case 'LOGOUT_FULFILLED':
+      return null
     default:
       return state
   }

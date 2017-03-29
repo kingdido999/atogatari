@@ -31,7 +31,6 @@ class Bangumi extends Component {
     const { isFetching, bangumi, screenshots, bangumiScreenshots } = this.props
 
     if (isFetching) return null
-
     const episode = bangumiScreenshots.episode
     const filteredScreenshotIds = episode !== undefined
     ? bangumiScreenshots.ids.filter(screenshotId => {
@@ -68,15 +67,15 @@ Bangumi.propTypes = {
   bangumiScreenshots: PropTypes.object,
   screenshots: PropTypes.object.isRequired,
   screenshotFavorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, bangumiScreenshots, screenshotFavorites } = state
-  const { isAuthenticated, favorites } = user
+  const { entities, user, bangumiScreenshots, screenshotFavorites, userFavorites } = state
+  const { isAuthenticated, uid } = user
   const { bangumis, screenshots } = entities
   const { bangumiId } = ownProps.params
-  const isFetching = !(bangumiId in bangumis)
+  const isFetching = !(bangumiId in bangumis) || !(bangumiId in bangumiScreenshots)
 
   return {
     isAuthenticated,
@@ -86,7 +85,7 @@ function mapStateToProps(state, ownProps) {
     bangumiScreenshots: bangumiScreenshots[bangumiId],
     screenshots,
     screenshotFavorites,
-    userFavorites: favorites
+    userFavorites: userFavorites[uid]
   }
 }
 

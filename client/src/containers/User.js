@@ -5,11 +5,14 @@ import { Link } from 'react-router'
 class User extends Component {
 
   render() {
+    const { params } = this.props
+    const { userId } = params
+
     return (
       <Container>
         <Menu pointing secondary>
-          <Menu.Item as={Link} to='/user/favorites' name='My favorites' activeClassName="active" />
-          <Menu.Item as={Link} to='/user/uploads' name='My uploads' activeClassName="active" />
+          <Menu.Item as={Link} to={`/user/${userId}/favorites`} name='My favorites' activeClassName="active" />
+          <Menu.Item as={Link} to={`/user/${userId}/uploads`} name='My uploads' activeClassName="active" />
           {/* <Menu.Item name='Settings' activeClassName="active" /> */}
         </Menu>
 

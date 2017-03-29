@@ -12,13 +12,15 @@ class ScreenshotCard extends Component {
 
   render () {
     const { zooming, screenshot, userFavorites, screenshotFavorites } = this.props
-    if (!screenshot) return null
+    if (!screenshot || !screenshotFavorites) return null
 
     const { _id, file } = screenshot
 
-    const isFavorited = userFavorites.ids.find(favoriteId => {
+    const isFavorited = userFavorites
+    ? userFavorites.ids.find(favoriteId => {
         return screenshotFavorites.ids.includes(favoriteId)
       }) !== undefined
+    : false
 
     const favoritesCount = screenshotFavorites.ids.length
 
@@ -59,8 +61,8 @@ ScreenshotCard.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
   screenshot: PropTypes.object,
-  screenshotFavorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object.isRequired,
+  screenshotFavorites: PropTypes.object,
+  userFavorites: PropTypes.object,
 }
 
 export default ScreenshotCard

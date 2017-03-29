@@ -70,6 +70,17 @@ export function getScreenshotById (id) {
   }
 }
 
+export function getFavorites (params) {
+  return {
+    type: 'GET_FAVORITES',
+    payload: axios.get('/api/favorites', { params,
+      transformResponse: [function (data) {
+        return normalize(JSON.parse(data), [schemas.favoriteSchema])
+      }]
+    })
+  }
+}
+
 export function setBangumiEpisode (bangumiId, episode) {
   return {
     type: 'SET_BANGUMI_EPISODE',

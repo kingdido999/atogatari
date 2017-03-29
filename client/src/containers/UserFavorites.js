@@ -3,17 +3,21 @@ import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
 import ScreenshotCards from '../components/ScreenshotCards'
-import { getUserFavoritesIfNeeded } from '../actions/user'
+import { getFavorites } from '../actions/entities'
 
 class UserFavorites extends Component {
 
   componentWillMount () {
-    const { dispatch } = this.props
-    dispatch(getUserFavoritesIfNeeded())
+    const { dispatch, params } = this.props
+    const { userId } = params
+    dispatch(getFavorites({ user: userId }))
   }
 
   render() {
     const { favorites, userFavorites } = this.props
+
+    if (!userFavorites) return null
+
     const favoriteScreenshotIds =
       userFavorites.ids.map(favoriteId => favorites[favoriteId].screenshot)
 
@@ -32,21 +36,23 @@ UserFavorites.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   screenshots: PropTypes.object.isRequired,
   favorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object.isRequired,
-  screenshotFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
+  screenshotFavorites: PropTypes.object,
 }
 
-function mapStateToProps(state) {
-  const { user, entities, screenshotFavorites } = state
+function mapStateToProps(state, ownProps) {
+  const { user, entities, screenshotFavorites, userFavorites } = state
   const { isAuthenticated } = user
   const { favorites, screenshots } = entities
+  const { params } = ownProps
+  const { userId } = params
 
   return {
     isAuthenticated,
     screenshots,
     favorites,
     screenshotFavorites,
-    userFavorites: user.favorites,
+    userFavorites: userFavorites[userId]
   }
 }
 

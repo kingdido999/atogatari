@@ -27,7 +27,7 @@ async function signup (ctx) {
   }
 
   ctx.response.body = {
-    userId: user._id,
+    uid: user._id,
     token: generateToken(user._id, SECRET, TOKEN_EXPIRES_IN)
   }
 
@@ -53,7 +53,7 @@ async function login (ctx) {
   }
 
   ctx.response.body = {
-    userId: user._id,
+    uid: user._id,
     token: generateToken(user._id, SECRET, TOKEN_EXPIRES_IN)
   }
 
