@@ -5,11 +5,10 @@ async function getScreenshot (ctx) {
 
   const screenshot = await Screenshot
     .findById(id)
-    .populate('bangumi favorites')
+    .populate('bangumi user favorites')
     .exec()
 
   ctx.response.body = screenshot
-
   ctx.status = 200
 }
 

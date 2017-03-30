@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Button } from 'semantic-ui-react'
+import { Link } from 'react-router'
+import { Container, Segment, Grid, Button } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import Tags from '../components/Tags'
@@ -30,10 +31,10 @@ class Screenshot extends Component {
   }
 
   render () {
-    const { params, dispatch, isAuthenticated, bangumis, screenshots, screenshotFavorites, userFavorites } = this.props
+    const { params, dispatch, isAuthenticated, users, bangumis, screenshots, screenshotFavorites, userFavorites } = this.props
     const { screenshotId } = params
     const screenshot = screenshots[screenshotId]
-    if (!screenshot) return null
+    if (!screenshot || !userFavorites) return null
 
     const bangumi = bangumis[screenshot.bangumi]
 
@@ -46,42 +47,48 @@ class Screenshot extends Component {
       }).length > 0
 
     const favoritesCount = screenshotFavorites[screenshotId].ids.length
+    const uploader = users[screenshot.user]
+    if (!uploader) return null
 
     return (
-      <div>
-        <Container>
-          <BangumiTitle size='huge' bangumi={bangumi} />
+      <Container>
+        <BangumiTitle size='huge' bangumi={bangumi} />
 
-          <ZoomableImage
-            id={_id}
-            src={getImageUrl(file.medium)}
-            dataOriginal={getImageUrl(file.large)}
-            zooming={new Zooming()}
-          />
-        </Container>
-
-        <br/>
-
-        <Container>
-          <Tags tags={screenshot.tags} />
-
-          <Button.Group >
-            <FavoriteButton
-              dispatch={dispatch}
-              screenshotId={_id}
-              isFavorited={isFavorited}
-              favoritesCount={favoritesCount}
-              isAuthenticated={isAuthenticated}
-            />
-            <DownloadButton
-              file={file}
-            />
-          </Button.Group>
-
-        </Container>
-
-      </div>
-
+        <Grid stackable>
+          <Grid.Row columns={2}>
+            <Grid.Column width={12}>
+              <ZoomableImage
+                id={_id}
+                src={getImageUrl(file.medium)}
+                dataOriginal={getImageUrl(file.large)}
+                zooming={new Zooming()}
+              />
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Segment vertical>
+                Uploader: <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
+              </Segment>
+              <Segment vertical>
+                <Tags tags={screenshot.tags} />
+              </Segment>
+              <Segment vertical>
+                <Button.Group>
+                  <FavoriteButton
+                    dispatch={dispatch}
+                    screenshotId={_id}
+                    isFavorited={isFavorited}
+                    favoritesCount={favoritesCount}
+                    isAuthenticated={isAuthenticated}
+                  />
+                  <DownloadButton
+                    file={file}
+                  />
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Container>
     )
   }
 }
