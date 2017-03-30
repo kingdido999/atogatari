@@ -5,7 +5,11 @@ import Screenshot from '../models/Screenshot'
 async function getAuthedUser (ctx) {
   const user = await User
     .findById(ctx.state.uid)
-    .populate('screenshots favorites')
+    .populate('screenshots')
+    .populate({
+      path: 'favorites',
+      populate: { path: 'screenshot' }
+    })
     .exec()
 
     if (!user) {

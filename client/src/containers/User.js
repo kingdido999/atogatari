@@ -11,8 +11,8 @@ class User extends Component {
     return (
       <Container>
         <Menu pointing secondary>
-          <Menu.Item as={Link} to={`/user/${userId}/favorites`} name='My favorites' activeClassName="active" />
-          <Menu.Item as={Link} to={`/user/${userId}/uploads`} name='My uploads' activeClassName="active" />
+          <Menu.Item as={Link} to={`/user/${userId}/favorites`} name='Favorites' activeClassName="active" />
+          <Menu.Item as={Link} to={`/user/${userId}/uploads`} name='Uploads' activeClassName="active" />
           {/* <Menu.Item name='Settings' activeClassName="active" /> */}
         </Menu>
 

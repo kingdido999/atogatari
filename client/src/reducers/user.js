@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux'
-import screenshots from './screenshots'
-import upload from './upload'
 
 import { isLoggedIn } from '../../utils'
 
@@ -8,8 +6,7 @@ export default combineReducers({
   isFetching,
   isAuthenticated,
   uid,
-  screenshots,
-  upload
+  isUploading
 })
 
 function isFetching (state = false, action) {
@@ -48,6 +45,19 @@ function uid (state = null, action) {
       return action.payload.data.result
     case 'LOGOUT_FULFILLED':
       return null
+    default:
+      return state
+  }
+}
+
+function isUploading (state = false, action) {
+  switch (action.type) {
+    case 'UPLOAD_PENDING':
+      return true
+    case 'UPLOAD_FULFILLED':
+      return false
+    case 'UPLOAD_REJECTED':
+      return false
     default:
       return state
   }

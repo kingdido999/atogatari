@@ -22,7 +22,6 @@ async function getScreenshots (ctx) {
     .exec()
 
   ctx.response.body = screenshots
-
   ctx.status = 200
 }
 

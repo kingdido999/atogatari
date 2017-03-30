@@ -13,7 +13,6 @@ class ScreenshotCard extends Component {
   render () {
     const { zooming, screenshot, userFavorites, screenshotFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
-
     const { _id, file } = screenshot
 
     const isFavorited = userFavorites
@@ -33,8 +32,8 @@ class ScreenshotCard extends Component {
           zooming={zooming}
         />
 
-        <Card.Content>
-          <Button.Group fluid>
+        <Card.Content extra>
+          <Button.Group fluid compact>
             <FavoriteButton
               { ...this.props }
               screenshotId={_id}

@@ -7,6 +7,7 @@ import { union } from 'lodash'
 
 import Screenshot from '../models/Screenshot'
 import Bangumi from '../models/Bangumi'
+import User from '../models/User'
 import Tag from '../models/Tag'
 
 import { convertToSlug } from '../utils'
@@ -76,9 +77,12 @@ async function upload (ctx) {
     nsfw: nsfw
   })
 
+  const user = await User.findById(ctx.state.uid).exec()
+  user.screenshots.push(screenshot)
   bangumi.screenshots.push(screenshot)
 
   try {
+    await user.save()
     await bangumi.save()
     await screenshot.save()
     tagList.forEach(name => addTag(name, screenshot._id))

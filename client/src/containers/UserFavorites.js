@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
 import ScreenshotCards from '../components/ScreenshotCards'
-import { getFavorites } from '../actions/entities'
+import { getFavoritesByUserIdIfNeeded } from '../actions/entities'
 
 class UserFavorites extends Component {
 
   componentWillMount () {
     const { dispatch, params } = this.props
     const { userId } = params
-    dispatch(getFavorites({ user: userId }))
+    dispatch(getFavoritesByUserIdIfNeeded(userId))
   }
 
   render() {

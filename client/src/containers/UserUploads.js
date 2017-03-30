@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
 import ScreenshotCards from '../components/ScreenshotCards'
-import { getUploadedScreenshotsIfNeeded } from '../actions/user'
+import { getScreenshotsByUserIdIfNeeded } from '../actions/entities'
 
 class UserUploads extends Component {
 
   componentWillMount () {
-    const { dispatch } = this.props
-    dispatch(getUploadedScreenshotsIfNeeded())
+    const { dispatch, params } = this.props
+    const { userId } = params
+    dispatch(getScreenshotsByUserIdIfNeeded(userId))
   }
 
   render() {
     const { userScreenshots } = this.props
+
+    if (!userScreenshots) return null
 
     return (
       <ScreenshotCards
@@ -30,23 +33,25 @@ UserUploads.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   screenshots: PropTypes.object.isRequired,
   favorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object.isRequired,
-  userScreenshots: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
+  userScreenshots: PropTypes.object,
   screenshotFavorites: PropTypes.object.isRequired,
 }
 
 function mapStateToProps (state, ownProps) {
-  const { user, entities, screenshotFavorites } = state
+  const { user, entities, userScreenshots, userFavorites, screenshotFavorites } = state
   const { isAuthenticated } = user
   const { screenshots, favorites } = entities
+  const { params } = ownProps
+  const { userId } = params
 
   return {
     isAuthenticated,
     screenshots,
     favorites,
     screenshotFavorites,
-    userFavorites: user.favorites,
-    userScreenshots: user.screenshots
+    userFavorites: userFavorites[userId],
+    userScreenshots: userScreenshots[userId]
   }
 }
 

@@ -37,12 +37,26 @@ export function getBangumiById (id) {
   }
 }
 
+export function getScreenshotsByUserIdIfNeeded (userId) {
+  return (dispatch, getState) => {
+    const { userScreenshots } = getState()
+
+    if (!userScreenshots[userId]) {
+      dispatch(getScreenshotsByUserId(userId))
+    }
+  }
+}
+
+export function getScreenshotsByUserId (userId) {
+  return getScreenshots({ user: userId })
+}
+
 export function getScreenshots (params) {
   return {
     type: 'GET_SCREENSHOTS',
     payload: axios.get('/api/screenshots', { params,
       transformResponse: [function (data) {
-        return normalize(JSON.parse(data), schemas.screenshotListSchema)
+        return normalize(JSON.parse(data), [schemas.screenshotSchema])
       }] })
   }
 }
@@ -68,6 +82,20 @@ export function getScreenshotById (id) {
       }]
     })
   }
+}
+
+export function getFavoritesByUserIdIfNeeded (userId) {
+  return (dispatch, getState) => {
+    const { userFavorites } = getState()
+
+    if (!userFavorites[userId]) {
+      dispatch(getFavoritesByUserId(userId))
+    }
+  }
+}
+
+export function getFavoritesByUserId (userId) {
+  return getFavorites({ user: userId })
 }
 
 export function getFavorites (params) {
