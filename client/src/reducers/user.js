@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import { isLoggedIn } from '../../utils'
+import { isLoggedIn } from '../utils'
 
 export default combineReducers({
   isFetching,

@@ -22,6 +22,7 @@ export default function userFavorites (state = {}, action) {
         ...items
       }
     case 'ADD_FAVORITE':
+      console.log(action)
       return {
         ...state,
         [action.favorite.user]: {

@@ -26,13 +26,16 @@ class FavoriteButton extends Component {
 
   renderButton (isFavorited, favoritesCount) {
     const icon = this.renderIcon(isFavorited)
+    const content = isFavorited
+    ? favoritesCount > 1 ? favoritesCount : ''
+    : favoritesCount > 0 ? favoritesCount : ''
 
     return (
       <Button
         basic
         icon={icon}
         onClick={this.toggleFavorite}
-        content={favoritesCount > 1 && favoritesCount}
+        content={content}
       />
     )
   }
