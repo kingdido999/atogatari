@@ -34,7 +34,7 @@ class Screenshot extends Component {
     const { params, dispatch, isAuthenticated, users, bangumis, screenshots, screenshotFavorites, userFavorites } = this.props
     const { screenshotId } = params
     const screenshot = screenshots[screenshotId]
-    if (!screenshot || !userFavorites) return null
+    if (!screenshot) return null
 
     const bangumi = bangumis[screenshot.bangumi]
 
@@ -68,9 +68,11 @@ class Screenshot extends Component {
               <Segment vertical>
                 Uploader: <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
               </Segment>
-              <Segment vertical>
-                <Tags tags={screenshot.tags} />
-              </Segment>
+              {screenshot.tags.length > 0 &&
+                <Segment vertical>
+                  <Tags tags={screenshot.tags} />
+                </Segment>
+              }
               <Segment vertical>
                 <Button.Group>
                   <FavoriteButton
