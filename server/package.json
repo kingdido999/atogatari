@@ -1,5 +1,5 @@
 {
-  "name": "atogatari-server",
+  "name": "server",
   "private": true,
   "dependencies": {
     "async-busboy": "^0.3.4",

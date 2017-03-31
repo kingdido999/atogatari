@@ -1,5 +1,5 @@
 {
-  "name": "atogatari-client",
+  "name": "client",
   "private": true,
   "devDependencies": {
     "autoprefixer": "6.5.1",
