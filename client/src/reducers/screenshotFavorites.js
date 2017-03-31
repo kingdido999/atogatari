@@ -9,6 +9,7 @@ export default function screenshotFavorites (state = {}, action) {
     case 'GET_AUTHED_USER_FULFILLED':
     case 'GET_UPLOADED_SCREENSHOTS_FULFILLED':
     case 'GET_SCREENSHOT_FULFILLED':
+    case 'GET_SCREENSHOTS_FULFILLED':
       const { screenshots } = action.payload.data.entities
       const items = {}
 

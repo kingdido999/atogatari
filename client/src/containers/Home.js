@@ -1,28 +1,30 @@
 import React, { Component, PropTypes } from 'react'
 import { Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import Zooming from 'zooming'
 
-import BangumiCards from '../components/BangumiCards'
+import ScreenshotCards from '../components/ScreenshotCards'
 
-import { getBangumis } from '../actions/entities'
+import { getScreenshots } from '../actions/entities'
 
 class Home extends Component {
 
   componentWillMount () {
     const { dispatch } = this.props
-    dispatch(getBangumis())
+    dispatch(getScreenshots())
   }
 
   render() {
-    const { bangumis, bangumiIds } = this.props
+    const { screenshotIds } = this.props
 
     return (
       <div>
         <Segment vertical>
-          <Container text>
-            <BangumiCards
-              bangumis={bangumis}
-              bangumiIds={bangumiIds}
+          <Container>
+            <ScreenshotCards
+              screenshotIds={screenshotIds}
+              zooming={new Zooming()}
+              { ...this.props }
             />
           </Container>
         </Segment>
@@ -33,16 +35,23 @@ class Home extends Component {
 
 Home.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  bangumis: PropTypes.object.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  screenshots: PropTypes.object.isRequired,
+  screenshotIds: PropTypes.array.isRequired,
+  screenshotFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
 }
 
 function mapStateToProps(state) {
-  const { entities, bangumis } = state
-  const { ids } = bangumis
+  const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
+  const { isAuthenticated, uid } = user
 
   return {
-    bangumis: entities.bangumis,
-    bangumiIds: ids
+    isAuthenticated,
+    screenshots: entities.screenshots,
+    screenshotIds: screenshots.ids,
+    screenshotFavorites,
+    userFavorites: userFavorites[uid]
   }
 }
 

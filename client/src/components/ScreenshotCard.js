@@ -12,7 +12,7 @@ class ScreenshotCard extends Component {
 
   render () {
     const { zooming, screenshot, userFavorites, screenshotFavorites } = this.props
-    if (!screenshot || !screenshotFavorites) return null
+    if (!screenshot) return null
     const { _id, file } = screenshot
 
     const isFavorited = userFavorites

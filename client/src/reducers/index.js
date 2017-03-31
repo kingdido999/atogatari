@@ -4,6 +4,7 @@ import { combineReducers } from 'redux'
 import user from './user'
 import entities from './entities'
 import bangumis from './bangumis'
+import screenshots from './screenshots'
 import bangumiScreenshots from './bangumiScreenshots'
 import screenshotFavorites from './screenshotFavorites'
 import userFavorites from './userFavorites'
@@ -14,6 +15,7 @@ export default combineReducers({
   user,
   entities,
   bangumis,
+  screenshots,
   bangumiScreenshots,
   screenshotFavorites,
   userFavorites,

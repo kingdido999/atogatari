@@ -17,6 +17,8 @@ async function getScreenshots (ctx) {
 
   const screenshots = await Screenshot
     .find(query)
+    .sort({ 'date': -1 })
+    .limit(30)
     .populate('bangumi user favorites')
     .exec()
 
