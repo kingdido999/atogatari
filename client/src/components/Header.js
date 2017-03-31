@@ -36,7 +36,7 @@ class Header extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <Menu size="huge" fluid>
+      <Menu size="huge" fluid borderless>
         <Menu.Item as={Link} to="/" name='atogatari' />
         {/* <Menu.Item name='Random' /> */}
         {/* <Menu.Item name='Popular' /> */}
