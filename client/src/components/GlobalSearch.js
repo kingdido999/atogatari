@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import { search } from '../actions/entities'
 
-const MIN_CHARACTERS = 3
+const MIN_CHARACTERS = 1
 
 const categoryRenderer = ({ name }) =>
   <Label as={'span'} content={name} />
@@ -82,7 +82,7 @@ class GlobalSearch extends Component {
     return (
       <Search
         category
-        minCharacters={3}
+        minCharacters={MIN_CHARACTERS}
         loading={isFetching}
         onSearchChange={this.handleSearchChange}
         onResultSelect={this.handleResultSelect}
