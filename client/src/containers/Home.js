@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment } from 'semantic-ui-react'
+import { Container, Segment, Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
@@ -15,20 +15,18 @@ class Home extends Component {
   }
 
   render() {
-    const { screenshotIds } = this.props
+    const { isFetching, screenshotIds } = this.props
 
     return (
-      <div>
-        <Segment vertical>
-          <Container>
-            <ScreenshotCards
-              screenshotIds={screenshotIds}
-              zooming={new Zooming()}
-              { ...this.props }
-            />
-          </Container>
+      <Container>
+        <Segment vertical loading={isFetching}>
+          <ScreenshotCards
+            screenshotIds={screenshotIds}
+            zooming={new Zooming()}
+            { ...this.props }
+          />
         </Segment>
-      </div>
+      </Container>
     )
   }
 }
@@ -36,6 +34,7 @@ class Home extends Component {
 Home.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
   screenshotFavorites: PropTypes.object.isRequired,
@@ -45,9 +44,11 @@ Home.propTypes = {
 function mapStateToProps(state) {
   const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
+  const { isFetching } = screenshots
 
   return {
     isAuthenticated,
+    isFetching,
     screenshots: entities.screenshots,
     screenshotIds: screenshots.ids,
     screenshotFavorites,
