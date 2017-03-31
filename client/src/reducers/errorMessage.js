@@ -7,7 +7,11 @@ export default function errorMessage (state = null, action) {
   }
 
   if (error) {
-    return payload.response.data
+    if (payload.response) {
+      return payload.response.data
+    } else {
+      return 'Oops something went wrong...Please try again.'
+    }
   }
 
   return state

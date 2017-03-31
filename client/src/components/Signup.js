@@ -19,7 +19,7 @@ class Signup extends Component {
       [name]: value
     })
   }
-  
+
   handleSubmit = (event) => {
     event.preventDefault()
     const { dispatch } = this.props
@@ -33,7 +33,7 @@ class Signup extends Component {
 
     return (
       <Segment basic>
-        <Header size={size}>Sign Up for a Free Account</Header>
+        <Header size={size}>Sign Up</Header>
 
         <Form
           size={size}

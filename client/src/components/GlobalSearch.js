@@ -1,48 +1,95 @@
 import React, { Component, PropTypes } from 'react'
-import { Item, Search } from 'semantic-ui-react'
+import { Label, List, Search } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
-import { getBangumis } from '../actions/entities'
+import { search } from '../actions/entities'
 
-const resultRenderer = ({ title }) => (
-  <Item>
-    <Item.Content>
-      <Item.Header>{ title }</Item.Header>
-    </Item.Content>
-  </Item>
-)
+const MIN_CHARACTERS = 3
+
+const categoryRenderer = ({ name }) =>
+  <Label as={'span'} content={name} />
+
+function resultRenderer ({ title, aliases, name }) {
+  if (title) {
+    return (
+      <List>
+        <List.Item>{title}</List.Item>
+          {aliases.map(alias =>
+            <List.Item>{alias}</List.Item>
+          )}
+      </List>
+    )
+  }
+
+  if (name) {
+    return (
+      <span>{name}</span>
+    )
+  }
+
+  return null
+}
 
 class GlobalSearch extends Component {
 
   state = {
-    search: ''
-  }
-
-  resetComponent = () => {
-    this.setState({ isLoading: false, results: [], value: '' })
+    query: ''
   }
 
   handleSearchChange = (e, value) => {
-    const { dispatch } = this.props
-    this.setState({ search: value })
-    dispatch(getBangumis(this.state))
+    this.setState({ query: value }, () => {
+      if (value.length < MIN_CHARACTERS) return
+
+      const { dispatch } = this.props
+      dispatch(search(this.state))
+    })
   }
 
   handleResultSelect = (e, item) => {
-    browserHistory.push(`/bangumi/${item._id}`)
+    const { _id, title, name } = item
+
+    if (title) {
+      browserHistory.push(`/bangumi/${_id}`)
+    } else if (name) {
+      browserHistory.push(`/tag/${_id}`)
+    } else {
+      return
+    }
   }
 
   render () {
-    const { results } = this.props
-    const { search } = this.state
+    const { query } = this.state
+    const { search } = this.props
+    const { isFetching, results } = search
+    const { bangumis, tags } = results
+
+    const transformedResults = {}
+
+    if (bangumis) {
+      transformedResults.bangumis = {
+        name: 'Bangumi',
+        results: bangumis
+      }
+    }
+
+    if (tags) {
+      transformedResults.tags = {
+        name: 'Tag',
+        results: tags
+      }
+    }
 
     return (
       <Search
+        category
+        minCharacters={3}
+        loading={isFetching}
         onSearchChange={this.handleSearchChange}
         onResultSelect={this.handleResultSelect}
-        results={results}
-        value={search}
+        categoryRenderer={categoryRenderer}
         resultRenderer={resultRenderer}
+        results={transformedResults}
+        value={query}
       />
     )
   }
@@ -50,7 +97,7 @@ class GlobalSearch extends Component {
 
 GlobalSearch.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  results: PropTypes.array.isRequired
+  search: PropTypes.object.isRequired
 }
 
 export default GlobalSearch

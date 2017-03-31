@@ -37,6 +37,7 @@ render(
           <Route path="favorites" component={UserFavorites} />
           <Route path="uploads" component={UserUploads} />
         </Route>
+        <Route path="*" component={Home} />
       </Route>
     </Router>
   </Provider>,

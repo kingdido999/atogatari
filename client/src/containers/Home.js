@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Grid } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Zooming from 'zooming'
 

@@ -17,25 +17,23 @@ class App extends Component {
   }
 
   render() {
-    const { dispatch, isAuthenticated, uid, errorMessage } = this.props
+    const { errorMessage } = this.props
 
     return (
       <div className="App site">
         <Header
-          dispatch={dispatch}
-          isAuthenticated={isAuthenticated}
-          uid={uid}
+          { ...this.props }
         />
 
-        {errorMessage &&
-          <Segment basic vertical>
-            <Container text>
-              <Message error content={errorMessage} />
-            </Container>
-          </Segment>
-        }
-
         <Segment vertical className="site-content">
+          {errorMessage &&
+            <Segment basic>
+              <Container text>
+                <Message error content={errorMessage} />
+              </Container>
+            </Segment>
+          }
+
           {this.props.children}
         </Segment>
 
@@ -51,16 +49,18 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
+  search: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {
-  const { user, errorMessage } = state
+  const { user, errorMessage, search } = state
   const { isAuthenticated, uid } = user
 
   return {
     isAuthenticated,
     uid,
     errorMessage,
+    search
   }
 }
 

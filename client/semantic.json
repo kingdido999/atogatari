@@ -42,7 +42,8 @@
     "popup",
     "form",
     "transition",
-    "checkbox"
+    "checkbox",
+    "search"
   ],
   "version": "2.2.9"
 }

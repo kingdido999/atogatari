@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 
 import { logout } from '../actions/user'
 
-// import GlobalSearch from './GlobalSearch'
+import GlobalSearch from './GlobalSearch'
 
 class Header extends Component {
 
@@ -23,8 +23,8 @@ class Header extends Component {
     return (
       <Dropdown item icon='user outline'>
         <Dropdown.Menu>
-          <Dropdown.Item icon='favorite' text='My favorites' as={Link} to={`/user/${uid}/favorites`} />
-          <Dropdown.Item icon='upload' text='My uploads' as={Link} to={`/user/${uid}/uploads`} />
+          <Dropdown.Item icon='favorite' text='Favorites' as={Link} to={`/user/${uid}/favorites`} />
+          <Dropdown.Item icon='cloud upload' text='Uploads' as={Link} to={`/user/${uid}/uploads`} />
           {/* <Dropdown.Item icon='settings' text='Settings' as={Link} to='/user/settings' /> */}
           <Dropdown.Item icon='log out' text='Logout' onClick={this.handleLogout} />
         </Dropdown.Menu>
@@ -36,22 +36,23 @@ class Header extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <Menu size="huge" fluid borderless>
+      <Menu size="huge" fixed="top" fluid borderless>
         <Menu.Item as={Link} to="/" name='atogatari' />
         {/* <Menu.Item name='Random' /> */}
         {/* <Menu.Item name='Popular' /> */}
+        <Menu.Item>
+          <GlobalSearch
+            { ...this.props }
+          />
+        </Menu.Item>
 
         <Menu.Menu position='right'>
-          {/* <Menu.Item>
-            <GlobalSearch />
-          </Menu.Item> */}
-
           {!isAuthenticated &&
-            <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
+            <Menu.Item as={Link} to="/login" icon='user outline' name='login' activeClassName="active" />
           }
 
           {isAuthenticated &&
-            <Menu.Item as={Link} to="/upload" name='upload' icon='upload' activeClassName="active" />
+            <Menu.Item as={Link} to="/upload" icon='cloud upload' name='upload' activeClassName="active" />
           }
 
           {isAuthenticated && this.renderDropdown()}
@@ -64,7 +65,8 @@ class Header extends Component {
 Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  uid: PropTypes.string
+  uid: PropTypes.string,
+  search: PropTypes.object.isRequired,
 }
 
 export default Header

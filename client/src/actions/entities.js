@@ -3,6 +3,13 @@ import axios from 'axios'
 
 import * as schemas from '../constants/schemas'
 
+export function search (params) {
+  return {
+    type: 'SEARCH',
+    payload: axios.get('/api/search', { params })
+  }
+}
+
 export function getBangumis (params) {
   return {
     type: 'GET_BANGUMIS',
@@ -16,10 +23,10 @@ export function getBangumis (params) {
 
 export function getBangumiIfNeeded (id) {
   return (dispatch, getState) => {
-    const { entities } = getState()
+    const { entities, bangumiScreenshots } = getState()
     const { bangumis } = entities
 
-    if (!bangumis[id]) {
+    if (!bangumis[id] || !bangumiScreenshots[id]) {
       dispatch(getBangumiById(id))
     }
   }

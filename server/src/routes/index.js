@@ -4,6 +4,7 @@ import user from '../apis/user'
 import bangumi from '../apis/bangumi'
 import screenshot from '../apis/screenshot'
 import favorite from '../apis/favorite'
+import search from '../apis/search'
 
 import tokenAuth from '../middlewares/tokenAuth'
 
@@ -13,6 +14,7 @@ export default function route (router) {
   router.get('/screenshot', screenshot.getScreenshot)
   router.get('/screenshots', screenshot.getScreenshots)
   router.get('/favorites', favorite.getFavorites)
+  router.get('/search', search.search)
 
   router.post('/signup', auth.signup)
   router.post('/login', auth.login)

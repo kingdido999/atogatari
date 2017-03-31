@@ -28,9 +28,9 @@ class Bangumi extends Component {
   }
 
   render () {
-    const { isFetching, bangumi, screenshots, bangumiScreenshots } = this.props
+    const { bangumi, screenshots, bangumiScreenshots } = this.props
 
-    if (isFetching) return null
+    if (!bangumi || !bangumiScreenshots) return null
     const episode = bangumiScreenshots.episode
     const filteredScreenshotIds = episode !== undefined
     ? bangumiScreenshots.ids.filter(screenshotId => {
@@ -61,7 +61,6 @@ class Bangumi extends Component {
 Bangumi.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   bangumiId: PropTypes.string.isRequired,
   bangumi: PropTypes.object,
   bangumiScreenshots: PropTypes.object,
@@ -75,11 +74,9 @@ function mapStateToProps(state, ownProps) {
   const { isAuthenticated, uid } = user
   const { bangumis, screenshots } = entities
   const { bangumiId } = ownProps.params
-  const isFetching = !(bangumiId in bangumis) || !(bangumiId in bangumiScreenshots)
 
   return {
     isAuthenticated,
-    isFetching,
     bangumiId,
     bangumi: bangumis[bangumiId],
     bangumiScreenshots: bangumiScreenshots[bangumiId],

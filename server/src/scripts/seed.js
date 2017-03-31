@@ -9,10 +9,11 @@ import { DATABASE } from '../../.env'
 
 import mongoose from 'mongoose'
 import faker from 'faker'
+import { uniq } from 'lodash'
 
 const NUM_USER = 5
-const NUM_BANGUMI = 10
-const NUM_BANGUMI_SCREENSHOT = 100
+const NUM_BANGUMI = 6
+const NUM_BANGUMI_SCREENSHOT = 30
 
 mongoose.Promise = global.Promise
 mongoose.connect(DATABASE, {
@@ -53,7 +54,7 @@ async function seed () {
 
     for (let j = 0; j < NUM_BANGUMI_SCREENSHOT; j++) {
       const user = faker.random.arrayElement(userList)
-      const tags = createRandomTags(faker.random.number(10))
+      const tags = createRandomWords(faker.random.number(10))
       const screenshot = createScreenshot(bangumi, user, tags)
       await screenshot.save()
 
@@ -68,14 +69,14 @@ async function seed () {
   }
 }
 
-function createRandomTags (count) {
+function createRandomWords (count) {
   const tags = []
 
   for (let i = 0; i < count; i++) {
     tags.push(faker.hacker.noun())
   }
 
-  return tags
+  return uniq(tags)
 }
 
 function createUser () {
@@ -92,7 +93,8 @@ function createUser () {
 
 function createBangumi () {
   return new Bangumi({
-    title: faker.lorem.words()
+    title: faker.lorem.words(),
+    aliases: createRandomWords(faker.random.number(3))
   })
 }
 
@@ -112,10 +114,16 @@ function createScreenshot (bangumi, user, tags) {
 }
 
 async function createTag (name, screenshotId) {
-  const tag = new Tag({
-    name: name,
-    slug: convertToSlug(name)
-  })
+  let tag = await Tag.findOne({
+    name: name
+  }).exec()
+
+  if (!tag) {
+    tag = new Tag({
+      name: name,
+      slug: convertToSlug(name)
+    })
+  }
 
   tag.screenshots.push(screenshotId)
   await tag.save()
