@@ -3,7 +3,9 @@ import axios from 'axios'
 const imagePath = '/images'
 
 export const ax = axios.create({
-  baseURL: 'api/'
+  baseURL: process.env.NODE_ENV === 'production'
+  ? 'https://api.atogatari.com/'
+  : ''
 })
 
 export function isFullUrl (url) {

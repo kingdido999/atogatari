@@ -19,9 +19,7 @@ mongoose.connect(DATABASE, {
 })
 
 const app = new Koa()
-const router = new Router({
-  prefix: '/api'
-})
+const router = new Router()
 
 app.use(logger())
 app.use(serve('assets'))
