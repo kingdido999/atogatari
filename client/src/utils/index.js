@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const imagePath = '/images'
+const baseURL = process.env.NODE_ENV === 'production'
+? 'https://api.atogatari.com/'
+: ''
 
 export const ax = axios.create({
-  baseURL: process.env.NODE_ENV === 'production'
-  ? 'https://api.atogatari.com/'
-  : ''
+  baseURL: baseURL
 })
 
 export function isFullUrl (url) {
@@ -13,7 +13,7 @@ export function isFullUrl (url) {
 }
 
 export function getImageUrl (filename) {
-  return `${imagePath}/${filename}`
+  return `${baseURL}/images/${filename}`
 }
 
 export function downloadFromUrl (url, filename) {
