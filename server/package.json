@@ -9,7 +9,6 @@
     "koa-csrf": "^3.0.4",
     "koa-morgan": "^1.0.1",
     "koa-router": "next",
-    "koa-send": "^3.3.0",
     "koa-static": "next",
     "lodash": "^4.17.4",
     "mongoose": "^4.8.0",

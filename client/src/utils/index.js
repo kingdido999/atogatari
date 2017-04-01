@@ -1,6 +1,12 @@
+import axios from 'axios'
 
-// TODO: change based on dev and prod
 const imagePath = '/images'
+
+export const ax = axios.create({
+  baseURL: process.env.NODE_ENV === 'production'
+  ? 'https://api.atogatari.com/'
+  : ''
+})
 
 export function isFullUrl (url) {
   return url.includes('http')

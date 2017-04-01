@@ -1,19 +1,19 @@
 import { normalize } from 'normalizr'
-import axios from 'axios'
+import { ax } from '../utils'
 
 import * as schemas from '../constants/schemas'
 
 export function search (params) {
   return {
     type: 'SEARCH',
-    payload: axios.get('/api/search', { params })
+    payload: ax.get('/search', { params })
   }
 }
 
 export function getBangumis (params) {
   return {
     type: 'GET_BANGUMIS',
-    payload: axios.get('/api/bangumis', { params,
+    payload: ax.get('/bangumis', { params,
       transformResponse: [function (data) {
         return normalize(JSON.parse(data), [schemas.bangumiSchema])
       }]
@@ -35,7 +35,7 @@ export function getBangumiIfNeeded (id) {
 export function getBangumiById (id) {
   return {
     type: 'GET_BANGUMI',
-    payload: axios.get('/api/bangumi', {
+    payload: ax.get('/bangumi', {
       params: { id },
       transformResponse: [function (data) {
         return normalize(JSON.parse(data), schemas.bangumiSchema)
@@ -61,7 +61,7 @@ export function getScreenshotsByUserId (userId) {
 export function getScreenshots (params) {
   return {
     type: 'GET_SCREENSHOTS',
-    payload: axios.get('/api/screenshots', { params,
+    payload: ax.get('/screenshots', { params,
       transformResponse: [function (data) {
         return normalize(JSON.parse(data), [schemas.screenshotSchema])
       }] })
@@ -82,7 +82,7 @@ export function getScreenshotIfNeeded (id) {
 export function getScreenshotById (id) {
   return {
     type: 'GET_SCREENSHOT',
-    payload: axios.get('/api/screenshot', {
+    payload: ax.get('/screenshot', {
       params: { id },
       transformResponse: [function (data) {
         return normalize(JSON.parse(data), schemas.screenshotSchema)
@@ -108,7 +108,7 @@ export function getFavoritesByUserId (userId) {
 export function getFavorites (params) {
   return {
     type: 'GET_FAVORITES',
-    payload: axios.get('/api/favorites', { params,
+    payload: ax.get('/favorites', { params,
       transformResponse: [function (data) {
         return normalize(JSON.parse(data), [schemas.favoriteSchema])
       }]

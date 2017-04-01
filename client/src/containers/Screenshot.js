@@ -69,8 +69,8 @@ class Screenshot extends Component {
 
         {bangumi.aliases.length > 0 &&
           <List>
-            {bangumi.aliases.map(alias =>
-              <List.Item>{alias}</List.Item>
+            {bangumi.aliases.map((alias, index) =>
+              <List.Item key={index}>{alias}</List.Item>
             )}
           </List>
         }
