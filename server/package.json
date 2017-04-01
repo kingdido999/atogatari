@@ -10,6 +10,7 @@
     "koa-morgan": "^1.0.1",
     "koa-router": "next",
     "koa-static": "next",
+    "koa2-cors": "^2.0.3",
     "lodash": "^4.17.4",
     "mongoose": "^4.8.0",
     "sharp": "^0.17.2",

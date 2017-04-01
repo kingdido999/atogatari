@@ -1,6 +1,7 @@
 require('babel-register')
 
 import Koa from 'koa'
+import cors from 'koa2-cors'
 import Router from 'koa-router'
 import bodyParser from 'koa-bodyparser'
 import serve from 'koa-static'
@@ -8,7 +9,7 @@ import mongoose from 'mongoose'
 
 import logger from './middlewares/logger'
 import route from './routes'
-import { DATABASE, NODE_ENV } from '../.env'
+import { DATABASE, NODE_ENV, ALLOW_ORIGIN } from '../.env'
 
 mongoose.Promise = global.Promise
 mongoose.connect(DATABASE, {
@@ -21,6 +22,9 @@ mongoose.connect(DATABASE, {
 const app = new Koa()
 const router = new Router()
 
+app.use(cors({
+  origin: ALLOW_ORIGIN
+}))
 app.use(logger())
 app.use(serve('assets'))
 app.use(bodyParser())
