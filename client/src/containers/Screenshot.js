@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Header, List } from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Header, List, Input } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import Tags from '../components/Tags'
@@ -43,6 +43,7 @@ class Screenshot extends Component {
                 {this.renderEpisodeSegment()}
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
+                {/* {this.renderAddTagSegment()} */}
                 {this.renderActionSegment()}
               </Segment.Group>
             </Grid.Column>
@@ -113,6 +114,24 @@ class Screenshot extends Component {
     )
   }
 
+  renderAddTagSegment = () => {
+    const { isAuthenticated } = this.props
+    if (!isAuthenticated) return null
+
+    return (
+      <Segment>
+        <Input
+          fluid
+          transparent
+          icon='tag'
+          iconPosition='left'
+          placeholder='Enter a new tag'
+          onChange={this.handleAddTag}
+        />
+      </Segment>
+    )
+  }
+
   renderActionSegment = () => {
     const { dispatch, isAuthenticated, screenshot, screenshotFavorites, userFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
@@ -124,11 +143,11 @@ class Screenshot extends Component {
       }) !== undefined
     : false
 
-    const favoritesCount = screenshotFavorites[_id].ids.length
+    const favoritesCount = screenshotFavorites.ids.length
 
     return (
       <Segment>
-        <Button.Group>
+        <Button.Group fluid>
           <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}
@@ -167,7 +186,7 @@ Screenshot.propTypes = {
   screenshot: PropTypes.object,
   users: PropTypes.object.isRequired,
   bangumis: PropTypes.object.isRequired,
-  screenshotFavorites: PropTypes.object.isRequired,
+  screenshotFavorites: PropTypes.object,
   userFavorites: PropTypes.object
 }
 
@@ -183,7 +202,7 @@ function mapStateToProps(state, ownProps) {
     screenshot,
     users,
     bangumis,
-    screenshotFavorites,
+    screenshotFavorites: screenshotFavorites[screenshotId],
     userFavorites: userFavorites[uid]
   }
 }
