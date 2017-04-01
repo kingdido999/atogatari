@@ -6,6 +6,7 @@ import Zooming from 'zooming'
 import { trimStart, trimEnd, uniq } from 'lodash'
 
 import { upload } from '../actions/user'
+import { separator } from '../utils'
 
 class Upload extends Component {
 
@@ -32,7 +33,7 @@ class Upload extends Component {
       if (name === 'tags' || name === 'aliases') {
         this.setState({
           [`${name}List`]: uniq(this.state[name]
-            .split(',')
+            .split(separator([' ', ',', '，']))
             .map(item => trimStart(trimEnd(item)))
             .filter(item => item !== ''))
         })
@@ -152,7 +153,7 @@ class Upload extends Component {
                 name='tags'
                 value={this.state.tags}
                 onChange={this.handleInputChange}
-                placeholder='Konata Izumi, 泉 こなた'
+                placeholder='Konata, こなた'
               />
             </Form.Group>
 

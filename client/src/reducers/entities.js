@@ -6,6 +6,7 @@ const initialState = {
   bangumis: {},
   screenshots: {},
   favorites: {},
+  tags: {},
   users: {}
 }
 

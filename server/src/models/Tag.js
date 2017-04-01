@@ -6,10 +6,6 @@ const tagSchema = new Schema({
     type: String,
     required: true
   },
-  slug: {
-    type: String,
-    required: true
-  },
   screenshots: [{
     type: Schema.Types.ObjectId,
     ref: 'Screenshot'

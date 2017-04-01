@@ -51,7 +51,7 @@ class GlobalSearch extends Component {
     if (title) {
       browserHistory.push(`/bangumi/${_id}`)
     } else if (name) {
-      browserHistory.push(`/tag/${_id}`)
+      browserHistory.push(`/tag/${name}`)
     } else {
       return
     }

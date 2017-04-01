@@ -26,7 +26,7 @@ async function search (ctx, next) {
     .find({
       name: queryRegex
     })
-    .select('_id name slug')
+    .select('_id name')
     .exec()
 
   const results = {}

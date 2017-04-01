@@ -3,6 +3,7 @@ import file from '../apis/file'
 import user from '../apis/user'
 import bangumi from '../apis/bangumi'
 import screenshot from '../apis/screenshot'
+import tag from '../apis/tag'
 import favorite from '../apis/favorite'
 import search from '../apis/search'
 
@@ -13,6 +14,7 @@ export default function route (router) {
   router.get('/bangumis', bangumi.getBangumis)
   router.get('/screenshot', screenshot.getScreenshot)
   router.get('/screenshots', screenshot.getScreenshots)
+  router.get('/tag', tag.getTag)
   router.get('/favorites', favorite.getFavorites)
   router.get('/search', search.search)
 

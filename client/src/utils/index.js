@@ -48,3 +48,7 @@ export function requireAuth (nextState, replace) {
     })
   }
 }
+
+export function separator (separators) {
+  return new RegExp(separators.join('|'), 'g')
+}

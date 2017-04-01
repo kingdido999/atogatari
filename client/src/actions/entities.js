@@ -116,6 +116,29 @@ export function getFavorites (params) {
   }
 }
 
+export function getTagByNameIfNeeded (name) {
+  return (dispatch, getState) => {
+    const { entities } = getState()
+    const { tags } = entities
+
+    if (!tags[name]) {
+      dispatch(getTag({ name }))
+    }
+  }
+}
+
+export function getTag (params) {
+  return {
+    type: 'GET_TAG',
+    payload: ax.get('/tag', {
+      params,
+      transformResponse: [function (data) {
+        return normalize(JSON.parse(data), schemas.tagSchema)
+      }]
+    })
+  }
+}
+
 export function setBangumiEpisode (bangumiId, episode) {
   return {
     type: 'SET_BANGUMI_EPISODE',

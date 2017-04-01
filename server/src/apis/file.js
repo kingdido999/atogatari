@@ -10,8 +10,6 @@ import Bangumi from '../models/Bangumi'
 import User from '../models/User'
 import Tag from '../models/Tag'
 
-import { convertToSlug } from '../utils'
-
 const UPLOAD_PATH = 'assets/images'
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
@@ -104,16 +102,10 @@ function writeFile (input, output) {
 }
 
 async function addTag (name, screenshotId) {
-  const slug = convertToSlug(name)
-  let tag = await Tag.findOne({
-    slug: slug
-  }).exec()
+  let tag = await Tag.findOne({ name }).exec()
 
   if (!tag) {
-    tag = new Tag({
-      name: name,
-      slug: slug
-    })
+    tag = new Tag({ name })
   }
 
   tag.screenshots.push(screenshotId)
