@@ -34,6 +34,9 @@ class Screenshot extends Component {
       <Container>
         <Grid stackable>
           <Grid.Row columns={2}>
+            <Grid.Column width={12}>
+              {this.renderImage()}
+            </Grid.Column>
             <Grid.Column width={4}>
               <Segment.Group>
                 {this.renderBangumiSegment()}
@@ -42,10 +45,6 @@ class Screenshot extends Component {
                 {this.renderTagsSegment()}
                 {this.renderActionSegment()}
               </Segment.Group>
-            </Grid.Column>
-
-            <Grid.Column width={12}>
-              {this.renderImage()}
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -116,13 +115,14 @@ class Screenshot extends Component {
 
   renderActionSegment = () => {
     const { dispatch, isAuthenticated, screenshot, screenshotFavorites, userFavorites } = this.props
-    if (!screenshot) return null
+    if (!screenshot || !screenshotFavorites) return null
     const { _id, file } = screenshot
 
-    const isFavorited = isAuthenticated && userFavorites &&
-      screenshotFavorites[_id].ids.filter(favoriteId => {
-        return userFavorites.ids.includes(favoriteId)
-      }).length > 0
+    const isFavorited = isAuthenticated && userFavorites
+    ? userFavorites.ids.find(favoriteId => {
+        return screenshotFavorites.ids.includes(favoriteId)
+      }) !== undefined
+    : false
 
     const favoritesCount = screenshotFavorites[_id].ids.length
 

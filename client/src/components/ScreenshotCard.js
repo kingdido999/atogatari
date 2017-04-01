@@ -11,11 +11,11 @@ import { getImageUrl } from '../utils'
 class ScreenshotCard extends Component {
 
   render () {
-    const { zooming, screenshot, userFavorites, screenshotFavorites } = this.props
+    const { isAuthenticated, zooming, screenshot, userFavorites, screenshotFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
     const { _id, file } = screenshot
 
-    const isFavorited = userFavorites
+    const isFavorited = isAuthenticated && userFavorites
     ? userFavorites.ids.find(favoriteId => {
         return screenshotFavorites.ids.includes(favoriteId)
       }) !== undefined
