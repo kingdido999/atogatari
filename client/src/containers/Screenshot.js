@@ -8,6 +8,7 @@ import Tags from '../components/Tags'
 import ZoomableImage from '../components/ZoomableImage'
 import DownloadButton from '../components/buttons/DownloadButton'
 import FavoriteButton from '../components/buttons/FavoriteButton'
+import WhatAnimeGaButton from '../components/buttons/WhatAnimeGaButton'
 
 import { getScreenshotIfNeeded } from '../actions/entities'
 import { getImageUrl } from '../utils'
@@ -147,7 +148,7 @@ class Screenshot extends Component {
 
     return (
       <Segment>
-        <Button.Group fluid>
+        <Button.Group size='large' fluid>
           <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}
@@ -158,6 +159,7 @@ class Screenshot extends Component {
           <DownloadButton
             file={file}
           />
+          <WhatAnimeGaButton url={getImageUrl(file.medium)} />
         </Button.Group>
       </Segment>
     )

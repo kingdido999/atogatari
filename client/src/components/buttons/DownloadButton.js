@@ -3,7 +3,7 @@ import { Button } from 'semantic-ui-react'
 
 import { getImageUrl, downloadFromUrl } from '../../utils'
 
-class FavoriteButton extends Component {
+class DownloadButton extends Component {
 
   handleDownload = () => {
     const { file } = this.props
@@ -23,8 +23,8 @@ class FavoriteButton extends Component {
   }
 }
 
-FavoriteButton.propTypes = {
+DownloadButton.propTypes = {
   file: PropTypes.object.isRequired
 }
 
-export default FavoriteButton
+export default DownloadButton
