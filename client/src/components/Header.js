@@ -48,7 +48,7 @@ class Header extends Component {
 
         <Menu.Menu position='right'>
           {!isAuthenticated &&
-            <Menu.Item as={Link} to="/login" icon='user outline' name='login' activeClassName="active" />
+            <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
           }
 
           {isAuthenticated &&

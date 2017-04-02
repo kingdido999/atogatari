@@ -46,7 +46,7 @@ class Signup extends Component {
 
           <Form.Field>
             <label>Password</label>
-            <input type="password" name="password" onChange={this.handleChange} />
+            <input type="password" name="password" placeholder="At least 8 characters" onChange={this.handleChange} />
           </Form.Field>
 
           <Form.Field>
@@ -54,7 +54,7 @@ class Signup extends Component {
             <input type="text" name="username" onChange={this.handleChange} />
           </Form.Field>
 
-          <Form.Button type="submit" size={size} fluid primary>Create Account</Form.Button>
+          <Form.Button type="submit" size={size} fluid primary>Sign Up</Form.Button>
         </Form>
       </Segment>
     )
