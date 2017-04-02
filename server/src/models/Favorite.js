@@ -12,4 +12,6 @@ const favoriteSchema = new Schema({
   }
 })
 
+favoriteSchema.set('timestamps', true)
+
 export default mongoose.model('Favorite', favoriteSchema)

@@ -9,7 +9,9 @@ const tagSchema = new Schema({
   screenshots: [{
     type: Schema.Types.ObjectId,
     ref: 'Screenshot'
-  }],
+  }]
 })
+
+tagSchema.set('timestamps', true)
 
 export default mongoose.model('Tag', tagSchema)

@@ -99,7 +99,7 @@ class Screenshot extends Component {
 
     return (
       <Segment>
-        Uploader: <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
+        Uploaded by <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
       </Segment>
     )
   }

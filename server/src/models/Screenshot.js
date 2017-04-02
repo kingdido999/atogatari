@@ -49,4 +49,6 @@ const screenshotSchema = new Schema({
   }
 })
 
+screenshotSchema.set('timestamps', true)
+
 export default mongoose.model('Screenshot', screenshotSchema)

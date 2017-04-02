@@ -28,4 +28,6 @@ const userSchema = new Schema({
   }],
 })
 
+userSchema.set('timestamps', true)
+
 export default mongoose.model('User', userSchema)

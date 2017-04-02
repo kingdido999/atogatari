@@ -16,4 +16,6 @@ const bangumiSchema = new Schema({
   }]
 })
 
+bangumiSchema.set('timestamps', true)
+
 export default mongoose.model('Bangumi', bangumiSchema)
