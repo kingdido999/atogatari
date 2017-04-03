@@ -18,6 +18,9 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  roles: {
+    type: [String]
+  },
   screenshots: [{
     type: Schema.Types.ObjectId,
     ref: 'Screenshot'
@@ -25,7 +28,7 @@ const userSchema = new Schema({
   favorites: [{
     type: Schema.Types.ObjectId,
     ref: 'Favorite'
-  }],
+  }]
 })
 
 userSchema.set('timestamps', true)

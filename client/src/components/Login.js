@@ -25,7 +25,7 @@ class Login extends Component {
     const { dispatch } = this.props
 
     dispatch(login(this.state))
-    .then(() => browserHistory.push('/'))
+    .then(() => browserHistory.goBack())
   }
 
   render() {

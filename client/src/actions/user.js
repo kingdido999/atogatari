@@ -160,3 +160,12 @@ export function upload (data) {
     })
   }
 }
+
+export function deleteScreenshot (id) {
+  return {
+    type: 'DELETE_SCREENSHOT',
+    payload: ax.delete(`/screenshot/${id}`, {
+      headers: getAuthHeader()
+    })
+  }
+}

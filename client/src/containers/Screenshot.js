@@ -9,6 +9,7 @@ import ZoomableImage from '../components/ZoomableImage'
 import DownloadButton from '../components/buttons/DownloadButton'
 import FavoriteButton from '../components/buttons/FavoriteButton'
 import WhatAnimeGaButton from '../components/buttons/WhatAnimeGaButton'
+import DeleteButton from '../components/buttons/DeleteButton'
 
 import { getScreenshotIfNeeded } from '../actions/entities'
 import { getImageUrl } from '../utils'
@@ -134,7 +135,7 @@ class Screenshot extends Component {
   }
 
   renderActionSegment = () => {
-    const { dispatch, isAuthenticated, screenshot, screenshotFavorites, userFavorites } = this.props
+    const { dispatch, isAuthenticated, uid, users, screenshot, screenshotFavorites, userFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
     const { _id, file } = screenshot
 
@@ -145,6 +146,7 @@ class Screenshot extends Component {
     : false
 
     const favoritesCount = screenshotFavorites.ids.length
+    const user = users[uid]
 
     return (
       <Segment>
@@ -160,6 +162,10 @@ class Screenshot extends Component {
             file={file}
           />
           <WhatAnimeGaButton url={getImageUrl(file.medium)} />
+
+          {isAuthenticated && user && user.roles && user.roles.includes('admin') &&
+            <DeleteButton dispatch={dispatch} screenshotId={_id} />
+          }
         </Button.Group>
       </Segment>
     )
@@ -201,6 +207,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     isAuthenticated,
+    uid,
     screenshot,
     users,
     bangumis,

@@ -56,13 +56,17 @@ async function toggleFavorite (ctx) {
   if (favorite) {
     await favorite.remove()
 
-    await User.update({ _id: ctx.state.uid }, {
-      $pull: { favorites: favorite._id }
-    })
+    await User
+      .update({ _id: ctx.state.uid }, {
+        $pull: { favorites: favorite._id }
+      })
+      .exec()
 
-    await Screenshot.update({ _id: screenshotId }, {
-      $pull: { favorites: favorite._id }
-    })
+    await Screenshot
+      .update({ _id: screenshotId }, {
+        $pull: { favorites: favorite._id }
+      })
+      .exec()
 
     ctx.status = 202
   } else {

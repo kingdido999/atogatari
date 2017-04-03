@@ -25,7 +25,7 @@ class Signup extends Component {
     const { dispatch } = this.props
 
     dispatch(signup(this.state))
-    .then(() => browserHistory.push('/'))
+    .then(() => browserHistory.goBack())
   }
 
   render() {

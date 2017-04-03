@@ -42,6 +42,14 @@ async function seed () {
   console.log('Seeding new data...')
 
   const userList = []
+  const admin = createUser(
+    'test@bu.edu',
+    'test',
+    '123456',
+    ['admin']
+  )
+  await admin.save()
+  userList.push(admin)
 
   for (let i = 0; i < NUM_USER; i++) {
     const user = createUser()
@@ -79,22 +87,31 @@ function createRandomWords (count) {
   return uniq(tags)
 }
 
-function createUser () {
+function createUser (
+  email = faker.internet.email(),
+  username = faker.internet.userName(),
+  password = faker.internet.password(),
+  roles = []
+) {
   const salt = getRandomString(16)
-  const hash = sha512(faker.internet.password(), salt)
+  const hash = sha512(password, salt)
 
   return new User({
-    email: faker.internet.email(),
-    username: faker.internet.userName(),
-    salt: salt,
-    hash: hash
+    email,
+    username,
+    salt,
+    hash,
+    roles
   })
 }
 
-function createBangumi () {
+function createBangumi (
+  title = faker.lorem.words(),
+  aliases = createRandomWords(faker.random.number(3))
+) {
   return new Bangumi({
-    title: faker.lorem.words(),
-    aliases: createRandomWords(faker.random.number(3))
+    title,
+    aliases
   })
 }
 
@@ -109,7 +126,7 @@ function createScreenshot (bangumi, user, tags) {
       large: 'large.jpg',
       original: 'original.png'
     },
-    tags: tags
+    tags
   })
 }
 

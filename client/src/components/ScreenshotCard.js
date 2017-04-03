@@ -41,13 +41,8 @@ class ScreenshotCard extends Component {
               favoritesCount={favoritesCount}
             />
 
-            <DownloadButton
-              file={file}
-            />
-
-            <DetailsButton
-              screenshotId={_id}
-            />
+            <DownloadButton file={file} />
+            <DetailsButton screenshotId={_id} />
           </Button.Group>
         </Card.Content>
       </Card>

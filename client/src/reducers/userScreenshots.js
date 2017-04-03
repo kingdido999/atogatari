@@ -1,21 +1,33 @@
 import { forIn } from 'lodash'
 
 export default function userScreenshots (state = {}, action) {
-  switch (action.type) {
-    case 'GET_SCREENSHOTS_FULFILLED':
-    case 'GET_SCREENSHOT_FULFILLED':
-      const { users } = action.payload.data.entities
-      const items = {}
+  if (action.payload && action.payload.data && action.payload.data.entities) {
+    const { users } = action.payload.data.entities
+    const items = {}
 
-      forIn(users, (user, key) => {
-        items[key] = {
-          ids: user.screenshots
-        }
-      })
+    forIn(users, (user, key) => {
+      items[key] = {
+        ids: user.screenshots
+      }
+    })
+
+    return {
+      ...state,
+      ...items
+    }
+  }
+  
+  switch (action.type) {
+    case 'DELETE_SCREENSHOT_FULFILLED':
+      const { userId, screenshotId } = action.payload.data
+      if (!state[userId]) return state
 
       return {
         ...state,
-        ...items
+        [userId]: {
+          ...state[userId],
+          ids: state[userId].ids.filter(id => id !== screenshotId)
+        }
       }
     default:
       return state

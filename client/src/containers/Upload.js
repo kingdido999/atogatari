@@ -88,7 +88,7 @@ class Upload extends Component {
     data.append('nsfw', nsfw)
 
     dispatch(upload(data))
-    .then(() => browserHistory.push('/'))
+    .then(() => browserHistory.goBack())
   }
 
   renderForm = () => {

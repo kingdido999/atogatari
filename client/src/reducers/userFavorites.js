@@ -1,26 +1,23 @@
 import { forIn } from 'lodash'
 
 export default function userFavorites (state = {}, action) {
-  switch (action.type) {
-    case 'GET_BANGUMIS_FULFILLED':
-    case 'GET_BANGUMI_FULFILLED':
-    case 'GET_SCREENSHOT_FULFILLED':
-    case 'GET_FAVORITES_FULFILLED':
-    case 'GET_USER_FAVORITES_FULFILLED':
-    case 'GET_AUTHED_USER_FULFILLED':
-      const { users } = action.payload.data.entities
-      const items = {}
+  if (action.payload && action.payload.data && action.payload.data.entities) {
+    const { users } = action.payload.data.entities
+    const items = {}
 
-      forIn(users, (user, key) => {
-        items[key] = {
-          ids: user.favorites
-        }
-      })
-
-      return {
-        ...state,
-        ...items
+    forIn(users, (user, key) => {
+      items[key] = {
+        ids: user.favorites
       }
+    })
+
+    return {
+      ...state,
+      ...items
+    }
+  }
+  
+  switch (action.type) {
     case 'ADD_FAVORITE':
       return {
         ...state,
