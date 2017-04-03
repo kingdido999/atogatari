@@ -9,7 +9,7 @@ Anime screenshots image board made with love <3
 
 Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [yarn](https://yarnpkg.com/en/docs/install).
 
-```
+```bash
 cd server
 
 # Setup environment variables
