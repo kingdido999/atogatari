@@ -137,7 +137,7 @@ class Screenshot extends Component {
   renderActionSegment = () => {
     const { dispatch, isAuthenticated, uid, users, screenshot, screenshotFavorites, userFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
-    const { _id, file } = screenshot
+    const { _id, file, user } = screenshot
 
     const isFavorited = isAuthenticated && userFavorites
     ? userFavorites.ids.find(favoriteId => {
@@ -146,7 +146,9 @@ class Screenshot extends Component {
     : false
 
     const favoritesCount = screenshotFavorites.ids.length
-    const user = users[uid]
+    const authedUser = users[uid]
+    const isOwner = uid === user
+    const isAdmin = authedUser && authedUser.roles && authedUser.roles.includes('admin')
 
     return (
       <Segment>
@@ -163,7 +165,7 @@ class Screenshot extends Component {
           />
           <WhatAnimeGaButton url={getImageUrl(file.medium)} />
 
-          {isAuthenticated && user && user.roles && user.roles.includes('admin') &&
+          {isAuthenticated && (isOwner || isAdmin) &&
             <DeleteButton dispatch={dispatch} screenshotId={_id} />
           }
         </Button.Group>
