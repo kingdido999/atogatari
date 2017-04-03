@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Grid, Form, Image, Label, Icon, Segment, Card } from 'semantic-ui-react'
+import { Container, Grid, Form, Image, Label, Segment, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
@@ -38,12 +38,6 @@ class Upload extends Component {
             .filter(item => item !== ''))
         })
       }
-    })
-  }
-
-  handleItemDelete = (name, itemToDelete) => {
-    this.setState({
-      [name]: this.state[name].filter(item => item !== itemToDelete)
     })
   }
 
@@ -219,7 +213,6 @@ class Upload extends Component {
         {aliasesList.map((alias, index) =>
           <Label key={index}>
             {alias}
-            <Icon name='delete' onClick={(event) => { this.handleItemDelete('aliasesList', alias) }} />
           </Label>
         )}
       </Label.Group>
@@ -234,7 +227,6 @@ class Upload extends Component {
         {tagsList.map((tag, index) =>
           <Label key={index}>
             {tag}
-            <Icon name='delete' onClick={(event) => { this.handleItemDelete('tagsList', tag) }} />
           </Label>
         )}
       </Label.Group>
