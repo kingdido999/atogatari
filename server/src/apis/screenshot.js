@@ -46,7 +46,7 @@ async function deleteScreenshot (ctx) {
     .exec()
 
   const { bangumi, user, favorites } = screenshot
-  const isOwner = uid === user
+  const isOwner = uid === user.toString()
   const isAdmin = authedUser.roles && authedUser.roles.includes('admin')
 
   if (!(isOwner || isAdmin)) {
