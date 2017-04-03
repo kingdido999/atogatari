@@ -7,12 +7,21 @@ Anime screenshots image board made with love <3
 
 ## Development
 
-Install [MongoDB](https://docs.mongodb.com/manual/installation/).
+Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [yarn](https://yarnpkg.com/en/docs/install).
+
+Set up environment variables for the app:
 
 ```
-cd client
-yarn && yarn start
+cd server
+cp .env.example.js .env.js
+```
 
+Install dependencies and start app:
+
+```
 cd server
 yarn && yarn seed && yarn start
+
+cd ../client
+yarn && yarn start
 ```
