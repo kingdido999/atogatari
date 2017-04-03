@@ -170,7 +170,7 @@ class Upload extends Component {
 
   renderPreview = () => {
     const { imagePreviewUrl, bangumiTitle, episode } = this.state
-    const previewSrc = imagePreviewUrl || 'http://placehold.it/640x360?text=Replace+me!'
+    const previewSrc = imagePreviewUrl || 'https://placehold.it/640x360?text=Replace+me!'
     const previewTitle = bangumiTitle || 'らき☆すた'
     const previewEpisode = episode || '??'
 
