@@ -5,6 +5,7 @@ node_modules
 
 # build
 client/build
+client/semantic/dist
 server/build
 
 # misc
