@@ -10,6 +10,7 @@ import bangumiScreenshots from './bangumiScreenshots'
 import screenshotFavorites from './screenshotFavorites'
 import userFavorites from './userFavorites'
 import userScreenshots from './userScreenshots'
+import environment from './environment'
 import errorMessage from './errorMessage'
 
 export default combineReducers({
@@ -22,6 +23,7 @@ export default combineReducers({
   screenshotFavorites,
   userFavorites,
   userScreenshots,
+  environment,
   errorMessage,
   routing: routerReducer
 })

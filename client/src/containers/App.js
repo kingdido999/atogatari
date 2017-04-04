@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Segment, Container, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
+import { initEnvironment } from '../actions/environment'
 import { getAuthedUserIfNeeded } from '../actions/user'
 
 import Header from '../components/Header'
@@ -13,6 +14,7 @@ class App extends Component {
 
   componentDidMount () {
     const { dispatch } = this.props
+    dispatch(initEnvironment())
     dispatch(getAuthedUserIfNeeded())
   }
 
@@ -53,10 +55,12 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { user, errorMessage, search } = state
+  const { environment, user, errorMessage, search } = state
+  const { isMobile } = environment
   const { isAuthenticated, uid } = user
 
   return {
+    isMobile,
     isAuthenticated,
     uid,
     errorMessage,

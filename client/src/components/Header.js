@@ -33,18 +33,21 @@ class Header extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props
+    const { isMobile, isAuthenticated } = this.props
 
     return (
       <Menu size="huge" fixed="top" fluid borderless>
         <Menu.Item as={Link} to="/" name='atogatari' />
         {/* <Menu.Item name='Random' /> */}
         {/* <Menu.Item name='Popular' /> */}
-        <Menu.Item>
-          <GlobalSearch
-            { ...this.props }
-          />
-        </Menu.Item>
+
+        {!isMobile &&
+          <Menu.Item>
+            <GlobalSearch
+              { ...this.props }
+            />
+          </Menu.Item>
+        }
 
         <Menu.Menu position='right'>
           {!isAuthenticated &&
@@ -64,6 +67,7 @@ class Header extends Component {
 
 Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
   uid: PropTypes.string,
   search: PropTypes.object.isRequired,
