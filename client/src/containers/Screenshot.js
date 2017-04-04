@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Header, List, Input } from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Header, List, Form, Input } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import Tags from '../components/Tags'
@@ -12,9 +12,14 @@ import WhatAnimeGaButton from '../components/buttons/WhatAnimeGaButton'
 import DeleteButton from '../components/buttons/DeleteButton'
 
 import { getScreenshotIfNeeded } from '../actions/entities'
+import { addTag } from '../actions/user'
 import { getImageUrl } from '../utils'
 
 class Screenshot extends Component {
+
+  state = {
+    tag: ''
+  }
 
   componentWillMount () {
     const { params, dispatch } = this.props
@@ -45,8 +50,11 @@ class Screenshot extends Component {
                 {this.renderEpisodeSegment()}
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
-                {/* {this.renderAddTagSegment()} */}
                 {this.renderActionSegment()}
+              </Segment.Group>
+
+              <Segment.Group>
+                {this.renderAddTagSegment()}
               </Segment.Group>
             </Grid.Column>
           </Grid.Row>
@@ -106,12 +114,12 @@ class Screenshot extends Component {
   }
 
   renderTagsSegment = () => {
-    const { screenshot } = this.props
-    if (!screenshot || screenshot.tags.length === 0) return null
+    const { screenshotTags } = this.props
+    if (!screenshotTags || screenshotTags.names.length === 0) return null
 
     return (
       <Segment>
-        <Tags tags={screenshot.tags} />
+        <Tags tags={screenshotTags.names} />
       </Segment>
     )
   }
@@ -122,14 +130,17 @@ class Screenshot extends Component {
 
     return (
       <Segment>
-        <Input
-          fluid
-          transparent
-          icon='tag'
-          iconPosition='left'
-          placeholder='Enter a new tag'
-          onChange={this.handleAddTag}
-        />
+        <Form onSubmit={this.handleAddTag}>
+          <Input
+            fluid
+            transparent
+            icon='tag'
+            iconPosition='left'
+            name='tag'
+            placeholder='Enter a new tag'
+            onChange={this.handleInputChange}
+          />
+        </Form>
       </Segment>
     )
   }
@@ -188,6 +199,21 @@ class Screenshot extends Component {
       />
     )
   }
+
+  handleInputChange = (event) => {
+    const target = event.target
+    const { value, name } = target
+
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleAddTag = (event) => {
+    event.preventDefault()
+    const { dispatch, screenshot } = this.props
+    dispatch(addTag(this.state.tag, screenshot._id))
+  }
 }
 
 Screenshot.propTypes = {
@@ -197,11 +223,12 @@ Screenshot.propTypes = {
   users: PropTypes.object.isRequired,
   bangumis: PropTypes.object.isRequired,
   screenshotFavorites: PropTypes.object,
+  screenshotTags: PropTypes.object,
   userFavorites: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, screenshotFavorites, userFavorites } = state
+  const { entities, user, screenshotFavorites, screenshotTags, userFavorites } = state
   const { users, bangumis, screenshots } = entities
   const { isAuthenticated, uid } = user
   const { screenshotId } = ownProps.params
@@ -214,6 +241,7 @@ function mapStateToProps(state, ownProps) {
     users,
     bangumis,
     screenshotFavorites: screenshotFavorites[screenshotId],
+    screenshotTags: screenshotTags[screenshotId],
     userFavorites: userFavorites[uid]
   }
 }

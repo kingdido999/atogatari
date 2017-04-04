@@ -27,6 +27,7 @@ export default function route (router) {
   router.post('/user/favorite', tokenAuth(), user.toggleFavorite)
   router.post('/user/favoriteScreenshots', tokenAuth(), user.getFavoriteScreenshots)
   router.post('/user/uploadedScreenshots', tokenAuth(), user.getUploadedScreenshots)
+  router.post('/tag', tokenAuth(), tag.addTagToScreenshot)
 
   router.del('/screenshot/:id', tokenAuth(), screenshot.deleteScreenshot)
 }

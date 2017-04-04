@@ -169,3 +169,31 @@ export function deleteScreenshot (id) {
     })
   }
 }
+
+export function addTag (name, screenshotId) {
+  return dispatch => {
+    ax.post(`/tag`, { name, screenshotId }, {
+      headers: getAuthHeader()
+    })
+    .then(res => {
+      dispatch(addTagToScreenshot(name, screenshotId))
+    })
+  }
+}
+
+export function addTagToScreenshot (name, screenshotId) {
+  return {
+    type: 'ADD_TAG_TO_SCREENSHOT',
+    name,
+    screenshotId
+  }
+}
+
+export function removeTag (name) {
+  return {
+    type: 'REMOVE_TAG',
+    payload: ax.delete(`/tag/${name}`, {
+      headers: getAuthHeader()
+    })
+  }
+}

@@ -8,6 +8,7 @@ import bangumis from './bangumis'
 import screenshots from './screenshots'
 import bangumiScreenshots from './bangumiScreenshots'
 import screenshotFavorites from './screenshotFavorites'
+import screenshotTags from './screenshotTags'
 import userFavorites from './userFavorites'
 import userScreenshots from './userScreenshots'
 import environment from './environment'
@@ -21,6 +22,7 @@ export default combineReducers({
   screenshots,
   bangumiScreenshots,
   screenshotFavorites,
+  screenshotTags,
   userFavorites,
   userScreenshots,
   environment,
