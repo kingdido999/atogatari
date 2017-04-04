@@ -1,4 +1,5 @@
 import asyncBusboy from 'async-busboy'
+import sizeOf from 'image-size'
 import uuid from 'uuid/v4'
 import sharp from 'sharp'
 import path from 'path'
@@ -11,6 +12,7 @@ import User from '../models/User'
 import Tag from '../models/Tag'
 
 const UPLOAD_PATH = 'assets/images'
+const WIDTH_MINIMUM = 1920
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
 const WIDTH_LARGE = 1920
@@ -55,6 +57,11 @@ async function upload (ctx) {
     await writeFile(file, fileOriginal)
   } catch (e) {
     ctx.throw(500, e)
+  }
+
+  if (sizeOf(fileOriginal).width < WIDTH_MINIMUM) {
+    fs.unlinkSync(fileOriginal)
+    ctx.throw(400, `The image width should be at least ${WIDTH_MINIMUM}px.`)
   }
 
   sharp(fileOriginal).resize(WIDTH_SMALL).toFile(`${UPLOAD_PATH}/${filenames.small}`)

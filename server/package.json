@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "async-busboy": "^0.3.4",
+    "image-size": "^0.5.1",
     "jsonwebtoken": "^7.2.1",
     "koa": "2",
     "koa-bodyparser": "next",

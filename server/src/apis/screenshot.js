@@ -4,6 +4,10 @@ import Bangumi from '../models/Bangumi'
 import User from '../models/User'
 import Tag from '../models/Tag'
 
+import fs from 'fs'
+
+const UPLOAD_PATH = 'assets/images'
+
 async function getScreenshot (ctx) {
   const { id } = ctx.request.query
 
@@ -45,7 +49,7 @@ async function deleteScreenshot (ctx) {
     .findById(uid)
     .exec()
 
-  const { bangumi, user, favorites } = screenshot
+  const { bangumi, user, favorites, file } = screenshot
   const isOwner = uid === user.toString()
   const isAdmin = authedUser.roles && authedUser.roles.includes('admin')
 
@@ -102,6 +106,13 @@ async function deleteScreenshot (ctx) {
     .exec()
 
   await screenshot.remove()
+
+  const { small, medium, large, original } = file
+
+  fs.unlinkSync(`${UPLOAD_PATH}/${small}`)
+  fs.unlinkSync(`${UPLOAD_PATH}/${medium}`)
+  fs.unlinkSync(`${UPLOAD_PATH}/${large}`)
+  fs.unlinkSync(`${UPLOAD_PATH}/${original}`)
 
   ctx.response.body = {
     screenshotId: id,
