@@ -10,40 +10,6 @@ export function search (params) {
   }
 }
 
-export function getBangumis (params) {
-  return {
-    type: 'GET_BANGUMIS',
-    payload: ax.get('/bangumis', { params,
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), [schemas.bangumiSchema])
-      }]
-    })
-  }
-}
-
-export function getBangumiIfNeeded (id) {
-  return (dispatch, getState) => {
-    const { entities, bangumiScreenshots } = getState()
-    const { bangumis } = entities
-
-    if (!bangumis[id] || !bangumiScreenshots[id]) {
-      dispatch(getBangumiById(id))
-    }
-  }
-}
-
-export function getBangumiById (id) {
-  return {
-    type: 'GET_BANGUMI',
-    payload: ax.get('/bangumi', {
-      params: { id },
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), schemas.bangumiSchema)
-      }]
-    })
-  }
-}
-
 export function getScreenshotsByUserIdIfNeeded (userId) {
   return (dispatch, getState) => {
     const { userScreenshots } = getState()
@@ -136,13 +102,5 @@ export function getTag (params) {
         return normalize(JSON.parse(data), schemas.tagSchema)
       }]
     })
-  }
-}
-
-export function setBangumiEpisode (bangumiId, episode) {
-  return {
-    type: 'SET_BANGUMI_EPISODE',
-    bangumiId,
-    episode
   }
 }

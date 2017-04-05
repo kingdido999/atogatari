@@ -20,7 +20,6 @@ function isFetching (state = false, action) {
 function results (state = {}, action) {
   switch (action.type) {
     case 'SEARCH_FULFILLED':
-
       return action.payload.data
     default:
       return state

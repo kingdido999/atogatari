@@ -192,7 +192,6 @@ Screenshot.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   screenshot: PropTypes.object,
   users: PropTypes.object.isRequired,
-  bangumis: PropTypes.object.isRequired,
   screenshotFavorites: PropTypes.object,
   screenshotTags: PropTypes.object,
   userFavorites: PropTypes.object
@@ -200,7 +199,7 @@ Screenshot.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities, user, screenshotFavorites, screenshotTags, userFavorites } = state
-  const { users, bangumis, screenshots } = entities
+  const { users, screenshots } = entities
   const { isAuthenticated, uid } = user
   const { screenshotId } = ownProps.params
   const screenshot = screenshots[screenshotId]
@@ -215,7 +214,6 @@ function mapStateToProps(state, ownProps) {
     isAdmin,
     screenshot,
     users,
-    bangumis,
     screenshotFavorites: screenshotFavorites[screenshotId],
     screenshotTags: screenshotTags[screenshotId],
     userFavorites: userFavorites[uid]

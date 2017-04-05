@@ -36,9 +36,8 @@ export default function screenshotFavorites (state = {}, action) {
           .filter(favoriteId => favoriteId !== action.favorite._id)
         }
       }
-    case 'DELETE_SCREENSHOT_FULFILLED':
-      const { screenshotId } = action.payload.data
-      return omit(state, screenshotId)
+    case 'DELETE_SCREENSHOT_FULFILLED': 
+      return omit(state, action.payload.data.screenshotId)
     default:
       return state
   }

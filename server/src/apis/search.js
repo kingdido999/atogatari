@@ -1,4 +1,3 @@
-import Bangumi from '../models/Bangumi'
 import Tag from '../models/Tag'
 import { escapeRegex } from '../utils'
 
@@ -12,16 +11,6 @@ async function search (ctx, next) {
 
   const queryRegex = new RegExp(escapeRegex(query), 'gi')
 
-  const bangumis = await Bangumi
-    .find({
-      $or: [
-        { title: queryRegex },
-        { aliases: queryRegex }
-      ]
-    })
-    .select('_id title aliases')
-    .exec()
-
   const tags = await Tag
     .find({
       name: queryRegex
@@ -30,9 +19,6 @@ async function search (ctx, next) {
     .exec()
 
   const results = {}
-  if (bangumis.length > 0) {
-    results.bangumis = bangumis
-  }
 
   if (tags.length > 0) {
     results.tags = tags

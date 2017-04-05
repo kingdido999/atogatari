@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Grid, Form, Image, Label, Segment, Card } from 'semantic-ui-react'
+import { Container, Form, Image, Label, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Zooming from 'zooming'
@@ -13,12 +13,8 @@ class Upload extends Component {
   state = {
     file: null,
     imagePreviewUrl: '',
-    bangumiTitle: '',
-    episode: '',
-    aliases: '',
     tags: '',
-    aliasesList: [],
-    tagsList: [],
+    tagList: [],
     nsfw: false,
     zooming: new Zooming()
   }
@@ -30,10 +26,10 @@ class Upload extends Component {
     this.setState({
       [name]: value
     }, () => {
-      if (name === 'tags' || name === 'aliases') {
+      if (name === 'tags') {
         this.setState({
-          [`${name}List`]: uniq(this.state[name]
-            .split(separator([' ', ',', '，']))
+          tagList: uniq(this.state[name]
+            .split(separator([',', '，']))
             .map(item => trimStart(trimEnd(item)))
             .filter(item => item !== ''))
         })
@@ -71,14 +67,11 @@ class Upload extends Component {
     event.preventDefault()
 
     const { dispatch } = this.props
-    const { file, bangumiTitle, episode, aliasesList, tagsList, nsfw } = this.state
+    const { file, tagList, nsfw } = this.state
 
     const data = new FormData()
     data.append('file', file)
-    data.append('bangumiTitle', bangumiTitle)
-    data.append('episode', episode)
-    data.append('aliases', JSON.stringify(aliasesList))
-    data.append('tags', JSON.stringify(tagsList))
+    data.append('tags', JSON.stringify(tagList))
     data.append('nsfw', nsfw)
 
     dispatch(upload(data))
@@ -86,93 +79,64 @@ class Upload extends Component {
   }
 
   renderForm = () => {
+    const { imagePreviewUrl, tagList } = this.state
     const { isUploading } = this.props
     const size = 'large'
 
     return (
-      <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
+      <Card fluid>
+        {imagePreviewUrl &&
+          <Image
+            src={imagePreviewUrl}
+            className="img-preview"
+          />
+        }
 
-        <Segment.Group size={size}>
-          <Segment>
-            <p>Just a few simple rules:</p>
+        {tagList.length > 0 &&
+          <Card.Content>
+            <Card.Description>
+              {this.renderTagLabels()}
+            </Card.Description>
+          </Card.Content>
+        }
 
-            <ul>
-              <li>It is an ANIME Screenshot.</li>
-              <li>Image width is at least 1920px.</li>
-            </ul>
-          </Segment>
+        <Card.Content>
+          <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
 
-          <Segment>
             <Form.Input
               type="file"
-              label="Screenshot"
               onChange={this.handleImageChange}
               required
             />
 
-            <Form.Group widths='equal'>
-              <Form.Input
-                label="What is the official name of this anime?"
-                name="bangumiTitle"
-                onChange={this.handleInputChange}
-                placeholder="らき☆すた"
-                required
-              />
+            <Form.Input
+              icon='tags'
+              iconPosition='left'
+              name='tags'
+              value={this.state.tags}
+              onChange={this.handleInputChange}
+              placeholder='Separate tags by comma'
+            />
 
-              <Form.Input
-                label='I call this anime:'
-                icon='talk outline'
-                name="aliases"
-                value={this.state.aliases}
-                onChange={this.handleInputChange}
-                placeholder="Lucky Star, 幸运星"
-              />
-            </Form.Group>
+            <Form.Checkbox
+              label='NSFW (Not Safe For Work)'
+              name='nsfw'
+              onChange={this.handleInputToggle}
+              toggle
+            />
 
-            <Form.Group widths='equal'>
-              <Form.Input
-                label='Episode'
-                name="episode"
-                type="number"
-                min="0"
-                step="1"
-                value={this.state.episode}
-                onChange={this.handleInputChange}
-                required
-              />
+            <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
 
-              <Form.Input
-                label='Tags'
-                icon='tags'
-                name='tags'
-                value={this.state.tags}
-                onChange={this.handleInputChange}
-                placeholder='Konata, こなた'
-              />
-            </Form.Group>
-
-            <Form.Group widths='equal'>
-              <Form.Checkbox
-                label='NSFW (Not Safe For Work)'
-                name='nsfw'
-                onChange={this.handleInputToggle}
-                toggle
-              />
-              <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
-            </Form.Group>
-
-          </Segment>
-        </Segment.Group>
-
-      </Form>
+          </Form>
+        </Card.Content>
+      </Card>
+      
     )
   }
 
   renderPreview = () => {
-    const { imagePreviewUrl, bangumiTitle, episode } = this.state
+    const { imagePreviewUrl } = this.state
     const previewSrc = imagePreviewUrl || 'https://placehold.it/640x360?text=Replace+me!'
-    const previewTitle = bangumiTitle || 'らき☆すた'
-    const previewEpisode = episode || '??'
 
     return (
       <Card fluid>
@@ -181,20 +145,6 @@ class Upload extends Component {
           className="img-preview"
         />
 
-        <Card.Content>
-          <Card.Header>
-            {previewTitle}
-          </Card.Header>
-          <Card.Meta>
-            Ep. {previewEpisode}
-          </Card.Meta>
-        </Card.Content>
-        <Card.Content extra>
-          <Card.Meta>Aliases</Card.Meta>
-          <Card.Description>
-            {this.renderAliasLabels()}
-          </Card.Description>
-        </Card.Content>
         <Card.Content extra>
           <Card.Meta>Tags</Card.Meta>
           <Card.Description>
@@ -205,26 +155,12 @@ class Upload extends Component {
     )
   }
 
-  renderAliasLabels = () => {
-    const { aliasesList } = this.state
-
-    return (
-      <Label.Group>
-        {aliasesList.map((alias, index) =>
-          <Label key={index}>
-            {alias}
-          </Label>
-        )}
-      </Label.Group>
-    )
-  }
-
   renderTagLabels = () => {
-    const { tagsList } = this.state
+    const { tagList } = this.state
 
     return (
       <Label.Group>
-        {tagsList.map((tag, index) =>
+        {tagList.map((tag, index) =>
           <Label key={index}>
             {tag}
           </Label>
@@ -235,17 +171,8 @@ class Upload extends Component {
 
   render() {
     return (
-      <Container>
-        <Grid stackable>
-          <Grid.Row columns={2}>
-            <Grid.Column width={10}>
-              {this.renderForm()}
-            </Grid.Column>
-            <Grid.Column width={6}>
-              {this.renderPreview()}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+      <Container text>
+        {this.renderForm()}
       </Container>
     )
   }

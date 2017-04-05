@@ -16,10 +16,9 @@ export default function userScreenshots (state = {}, action) {
       ...items
     }
   }
-  
-  switch (action.type) {
-    case 'DELETE_SCREENSHOT_FULFILLED':
-      const { userId, screenshotId } = action.payload.data
+
+  if (action.type === 'DELETE_SCREENSHOT_FULFILLED') {
+          const { userId, screenshotId } = action.payload.data
       if (!state[userId]) return state
 
       return {
@@ -29,7 +28,7 @@ export default function userScreenshots (state = {}, action) {
           ids: state[userId].ids.filter(id => id !== screenshotId)
         }
       }
-    default:
-      return state
   }
+  
+  return state
 }

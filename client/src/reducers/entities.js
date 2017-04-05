@@ -3,7 +3,6 @@ import { normalize } from 'normalizr'
 import { favoriteSchema } from '../constants/schemas'
 
 const initialState = {
-  bangumis: {},
   screenshots: {},
   favorites: {},
   tags: {},

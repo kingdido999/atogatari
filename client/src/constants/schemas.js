@@ -5,7 +5,6 @@ const options = {
 }
 
 const userSchema = new schema.Entity('users', {}, options)
-const bangumiSchema = new schema.Entity('bangumis', {}, options)
 const screenshotSchema = new schema.Entity('screenshots', {}, options)
 const favoriteSchema = new schema.Entity('favorites', {}, options)
 const tagSchema = new schema.Entity('tags', {}, { idAttribute: 'name' })
@@ -15,12 +14,7 @@ userSchema.define({
   favorites: [favoriteSchema]
 })
 
-bangumiSchema.define({
-  screenshots: [screenshotSchema]
-})
-
 screenshotSchema.define({
-  bangumi: bangumiSchema,
   favorites: [favoriteSchema],
   user: userSchema
 })
@@ -36,7 +30,6 @@ tagSchema.define({
 
 export {
   userSchema,
-  bangumiSchema,
   screenshotSchema,
   favoriteSchema,
   tagSchema

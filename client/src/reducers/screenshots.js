@@ -22,8 +22,7 @@ function ids (state = [], action) {
     case 'GET_SCREENSHOTS_FULFILLED':
       return action.payload.data.result
     case 'DELETE_SCREENSHOT_FULFILLED':
-      const { screenshotId } = action.payload.data
-      return state.filter(id => id !== screenshotId)
+      return state.filter(id => id !== action.payload.data.screenshotId)
     default:
       return state
   }

@@ -13,7 +13,6 @@ import App from './containers/App'
 import Home from './containers/Home'
 import LoginAndSignup from './containers/LoginAndSignup'
 import Upload from './containers/Upload'
-import Bangumi from './containers/Bangumi'
 import Screenshot from './containers/Screenshot'
 import Tag from './containers/Tag'
 import User from './containers/User'
@@ -23,7 +22,7 @@ import UserUploads from './containers/UserUploads'
 import '../semantic/dist/semantic.min.css'
 
 const history = syncHistoryWithStore(browserHistory, store)
-history.listen(location => store.dispatch(resetErrorMessage()))
+history.listen(() => store.dispatch(resetErrorMessage()))
 
 render(
   <Provider store={store}>
@@ -32,7 +31,6 @@ render(
         <IndexRoute component={Home} />
         <Route path="login" component={LoginAndSignup} />
         <Route path="upload" component={Upload} onEnter={requireAuth} />
-        <Route path="bangumi/:bangumiId" component={Bangumi} />
         <Route path="screenshot/:screenshotId" component={Screenshot} />
         <Route path="tag/:name" component={Tag} />
         <Route path="user/:userId" component={User} onEnter={requireAuth}>

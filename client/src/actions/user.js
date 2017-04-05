@@ -155,7 +155,7 @@ export function getUploadedScreenshots () {
 export function upload (data) {
   return {
     type: 'UPLOAD',
-    payload: ax.post('/upload', data, {
+    payload: ax.post('/screenshot/upload', data, {
       headers: getAuthHeader()
     })
   }
