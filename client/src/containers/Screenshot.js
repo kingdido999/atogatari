@@ -137,6 +137,7 @@ class Screenshot extends Component {
             icon='tag'
             iconPosition='left'
             name='tag'
+            value={this.state.tag}
             placeholder='Enter a new tag'
             onChange={this.handleInputChange}
           />
@@ -213,6 +214,7 @@ class Screenshot extends Component {
     event.preventDefault()
     const { dispatch, screenshot } = this.props
     dispatch(addTag(this.state.tag, screenshot._id))
+    .then(() => this.setState({ tag: '' }))
   }
 }
 

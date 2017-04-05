@@ -18,20 +18,20 @@ export default function screenshotTags (state = {}, action) {
   }
 
   switch (action.type) {
-    case 'ADD_TAG_TO_SCREENSHOT':
+    case 'ADD_TAG_FULFILLED':
+      const { screenshotId, name } = action.payload.data
       return {
         ...state,
-        [action.screenshotId]: {
-          ...state[action.screenshotId],
+        [screenshotId]: {
+          ...state[screenshotId],
           names: [
-            ...state[action.screenshotId].names,
-            action.name
+            ...state[screenshotId].names,
+            name
           ]
         }
       }
     case 'DELETE_SCREENSHOT_FULFILLED':
-      const { screenshotId } = action.payload.data
-      return omit(state, screenshotId)
+      return omit(state, action.payload.data.screenshotId)
     default:
       return state
   }

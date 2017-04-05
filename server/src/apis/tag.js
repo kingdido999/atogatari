@@ -13,7 +13,7 @@ async function getTag (ctx) {
   ctx.status = 200
 }
 
-async function addTagToScreenshot (ctx) {
+async function addTag (ctx) {
 	let { name, screenshotId } = ctx.request.body
 	name = name.trim().toLowerCase()
 
@@ -44,11 +44,15 @@ async function addTagToScreenshot (ctx) {
 	screenshot.tags.push(name)
 	await screenshot.save()
 
-	ctx.response.body = tag
+	ctx.response.body = {
+		name,
+		screenshotId
+	}
+
 	ctx.status = 200
 }
 
 export default {
   getTag,
-  addTagToScreenshot
+  addTag
 }

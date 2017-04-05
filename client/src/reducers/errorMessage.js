@@ -6,6 +6,10 @@ export default function errorMessage (state = null, action) {
     return null
   }
 
+  if (type === 'SET_ERROR_MESSAGE') {
+    return action.message
+  }
+
   if (error) {
     if (payload.response) {
       return payload.response.data
