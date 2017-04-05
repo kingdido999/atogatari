@@ -17,9 +17,7 @@ async function addTag (ctx) {
 	let { name, screenshotId } = ctx.request.body
 	name = name.trim().toLowerCase()
 
-	let tag = await Tag
-		.findOne({ name })
-		.exec()
+	let tag = await Tag.findOne({ name }).exec()
 
 	if (!tag) {
 		tag = new Tag({
@@ -52,7 +50,38 @@ async function addTag (ctx) {
 	ctx.status = 200
 }
 
+async function deleteTag (ctx) {
+	let { name } = ctx.params
+	const { screenshotId } = ctx.request.query
+
+	const tag = await Tag.findOne({ name }).exec()
+
+	if (!tag) {
+		ctx.throw(400)
+	}
+
+	const screenshot = await Screenshot.findById(screenshotId).exec()
+
+	if (!screenshot) {
+		ctx.throw(400)
+	}
+
+	tag.screenshots = tag.screenshots.filter(id => id !== screenshotId)
+	await tag.save()
+
+	screenshot.tags = screenshot.tags.filter(tag => tag !== name)
+	await screenshot.save()
+
+	ctx.response.body = {
+		name,
+		screenshotId
+	}
+
+	ctx.status = 200
+}
+
 export default {
   getTag,
-  addTag
+  addTag,
+  deleteTag
 }

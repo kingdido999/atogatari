@@ -179,10 +179,11 @@ export function addTag (name, screenshotId) {
   }
 }
 
-export function removeTag (name) {
+export function deleteTag (name, screenshotId) {
   return {
-    type: 'REMOVE_TAG',
+    type: 'DELETE_TAG',
     payload: ax.delete(`/tag/${name}`, {
+      params: { screenshotId },
       headers: getAuthHeader()
     })
   }

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Header, List, Form, Input } from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Header, List, Form, Input, Label } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
-import Tags from '../components/Tags'
+import Tag from '../components/Tag'
 import ZoomableImage from '../components/ZoomableImage'
 import DownloadButton from '../components/buttons/DownloadButton'
 import FavoriteButton from '../components/buttons/FavoriteButton'
@@ -114,12 +114,22 @@ class Screenshot extends Component {
   }
 
   renderTagsSegment = () => {
-    const { screenshotTags } = this.props
+    const { dispatch, isAdmin, screenshot, screenshotTags } = this.props
     if (!screenshotTags || screenshotTags.names.length === 0) return null
 
     return (
       <Segment>
-        <Tags tags={screenshotTags.names} />
+        <Label.Group>
+          {screenshotTags.names.map((tag, index) =>
+            <Tag 
+              key={index}
+              tag={tag}
+              dispatch={dispatch}
+              isAdmin={isAdmin}
+              screenshotId={screenshot._id}
+            />
+          )}
+        </Label.Group>
       </Segment>
     )
   }
@@ -147,9 +157,9 @@ class Screenshot extends Component {
   }
 
   renderActionSegment = () => {
-    const { dispatch, isAuthenticated, uid, users, screenshot, screenshotFavorites, userFavorites } = this.props
+    const { dispatch, isAuthenticated, isOwner, isAdmin, screenshot, screenshotFavorites, userFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
-    const { _id, file, user } = screenshot
+    const { _id, file } = screenshot
 
     const isFavorited = isAuthenticated && userFavorites
     ? userFavorites.ids.find(favoriteId => {
@@ -158,9 +168,6 @@ class Screenshot extends Component {
     : false
 
     const favoritesCount = screenshotFavorites.ids.length
-    const authedUser = users[uid]
-    const isOwner = uid === user
-    const isAdmin = authedUser && authedUser.roles && authedUser.roles.includes('admin')
 
     return (
       <Segment>
@@ -235,10 +242,15 @@ function mapStateToProps(state, ownProps) {
   const { isAuthenticated, uid } = user
   const { screenshotId } = ownProps.params
   const screenshot = screenshots[screenshotId]
+  const authedUser = users[uid]   
+  const isOwner = uid === user
+  const isAdmin = authedUser && authedUser.roles && authedUser.roles.includes('admin')
 
   return {
     isAuthenticated,
     uid,
+    isOwner,
+    isAdmin,
     screenshot,
     users,
     bangumis,

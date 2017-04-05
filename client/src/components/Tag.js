@@ -1,27 +1,51 @@
 import React, { Component, PropTypes } from 'react'
 import { Label } from 'semantic-ui-react'
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router'
+
+import { deleteTag } from '../actions/user'
 
 class Tag extends Component {
 
-  handleDelete = (event) => {
-    const { onDelete } = this.props
-    onDelete()
+  handleClick = () => {
+    const { tag } = this.props
+    browserHistory.push(`/tag/${tag}`)
+  }
+
+  handleRemove = (event) => {
+    event.stopPropagation()
+    const { dispatch, tag, screenshotId } = this.props
+    dispatch(deleteTag(tag, screenshotId))
   }
 
   render () {
-    const { tag } = this.props
+    const { tag, isAdmin } = this.props
+
+    if (isAdmin) {
+      return (
+        <Label
+          as='a'
+          content={tag}
+          onClick={this.handleClick}
+          onRemove={this.handleRemove}>
+        </Label>
+      )
+    }
 
     return (
-      <Label as={Link} to={`/tag/${tag}`}>
-        {tag}
+      <Label
+        as='a'
+        content={tag}
+        onClick={this.handleClick}>
       </Label>
     )
   }
 }
 
 Tag.propTypes = {
-  tag: PropTypes.string.isRequired
+  dispatch: PropTypes.func,
+  tag: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool,
+  screenshotId: PropTypes.string,
 }
 
 export default Tag
