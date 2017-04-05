@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Header, List, Form, Input, Label } from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Form, Input, Label } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import Tag from '../components/Tag'
@@ -46,8 +46,6 @@ class Screenshot extends Component {
             </Grid.Column>
             <Grid.Column width={4}>
               <Segment.Group>
-                {this.renderBangumiSegment()}
-                {this.renderEpisodeSegment()}
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
                 {this.renderActionSegment()}
@@ -60,42 +58,6 @@ class Screenshot extends Component {
           </Grid.Row>
         </Grid>
       </Container>
-    )
-  }
-
-  renderBangumiSegment = () => {
-    const { bangumis, screenshot } = this.props
-    if (!screenshot) return null
-    const bangumi = bangumis[screenshot.bangumi]
-    if (!bangumi) return null
-
-    return (
-      <Segment>
-        <Header>
-          <Link to={`/bangumi/${bangumi._id}`}>
-            {bangumi.title}
-          </Link>
-        </Header>
-
-        {bangumi.aliases.length > 0 &&
-          <List>
-            {bangumi.aliases.map((alias, index) =>
-              <List.Item key={index}>{alias}</List.Item>
-            )}
-          </List>
-        }
-      </Segment>
-    )
-  }
-
-  renderEpisodeSegment = () => {
-    const { screenshot } = this.props
-    if (!screenshot) return null
-
-    return (
-      <Segment>
-        Episode {screenshot.episode}
-      </Segment>
     )
   }
 
