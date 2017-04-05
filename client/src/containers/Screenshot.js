@@ -48,11 +48,8 @@ class Screenshot extends Component {
               <Segment.Group>
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
-                {this.renderActionSegment()}
-              </Segment.Group>
-
-              <Segment.Group>
                 {this.renderAddTagSegment()}
+                {this.renderActionSegment()}
               </Segment.Group>
             </Grid.Column>
           </Grid.Row>

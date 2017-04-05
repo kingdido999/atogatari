@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Label, List, Search } from 'semantic-ui-react'
+import { Label, Search } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import { search } from '../actions/entities'
@@ -9,25 +9,10 @@ const MIN_CHARACTERS = 1
 const categoryRenderer = ({ name }) =>
   <Label as={'span'} content={name} />
 
-function resultRenderer ({ title, aliases, name }) {
-  if (title) {
-    return (
-      <List>
-        <List.Item>{title}</List.Item>
-          {aliases.map(alias =>
-            <List.Item>{alias}</List.Item>
-          )}
-      </List>
-    )
-  }
-
-  if (name) {
-    return (
-      <span>{name}</span>
-    )
-  }
-
-  return null
+function resultRenderer ({ name }) {
+  return (
+    <span>{name}</span>
+  )
 }
 
 class GlobalSearch extends Component {
@@ -46,31 +31,17 @@ class GlobalSearch extends Component {
   }
 
   handleResultSelect = (e, item) => {
-    const { _id, title, name } = item
-
-    if (title) {
-      browserHistory.push(`/bangumi/${_id}`)
-    } else if (name) {
-      browserHistory.push(`/tag/${name}`)
-    } else {
-      return
-    }
+    const { name } = item
+    browserHistory.push(`/tag/${name}`)
   }
 
   render () {
     const { query } = this.state
     const { search } = this.props
     const { isFetching, results } = search
-    const { bangumis, tags } = results
+    const { tags } = results
 
     const transformedResults = {}
-
-    if (bangumis) {
-      transformedResults.bangumis = {
-        name: 'Bangumi',
-        results: bangumis
-      }
-    }
 
     if (tags) {
       transformedResults.tags = {
