@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Form, Image, Label, Card } from 'semantic-ui-react'
+import { Container, Message, Form, Image, Label, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import Zooming from 'zooming'
 import { trimStart, trimEnd, uniq } from 'lodash'
+import Zooming from 'zooming'
 
 import { upload } from '../actions/user'
 import { separator } from '../utils'
@@ -75,22 +75,36 @@ class Upload extends Component {
     data.append('nsfw', nsfw)
 
     dispatch(upload(data))
-    .then(() => browserHistory.goBack())
+    .then(res => {
+      browserHistory.push(`/screenshot/${res.value.data._id}`)
+    })
   }
 
-  renderForm = () => {
-    const { imagePreviewUrl, tagList } = this.state
-    const { isUploading } = this.props
-    const size = 'large'
+  renderMessage = () => {
+    const { file } = this.state
+    if (file) return null
+
+    return (
+      <Message>
+        <Message.Header>A Few Simple Rules</Message.Header>
+        <Message.List>
+          <Message.Item>ANIME screenshot only.</Message.Item>
+          <Message.Item>Image width has to be at least 1920px.</Message.Item>
+        </Message.List>
+      </Message>
+    )
+  }
+
+  renderPreview = () => {
+    const { file, imagePreviewUrl, tagList } = this.state
+    if (!file) return null
 
     return (
       <Card fluid>
-        {imagePreviewUrl &&
-          <Image
-            src={imagePreviewUrl}
-            className="img-preview"
-          />
-        }
+        <Image
+          src={imagePreviewUrl}
+          className="img-preview"
+        />
 
         {tagList.length > 0 &&
           <Card.Content>
@@ -99,59 +113,67 @@ class Upload extends Component {
             </Card.Description>
           </Card.Content>
         }
-
-        <Card.Content>
-          <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
-
-            <Form.Input
-              type="file"
-              onChange={this.handleImageChange}
-              required
-            />
-
-            <Form.Input
-              icon='tags'
-              iconPosition='left'
-              name='tags'
-              value={this.state.tags}
-              onChange={this.handleInputChange}
-              placeholder='Separate tags by comma'
-            />
-
-            <Form.Checkbox
-              label='NSFW (Not Safe For Work)'
-              name='nsfw'
-              onChange={this.handleInputToggle}
-              toggle
-            />
-
-            <Form.Button type="submit" size={size} primary fluid>Submit</Form.Button>
-
-          </Form>
-        </Card.Content>
       </Card>
       
     )
   }
 
-  renderPreview = () => {
-    const { imagePreviewUrl } = this.state
-    const previewSrc = imagePreviewUrl || 'https://placehold.it/640x360?text=Replace+me!'
+  renderForm = () => {
+    const { isUploading } = this.props
+    const size = 'large'
 
     return (
-      <Card fluid>
-        <Image
-          src={previewSrc}
-          className="img-preview"
+      <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
+
+        <Form.Input
+          type="file"
+          onChange={this.handleImageChange}
+          required
         />
 
-        <Card.Content extra>
-          <Card.Meta>Tags</Card.Meta>
-          <Card.Description>
-            {this.renderTagLabels()}
-          </Card.Description>
-        </Card.Content>
-      </Card>
+        {this.renderInputTags()}
+        {this.renderCheckboxNSFW()}
+        {this.renderButtonSubmit()}
+      </Form>
+    )
+  }
+
+  renderInputTags = () => {
+    const { file, tags } = this.state
+    if (!file) return null
+
+    return (
+      <Form.Input
+        icon='tags'
+        iconPosition='left'
+        name='tags'
+        value={tags}
+        onChange={this.handleInputChange}
+        placeholder='Separate tags by comma'
+      />
+    )
+  }
+
+  renderCheckboxNSFW = () => {
+    const { file } = this.state
+    if (!file) return null
+
+    return (
+      <Form.Checkbox
+        label='NSFW (Not Safe For Work)'
+        name='nsfw'
+        onChange={this.handleInputToggle}
+        toggle
+      />
+    )
+  }
+
+  renderButtonSubmit = () => {
+    const { file } = this.state
+    if (!file) return null
+
+    return (
+      <Form.Button type="submit" primary fluid>Submit</Form.Button>
     )
   }
 
@@ -172,6 +194,8 @@ class Upload extends Component {
   render() {
     return (
       <Container text>
+        {this.renderMessage()}
+        {this.renderPreview()} 
         {this.renderForm()}
       </Container>
     )

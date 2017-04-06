@@ -69,6 +69,7 @@ async function upload (ctx) {
     ctx.throw(500, e)
   }
 
+  ctx.response.body = screenshot
   ctx.status = 200
 }
 
