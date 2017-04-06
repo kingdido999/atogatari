@@ -1,13 +1,10 @@
 import React, { Component, PropTypes } from 'react'
-import { Label, Search } from 'semantic-ui-react'
+import { Search } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import { search } from '../actions/entities'
 
 const MIN_CHARACTERS = 1
-
-const categoryRenderer = ({ name }) =>
-  <Label as={'span'} content={name} />
 
 function resultRenderer ({ name }) {
   return (
@@ -39,27 +36,16 @@ class GlobalSearch extends Component {
     const { query } = this.state
     const { search } = this.props
     const { isFetching, results } = search
-    const { tags } = results
-
-    const transformedResults = {}
-
-    if (tags) {
-      transformedResults.tags = {
-        name: 'Tag',
-        results: tags
-      }
-    }
 
     return (
       <Search
-        category
+        fluid
         minCharacters={MIN_CHARACTERS}
         loading={isFetching}
         onSearchChange={this.handleSearchChange}
         onResultSelect={this.handleResultSelect}
-        categoryRenderer={categoryRenderer}
         resultRenderer={resultRenderer}
-        results={transformedResults}
+        results={results}
         value={query}
       />
     )

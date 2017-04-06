@@ -12,3 +12,4 @@ server/build
 .DS_Store
 .env.js
 npm-debug.log
+yarn-error.log

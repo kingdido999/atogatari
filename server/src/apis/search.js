@@ -18,13 +18,7 @@ async function search (ctx, next) {
     .select('_id name')
     .exec()
 
-  const results = {}
-
-  if (tags.length > 0) {
-    results.tags = tags
-  }
-
-  ctx.response.body = results
+  ctx.response.body = tags
   ctx.status = 200
 }
 
