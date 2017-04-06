@@ -30,7 +30,7 @@ class App extends Component {
         <Segment vertical className="site-content">
           {errorMessage &&
             <Segment basic>
-              <Container>
+              <Container text>
                 <Message error content={errorMessage} />
               </Container>
             </Segment>

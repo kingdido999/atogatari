@@ -164,7 +164,6 @@ class Upload extends Component {
         label='NSFW (Not Safe For Work)'
         name='nsfw'
         onChange={this.handleInputToggle}
-        toggle
       />
     )
   }
