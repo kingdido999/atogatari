@@ -149,12 +149,14 @@ class Upload extends Component {
     return (
       <Form.Dropdown
         options={tagSuggestions}
-        placeholder='Tags'
+        placeholder='Enter tags'
+        additionLabel=''
         search
         selection
         fluid
         multiple
         allowAdditions
+        noResultsMessage={null}
         name='tags'
         value={tags}
         onAddItem={this.handleAddTag}
