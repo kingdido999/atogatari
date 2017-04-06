@@ -2,39 +2,51 @@ import React, { Component, PropTypes } from 'react'
 import { Container, Message, Form, Image, Label, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { trimStart, trimEnd, uniq } from 'lodash'
+import { uniqBy, union } from 'lodash'
 import Zooming from 'zooming'
 
 import { upload } from '../actions/user'
-import { separator } from '../utils'
+import { search } from '../actions/entities'
 
 class Upload extends Component {
 
   state = {
     file: null,
     imagePreviewUrl: '',
-    tags: '',
-    tagList: [],
+    tagSuggestions: [],
+    tags: [],
     nsfw: false,
     zooming: new Zooming()
   }
 
-  handleInputChange = (event) => {
-    const { target } = event
-    const { value, name } = target
+  handleInputChange = (event, { value }) => {
 
     this.setState({
-      [name]: value.toLowerCase()
-    }, () => {
-      if (name === 'tags') {
-        this.setState({
-          tagList: uniq(this.state[name]
-            .toLowerCase()
-            .split(separator([',', '，']))
-            .map(item => trimStart(trimEnd(item)))
-            .filter(item => item !== ''))
-        })
-      }
+      tags: value
+    })
+  }
+
+  handleSearchChange = (event, value) => {
+    const { dispatch } = this.props
+
+
+    dispatch(search({ query: value }))
+    .then(res => {
+      const { value } = res
+      const { data } = value
+      const newSuggestions = data.map(({ name }) => {
+        return { text: name, value: name }
+      })
+
+      this.setState({
+        tagSuggestions: uniqBy(union(this.state.tagSuggestions, newSuggestions), 'text')
+      })
+    })
+  }
+
+  handleAddTag = (event, { value }) => {
+    this.setState({
+      tagSuggestions: uniqBy([ { text: value, value }, ...this.state.tagSuggestions ], 'text')
     })
   }
 
@@ -68,11 +80,11 @@ class Upload extends Component {
     event.preventDefault()
 
     const { dispatch } = this.props
-    const { file, tagList, nsfw } = this.state
+    const { file, tags, nsfw } = this.state
 
     const data = new FormData()
     data.append('file', file)
-    data.append('tags', JSON.stringify(tagList))
+    data.append('tags', JSON.stringify(tags))
     data.append('nsfw', nsfw)
 
     dispatch(upload(data))
@@ -97,7 +109,7 @@ class Upload extends Component {
   }
 
   renderPreview = () => {
-    const { file, imagePreviewUrl, tagList } = this.state
+    const { file, imagePreviewUrl } = this.state
     if (!file) return null
 
     return (
@@ -106,16 +118,7 @@ class Upload extends Component {
           src={imagePreviewUrl}
           className="img-preview"
         />
-
-        {tagList.length > 0 &&
-          <Card.Content>
-            <Card.Description>
-              {this.renderTagLabels()}
-            </Card.Description>
-          </Card.Content>
-        }
       </Card>
-      
     )
   }
 
@@ -140,17 +143,23 @@ class Upload extends Component {
   }
 
   renderInputTags = () => {
-    const { file, tags } = this.state
+    const { file, tags, tagSuggestions } = this.state
     if (!file) return null
 
     return (
-      <Form.Input
-        icon='tags'
-        iconPosition='left'
+      <Form.Dropdown
+        options={tagSuggestions}
+        placeholder='Tags'
+        search
+        selection
+        fluid
+        multiple
+        allowAdditions
         name='tags'
         value={tags}
+        onAddItem={this.handleAddTag}
         onChange={this.handleInputChange}
-        placeholder='Separate tags by comma'
+        onSearchChange={this.handleSearchChange}
       />
     )
   }
@@ -178,11 +187,11 @@ class Upload extends Component {
   }
 
   renderTagLabels = () => {
-    const { tagList } = this.state
+    const { tags } = this.state
 
     return (
       <Label.Group>
-        {tagList.map((tag, index) =>
+        {tags.map((tag, index) =>
           <Label key={index}>
             {tag}
           </Label>
