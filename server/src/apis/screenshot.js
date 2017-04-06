@@ -20,7 +20,7 @@ async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
   const file = files[0]
   const { tags, nsfw } = fields
-  const tagList = JSON.parse(tags)
+  const tagList = JSON.parse(tags).map(tag => tag.toLowerCase())
 
   const filenames = {
     small: uuid() + '.jpg',

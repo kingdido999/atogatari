@@ -172,7 +172,7 @@ class Screenshot extends Component {
     const { value, name } = target
 
     this.setState({
-      [name]: value
+      [name]: value.toLowerCase()
     })
   }
 

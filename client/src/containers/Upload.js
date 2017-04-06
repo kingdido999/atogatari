@@ -24,11 +24,12 @@ class Upload extends Component {
     const { value, name } = target
 
     this.setState({
-      [name]: value
+      [name]: value.toLowerCase()
     }, () => {
       if (name === 'tags') {
         this.setState({
           tagList: uniq(this.state[name]
+            .toLowerCase()
             .split(separator([',', '，']))
             .map(item => trimStart(trimEnd(item)))
             .filter(item => item !== ''))
