@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Form, Input, Label } from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Dropdown, Label } from 'semantic-ui-react'
+import { uniqBy, union } from 'lodash'
 import Zooming from 'zooming'
 
 import Tag from '../components/Tag'
@@ -12,13 +13,15 @@ import WhatAnimeGaButton from '../components/buttons/WhatAnimeGaButton'
 import DeleteButton from '../components/buttons/DeleteButton'
 
 import { getScreenshotIfNeeded } from '../actions/entities'
+import { search } from '../actions/entities'
 import { addTag } from '../actions/user'
 import { getImageUrl } from '../utils'
 
 class Screenshot extends Component {
 
   state = {
-    tag: ''
+    tag: '',
+    tagSuggestions: []
   }
 
   componentWillMount () {
@@ -94,23 +97,24 @@ class Screenshot extends Component {
   }
 
   renderAddTagSegment = () => {
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, tag } = this.props
     if (!isAuthenticated) return null
 
     return (
       <Segment>
-        <Form onSubmit={this.handleAddTag}>
-          <Input
-            fluid
-            transparent
-            icon='tag'
-            iconPosition='left'
-            name='tag'
-            value={this.state.tag}
-            placeholder='Enter a new tag'
-            onChange={this.handleInputChange}
-          />
-        </Form>
+        <Dropdown
+          options={this.state.tagSuggestions}
+          placeholder='Enter a new tag'
+          additionLabel=''
+          search
+          selection
+          fluid
+          allowAdditions
+          noResultsMessage={null}
+          value={tag}
+          onSearchChange={this.handleSearchChange}
+          onChange={this.handleChange}
+        />
       </Segment>
     )
   }
@@ -167,20 +171,30 @@ class Screenshot extends Component {
     )
   }
 
-  handleInputChange = (event) => {
-    const target = event.target
-    const { value, name } = target
+  handleSearchChange = (event, value) => {
+    const { dispatch } = this.props
 
-    this.setState({
-      [name]: value.toLowerCase()
+    dispatch(search({ query: value }))
+    .then(res => {
+      const { value } = res
+      const { data } = value
+      const newSuggestions = data
+        .map(({ name }) => {
+          return { text: name, value: name }
+        })
+
+      this.setState({
+        tagSuggestions: uniqBy(union(this.state.tagSuggestions, newSuggestions), 'text')
+      })
     })
   }
 
-  handleAddTag = (event) => {
-    event.preventDefault()
+  handleChange = (e, { value }) => {
+    this.setState({ tag: value })
+
     const { dispatch, screenshot } = this.props
-    dispatch(addTag(this.state.tag, screenshot._id))
-    .then(() => this.setState({ tag: '' }))
+    dispatch(addTag(value, screenshot._id))
+    .then(() => this.setState({ tag: '', tagSuggestions: [] }))
   }
 }
 
