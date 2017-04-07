@@ -51,6 +51,7 @@ class Screenshot extends Component {
               <Segment.Group>
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
+                {this.renderAddTagSegment()}
                 {this.renderActionSegment()}
               </Segment.Group>
             </Grid.Column>
@@ -91,9 +92,6 @@ class Screenshot extends Component {
             />
           )}
         </Label.Group>
-
-        <br/>
-        {this.renderAddTagSegment()}
       </Segment>
     )
   }
@@ -103,20 +101,23 @@ class Screenshot extends Component {
     if (!isAuthenticated) return null
 
     return (
-      <Dropdown
-        options={this.state.tagSuggestions}
-        placeholder='Enter a new tag'
-        additionLabel=''
-        icon={null}
-        search
-        selection
-        fluid
-        allowAdditions
-        noResultsMessage={null}
-        value={tag}
-        onSearchChange={this.handleSearchChange}
-        onChange={this.handleChange}
-      />
+      <Segment>
+        <Dropdown
+          options={this.state.tagSuggestions}
+          placeholder='Enter a new tag'
+          additionLabel=''
+          icon={null}
+          search
+          selection
+          fluid
+          allowAdditions
+          noResultsMessage={null}
+          value={tag}
+          onSearchChange={this.handleSearchChange}
+          onChange={this.handleChange}
+        />
+      </Segment>
+
     )
   }
 
