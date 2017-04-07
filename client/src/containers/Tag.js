@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Container, Header, Icon } from 'semantic-ui-react'
+import { Container, Segment, Label } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import ScreenshotCards from '../components/ScreenshotCards'
@@ -27,20 +27,21 @@ class Tag extends Component {
 
   render () {
     const { tag } = this.props
-
     if (!tag) return null
 
     return (
       <Container>
-        <Header dividing>
-          <Icon name='tag' />
-          <Header.Content>{tag.name}</Header.Content>
-        </Header>
-        <ScreenshotCards
-          screenshotIds={tag.screenshots}
-          zooming={new Zooming()}
-          { ...this.props }
-        />
+        <Segment vertical>
+          <Label size='large' content={tag.name} detail={tag.screenshots.length} />
+        </Segment>
+        <Segment vertical>
+          <ScreenshotCards
+            screenshotIds={tag.screenshots}
+            zooming={new Zooming()}
+            { ...this.props }
+          />
+        </Segment>
+
       </Container>
     )
   }

@@ -51,7 +51,6 @@ class Screenshot extends Component {
               <Segment.Group>
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
-                {this.renderAddTagSegment()}
                 {this.renderActionSegment()}
               </Segment.Group>
             </Grid.Column>
@@ -82,16 +81,19 @@ class Screenshot extends Component {
     return (
       <Segment>
         <Label.Group>
-          {screenshotTags.names.map((tag, index) =>
+          {screenshotTags.names.map((name, index) =>
             <Tag 
               key={index}
-              tag={tag}
+              name={name}
               dispatch={dispatch}
               isAdmin={isAdmin}
               screenshotId={screenshot._id}
             />
           )}
         </Label.Group>
+
+        <br/>
+        {this.renderAddTagSegment()}
       </Segment>
     )
   }
@@ -101,21 +103,20 @@ class Screenshot extends Component {
     if (!isAuthenticated) return null
 
     return (
-      <Segment>
-        <Dropdown
-          options={this.state.tagSuggestions}
-          placeholder='Enter a new tag'
-          additionLabel=''
-          search
-          selection
-          fluid
-          allowAdditions
-          noResultsMessage={null}
-          value={tag}
-          onSearchChange={this.handleSearchChange}
-          onChange={this.handleChange}
-        />
-      </Segment>
+      <Dropdown
+        options={this.state.tagSuggestions}
+        placeholder='Enter a new tag'
+        additionLabel=''
+        icon={null}
+        search
+        selection
+        fluid
+        allowAdditions
+        noResultsMessage={null}
+        value={tag}
+        onSearchChange={this.handleSearchChange}
+        onChange={this.handleChange}
+      />
     )
   }
 

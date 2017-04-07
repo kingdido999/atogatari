@@ -1,14 +1,19 @@
 import React, { Component, PropTypes } from 'react'
-import { Search } from 'semantic-ui-react'
+import { Search, Grid, Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import { search } from '../actions/entities'
 
 const MIN_CHARACTERS = 1
 
-function resultRenderer ({ name }) {
+function resultRenderer ({ name, screenshots }) {
   return (
-    <span>{name}</span>
+    <Grid>
+      <Grid.Column textAlign='left' width={12}>{name}</Grid.Column>
+      <Grid.Column textAlign='right' width={4}>
+        <Label circular content={screenshots.length} />
+      </Grid.Column>
+    </Grid>
   )
 }
 
@@ -35,13 +40,12 @@ class GlobalSearch extends Component {
   render () {
     const { query } = this.state
     const { search } = this.props
-    const { isFetching, results } = search
+    const { results } = search
 
     return (
       <Search
         fluid
         minCharacters={MIN_CHARACTERS}
-        loading={isFetching}
         onSearchChange={this.handleSearchChange}
         onResultSelect={this.handleResultSelect}
         resultRenderer={resultRenderer}

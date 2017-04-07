@@ -7,24 +7,25 @@ import { deleteTag } from '../actions/user'
 class Tag extends Component {
 
   handleClick = () => {
-    const { tag } = this.props
-    browserHistory.push(`/tag/${tag}`)
+    const { name } = this.props
+    browserHistory.push(`/tag/${name}`)
   }
 
   handleRemove = (event) => {
     event.stopPropagation()
-    const { dispatch, tag, screenshotId } = this.props
-    dispatch(deleteTag(tag, screenshotId))
+    const { dispatch, name, screenshotId } = this.props
+    dispatch(deleteTag(name, screenshotId))
   }
 
   render () {
-    const { tag, isAdmin } = this.props
+    const { name, isAdmin,count } = this.props
 
     if (isAdmin) {
       return (
         <Label
           as='a'
-          content={tag}
+          content={name}
+          detail={count}
           onClick={this.handleClick}
           onRemove={this.handleRemove}>
         </Label>
@@ -34,7 +35,8 @@ class Tag extends Component {
     return (
       <Label
         as='a'
-        content={tag}
+        content={name}
+        detail={count}
         onClick={this.handleClick}>
       </Label>
     )
@@ -43,7 +45,8 @@ class Tag extends Component {
 
 Tag.propTypes = {
   dispatch: PropTypes.func,
-  tag: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  count: PropTypes.number,
   isAdmin: PropTypes.bool,
   screenshotId: PropTypes.string,
 }

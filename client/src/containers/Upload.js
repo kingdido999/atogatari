@@ -151,6 +151,7 @@ class Upload extends Component {
         options={tagSuggestions}
         placeholder='Enter tags'
         additionLabel=''
+        icon={null}
         search
         selection
         fluid

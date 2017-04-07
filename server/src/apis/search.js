@@ -13,9 +13,10 @@ async function search (ctx, next) {
 
   const tags = await Tag
     .find({
-      name: queryRegex
+      name: queryRegex,
+      screenshots: { $gt: [] }
     })
-    .select('_id name')
+    .select('name screenshots')
     .exec()
 
   ctx.response.body = tags
