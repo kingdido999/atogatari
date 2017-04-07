@@ -66,10 +66,15 @@ async function deleteTag (ctx) {
 		ctx.throw(400)
 	}
 
-	tag.screenshots = tag.screenshots.filter(id => id !== screenshotId)
-	await tag.save()
-
+	tag.screenshots = tag.screenshots.filter(id => id.toString() !== screenshotId)
 	screenshot.tags = screenshot.tags.filter(tag => tag !== name)
+
+	if (tag.screenshots.length > 0) {
+		await tag.save()
+	} else {
+		await tag.remove()
+	}
+	
 	await screenshot.save()
 
 	ctx.response.body = {
