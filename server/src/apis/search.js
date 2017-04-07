@@ -3,12 +3,6 @@ import { escapeRegex } from '../utils'
 
 async function search (ctx, next) {
   const { query } = ctx.request.query
-
-  if (!query) {
-    ctx.response.body = []
-    await next()
-  }
-
   const queryRegex = new RegExp(escapeRegex(query), 'gi')
 
   const tags = await Tag

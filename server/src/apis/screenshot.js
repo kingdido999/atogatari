@@ -30,12 +30,7 @@ async function upload (ctx) {
   }
 
   const fileOriginal = `${UPLOAD_PATH}/${filenames.original}`
-
-  try {
-    await writeFile(file, fileOriginal)
-  } catch (e) {
-    ctx.throw(500, e)
-  }
+  await writeFile(file, fileOriginal)
 
   if (sizeOf(fileOriginal).width < WIDTH_MINIMUM) {
     fs.unlinkSync(fileOriginal)
@@ -61,13 +56,9 @@ async function upload (ctx) {
   const user = await User.findById(ctx.state.uid).exec()
   user.screenshots.push(screenshot)
 
-  try {
-    await user.save()
-    await screenshot.save()
-    tagList.forEach(name => addTag(name, screenshot._id))
-  } catch (e) {
-    ctx.throw(500, e)
-  }
+  await user.save()
+  await screenshot.save()
+  tagList.forEach(name => addTag(name, screenshot._id))
 
   ctx.response.body = screenshot
   ctx.status = 200

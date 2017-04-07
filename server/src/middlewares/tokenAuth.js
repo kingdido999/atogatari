@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { SECRET } from '../../.env'
 
-export default function tokenAuth () {
+export default function () {
   return async function(ctx, next) {
     const token = ctx.request.headers['authorization']
 
