@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Dropdown, Label } from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Dropdown, Label, Header } from 'semantic-ui-react'
 import { uniqBy, union } from 'lodash'
 import Zooming from 'zooming'
+import moment from 'moment'
 
 import Tag from '../components/Tag'
 import ZoomableImage from '../components/ZoomableImage'
@@ -70,7 +71,12 @@ class Screenshot extends Component {
 
     return (
       <Segment>
-        Uploaded by <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
+        <Header size='small'>
+          <Link to={`/user/${uploader._id}`}>@{uploader.username}</Link>
+          <Header.Subheader>
+            {moment(screenshot.createdAt).fromNow()}
+          </Header.Subheader>
+        </Header>
       </Segment>
     )
   }
