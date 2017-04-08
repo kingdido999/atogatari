@@ -10,10 +10,10 @@ class ScreenshotCards extends Component {
 
     return (
       <Card.Group stackable>
-        {screenshotIds.map(id =>
+        {screenshotIds.map((id, index) =>
           <ScreenshotCard
             { ...this.props }
-            key={id}
+            key={index}
             screenshot={screenshots[id]}
             screenshotFavorites={screenshotFavorites[id]}
           />
