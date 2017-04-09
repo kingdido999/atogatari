@@ -13,10 +13,6 @@ export default function errorMessage (state = null, action) {
   if (error) {
     if (payload.response) {
       return payload.response.data
-    } else if (typeof payload === 'string') {
-      return payload
-    } else {
-      return 'Oops something went wrong...Please try again.'
     }
   }
 

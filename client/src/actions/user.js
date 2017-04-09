@@ -31,6 +31,17 @@ export function signup (creds) {
   }
 }
 
+export function logoutIfNeeded () {
+  return (dispatch, getState) => {
+    const { user } = getState()
+    const { isAuthenticated, uid } = user
+
+    if (isAuthenticated && uid === null) {
+      dispatch(logout())
+    }
+  }
+}
+
 export function logout () {
   return {
     type: 'LOGOUT',
@@ -52,6 +63,8 @@ export function getAuthedUserIfNeeded () {
 
     if (isAuthenticated && uid === null) {
       dispatch(getAuthedUser())
+      .then(() => {})
+      .catch(() => dispatch(logout()))
     }
   }
 }

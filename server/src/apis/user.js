@@ -5,7 +5,7 @@ import User from '../models/User'
 import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 
-const TOKEN_EXPIRES_IN = '7 days'
+const TOKEN_EXPIRES_IN = '14 days'
 
 async function signup (ctx) {
   const { email, password, username } = ctx.request.body
@@ -73,10 +73,6 @@ async function getAuthedUser (ctx) {
       populate: { path: 'screenshot' }
     })
     .exec()
-
-    if (!user) {
-      ctx.throw(401, 'Unable to get authed user details.')
-    }
 
     ctx.response.body = user
     ctx.status = 200
