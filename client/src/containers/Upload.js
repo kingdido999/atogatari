@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Message, Form, Image, Label, Card } from 'semantic-ui-react'
+import { Container, Segment, Header, Message, Form, Image, Label, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
@@ -99,7 +99,6 @@ class Upload extends Component {
 
     return (
       <Message info>
-        <Message.Header>A Few Simple Rules</Message.Header>
         <Message.List>
           <Message.Item>ANIME screenshot only.</Message.Item>
           <Message.Item>Image width has to be at least 1920px.</Message.Item>
@@ -207,6 +206,7 @@ class Upload extends Component {
     return (
       <Container text>
         <Segment>
+          <Header>Screenshot Upload</Header>
           {this.renderMessage()}
           {this.renderPreview()} 
           {this.renderForm()}
