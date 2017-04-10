@@ -91,6 +91,7 @@ class Screenshot extends Component {
           {screenshotTags.names.map((name, index) =>
             <Tag 
               key={index}
+              color='blue'
               name={name}
               dispatch={dispatch}
               isAdmin={isAdmin}

@@ -18,12 +18,13 @@ class Tag extends Component {
   }
 
   render () {
-    const { name, isAdmin,count } = this.props
+    const { name, isAdmin, count, color } = this.props
 
     if (isAdmin) {
       return (
         <Label
           as='a'
+          color={color}
           content={name}
           detail={count}
           onClick={this.handleClick}
@@ -35,6 +36,7 @@ class Tag extends Component {
     return (
       <Label
         as='a'
+        color={color}
         content={name}
         detail={count}
         onClick={this.handleClick}>
@@ -45,6 +47,7 @@ class Tag extends Component {
 
 Tag.propTypes = {
   dispatch: PropTypes.func,
+  color: PropTypes.string,
   name: PropTypes.string.isRequired,
   count: PropTypes.number,
   isAdmin: PropTypes.bool,
