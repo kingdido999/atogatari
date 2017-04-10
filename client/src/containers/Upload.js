@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Message, Form, Image, Label, Card } from 'semantic-ui-react'
+import { Container, Segment, Message, Form, Image, Label, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
@@ -185,7 +185,7 @@ class Upload extends Component {
     if (!file) return null
 
     return (
-      <Form.Button type="submit" primary fluid>Submit</Form.Button>
+      <Form.Button type="submit" primary>Submit</Form.Button>
     )
   }
 
@@ -206,9 +206,11 @@ class Upload extends Component {
   render() {
     return (
       <Container text>
-        {this.renderMessage()}
-        {this.renderPreview()} 
-        {this.renderForm()}
+        <Segment>
+          {this.renderMessage()}
+          {this.renderPreview()} 
+          {this.renderForm()}
+        </Segment>
       </Container>
     )
   }
