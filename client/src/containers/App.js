@@ -6,7 +6,6 @@ import { initEnvironment } from '../actions/environment'
 import { getAuthedUserIfNeeded } from '../actions/user'
 
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 
 import '../styles/app.css'
 
@@ -37,10 +36,6 @@ class App extends Component {
           }
 
           {this.props.children}
-        </Segment>
-
-        <Segment vertical>
-          <Footer />
         </Segment>
       </div>
     )

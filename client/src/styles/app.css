@@ -1,3 +1,7 @@
+body {
+	background: url('../assets/images/geometry/geometry_@2X.png') !important;
+}
+
 .site {
   display: flex;
   min-height: 100vh;

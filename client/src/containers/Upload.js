@@ -98,7 +98,7 @@ class Upload extends Component {
     if (file) return null
 
     return (
-      <Message>
+      <Message info>
         <Message.Header>A Few Simple Rules</Message.Header>
         <Message.List>
           <Message.Item>ANIME screenshot only.</Message.Item>
