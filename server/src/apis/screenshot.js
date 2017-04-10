@@ -103,7 +103,6 @@ async function getScreenshots (ctx) {
 
   const screenshots = await Screenshot
     .find(query)
-    .limit(18)
     .populate('user favorites')
     .exec()
 
