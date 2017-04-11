@@ -117,3 +117,10 @@ export function getTag (params) {
     })
   }
 }
+
+export function downloadScreenshot (screenshotId) {
+  return {
+    type: 'DOWNLOAD_SCREENSHOT',
+    payload: ax.post('/screenshot/download', { screenshotId })
+  }
+}

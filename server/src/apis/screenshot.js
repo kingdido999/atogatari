@@ -203,9 +203,23 @@ async function deleteScreenshot (ctx) {
   ctx.status = 200
 }
 
+async function download (ctx) {
+  const { screenshotId } = ctx.request.body
+
+  await Screenshot
+    .where({ _id: screenshotId })
+    .update({
+      $inc: { downloadCount: 1 }
+    })
+    .exec()
+
+  ctx.status = 200
+}
+
 export default {
   upload,
   getScreenshot,
   getScreenshots,
-  deleteScreenshot
+  deleteScreenshot,
+  download
 }

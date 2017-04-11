@@ -16,6 +16,7 @@ export default function route (router) {
   router.post('/signup', user.signup)
   router.post('/login', user.login)
   router.post('/screenshot/upload', tokenAuth(), screenshot.upload)
+  router.post('/screenshot/download', screenshot.download)
 
   router.post('/user', tokenAuth(), user.getAuthedUser)
   router.post('/user/favorites', tokenAuth(), user.getUserFavorites)

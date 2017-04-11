@@ -152,6 +152,8 @@ class Screenshot extends Component {
             isAuthenticated={isAuthenticated}
           />
           <DownloadButton
+            dispatch={dispatch}
+            screenshotId={_id}
             file={file}
           />
           <WhatAnimeGaButton url={getImageUrl(file.medium)} />

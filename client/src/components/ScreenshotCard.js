@@ -11,7 +11,7 @@ import { getImageUrl } from '../utils'
 class ScreenshotCard extends Component {
 
   render () {
-    const { isAuthenticated, zooming, screenshot, userFavorites, screenshotFavorites } = this.props
+    const { dispatch, isAuthenticated, zooming, screenshot, userFavorites, screenshotFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
     const { _id, file } = screenshot
 
@@ -41,7 +41,7 @@ class ScreenshotCard extends Component {
               favoritesCount={favoritesCount}
             />
 
-            <DownloadButton file={file} />
+            <DownloadButton dispatch={dispatch} screenshotId={_id} file={file} />
             <DetailsButton screenshotId={_id} />
           </Button.Group>
         </Card.Content>

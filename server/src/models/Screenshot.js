@@ -34,6 +34,10 @@ const screenshotSchema = new Schema({
   tags: {
     type: [String],
     index: true
+  },
+  downloadCount: {
+    type: Number,
+    default: 0
   }
 })
 
