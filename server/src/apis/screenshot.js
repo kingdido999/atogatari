@@ -9,6 +9,7 @@ import uuid from 'uuid/v4'
 import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
+import { omit } from 'lodash'
 
 const UPLOAD_PATH = 'assets/images'
 const WIDTH_MINIMUM = 1920
@@ -100,10 +101,17 @@ async function getScreenshot (ctx) {
 
 async function getScreenshots (ctx) {
   const { query } = ctx.request
+  const { nsfw } = query
+  let criteria = omit(query, 'nsfw')
+
+  if (!(nsfw === 'true')) {
+    criteria['nsfw'] = false
+  }
 
   const screenshots = await Screenshot
-    .find(query)
+    .find(criteria)
     .populate('user favorites')
+    .sort({ createdAt: -1 })
     .exec()
 
   ctx.response.body = screenshots

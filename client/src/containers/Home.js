@@ -3,6 +3,7 @@ import { Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
+import Filters from '../components/Filters'
 import ScreenshotCards from '../components/ScreenshotCards'
 
 import { getScreenshots } from '../actions/entities'
@@ -10,15 +11,17 @@ import { getScreenshots } from '../actions/entities'
 class Home extends Component {
 
   componentWillMount () {
-    const { dispatch } = this.props
-    dispatch(getScreenshots())
+    const { dispatch, nsfw } = this.props
+    dispatch(getScreenshots({ nsfw }))
   }
 
   render() {
-    const { isFetching, screenshotIds } = this.props
+    const { dispatch, isFetching, nsfw, screenshotIds } = this.props
 
     return (
       <Container>
+        <Filters dispatch={dispatch} nsfw={nsfw} />
+
         <Segment vertical loading={isFetching}>
           <ScreenshotCards
             screenshotIds={screenshotIds}
@@ -44,11 +47,12 @@ Home.propTypes = {
 function mapStateToProps(state) {
   const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { isFetching } = screenshots
+  const { isFetching, nsfw } = screenshots
 
   return {
     isAuthenticated,
     isFetching,
+    nsfw,
     screenshots: entities.screenshots,
     screenshotIds: screenshots.ids,
     screenshotFavorites,

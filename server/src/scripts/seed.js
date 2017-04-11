@@ -2,7 +2,6 @@ import { getRandomString, sha512 } from '../utils'
 
 import Screenshot from '../models/Screenshot'
 import Favorite from '../models/Favorite'
-import Bangumi from '../models/Bangumi'
 import User from '../models/User'
 import Tag from '../models/Tag'
 import { DATABASE } from '../../.env'
@@ -12,7 +11,6 @@ import faker from 'faker'
 import { uniq } from 'lodash'
 
 const NUM_USER = 5
-const NUM_BANGUMI = 6
 const NUM_BANGUMI_SCREENSHOT = 30
 
 mongoose.Promise = global.Promise
@@ -33,7 +31,6 @@ async function purge () {
 
   await Tag.remove({})
   await User.remove({})
-  await Bangumi.remove({})
   await Favorite.remove({})
   await Screenshot.remove({})
 }
@@ -57,24 +54,19 @@ async function seed () {
     userList.push(user)
   }
 
-  for (let i = 0; i < NUM_BANGUMI; i++) {
-    const bangumi = createBangumi()
 
-    for (let j = 0; j < NUM_BANGUMI_SCREENSHOT; j++) {
-      const user = faker.random.arrayElement(userList)
-      const tags = createRandomWords(faker.random.number(10))
-      const screenshot = createScreenshot(bangumi, user, tags)
-      await screenshot.save()
+  for (let j = 0; j < NUM_BANGUMI_SCREENSHOT; j++) {
+    const user = faker.random.arrayElement(userList)
+    const tags = createRandomWords(faker.random.number(10))
+    const screenshot = createScreenshot(user, tags)
+    await screenshot.save()
 
-      tags.forEach(tag => createTag(tag, screenshot._id))
+    tags.forEach(tag => createTag(tag, screenshot._id))
 
-      user.screenshots.push(screenshot)
-      await user.save()
-      bangumi.screenshots.push(screenshot)
-    }
-
-    await bangumi.save()
+    user.screenshots.push(screenshot)
+    await user.save()
   }
+
 }
 
 function createRandomWords (count) {
@@ -105,21 +97,10 @@ function createUser (
   })
 }
 
-function createBangumi (
-  title = faker.lorem.words(),
-  aliases = createRandomWords(faker.random.number(3))
-) {
-  return new Bangumi({
-    title,
-    aliases
-  })
-}
-
-function createScreenshot (bangumi, user, tags) {
+function createScreenshot (user, tags) {
   return new Screenshot({
-    bangumi: bangumi._id,
     user: user._id,
-    episode: faker.random.number(24),
+    nsfw: faker.random.boolean(),
     file: {
       small: 'small.jpg',
       medium: 'medium.jpg',

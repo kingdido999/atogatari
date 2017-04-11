@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 
 export default combineReducers({
   isFetching,
-  ids
+  ids,
+  nsfw
 })
 
 function isFetching (state = false, action) {
@@ -23,6 +24,15 @@ function ids (state = [], action) {
       return action.payload.data.result
     case 'DELETE_SCREENSHOT_FULFILLED':
       return state.filter(id => id !== action.payload.data.screenshotId)
+    default:
+      return state
+  }
+}
+
+function nsfw (state = false, action) {
+  switch (action.type) {
+    case 'TOGGLE_NSFW':
+      return !state
     default:
       return state
   }

@@ -57,6 +57,12 @@ export function getScreenshotById (id) {
   }
 }
 
+export function toggleNSFW () {
+  return {
+    type: 'TOGGLE_NSFW'
+  }
+}
+
 export function getFavoritesByUserIdIfNeeded (userId) {
   return (dispatch, getState) => {
     const { userFavorites } = getState()
