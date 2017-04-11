@@ -6,6 +6,9 @@ const tagSchema = new Schema({
     type: String,
     required: true
   },
+  type: {
+		type: String
+  },
   screenshots: [{
     type: Schema.Types.ObjectId,
     ref: 'Screenshot'
