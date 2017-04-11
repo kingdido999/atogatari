@@ -36,7 +36,7 @@ class Header extends Component {
     const { isMobile, isAuthenticated } = this.props
 
     return (
-      <Menu size="huge" fixed="top" fluid borderless>
+      <Menu size="huge" attached='top' borderless>
         <Menu.Item as={Link} to="/" name='atogatari' />
         {/* <Menu.Item name='Random' /> */}
         {/* <Menu.Item name='Popular' /> */}

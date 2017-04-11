@@ -3,7 +3,6 @@ import { Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
-import Filters from '../components/Filters'
 import ScreenshotCards from '../components/ScreenshotCards'
 
 import { getScreenshots } from '../actions/entities'
@@ -16,12 +15,10 @@ class Home extends Component {
   }
 
   render() {
-    const { dispatch, isFetching, nsfw, screenshotIds } = this.props
+    const { isFetching, screenshotIds } = this.props
 
     return (
       <Container>
-        <Filters dispatch={dispatch} nsfw={nsfw} />
-
         <Segment vertical loading={isFetching}>
           <ScreenshotCards
             screenshotIds={screenshotIds}

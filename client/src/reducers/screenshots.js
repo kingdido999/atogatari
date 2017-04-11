@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 export default combineReducers({
   isFetching,
   ids,
+  sortBy,
   nsfw
 })
 
@@ -24,6 +25,15 @@ function ids (state = [], action) {
       return action.payload.data.result
     case 'DELETE_SCREENSHOT_FULFILLED':
       return state.filter(id => id !== action.payload.data.screenshotId)
+    default:
+      return state
+  }
+}
+
+function sortBy (state = 'date', action) {
+  switch (action.type) {
+    case 'SET_SORT_BY':
+      return action.sortBy
     default:
       return state
   }

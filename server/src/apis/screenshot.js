@@ -101,8 +101,14 @@ async function getScreenshot (ctx) {
 
 async function getScreenshots (ctx) {
   const { query } = ctx.request
-  const { nsfw } = query
-  let criteria = omit(query, 'nsfw')
+  const { sortBy, nsfw } = query
+  let sort = { createdAt: -1 }
+
+  if (sortBy === 'popularity') {
+    sort = { favorites: -1 }
+  }
+
+  let criteria = omit(query, ['sortBy', 'nsfw'])
 
   if (!(nsfw === 'true')) {
     criteria['nsfw'] = false
@@ -111,9 +117,9 @@ async function getScreenshots (ctx) {
   const screenshots = await Screenshot
     .find(criteria)
     .populate('user favorites')
-    .sort({ createdAt: -1 })
+    .sort(sort)
     .exec()
-
+    
   ctx.response.body = screenshots
   ctx.status = 200
 }

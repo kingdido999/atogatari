@@ -57,6 +57,13 @@ export function getScreenshotById (id) {
   }
 }
 
+export function setSortBy (sortBy) {
+  return {
+    type: 'SET_SORT_BY',
+    sortBy
+  }
+}
+
 export function toggleNSFW () {
   return {
     type: 'TOGGLE_NSFW'

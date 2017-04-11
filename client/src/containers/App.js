@@ -6,6 +6,7 @@ import { initEnvironment } from '../actions/environment'
 import { getAuthedUserIfNeeded } from '../actions/user'
 
 import Header from '../components/Header'
+import Filters from '../components/Filters'
 
 import '../styles/app.css'
 
@@ -18,13 +19,15 @@ class App extends Component {
   }
 
   render() {
-    const { errorMessage } = this.props
+    const { dispatch, nsfw, sortBy, errorMessage, pathname } = this.props
 
     return (
       <div className="App site">
-        <Header
-          { ...this.props }
-        />
+        <Header { ...this.props } />
+
+        {pathname === '/' &&
+          <Filters dispatch={dispatch} sortBy={sortBy} nsfw={nsfw} />
+        }
 
         <Segment vertical className="site-content">
           {errorMessage &&
@@ -50,16 +53,22 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { environment, user, errorMessage, search } = state
+  const { environment, user, errorMessage, search, screenshots, routing } = state
   const { isMobile } = environment
   const { isAuthenticated, uid } = user
+  const { nsfw, sortBy } = screenshots
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
 
   return {
     isMobile,
     isAuthenticated,
     uid,
     errorMessage,
-    search
+    search,
+    nsfw,
+    sortBy,
+    pathname
   }
 }
 

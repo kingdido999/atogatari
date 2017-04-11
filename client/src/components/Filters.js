@@ -1,9 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Checkbox } from 'semantic-ui-react'
 
-import { toggleNSFW, getScreenshots } from '../actions/entities'
+import { setSortBy, toggleNSFW, getScreenshots } from '../actions/entities'
 
 class Filters extends Component {
+
+  handleSortByDate = () => {
+    const { dispatch } = this.props
+    dispatch(setSortBy('date'))
+    dispatch(getScreenshots({ sortBy: 'date' }))
+  }
+
+  handleSortByPopularity = () => {
+    const { dispatch } = this.props
+    dispatch(setSortBy('popularity'))
+    dispatch(getScreenshots({ sortBy: 'popularity' }))
+  }
 
   handleChangeNSFW = () => {
     const { dispatch, nsfw } = this.props
@@ -12,13 +24,19 @@ class Filters extends Component {
   }
 
   render() {
-    const { nsfw } = this.props
+    const { sortBy, nsfw } = this.props
 
     return (
-      <Menu borderless>
+      <Menu attached='bottom' stackable borderless>
         <Menu.Item>
           <Checkbox label={nsfw ? 'NSFW' : 'SAFE'} checked={nsfw} onChange={this.handleChangeNSFW} slider />
         </Menu.Item>
+
+        <Menu.Menu position='right'>
+          <Menu.Item header>Sort By</Menu.Item>
+          <Menu.Item name='mostRecent' active={sortBy === 'date'} onClick={this.handleSortByDate} />
+          <Menu.Item name='mostPopular' active={sortBy === 'popularity'} onClick={this.handleSortByPopularity} />
+        </Menu.Menu>
       </Menu>
     )
   }
@@ -26,7 +44,8 @@ class Filters extends Component {
 
 Filters.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  nsfw: PropTypes.bool.isRequired, 
+  sortBy: PropTypes.string.isRequired,
+  nsfw: PropTypes.bool.isRequired,
 }
 
 export default Filters
