@@ -27,7 +27,7 @@ class Filters extends Component {
     const { sortBy, nsfw } = this.props
 
     return (
-      <Menu attached='bottom' stackable borderless>
+      <Menu attached='bottom' borderless>
         <Menu.Item name='mostRecent' active={sortBy === 'date'} onClick={this.handleSortByDate} />
         <Menu.Item name='mostPopular' active={sortBy === 'popularity'} onClick={this.handleSortByPopularity} />
         <Menu.Item>
