@@ -40,16 +40,18 @@ class Filters extends Component {
       <Menu attached='bottom' borderless>
         <Menu.Item name='recent' active={sortBy === 'date'} onClick={this.handleSortByDate} />
         <Menu.Item name='popular' active={sortBy === 'popularity'} onClick={this.handleSortByPopularity} />
-        <Menu.Item>
-          <Checkbox label={nsfw ? 'NSFW' : 'SAFE'} checked={nsfw} onChange={this.handleChangeNSFW} toggle />
-        </Menu.Item>
-
-        {!isMobile &&
-          <Menu.Menu position='right'>
+        
+        <Menu.Menu position='right'>
+          <Menu.Item>
+            <Checkbox label={nsfw ? 'NSFW' : 'SAFE'} checked={nsfw} onChange={this.handleChangeNSFW} toggle />
+          </Menu.Item>
+          {!isMobile &&
             <Menu.Item icon='expand' active={view === 'single'} onClick={this.handleViewSingle} />
+          }
+          {!isMobile &&
             <Menu.Item icon='grid layout' active={view === 'grid'} onClick={this.handleViewGrid} />
-          </Menu.Menu>
-        }
+          }
+        </Menu.Menu>
       </Menu>
     )
   }

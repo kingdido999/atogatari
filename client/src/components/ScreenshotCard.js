@@ -13,7 +13,7 @@ class ScreenshotCard extends Component {
   render () {
     const { dispatch, isAuthenticated, zooming, view, screenshot, userFavorites, screenshotFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
-    const { _id, file } = screenshot
+    const { _id, file, nsfw } = screenshot
 
     const isFavorited = isAuthenticated && userFavorites
     ? userFavorites.ids.find(favoriteId => {
@@ -26,7 +26,7 @@ class ScreenshotCard extends Component {
     const src = getImageUrl(isSingleView ? file.medium : file.small)
 
     return (
-      <Card fluid={isSingleView}>
+      <Card fluid={isSingleView} color={nsfw ? 'yellow' : null} raised>
         <ZoomableImage
           id={_id}
           src={src}

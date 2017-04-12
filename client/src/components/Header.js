@@ -21,7 +21,7 @@ class Header extends Component {
     const { uid } = this.props
 
     return (
-      <Dropdown item icon='user outline'>
+      <Dropdown icon='user outline' item>
         <Dropdown.Menu>
           <Dropdown.Item icon='favorite' text='Favorites' as={Link} to={`/user/${uid}/favorites`} />
           <Dropdown.Item icon='cloud upload' text='Uploads' as={Link} to={`/user/${uid}/uploads`} />

@@ -31,7 +31,7 @@ class Tag extends Component {
 
     return (
       <Container>
-        <Segment basic vertical>
+        <Segment>
           <Label size='large' color='teal' content={tag.name} detail={tag.screenshots.length} />
         </Segment>
         <Segment vertical>

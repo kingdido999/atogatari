@@ -46,9 +46,7 @@ class Screenshot extends Component {
         <Grid stackable>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
-              <Segment>
-                {this.renderImage()}
-              </Segment>
+              {this.renderImageSegment()}
             </Grid.Column>
             <Grid.Column width={4}>
               <Segment.Group>
@@ -64,6 +62,24 @@ class Screenshot extends Component {
     )
   }
 
+  renderImageSegment = () => {
+    const { screenshot } = this.props
+    if (!screenshot) return null
+
+    const { _id, file, nsfw } = screenshot
+
+    return (
+      <Segment color={nsfw ? 'yellow' : null}>
+        <ZoomableImage
+          id={_id}
+          src={getImageUrl(file.medium)}
+          dataOriginal={getImageUrl(file.large)}
+          zooming={new Zooming()}
+        />
+      </Segment>
+    )
+  }
+  
   renderUploaderSegment = () => {
     const { users, screenshot } = this.props
     if (!screenshot) return null
@@ -168,21 +184,6 @@ class Screenshot extends Component {
     )
   }
 
-  renderImage = () => {
-    const { screenshot } = this.props
-    if (!screenshot) return null
-
-    const { _id, file } = screenshot
-
-    return (
-      <ZoomableImage
-        id={_id}
-        src={getImageUrl(file.medium)}
-        dataOriginal={getImageUrl(file.large)}
-        zooming={new Zooming()}
-      />
-    )
-  }
 
   handleSearchChange = (event, value) => {
     const { dispatch } = this.props
