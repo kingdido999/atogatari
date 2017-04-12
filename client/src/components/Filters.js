@@ -6,21 +6,21 @@ import { setSortBy, toggleNSFW, getScreenshots } from '../actions/entities'
 class Filters extends Component {
 
   handleSortByDate = () => {
-    const { dispatch } = this.props
+    const { dispatch, nsfw } = this.props
     dispatch(setSortBy('date'))
-    dispatch(getScreenshots({ sortBy: 'date' }))
+    dispatch(getScreenshots({ nsfw, sortBy: 'date' }))
   }
 
   handleSortByPopularity = () => {
-    const { dispatch } = this.props
+    const { dispatch, nsfw } = this.props
     dispatch(setSortBy('popularity'))
-    dispatch(getScreenshots({ sortBy: 'popularity' }))
+    dispatch(getScreenshots({ nsfw, sortBy: 'popularity' }))
   }
 
   handleChangeNSFW = () => {
-    const { dispatch, nsfw } = this.props
+    const { dispatch, nsfw, sortBy } = this.props
     dispatch(toggleNSFW())
-    dispatch(getScreenshots({ nsfw: !nsfw }))
+    dispatch(getScreenshots({ nsfw: !nsfw, sortBy }))
   }
 
   render() {
