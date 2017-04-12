@@ -26,7 +26,7 @@ class ScreenshotCard extends Component {
     const src = getImageUrl(isSingleView ? file.medium : file.small)
 
     return (
-      <Card fluid={view === 'single'}>
+      <Card fluid={isSingleView}>
         <ZoomableImage
           id={_id}
           src={src}

@@ -34,7 +34,7 @@ class Filters extends Component {
   }
 
   render() {
-    const { sortBy, nsfw, view } = this.props
+    const { isMobile, sortBy, nsfw, view } = this.props
 
     return (
       <Menu attached='bottom' borderless>
@@ -44,10 +44,12 @@ class Filters extends Component {
           <Checkbox label={nsfw ? 'NSFW' : 'SAFE'} checked={nsfw} onChange={this.handleChangeNSFW} toggle />
         </Menu.Item>
 
-        <Menu.Menu position='right'>
-          <Menu.Item icon='expand' active={view === 'single'} onClick={this.handleViewSingle} />
-          <Menu.Item icon='grid layout' active={view === 'grid'} onClick={this.handleViewGrid} />
-        </Menu.Menu>
+        {!isMobile &&
+          <Menu.Menu position='right'>
+            <Menu.Item icon='expand' active={view === 'single'} onClick={this.handleViewSingle} />
+            <Menu.Item icon='grid layout' active={view === 'grid'} onClick={this.handleViewGrid} />
+          </Menu.Menu>
+        }
       </Menu>
     )
   }
@@ -55,6 +57,7 @@ class Filters extends Component {
 
 Filters.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   nsfw: PropTypes.bool.isRequired,
   view: PropTypes.string.isRequired,
