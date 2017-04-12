@@ -70,6 +70,13 @@ export function toggleNSFW () {
   }
 }
 
+export function setView (view) {
+  return {
+    type: 'SET_VIEW',
+    view
+  }
+}
+
 export function getFavoritesByUserIdIfNeeded (userId) {
   return (dispatch, getState) => {
     const { userFavorites } = getState()

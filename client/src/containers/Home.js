@@ -42,12 +42,13 @@ Home.propTypes = {
 function mapStateToProps(state) {
   const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { isFetching, nsfw } = screenshots
+  const { isFetching, nsfw, view } = screenshots
 
   return {
     isAuthenticated,
     isFetching,
     nsfw,
+    view,
     screenshots: entities.screenshots,
     screenshotIds: screenshots.ids,
     screenshotFavorites,

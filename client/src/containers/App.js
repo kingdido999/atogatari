@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   render() {
-    const { dispatch, nsfw, sortBy, errorMessage, pathname } = this.props
+    const { errorMessage, pathname } = this.props
 
     return (
       <div className="App site">
@@ -29,7 +29,7 @@ class App extends Component {
         />
 
         {pathname === '/' &&
-          <Filters dispatch={dispatch} sortBy={sortBy} nsfw={nsfw} />
+          <Filters { ...this.props } />
         }
 
         <Segment vertical className="site-content">
@@ -59,7 +59,7 @@ function mapStateToProps(state) {
   const { environment, user, errorMessage, search, screenshots, routing } = state
   const { isMobile } = environment
   const { isAuthenticated, uid } = user
-  const { nsfw, sortBy } = screenshots
+  const { nsfw, sortBy, view } = screenshots
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
 
@@ -70,6 +70,7 @@ function mapStateToProps(state) {
     errorMessage,
     search,
     nsfw,
+    view,
     sortBy,
     pathname
   }

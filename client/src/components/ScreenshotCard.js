@@ -11,7 +11,7 @@ import { getImageUrl } from '../utils'
 class ScreenshotCard extends Component {
 
   render () {
-    const { dispatch, isAuthenticated, zooming, screenshot, userFavorites, screenshotFavorites } = this.props
+    const { dispatch, isAuthenticated, zooming, view, screenshot, userFavorites, screenshotFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
     const { _id, file } = screenshot
 
@@ -22,12 +22,14 @@ class ScreenshotCard extends Component {
     : false
 
     const favoritesCount = screenshotFavorites.ids.length
+    const isSingleView = view === 'single'
+    const src = getImageUrl(isSingleView ? file.medium : file.small)
 
     return (
-      <Card>
+      <Card fluid={view === 'single'}>
         <ZoomableImage
           id={_id}
-          src={getImageUrl(file.small)}
+          src={src}
           dataOriginal={getImageUrl(file.large)}
           zooming={zooming}
         />
@@ -54,6 +56,7 @@ ScreenshotCard.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
+  view: PropTypes.string,
   screenshot: PropTypes.object,
   screenshotFavorites: PropTypes.object,
   userFavorites: PropTypes.object,

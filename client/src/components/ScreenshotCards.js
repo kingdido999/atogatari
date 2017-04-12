@@ -27,6 +27,7 @@ ScreenshotCards.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
+  view: PropTypes.string,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
   userFavorites: PropTypes.object,

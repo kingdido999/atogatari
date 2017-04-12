@@ -4,7 +4,8 @@ export default combineReducers({
   isFetching,
   ids,
   sortBy,
-  nsfw
+  nsfw,
+  view
 })
 
 function isFetching (state = false, action) {
@@ -43,6 +44,21 @@ function nsfw (state = false, action) {
   switch (action.type) {
     case 'TOGGLE_NSFW':
       return !state
+    default:
+      return state
+  }
+}
+
+function view (state = 'grid', action) {
+  switch (action.type) {
+    case 'SET_VIEW':
+      return action.view
+    case 'CHANGE_IS_MOBILE':
+      if (state === 'single') return state
+      return action.isMobile ? 'single' : state
+    case 'CHANGE_WIDTH_AND_HEIGHT':
+      if (state === 'single') return state
+      return action.width <= 992 ? 'single' : state
     default:
       return state
   }
