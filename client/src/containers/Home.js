@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Zooming from 'zooming'
 
@@ -15,17 +15,15 @@ class Home extends Component {
   }
 
   render() {
-    const { isFetching, screenshotIds } = this.props
+    const { screenshotIds } = this.props
 
     return (
       <Container>
-        <Segment vertical loading={isFetching}>
-          <ScreenshotCards
-            screenshotIds={screenshotIds}
-            zooming={new Zooming()}
-            { ...this.props }
-          />
-        </Segment>
+        <ScreenshotCards
+          screenshotIds={screenshotIds}
+          zooming={new Zooming()}
+          { ...this.props }
+        />
       </Container>
     )
   }

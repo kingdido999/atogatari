@@ -38,15 +38,22 @@ class Login extends Component {
           size={size}
           onSubmit={this.handleSubmit}>
 
-          <Form.Field>
-            <label>Email / Username</label>
-            <input type="text" name="email" onChange={this.handleChange} />
-          </Form.Field>
+          <Form.Input 
+            label='Email or username' 
+            icon='user'
+            iconPosition='left' 
+            name='email'
+            onChange={this.handleChange} 
+          />
 
-          <Form.Field>
-            <label>Password</label>
-            <input type="password" name="password" placeholder="At least 8 characters" onChange={this.handleChange} />
-          </Form.Field>
+          <Form.Input 
+            label='Password' 
+            icon='lock' 
+            iconPosition='left' 
+            name='password'
+            type='password'
+            onChange={this.handleChange} 
+          />
 
           <Form.Button type="submit" size={size} fluid primary>Log In</Form.Button>
         </Form>

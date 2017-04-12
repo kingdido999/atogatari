@@ -39,20 +39,31 @@ class Signup extends Component {
           size={size}
           onSubmit={this.handleSubmit}>
 
-          <Form.Field>
-            <label>Email</label>
-            <input type="email" name="email" onChange={this.handleChange} />
-          </Form.Field>
+          <Form.Input 
+            label='Username' 
+            icon='user' 
+            iconPosition='left' 
+            name='username' 
+            onChange={this.handleChange} 
+          />
 
-          <Form.Field>
-            <label>Password</label>
-            <input type="password" name="password" placeholder="At least 8 characters" onChange={this.handleChange} />
-          </Form.Field>
+          <Form.Input 
+            label='Email' 
+            icon='mail' 
+            iconPosition='left' 
+            name='email'
+            type='email'
+            onChange={this.handleChange} 
+          />
 
-          <Form.Field>
-            <label>Username</label>
-            <input type="text" name="username" onChange={this.handleChange} />
-          </Form.Field>
+          <Form.Input 
+            label='Password' 
+            icon='lock' 
+            iconPosition='left' 
+            name='password'
+            type='password'
+            onChange={this.handleChange} 
+          />
 
           <Form.Button type="submit" size={size} fluid primary>Sign Up</Form.Button>
         </Form>

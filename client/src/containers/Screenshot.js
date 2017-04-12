@@ -46,7 +46,9 @@ class Screenshot extends Component {
         <Grid stackable>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
+              <Segment>
                 {this.renderImage()}
+              </Segment>
             </Grid.Column>
             <Grid.Column width={4}>
               <Segment.Group>
@@ -72,7 +74,7 @@ class Screenshot extends Component {
     return (
       <Segment>
         <Header size='small'>
-          <Link to={`/user/${uploader._id}`}>@{uploader.username}</Link>
+          <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
           <Header.Subheader>
             {moment(screenshot.createdAt).fromNow()}
           </Header.Subheader>
@@ -91,7 +93,7 @@ class Screenshot extends Component {
           {screenshotTags.names.map((name, index) =>
             <Tag 
               key={index}
-              color='blue'
+              color='teal'
               name={name}
               dispatch={dispatch}
               isAdmin={isAdmin}
@@ -118,7 +120,7 @@ class Screenshot extends Component {
           selection
           fluid
           allowAdditions
-          noResultsMessage={null}
+          noResultsMessage={'Type to show suggestions...'}
           value={tag}
           onSearchChange={this.handleSearchChange}
           onChange={this.handleChange}

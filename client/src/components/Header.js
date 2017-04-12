@@ -33,23 +33,23 @@ class Header extends Component {
   }
 
   render() {
-    const { isMobile, isAuthenticated } = this.props
+    const { attached, isMobile, isAuthenticated } = this.props
 
     return (
-      <Menu size="huge" attached='top' borderless>
+      <Menu size="huge" attached={attached} color='red' inverted borderless>
         <Menu.Item as={Link} to="/" name='atogatari' />
         {/* <Menu.Item name='Random' /> */}
         {/* <Menu.Item name='Popular' /> */}
 
-        {!isMobile &&
-          <Menu.Item>
-            <GlobalSearch
-              { ...this.props }
-            />
-          </Menu.Item>
-        }
-
         <Menu.Menu position='right'>
+          {!isMobile &&
+            <Menu.Item>
+              <GlobalSearch
+                { ...this.props }
+              />
+            </Menu.Item>
+          }
+          
           {!isAuthenticated &&
             <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
           }

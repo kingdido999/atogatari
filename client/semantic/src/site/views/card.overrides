@@ -1,3 +1,12 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+/*--------------
+  Rounded Edges
+---------------*/
+
+.ui.cards > .card > :first-child,
+.ui.card > :first-child {
+  border-radius: 0px !important;
+}

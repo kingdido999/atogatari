@@ -156,7 +156,7 @@ class Upload extends Component {
         fluid
         multiple
         allowAdditions
-        noResultsMessage={null}
+        noResultsMessage={'Type to show suggestions...'}
         name='tags'
         value={tags}
         onAddItem={this.handleAddTag}

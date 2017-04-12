@@ -3,8 +3,6 @@
 *******************************/
 
 /* Card */
-@fontFamily: @pageFont;
-@display: flex;
 @background: @white;
 @borderRadius: @defaultBorderRadius;
 @margin: 1em 0em;
@@ -18,8 +16,3 @@
   @borderShadow
 ;
 @border: none;
-@zIndex: '';
-@transition:
-  box-shadow @defaultDuration @defaultEasing,
-  transform @defaultDuration @defaultEasing
-;

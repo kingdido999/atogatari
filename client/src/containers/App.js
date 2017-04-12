@@ -23,7 +23,10 @@ class App extends Component {
 
     return (
       <div className="App site">
-        <Header { ...this.props } />
+        <Header 
+          { ...this.props } 
+          attached={ pathname === '/' ? 'top' : false } 
+        />
 
         {pathname === '/' &&
           <Filters dispatch={dispatch} sortBy={sortBy} nsfw={nsfw} />
