@@ -161,6 +161,7 @@ class UploadContainer extends Component {
         fluid
         multiple
         allowAdditions
+        selectOnBlur={false}
         noResultsMessage={'Type to show suggestions...'}
         name='tags'
         value={tags}

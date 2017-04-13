@@ -146,6 +146,7 @@ class ScreenshotContainer extends Component {
           selection
           fluid
           allowAdditions
+          selectOnBlur={false}
           noResultsMessage={'Type to show suggestions...'}
           value={tag}
           onSearchChange={this.handleSearchChange}
