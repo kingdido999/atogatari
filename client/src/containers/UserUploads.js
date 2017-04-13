@@ -14,14 +14,9 @@ class UserUploads extends Component {
   }
 
   render() {
-    const { userScreenshots } = this.props
-
-    if (!userScreenshots) return null
-
     return (
       <ScreenshotCards
         { ...this.props }
-        screenshotIds={userScreenshots.ids}
         zooming={new Zooming()}
       />
     )
@@ -39,15 +34,46 @@ UserUploads.propTypes = {
 }
 
 function mapStateToProps (state, ownProps) {
-  const { user, entities, userScreenshots, userFavorites, screenshotFavorites } = state
+  const { user, entities, screenshots, userScreenshots, userFavorites, screenshotFavorites } = state
   const { isAuthenticated } = user
-  const { screenshots, favorites } = entities
+  const { sortBy, nsfw, view } = screenshots
+  const { favorites } = entities
   const { params } = ownProps
   const { userId } = params
 
+  let screenshotIds = userScreenshots[userId] 
+    ? userScreenshots[userId].ids
+    : []
+
+  screenshotIds = screenshotIds.filter(id => {
+    if (nsfw) return true
+    return entities.screenshots[id].nsfw === false
+  })
+
+  screenshotIds = screenshotIds.sort((i, j) => {
+    if (sortBy === 'date') {
+      const dateI = new Date(entities.screenshots[i].createdAt)
+      const dateJ = new Date(entities.screenshots[j].createdAt) 
+
+      if (dateI > dateJ) return -1
+      if (dateI < dateJ) return 1
+      return 0
+    }
+
+    if (sortBy === 'popularity') {
+      const scoreI = entities.screenshots[i].favorites.length
+      const scoreJ = entities.screenshots[j].favorites.length
+      return scoreJ - scoreI
+    }
+
+    return 0
+  })
+
   return {
     isAuthenticated,
-    screenshots,
+    view,
+    screenshotIds,
+    screenshots: entities.screenshots,
     favorites,
     screenshotFavorites,
     userFavorites: userFavorites[userId],

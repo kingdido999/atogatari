@@ -19,16 +19,16 @@ class App extends Component {
   }
 
   render() {
-    const { errorMessage, pathname } = this.props
+    const { errorMessage, showFilters } = this.props
 
     return (
       <div className="App site">
         <Header 
           { ...this.props } 
-          attached={ pathname === '/' ? 'top' : false } 
+          attached={ showFilters ? 'top' : false } 
         />
 
-        {pathname === '/' &&
+        {showFilters &&
           <Filters { ...this.props } />
         }
 
@@ -62,6 +62,10 @@ function mapStateToProps(state) {
   const { nsfw, sortBy, view } = screenshots
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
+  const showFilters = pathname === '/' 
+  || pathname.match('/tag/') 
+  || pathname.match('/favorites') 
+  || pathname.match('/uploads')
 
   return {
     isMobile,
@@ -72,7 +76,7 @@ function mapStateToProps(state) {
     nsfw,
     view,
     sortBy,
-    pathname
+    showFilters
   }
 }
 

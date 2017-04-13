@@ -13,12 +13,13 @@ class User extends Component {
     return (
       <Container>
         <Segment>
-          <Header>
-            <Link to={`/user/${userId}`}>{user.username}</Link>
-            <Header.Subheader>Joined {moment(user.createdAt).fromNow()}</Header.Subheader>
-          </Header>
-
           <Menu secondary>
+            <Menu.Item>
+              <Header>
+                <Link to={`/user/${userId}`}>{user.username}</Link>
+                <Header.Subheader>Joined {moment(user.createdAt).fromNow()}</Header.Subheader>
+              </Header>
+            </Menu.Item>
             <Menu.Item as={Link} to={`/user/${userId}/favorites`} name='Favorites' activeClassName="active" />
             <Menu.Item as={Link} to={`/user/${userId}/uploads`} name='Uploads' activeClassName="active" />
             {/* <Menu.Item name='Settings' activeClassName="active" /> */}

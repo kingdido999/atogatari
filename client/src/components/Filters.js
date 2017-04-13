@@ -40,7 +40,12 @@ class Filters extends Component {
         
         <Menu.Menu position='right'>
           <Menu.Item>
-            <Checkbox label={nsfw ? 'NSFW' : 'SAFE'} checked={nsfw} onChange={this.handleChangeNSFW} toggle />
+            <Checkbox 
+              label={nsfw ? 'Switch to SAFE' : 'Switch to NSFW'} 
+              checked={nsfw} 
+              onChange={this.handleChangeNSFW} 
+              slider 
+            />
           </Menu.Item>
           {!isMobile &&
             <Menu.Item icon='expand' active={view === 'single'} onClick={this.handleViewSingle} />

@@ -14,16 +14,8 @@ class UserFavorites extends Component {
   }
 
   render() {
-    const { favorites, userFavorites } = this.props
-
-    if (!userFavorites) return null
-
-    const favoriteScreenshotIds =
-      userFavorites.ids.map(favoriteId => favorites[favoriteId].screenshot)
-
     return (
       <ScreenshotCards
-        screenshotIds={favoriteScreenshotIds}
         zooming={new Zooming()}
         { ...this.props }
       />
@@ -41,18 +33,48 @@ UserFavorites.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { user, entities, screenshotFavorites, userFavorites } = state
+  const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated } = user
-  const { favorites, screenshots } = entities
+  const { sortBy, nsfw, view } = screenshots
+  const { favorites } = entities
   const { params } = ownProps
   const { userId } = params
 
+  let screenshotIds = userFavorites[userId] 
+    ? userFavorites[userId].ids.map(favoriteId => favorites[favoriteId].screenshot)
+    : []
+
+  screenshotIds = screenshotIds.filter(id => {
+    if (nsfw) return true
+    return entities.screenshots[id].nsfw === false
+  })
+
+  screenshotIds = screenshotIds.sort((i, j) => {
+    if (sortBy === 'date') {
+      const dateI = new Date(entities.screenshots[i].createdAt)
+      const dateJ = new Date(entities.screenshots[j].createdAt) 
+
+      if (dateI > dateJ) return -1
+      if (dateI < dateJ) return 1
+      return 0
+    }
+
+    if (sortBy === 'popularity') {
+      const scoreI = entities.screenshots[i].favorites.length
+      const scoreJ = entities.screenshots[j].favorites.length
+      return scoreJ - scoreI
+    }
+
+    return 0
+  })
+
   return {
     isAuthenticated,
-    screenshots,
+    view,
+    screenshotIds,
+    screenshots: entities.screenshots,
     favorites,
-    screenshotFavorites,
-    userFavorites: userFavorites[userId]
+    screenshotFavorites
   }
 }
 
