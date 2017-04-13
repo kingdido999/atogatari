@@ -1,14 +1,22 @@
 import React, { Component, PropTypes } from 'react'
-import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { Container } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import ScreenshotCards from '../components/ScreenshotCards'
-
 import { getScreenshots } from '../actions/entities'
 import { getFilteredScreenshotIds } from '../selectors'
 
-class Home extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  screenshots: PropTypes.object.isRequired,
+  screenshotIds: PropTypes.array.isRequired,
+  screenshotFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
+}
+
+class ScreenshotsContainer extends Component {
 
   componentWillMount () {
     const { dispatch } = this.props
@@ -16,12 +24,9 @@ class Home extends Component {
   }
 
   render() {
-    const { screenshotIds } = this.props
-
     return (
       <Container>
         <ScreenshotCards
-          screenshotIds={screenshotIds}
           zooming={new Zooming()}
           { ...this.props }
         />
@@ -30,24 +35,13 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  screenshotIds: PropTypes.array.isRequired,
-  screenshotFavorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object,
-}
-
 function mapStateToProps(state) {
   const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { isFetching, view } = screenshots
+  const { view } = screenshots
   
   return {
     isAuthenticated,
-    isFetching,
     view,
     screenshots: entities.screenshots,
     screenshotIds: getFilteredScreenshotIds(state),
@@ -56,4 +50,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+ScreenshotsContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(ScreenshotsContainer)

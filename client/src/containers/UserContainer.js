@@ -1,10 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Container, Segment, Menu, Header } from 'semantic-ui-react'
 import { Link } from 'react-router'
 import moment from 'moment'
 
-class User extends Component {
+const propTypes = {
+  userId: PropTypes.string.isRequired,
+  user: PropTypes.object
+}
+
+class UserContainer extends Component {
 
   render() {
     const { userId, user } = this.props
@@ -26,9 +31,10 @@ class User extends Component {
           </Menu>
         </Segment>
 
-        <Segment vertical>
+        <Segment basic vertical>
           {this.props.children}
         </Segment>
+        
       </Container>
     )
   }
@@ -46,4 +52,6 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(User)
+UserContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(UserContainer)

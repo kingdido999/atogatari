@@ -18,7 +18,17 @@ import { search } from '../actions/entities'
 import { addTag } from '../actions/user'
 import { getImageUrl } from '../utils'
 
-class Screenshot extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  screenshot: PropTypes.object,
+  users: PropTypes.object.isRequired,
+  screenshotFavorites: PropTypes.object,
+  screenshotTags: PropTypes.object,
+  userFavorites: PropTypes.object
+}
+
+class ScreenshotContainer extends Component {
 
   state = {
     tag: '',
@@ -212,16 +222,6 @@ class Screenshot extends Component {
   }
 }
 
-Screenshot.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  screenshot: PropTypes.object,
-  users: PropTypes.object.isRequired,
-  screenshotFavorites: PropTypes.object,
-  screenshotTags: PropTypes.object,
-  userFavorites: PropTypes.object
-}
-
 function mapStateToProps(state, ownProps) {
   const { entities, user, screenshotFavorites, screenshotTags, userFavorites } = state
   const { users, screenshots } = entities
@@ -245,4 +245,6 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(Screenshot)
+ScreenshotContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(ScreenshotContainer)

@@ -6,8 +6,17 @@ import ScreenshotCards from '../components/ScreenshotCards'
 import { getScreenshotsByUserIdIfNeeded } from '../actions/entities'
 import { getFilteredUserScreenshotIds } from '../selectors'
 
-class UserUploads extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  screenshots: PropTypes.object.isRequired,
+  favorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
+  userScreenshots: PropTypes.object,
+  screenshotFavorites: PropTypes.object.isRequired,
+}
 
+class UserUploadsContainer extends Component {
   componentWillMount () {
     const { dispatch, params } = this.props
     const { userId } = params
@@ -22,16 +31,6 @@ class UserUploads extends Component {
       />
     )
   }
-}
-
-UserUploads.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  favorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object,
-  userScreenshots: PropTypes.object,
-  screenshotFavorites: PropTypes.object.isRequired,
 }
 
 function mapStateToProps (state, ownProps) {
@@ -53,4 +52,6 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(UserUploads)
+UserUploadsContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(UserUploadsContainer)

@@ -5,7 +5,12 @@ import { connect } from 'react-redux'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
 
-class LoginAndSignup extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+}
+
+class LoginContainer extends Component {
 
   render() {
     const size = 'large'
@@ -30,11 +35,6 @@ class LoginAndSignup extends Component {
   }
 }
 
-LoginAndSignup.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-}
-
 function mapStateToProps(state) {
   const { user } = state
   const { isFetching } = user
@@ -44,4 +44,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(LoginAndSignup)
+LoginContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(LoginContainer)

@@ -6,8 +6,16 @@ import ScreenshotCards from '../components/ScreenshotCards'
 import { getFavoritesByUserIdIfNeeded } from '../actions/entities'
 import { getFilteredUserFavoriteScreenshotIds } from '../selectors'
 
-class UserFavorites extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  screenshots: PropTypes.object.isRequired,
+  favorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
+  screenshotFavorites: PropTypes.object,
+}
 
+class UserFavoritesContainer extends Component {
   componentWillMount () {
     const { dispatch, params } = this.props
     const { userId } = params
@@ -24,14 +32,6 @@ class UserFavorites extends Component {
   }
 }
 
-UserFavorites.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  favorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object,
-  screenshotFavorites: PropTypes.object,
-}
 
 function mapStateToProps(state, ownProps) {
   const { user, entities, screenshots, screenshotFavorites } = state
@@ -49,4 +49,6 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(UserFavorites)
+UserFavoritesContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(UserFavoritesContainer)

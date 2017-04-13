@@ -8,7 +8,12 @@ import Zooming from 'zooming'
 import { upload } from '../actions/user'
 import { search } from '../actions/entities'
 
-class Upload extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isUploading: PropTypes.bool.isRequired
+}
+
+class UploadContainer extends Component {
 
   state = {
     file: null,
@@ -216,11 +221,6 @@ class Upload extends Component {
   }
 }
 
-Upload.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isUploading: PropTypes.bool.isRequired
-}
-
 function mapStateToProps(state) {
   const { user } = state
   const { isUploading } = user
@@ -230,4 +230,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Upload)
+UploadContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(UploadContainer)

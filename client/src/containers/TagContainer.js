@@ -8,7 +8,16 @@ import { getTagByNameIfNeeded } from '../actions/entities'
 import { getUserFavoritesIfNeeded } from '../actions/user'
 import { getFilteredTagScreenshotIds } from '../selectors'
 
-class Tag extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  tag: PropTypes.object,
+  screenshots: PropTypes.object.isRequired,
+  screenshotFavorites: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object,
+}
+
+class TagContainer extends Component {
 
   componentWillMount () {
     const { params, dispatch } = this.props
@@ -35,26 +44,14 @@ class Tag extends Component {
         <Segment>
           <Label size='large' color='teal' content={tag.name} detail={screenshotIds.length} />
         </Segment>
-        <Segment vertical>
-          <ScreenshotCards
-            screenshotIds={screenshotIds}
-            zooming={new Zooming()}
-            { ...this.props }
-          />
-        </Segment>
-
+        <ScreenshotCards
+          screenshotIds={screenshotIds}
+          zooming={new Zooming()}
+          { ...this.props }
+        />
       </Container>
     )
   }
-}
-
-Tag.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  tag: PropTypes.object,
-  screenshots: PropTypes.object.isRequired,
-  screenshotFavorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object,
 }
 
 function mapStateToProps(state, ownProps) {
@@ -76,4 +73,6 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(Tag)
+TagContainer.propTypes = propTypes
+
+export default connect(mapStateToProps)(TagContainer)

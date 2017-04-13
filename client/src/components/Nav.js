@@ -7,7 +7,7 @@ import { logout } from '../actions/user'
 
 import GlobalSearch from './GlobalSearch'
 
-class Header extends Component {
+class Nav extends Component {
 
   handleLogout = (event) => {
     event.preventDefault()
@@ -65,7 +65,7 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {
+Nav.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
@@ -73,4 +73,4 @@ Header.propTypes = {
   search: PropTypes.object.isRequired,
 }
 
-export default Header
+export default Nav
