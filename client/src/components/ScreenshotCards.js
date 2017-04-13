@@ -6,10 +6,10 @@ import ScreenshotCard from './ScreenshotCard'
 class ScreenshotCards extends Component {
 
   render () {
-    const { screenshots, screenshotIds, screenshotFavorites } = this.props
+    const { itemsPerRow, view, screenshots, screenshotIds, screenshotFavorites } = this.props
 
     return (
-      <Card.Group stackable>
+      <Card.Group itemsPerRow={ view === 'grid' ? itemsPerRow : null } stackable>
         {screenshotIds.map((id, index) =>
           <ScreenshotCard
             { ...this.props }
@@ -27,7 +27,8 @@ ScreenshotCards.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
-  view: PropTypes.string,
+  view: PropTypes.string.isRequired,
+  itemsPerRow: PropTypes.number.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
   userFavorites: PropTypes.object,

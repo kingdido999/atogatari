@@ -5,7 +5,8 @@ export default combineReducers({
   ids,
   sortBy,
   nsfw,
-  view
+  view,
+  itemsPerRow
 })
 
 function isFetching (state = false, action) {
@@ -53,12 +54,15 @@ function view (state = 'grid', action) {
   switch (action.type) {
     case 'SET_VIEW':
       return action.view
-    case 'CHANGE_IS_MOBILE':
-      if (state === 'single') return state
-      return action.isMobile ? 'single' : state
+    default:
+      return state
+  }
+}
+
+function itemsPerRow (state = 3, action) {
+  switch (action.type) {
     case 'CHANGE_WIDTH_AND_HEIGHT':
-      if (state === 'single') return state
-      return action.width <= 992 ? 'single' : state
+      return Math.floor(action.width / 366)
     default:
       return state
   }

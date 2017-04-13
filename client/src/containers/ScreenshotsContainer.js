@@ -10,6 +10,8 @@ import { getFilteredScreenshotIds } from '../selectors'
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  view: PropTypes.string.isRequired,
+  itemsPerRow: PropTypes.number.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
   screenshotFavorites: PropTypes.object.isRequired,
@@ -38,11 +40,12 @@ class ScreenshotsContainer extends Component {
 function mapStateToProps(state) {
   const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { view } = screenshots
+  const { view, itemsPerRow } = screenshots
   
   return {
     isAuthenticated,
     view,
+    itemsPerRow,
     screenshots: entities.screenshots,
     screenshotIds: getFilteredScreenshotIds(state),
     screenshotFavorites,
