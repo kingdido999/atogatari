@@ -66,6 +66,7 @@
     "redux-logger": "^2.8.1",
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.0",
     "semantic-ui-react": "^0.67.2",
     "zooming": "^1.1.3"
   },

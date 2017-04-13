@@ -6,6 +6,7 @@ import Zooming from 'zooming'
 import ScreenshotCards from '../components/ScreenshotCards'
 import { getTagByNameIfNeeded } from '../actions/entities'
 import { getUserFavoritesIfNeeded } from '../actions/user'
+import { getFilteredTagScreenshotIds } from '../selectors'
 
 class Tag extends Component {
 
@@ -59,42 +60,16 @@ Tag.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { entities, user, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { sortBy, nsfw, view } = screenshots
+  const { view } = screenshots
   const { tags } = entities
   const { name } = ownProps.params
   const tag = tags[name]
-
-  let screenshotIds = tag ? tag.screenshots : []
-
-  screenshotIds = screenshotIds.filter(id => {
-    if (nsfw) return true
-    return entities.screenshots[id].nsfw === false
-  })
-
-  screenshotIds = screenshotIds.sort((i, j) => {
-    if (sortBy === 'date') {
-      const dateI = new Date(entities.screenshots[i].createdAt)
-      const dateJ = new Date(entities.screenshots[j].createdAt) 
-
-      if (dateI > dateJ) return -1
-      if (dateI < dateJ) return 1
-      return 0
-    }
-
-    if (sortBy === 'popularity') {
-      const scoreI = entities.screenshots[i].favorites.length
-      const scoreJ = entities.screenshots[j].favorites.length
-      return scoreJ - scoreI
-    }
-
-    return 0
-  })
 
   return {
     isAuthenticated,
     view,
     tag,
-    screenshotIds,
+    screenshotIds: getFilteredTagScreenshotIds(state, ownProps),
     screenshots: entities.screenshots,
     screenshotFavorites,
     userFavorites: userFavorites[uid]

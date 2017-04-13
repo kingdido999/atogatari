@@ -58,7 +58,7 @@ function view (state = 'grid', action) {
       return action.isMobile ? 'single' : state
     case 'CHANGE_WIDTH_AND_HEIGHT':
       if (state === 'single') return state
-      return action.width <= 992 ? 'single' : state
+      return action.width <= 768 ? 'single' : state
     default:
       return state
   }
