@@ -10,8 +10,8 @@ import { getScreenshots } from '../actions/entities'
 class Home extends Component {
 
   componentWillMount () {
-    const { dispatch, nsfw } = this.props
-    dispatch(getScreenshots({ nsfw }))
+    const { dispatch } = this.props
+    dispatch(getScreenshots())
   }
 
   render() {
@@ -42,7 +42,33 @@ Home.propTypes = {
 function mapStateToProps(state) {
   const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { isFetching, nsfw, view } = screenshots
+  const { isFetching, sortBy, nsfw, view } = screenshots
+
+  let screenshotIds = screenshots.ids
+
+  screenshotIds = screenshotIds.filter(id => {
+    if (nsfw) return true
+    return entities.screenshots[id].nsfw === false
+  })
+
+  screenshotIds = screenshotIds.sort((i, j) => {
+    if (sortBy === 'date') {
+      const dateI = new Date(entities.screenshots[i].createdAt)
+      const dateJ = new Date(entities.screenshots[j].createdAt) 
+
+      if (dateI > dateJ) return -1
+      if (dateI < dateJ) return 1
+      return 0
+    }
+
+    if (sortBy === 'popularity') {
+      const scoreI = entities.screenshots[i].favorites.length
+      const scoreJ = entities.screenshots[j].favorites.length
+      return scoreJ - scoreI
+    }
+
+    return 0
+  })
 
   return {
     isAuthenticated,
@@ -50,7 +76,7 @@ function mapStateToProps(state) {
     nsfw,
     view,
     screenshots: entities.screenshots,
-    screenshotIds: screenshots.ids,
+    screenshotIds,
     screenshotFavorites,
     userFavorites: userFavorites[uid]
   }

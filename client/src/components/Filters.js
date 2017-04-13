@@ -1,26 +1,23 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Checkbox } from 'semantic-ui-react'
 
-import { setSortBy, toggleNSFW, setView, getScreenshots } from '../actions/entities'
+import { setSortBy, toggleNSFW, setView } from '../actions/entities'
 
 class Filters extends Component {
 
   handleSortByDate = () => {
-    const { dispatch, nsfw } = this.props
+    const { dispatch } = this.props
     dispatch(setSortBy('date'))
-    dispatch(getScreenshots({ nsfw, sortBy: 'date' }))
   }
 
   handleSortByPopularity = () => {
-    const { dispatch, nsfw } = this.props
+    const { dispatch } = this.props
     dispatch(setSortBy('popularity'))
-    dispatch(getScreenshots({ nsfw, sortBy: 'popularity' }))
   }
 
   handleChangeNSFW = () => {
-    const { dispatch, nsfw, sortBy } = this.props
+    const { dispatch } = this.props
     dispatch(toggleNSFW())
-    dispatch(getScreenshots({ nsfw: !nsfw, sortBy }))
   }
 
   handleViewSingle = () => {
