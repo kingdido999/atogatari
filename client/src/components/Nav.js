@@ -43,7 +43,7 @@ class Nav extends Component {
 
     return (
       <Menu size="huge" attached={attached} color='red' inverted borderless>
-        <Menu.Item as={Link} to="/" name='atogatari' />
+        <Menu.Item as={Link} to="/" name='atogatari' header />
 
         <Menu.Menu position='right'>
           {!isMobile &&

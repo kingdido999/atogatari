@@ -31,20 +31,20 @@ class ScreenshotCard extends Component {
       }) !== undefined
     : false
 
-    console.log(userFavorites)
-
     const favoritesCount = screenshotFavorites.ids.length
     const isSingleView = view === 'single'
     const src = getImageUrl(isSingleView ? file.medium : file.small)
 
     return (
       <Card fluid={isSingleView} color={nsfw ? 'yellow' : null} raised>
-        <ZoomableImage
-          id={_id}
-          src={src}
-          dataOriginal={getImageUrl(file.large)}
-          zooming={zooming}
-        />
+        <div className='flex-centered bg-black'>
+          <ZoomableImage
+            id={_id}
+            src={src}
+            dataOriginal={getImageUrl(file.large)}
+            zooming={zooming}
+          />
+        </div>
 
         <Card.Content extra>
           <Button.Group fluid compact>
