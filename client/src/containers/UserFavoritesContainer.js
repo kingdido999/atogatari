@@ -11,10 +11,12 @@ class UserFavoritesContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { user, entities, screenshots, screenshotFavorites } = state
+  const { user, entities, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated } = user
   const { view, itemsPerRow } = screenshots
   const { favorites } = entities
+  const { params } = ownProps
+  const { userId } = params
 
   return {
     isAuthenticated,
@@ -23,7 +25,8 @@ function mapStateToProps(state, ownProps) {
     screenshotIds: getFilteredUserFavoriteScreenshotIds(state, ownProps),
     screenshots: entities.screenshots,
     favorites,
-    screenshotFavorites
+    screenshotFavorites,
+    userFavorites: userFavorites[userId]
   }
 }
 

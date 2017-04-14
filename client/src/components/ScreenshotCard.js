@@ -31,6 +31,8 @@ class ScreenshotCard extends Component {
       }) !== undefined
     : false
 
+    console.log(userFavorites)
+
     const favoritesCount = screenshotFavorites.ids.length
     const isSingleView = view === 'single'
     const src = getImageUrl(isSingleView ? file.medium : file.small)
