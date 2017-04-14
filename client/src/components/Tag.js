@@ -4,6 +4,15 @@ import { browserHistory } from 'react-router'
 
 import { deleteTag } from '../actions/user'
 
+const propTypes = {
+  dispatch: PropTypes.func,
+  color: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  count: PropTypes.number,
+  isAdmin: PropTypes.bool,
+  screenshotId: PropTypes.string,
+}
+
 class Tag extends Component {
 
   handleClick = () => {
@@ -45,13 +54,6 @@ class Tag extends Component {
   }
 }
 
-Tag.propTypes = {
-  dispatch: PropTypes.func,
-  color: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  count: PropTypes.number,
-  isAdmin: PropTypes.bool,
-  screenshotId: PropTypes.string,
-}
+Tag.propTypes = propTypes
 
 export default Tag

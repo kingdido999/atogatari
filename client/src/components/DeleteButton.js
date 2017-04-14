@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Button } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
-import { deleteScreenshot } from '../../actions/user'
+import { deleteScreenshot } from '../actions/user'
 
 class DeleteButton extends Component {
 

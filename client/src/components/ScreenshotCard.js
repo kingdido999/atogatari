@@ -2,11 +2,21 @@ import React, { Component, PropTypes } from 'react'
 import { Card, Button } from 'semantic-ui-react'
 
 import ZoomableImage from './ZoomableImage'
-import DownloadButton from './buttons/DownloadButton'
-import FavoriteButton from './buttons/FavoriteButton'
-import DetailsButton from './buttons/DetailsButton'
+import DownloadButton from './DownloadButton'
+import FavoriteButton from './FavoriteButton'
+import DetailsButton from './DetailsButton'
 
 import { getImageUrl } from '../utils'
+
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  zooming: PropTypes.object.isRequired,
+  view: PropTypes.string.isRequired,
+  screenshot: PropTypes.object,
+  screenshotFavorites: PropTypes.object,
+  userFavorites: PropTypes.object,
+}
 
 class ScreenshotCard extends Component {
 
@@ -52,14 +62,6 @@ class ScreenshotCard extends Component {
   }
 }
 
-ScreenshotCard.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  zooming: PropTypes.object.isRequired,
-  view: PropTypes.string,
-  screenshot: PropTypes.object,
-  screenshotFavorites: PropTypes.object,
-  userFavorites: PropTypes.object,
-}
+ScreenshotCard.propTypes = propTypes
 
 export default ScreenshotCard

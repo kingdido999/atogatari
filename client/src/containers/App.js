@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Segment } from 'semantic-ui-react'
 
@@ -10,10 +10,6 @@ import FiltersContainer from './FiltersContainer'
 import ErrorMessageContainer from './ErrorMessageContainer'
 
 import '../styles/app.css'
-
-const propTypes = {
-  errorMessage: PropTypes.string
-}
 
 class App extends Component {
 
@@ -38,7 +34,5 @@ class App extends Component {
     )
   }
 }
-
-App.propTypes = propTypes
 
 export default connect()(App)

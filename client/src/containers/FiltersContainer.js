@@ -1,15 +1,7 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Filters from '../components/Filters'
-
-const propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  nsfw: PropTypes.bool.isRequired,
-  view: PropTypes.string.isRequired,
-}
 
 class FiltersContainer extends Component {
 
@@ -26,6 +18,8 @@ function mapStateToProps(state) {
   const { nsfw, sortBy, view } = screenshots
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
+
+  // TODO: improve route matching?
   const showFilters = pathname === '/' 
   || pathname.match('/tag/') 
   || pathname.match('/favorites') 
@@ -39,7 +33,5 @@ function mapStateToProps(state) {
     showFilters
   }
 }
-
-FiltersContainer.propTypes = propTypes
 
 export default connect(mapStateToProps)(FiltersContainer)

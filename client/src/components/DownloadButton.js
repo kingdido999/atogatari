@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Button } from 'semantic-ui-react'
 
-import { getImageUrl, downloadFromUrl } from '../../utils'
-import { downloadScreenshot } from '../../actions/entities'
+import { getImageUrl, downloadFromUrl } from '../utils'
+import { downloadScreenshot } from '../actions/entities'
 
 class DownloadButton extends Component {
 

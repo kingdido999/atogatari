@@ -1,27 +1,12 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Nav from '../components/Nav'
 
-const propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool,
-  isAuthenticated: PropTypes.bool.isRequired,
-  uid: PropTypes.string,
-  search: PropTypes.object.isRequired,
-}
-
 class NavContainer extends Component {
 
   render() {
-    const { showFilters } = this.props
-
-    return (
-      <Nav 
-        { ...this.props } 
-        attached={ showFilters ? 'top' : false } 
-      />
-    )
+    return <Nav { ...this.props } />
   }
 }
 
@@ -36,15 +21,16 @@ function mapStateToProps(state) {
   || pathname.match('/favorites') 
   || pathname.match('/uploads')
 
+  const attached = showFilters ? 'top' : false
+
   return {
     isMobile,
     isAuthenticated,
     uid,
     search,
-    showFilters
+    showFilters,
+    attached
   }
 }
-
-NavContainer.propTypes = propTypes
 
 export default connect(mapStateToProps)(NavContainer)

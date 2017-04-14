@@ -1,6 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { Image } from 'semantic-ui-react'
 
+const propTypes = {
+  id: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  dataOriginal: PropTypes.string,
+  zooming: PropTypes.object.isRequired,
+}
+
 class ZoomableImage extends Component {
 
   componentDidMount () {
@@ -24,11 +31,6 @@ class ZoomableImage extends Component {
   }
 }
 
-ZoomableImage.propTypes = {
-  id: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
-  dataOriginal: PropTypes.string,
-  zooming: PropTypes.object.isRequired,
-}
+ZoomableImage.propTypes = propTypes
 
 export default ZoomableImage

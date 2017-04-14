@@ -3,6 +3,18 @@ import { Card } from 'semantic-ui-react'
 
 import ScreenshotCard from './ScreenshotCard'
 
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  zooming: PropTypes.object.isRequired,
+  view: PropTypes.string.isRequired,
+  itemsPerRow: PropTypes.number.isRequired,
+  screenshots: PropTypes.object.isRequired,
+  screenshotIds: PropTypes.array.isRequired,
+  userFavorites: PropTypes.object,
+  screenshotFavorites: PropTypes.object.isRequired,
+}
+
 class ScreenshotCards extends Component {
 
   render () {
@@ -23,16 +35,6 @@ class ScreenshotCards extends Component {
   }
 }
 
-ScreenshotCards.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  zooming: PropTypes.object.isRequired,
-  view: PropTypes.string.isRequired,
-  itemsPerRow: PropTypes.number.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  screenshotIds: PropTypes.array.isRequired,
-  userFavorites: PropTypes.object,
-  screenshotFavorites: PropTypes.object.isRequired,
-}
+ScreenshotCards.propTypes = propTypes
 
 export default ScreenshotCards

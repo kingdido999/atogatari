@@ -4,9 +4,14 @@ import { browserHistory } from 'react-router'
 
 import { search } from '../actions/entities'
 
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  search: PropTypes.object.isRequired
+}
+
 const MIN_CHARACTERS = 1
 
-function resultRenderer ({ name, screenshots }) {
+const resultRenderer = ({ name, screenshots }) => {
   return (
     <Grid>
       <Grid.Column textAlign='left' width={12}>{name}</Grid.Column>
@@ -56,9 +61,6 @@ class GlobalSearch extends Component {
   }
 }
 
-GlobalSearch.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  search: PropTypes.object.isRequired
-}
+GlobalSearch.propTypes = propTypes
 
 export default GlobalSearch

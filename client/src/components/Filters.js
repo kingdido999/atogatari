@@ -3,6 +3,14 @@ import { Menu, Checkbox } from 'semantic-ui-react'
 
 import { setSortBy, toggleNSFW, setView } from '../actions/entities'
 
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  nsfw: PropTypes.bool.isRequired,
+  view: PropTypes.string.isRequired,
+}
+
 class Filters extends Component {
 
   handleSortByDate = () => {
@@ -59,12 +67,6 @@ class Filters extends Component {
   }
 }
 
-Filters.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  nsfw: PropTypes.bool.isRequired,
-  view: PropTypes.string.isRequired,
-}
+Filters.propTypes = propTypes
 
 export default Filters

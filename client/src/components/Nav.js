@@ -1,11 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router'
-import { browserHistory } from 'react-router'
 
 import { logout } from '../actions/user'
-
 import GlobalSearch from './GlobalSearch'
+
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
+  isAuthenticated: PropTypes.bool.isRequired,
+  attached: PropTypes.oneOf(['top', false]).isRequired,
+  uid: PropTypes.string,
+  search: PropTypes.object.isRequired,
+}
 
 class Nav extends Component {
 
@@ -14,7 +21,6 @@ class Nav extends Component {
     const { dispatch } = this.props
 
     dispatch(logout())
-    .then(() => browserHistory.push('/'))
   }
 
   renderDropdown = () => {
@@ -38,8 +44,6 @@ class Nav extends Component {
     return (
       <Menu size="huge" attached={attached} color='red' inverted borderless>
         <Menu.Item as={Link} to="/" name='atogatari' />
-        {/* <Menu.Item name='Random' /> */}
-        {/* <Menu.Item name='Popular' /> */}
 
         <Menu.Menu position='right'>
           {!isMobile &&
@@ -65,12 +69,6 @@ class Nav extends Component {
   }
 }
 
-Nav.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool,
-  isAuthenticated: PropTypes.bool.isRequired,
-  uid: PropTypes.string,
-  search: PropTypes.object.isRequired,
-}
+Nav.propTypes = propTypes
 
 export default Nav

@@ -1,42 +1,21 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Zooming from 'zooming'
 
-import ScreenshotCards from '../components/ScreenshotCards'
-import { getScreenshotsByUserIdIfNeeded } from '../actions/entities'
 import { getFilteredUserScreenshotIds } from '../selectors'
-
-const propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  favorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object,
-  userScreenshots: PropTypes.object,
-  screenshotFavorites: PropTypes.object.isRequired,
-}
+import UserUploadsPage from '../components/UserUploadsPage'
 
 class UserUploadsContainer extends Component {
-  componentWillMount () {
-    const { dispatch, params } = this.props
-    const { userId } = params
-    dispatch(getScreenshotsByUserIdIfNeeded(userId))
-  }
 
   render() {
-    return (
-      <ScreenshotCards
-        { ...this.props }
-        zooming={new Zooming()}
-      />
-    )
+    return <UserUploadsPage { ...this.props } />
   }
+  
 }
 
 function mapStateToProps (state, ownProps) {
   const { user, entities, screenshots, userFavorites, screenshotFavorites } = state
   const { isAuthenticated } = user
-  const { view } = screenshots
+  const { view, itemsPerRow } = screenshots
   const { favorites } = entities
   const { params } = ownProps
   const { userId } = params
@@ -44,6 +23,7 @@ function mapStateToProps (state, ownProps) {
   return {
     isAuthenticated,
     view,
+    itemsPerRow,
     screenshotIds: getFilteredUserScreenshotIds(state, ownProps),
     screenshots: entities.screenshots,
     favorites,
@@ -51,7 +31,5 @@ function mapStateToProps (state, ownProps) {
     userFavorites: userFavorites[userId],
   }
 }
-
-UserUploadsContainer.propTypes = propTypes
 
 export default connect(mapStateToProps)(UserUploadsContainer)

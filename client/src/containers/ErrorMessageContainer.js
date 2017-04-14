@@ -1,11 +1,7 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ErrorMessage from '../components/ErrorMessage'
-
-const propTypes = {
-  errorMessage: PropTypes.string
-}
 
 class ErrorMessageContainer extends Component {
 
@@ -13,9 +9,7 @@ class ErrorMessageContainer extends Component {
     const { errorMessage } = this.props
     if (!errorMessage) return null
 
-    return (
-      <ErrorMessage content={errorMessage} />
-    )
+    return <ErrorMessage content={errorMessage} />
   }
 }
 
@@ -26,7 +20,5 @@ function mapStateToProps(state) {
     errorMessage,
   }
 }
-
-ErrorMessageContainer.propTypes = propTypes
 
 export default connect(mapStateToProps)(ErrorMessageContainer)
