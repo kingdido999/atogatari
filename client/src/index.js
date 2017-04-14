@@ -5,7 +5,7 @@ import { render } from 'react-dom'
 
 import React from 'react'
 
-import { resetErrorMessage } from './actions/common'
+import { resetErrorMessageIfNeeded } from './actions/common'
 import { requireAuth } from './utils'
 import store from './store'
 
@@ -22,7 +22,9 @@ import UserUploadsContainer from './containers/UserUploadsContainer'
 import '../semantic/dist/semantic.min.css'
 
 const history = syncHistoryWithStore(browserHistory, store)
-history.listen(() => store.dispatch(resetErrorMessage()))
+history.listen(() => {
+  store.dispatch(resetErrorMessageIfNeeded())
+})
 
 render(
   <Provider store={store}>

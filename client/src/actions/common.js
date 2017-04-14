@@ -5,6 +5,16 @@ export function setErrorMessage(message) {
 	}
 }
 
+export function resetErrorMessageIfNeeded () {
+	return (dispatch, getState) => {
+		const { errorMessage } = getState()
+
+		if (errorMessage) {
+			dispatch(resetErrorMessage())
+		}
+	}
+}
+
 export function resetErrorMessage() {
 	return {
 		type: 'RESET_ERROR_MESSAGE'
