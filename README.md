@@ -7,19 +7,11 @@ Anime screenshots image board made with love <3
 
 ## Development
 
-Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [yarn](https://yarnpkg.com/en/docs/install).
+See `client` and `server` folders for setup details.
 
-```bash
-cd server
+## Contribution
 
-# Setup environment variables
-cp .env.example.js .env.js
+Do let me know if you are interested in contrubuting to this project! You can contact me via:
 
-# Install server dependencies, seed fake data and start dev server
-yarn && yarn seed && yarn start
-
-cd ../client
-
-# Install client dependencies and start dev server
-yarn && yarn start
-```
+- [Telegram](https://web.telegram.org/#/im?p=@desmonding): @desmonding
+- Email: kingdido999@gmail.com
