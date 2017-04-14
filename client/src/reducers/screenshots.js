@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux'
 
+const ITEM_WIDTH = 380
+const MAX_ITEMS_PER_ROW = 3
+
 export default combineReducers({
   isFetching,
   ids,
@@ -59,10 +62,10 @@ function view (state = 'grid', action) {
   }
 }
 
-function itemsPerRow (state = 3, action) {
+function itemsPerRow (state = MAX_ITEMS_PER_ROW, action) {
   switch (action.type) {
     case 'CHANGE_WIDTH_AND_HEIGHT':
-      return Math.floor(action.width / 366)
+      return Math.min(Math.floor(action.width / ITEM_WIDTH), MAX_ITEMS_PER_ROW)
     default:
       return state
   }
