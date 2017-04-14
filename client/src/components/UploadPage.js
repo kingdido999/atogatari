@@ -19,8 +19,7 @@ class UploadPage extends Component {
     imagePreviewUrl: '',
     tagSuggestions: [],
     tags: [],
-    nsfw: false,
-    zooming: new Zooming()
+    nsfw: false
   }
 
   handleInputChange = (event, { value }) => {
@@ -66,7 +65,10 @@ class UploadPage extends Component {
         imagePreviewUrl: reader.result
       })
 
-      this.state.zooming.listen('.img-preview')
+      new Zooming({
+        defaultZoomable: '.img-preview',
+        bgColor: '#000'
+      })
     }
 
     reader.readAsDataURL(file)

@@ -22,9 +22,13 @@ class UserFavoritesPage extends Component {
   }
 
   render() {
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
+    
     return (
       <ScreenshotCards
-        zooming={new Zooming()}
+        zooming={zooming}
         { ...this.props }
       />
     )

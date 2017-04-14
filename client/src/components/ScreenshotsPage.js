@@ -24,10 +24,14 @@ class ScreenshotsPage extends Component {
   }
 
   render() {
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
+
     return (
       <Container>
         <ScreenshotCards
-          zooming={new Zooming()}
+          zooming={zooming}
           { ...this.props }
         />
       </Container>

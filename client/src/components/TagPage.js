@@ -37,14 +37,17 @@ class TagPage extends Component {
     const { tag, screenshotIds } = this.props
     if (!tag) return null
 
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
+
     return (
       <Container>
         <Segment>
           <Label size='large' color='teal' content={tag.name} detail={screenshotIds.length} />
         </Segment>
         <ScreenshotCards
-          screenshotIds={screenshotIds}
-          zooming={new Zooming()}
+          zooming={zooming}
           { ...this.props }
         />
       </Container>

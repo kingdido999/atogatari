@@ -78,6 +78,9 @@ class ScreenshotPage extends Component {
     if (!screenshot) return null
 
     const { _id, file, nsfw } = screenshot
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
 
     return (
       <Segment color={nsfw ? 'yellow' : null}>
@@ -85,7 +88,7 @@ class ScreenshotPage extends Component {
           id={_id}
           src={getImageUrl(file.medium)}
           dataOriginal={getImageUrl(file.large)}
-          zooming={new Zooming()}
+          zooming={zooming}
         />
       </Segment>
     )

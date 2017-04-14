@@ -22,10 +22,14 @@ class UserUploadsPage extends Component {
   }
 
   render() {
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
+
     return (
       <ScreenshotCards
         { ...this.props }
-        zooming={new Zooming()}
+        zooming={zooming}
       />
     )
   }
