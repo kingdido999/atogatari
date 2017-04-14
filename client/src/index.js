@@ -1,13 +1,11 @@
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { Router, Route, IndexRoute } from 'react-router'
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
-
 import React from 'react'
 
-import { resetErrorMessageIfNeeded } from './actions/common'
 import { requireAuth } from './utils'
 import store from './store'
+import history from './history'
 
 import App from './containers/App'
 import ScreenshotsContainer from './containers/ScreenshotsContainer'
@@ -20,11 +18,6 @@ import UserFavoritesContainer from './containers/UserFavoritesContainer'
 import UserUploadsContainer from './containers/UserUploadsContainer'
 
 import '../semantic/dist/semantic.min.css'
-
-const history = syncHistoryWithStore(browserHistory, store)
-history.listen(() => {
-  store.dispatch(resetErrorMessageIfNeeded())
-})
 
 render(
   <Provider store={store}>
