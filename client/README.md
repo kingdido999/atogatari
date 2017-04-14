@@ -7,10 +7,11 @@ npm install -g gulp
 cd semantic
 gulp build
 gulp watch # optional
-cd ..
 ```
 
 ## Setup
+
+In `client` folder:
 
 ```bash
 npm install
