@@ -9,10 +9,10 @@ import uuid from 'uuid/v4'
 import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
-import { omit } from 'lodash'
 
 const UPLOAD_PATH = 'assets/images'
 const WIDTH_MINIMUM = 1920
+const HEIGHT_MINIMUM = 1080
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
 const WIDTH_LARGE = 1920
@@ -33,9 +33,12 @@ async function upload (ctx) {
   const fileOriginal = `${UPLOAD_PATH}/${filenames.original}`
   await writeFile(file, fileOriginal)
 
-  if (sizeOf(fileOriginal).width < WIDTH_MINIMUM) {
+  const fileSize = sizeOf(fileOriginal)
+
+
+  if (fileSize.width < WIDTH_MINIMUM && fileSize.height < HEIGHT_MINIMUM) {
     fs.unlinkSync(fileOriginal)
-    ctx.throw(400, `The image width should be at least ${WIDTH_MINIMUM}px.`)
+    ctx.throw(400, `The image should have its width >= ${WIDTH_MINIMUM}px or height >= ${HEIGHT_MINIMUM}.`)
   }
 
   sharp(fileOriginal).resize(WIDTH_SMALL).toFile(`${UPLOAD_PATH}/${filenames.small}`)

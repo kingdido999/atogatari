@@ -107,7 +107,7 @@ class UploadPage extends Component {
       <Message info>
         <Message.List>
           <Message.Item>ANIME screenshot only.</Message.Item>
-          <Message.Item>Image width has to be at least 1920px.</Message.Item>
+          <Message.Item>Image width >= 1920px or height >= 1080px.</Message.Item>
         </Message.List>
       </Message>
     )
