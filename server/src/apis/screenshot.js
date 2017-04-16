@@ -10,15 +10,31 @@ import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
 
+import { writeFile } from '../utils'
+
 const UPLOAD_PATH = 'assets/images'
+const SUPPORTED_TYPES = ['image/png', 'image/jpeg']
+
 const WIDTH_MINIMUM = 1920
 const HEIGHT_MINIMUM = 1080
+
+// 4K
+const WIDTH_MAXIMUM = 3840
+const HEIGHT_MAXIMUM = 2160
+
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
 const WIDTH_LARGE = 1920
 
 async function upload (ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
+
+  files.forEach(file => {
+    if (!SUPPORTED_TYPES.includes(file.mime)) {
+      ctx.throw(400, 'Invalid file type.')
+    }
+  })
+
   const file = files[0]
   const { tags, nsfw } = fields
   const tagList = JSON.parse(tags).map(tag => tag.toLowerCase())
@@ -32,18 +48,31 @@ async function upload (ctx) {
 
   const fileOriginal = `${UPLOAD_PATH}/${filenames.original}`
   await writeFile(file, fileOriginal)
-
   const fileSize = sizeOf(fileOriginal)
-
 
   if (fileSize.width < WIDTH_MINIMUM && fileSize.height < HEIGHT_MINIMUM) {
     fs.unlinkSync(fileOriginal)
-    ctx.throw(400, `The image should have its width >= ${WIDTH_MINIMUM}px or height >= ${HEIGHT_MINIMUM}.`)
+    ctx.throw(400, `The uploaded image resolution is ${fileSize.width}x${fileSize.height} pixels. 
+      It must have width >= ${WIDTH_MINIMUM}px or height >= ${HEIGHT_MINIMUM}px.`)
   }
 
-  sharp(fileOriginal).resize(WIDTH_SMALL).toFile(`${UPLOAD_PATH}/${filenames.small}`)
-  sharp(fileOriginal).resize(WIDTH_MEDIUM).toFile(`${UPLOAD_PATH}/${filenames.medium}`)
-  sharp(fileOriginal).resize(WIDTH_LARGE).toFile(`${UPLOAD_PATH}/${filenames.large}`)
+  if (fileSize.width > WIDTH_MAXIMUM || fileSize.height > HEIGHT_MAXIMUM) {
+    fs.unlinkSync(fileOriginal)
+    ctx.throw(400, `The uploaded image resolution is ${fileSize.width}x${fileSize.height} pixels. 
+      It exceeds either the maximum width ${WIDTH_MAXIMUM}px or the maximum height ${HEIGHT_MAXIMUM}px.`)
+  }
+
+  sharp(fileOriginal)
+    .resize(WIDTH_SMALL)
+    .toFile(`${UPLOAD_PATH}/${filenames.small}`)
+
+  sharp(fileOriginal)
+    .resize(WIDTH_MEDIUM)
+    .toFile(`${UPLOAD_PATH}/${filenames.medium}`)
+
+  sharp(fileOriginal)
+    .resize(Math.min(WIDTH_LARGE, fileSize.width))
+    .toFile(`${UPLOAD_PATH}/${filenames.large}`)
 
   const screenshot = new Screenshot({
     user: ctx.state.uid,
@@ -66,16 +95,6 @@ async function upload (ctx) {
 
   ctx.response.body = screenshot
   ctx.status = 200
-}
-
-function writeFile (input, output) {
-  const writable = fs.createWriteStream(output)
-
-  return new Promise((resolve, reject) => {
-    input.pipe(writable)
-    input.on('close', () => resolve())
-    input.on('error', err => reject(err))
-  })
 }
 
 async function addTag (name, screenshotId) {

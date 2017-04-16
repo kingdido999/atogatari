@@ -107,7 +107,8 @@ class UploadPage extends Component {
       <Message info>
         <Message.List>
           <Message.Item>ANIME screenshot only.</Message.Item>
-          <Message.Item>Image width >= 1920px or height >= 1080px.</Message.Item>
+          <Message.Item>Allowed image formats are PNG and JPEG.</Message.Item>
+          <Message.Item>1080p or greater image quality. E.g., 1920x1080 pixels (16:9) and 1440x1080 pixels (4:3).</Message.Item>
         </Message.List>
       </Message>
     )
@@ -133,17 +134,24 @@ class UploadPage extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
-
-        <Form.Input
-          type="file"
-          onChange={this.handleImageChange}
-          required
-        />
-
+        {this.renderInputFile()}
         {this.renderInputTags()}
         {this.renderCheckboxNSFW()}
         {this.renderButtonSubmit()}
       </Form>
+    )
+  }
+
+  renderInputFile = () => {
+    return (
+      <Form.Field>
+        <input
+          type="file"
+          accept="image/png,image/jpeg"
+          onChange={this.handleImageChange}
+          required
+        />
+      </Form.Field>
     )
   }
 

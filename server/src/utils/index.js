@@ -1,3 +1,4 @@
+import fs from 'fs'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 
@@ -43,4 +44,14 @@ export function convertToSlug (text) {
   return text
     .toLowerCase()
     .replace(/ /g,'-')
+}
+
+export function writeFile (input, output) {
+  const writable = fs.createWriteStream(output)
+
+  return new Promise((resolve, reject) => {
+    input.pipe(writable)
+    input.on('close', () => resolve())
+    input.on('error', err => reject(err))
+  })
 }
