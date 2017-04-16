@@ -17,7 +17,8 @@ function mapStateToProps(state, ownProps) {
   const { screenshotId } = ownProps.params
   const screenshot = screenshots[screenshotId]
   const authedUser = users[uid]   
-  const isOwner = uid === user
+  const isOwner = screenshot !== undefined 
+    && uid === screenshot.user
   const isAdmin = authedUser !== undefined
     && authedUser.roles 
     && authedUser.roles.includes('admin')
