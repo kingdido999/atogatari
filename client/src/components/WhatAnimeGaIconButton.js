@@ -1,18 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import { Button } from 'semantic-ui-react'
 
-class WhatAnimeGaButton extends Component {
+class WhatAnimeGaIconButton extends Component {
 
   render () {
     const { url } = this.props
 
     return (
       <Button
-        fluid
-        primary
-        content='What Anime Is This?'
+        basic
+        as='a'
         icon='play'
-        labelPosition='left'
         target='_blank'
         href={`https://whatanime.ga/?url=${url}`}
       />
@@ -20,9 +18,8 @@ class WhatAnimeGaButton extends Component {
   }
 }
 
-WhatAnimeGaButton.propTypes = {
+WhatAnimeGaIconButton.propTypes = {
   url: PropTypes.string.isRequired
 }
 
-export default WhatAnimeGaButton
-
+export default WhatAnimeGaIconButton

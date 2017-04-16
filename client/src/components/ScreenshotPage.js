@@ -64,6 +64,7 @@ class ScreenshotPage extends Component {
                 {this.renderUploaderSegment()}
                 {this.renderTagsSegment()}
                 {this.renderAddTagSegment()}
+                {this.renderWhatanimegaSegment()}
                 {this.renderActionSegment()}
               </Segment.Group>
             </Grid.Column>
@@ -161,6 +162,18 @@ class ScreenshotPage extends Component {
     )
   }
 
+  renderWhatanimegaSegment = () => {
+    const { screenshot } = this.props
+    if (!screenshot) return null
+    const { file } = screenshot
+
+    return (
+      <Segment>
+        <WhatAnimeGaButton url={getImageUrl(file.medium)} />
+      </Segment>
+    )
+  }
+
   renderActionSegment = () => {
     const { dispatch, isAuthenticated, isOwner, isAdmin, screenshot, screenshotFavorites, userFavorites } = this.props
     if (!screenshot || !screenshotFavorites) return null
@@ -189,7 +202,6 @@ class ScreenshotPage extends Component {
             screenshotId={_id}
             file={file}
           />
-          <WhatAnimeGaButton url={getImageUrl(file.medium)} />
 
           {isAuthenticated && (isOwner || isAdmin) &&
             <DeleteButton dispatch={dispatch} screenshotId={_id} />

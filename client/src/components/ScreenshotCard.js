@@ -4,6 +4,7 @@ import { Card, Button } from 'semantic-ui-react'
 import ZoomableImage from './ZoomableImage'
 import DownloadButton from './DownloadButton'
 import FavoriteButton from './FavoriteButton'
+import WhatAnimeGaIconButton from './WhatAnimeGaIconButton'
 import DetailsButton from './DetailsButton'
 
 import { getImageUrl } from '../utils'
@@ -56,6 +57,7 @@ class ScreenshotCard extends Component {
             />
 
             <DownloadButton dispatch={dispatch} screenshotId={_id} file={file} />
+            <WhatAnimeGaIconButton url={getImageUrl(file.medium)} />
             <DetailsButton screenshotId={_id} />
           </Button.Group>
         </Card.Content>
