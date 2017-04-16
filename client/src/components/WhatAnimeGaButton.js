@@ -9,7 +9,6 @@ class WhatAnimeGaButton extends Component {
     return (
       <Button
         fluid
-        primary
         content='What Anime Is This?'
         icon='play'
         labelPosition='left'
