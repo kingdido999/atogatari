@@ -61,9 +61,6 @@ recursive(paths.appBuild, (err, fileNames) => {
       return memo;
     }, {});
 
-  console.log(`build-temp: ${paths.appBuildTemp}`)
-  console.log(`build: ${paths.appBuild}`)
-
   // Remove all content but keep the directory so that
   // if you're in it, you don't end up in Trash
   fs.emptyDirSync(paths.appBuildTemp);
