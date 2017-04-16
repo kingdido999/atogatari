@@ -51,7 +51,7 @@ export function writeFile (input, output) {
 
   return new Promise((resolve, reject) => {
     input.pipe(writable)
-    input.on('close', () => resolve())
-    input.on('error', err => reject(err))
+    input.on('close', resolve)
+    input.on('error', reject)
   })
 }

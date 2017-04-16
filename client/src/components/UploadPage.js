@@ -6,6 +6,7 @@ import Zooming from 'zooming'
 
 import { upload } from '../actions/user'
 import { search } from '../actions/entities'
+import { resetErrorMessageIfNeeded } from '../actions/common'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -15,11 +16,13 @@ const propTypes = {
 class UploadPage extends Component {
 
   state = {
-    file: null,
-    imagePreviewUrl: '',
+    files: [],
     tagSuggestions: [],
     tags: [],
-    nsfw: false
+    nsfw: false,
+    zooming: new Zooming({
+      bgColor: '#000'
+    })
   }
 
   handleInputChange = (event, { value }) => {
@@ -55,23 +58,28 @@ class UploadPage extends Component {
 
   handleImageChange = (e) => {
     e.preventDefault()
+    const { dispatch } = this.props
+    dispatch(resetErrorMessageIfNeeded())
 
-    let reader = new FileReader()
-    let file = e.target.files[0]
+    this.setState({ files: [] })
+    const files = e.target.files
 
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      })
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      let reader = new FileReader()
 
-      new Zooming({
-        defaultZoomable: '.img-preview',
-        bgColor: '#000'
-      })
+      reader.onloadend = () => {
+        file.preview = reader.result
+
+        this.setState({
+          files: [ ...this.state.files, file ]
+        })
+
+        this.state.zooming.listen('.img-preview')
+      }
+
+      reader.readAsDataURL(file)
     }
-
-    reader.readAsDataURL(file)
   }
 
   handleInputToggle = (event, data) => {
@@ -86,45 +94,69 @@ class UploadPage extends Component {
     event.preventDefault()
 
     const { dispatch } = this.props
-    const { file, tags, nsfw } = this.state
+    const { files, tags, nsfw } = this.state
 
     const data = new FormData()
-    data.append('file', file)
+    files.forEach(file => data.append('file[]', file))
     data.append('tags', JSON.stringify(tags))
     data.append('nsfw', nsfw)
 
     dispatch(upload(data))
-    .then(res => {
-      browserHistory.push(`/screenshot/${res.value.data._id}`)
-    })
+    .then(() => browserHistory.push('/'))
   }
 
   renderMessage = () => {
-    const { file } = this.state
-    if (file) return null
+    const { files } = this.state
+    if (files.length > 0) return null
 
     return (
       <Message info>
         <Message.List>
-          <Message.Item>ANIME screenshot only.</Message.Item>
-          <Message.Item>Allowed image formats are PNG and JPEG.</Message.Item>
-          <Message.Item>1080p or greater image quality. E.g., 1920x1080 pixels (16:9) and 1440x1080 pixels (4:3).</Message.Item>
+          <Message.Item>ANIME screenshot in PNG or JPEG format only.</Message.Item>
+          <Message.Item>You can submit at most 30 screenshots at one time.</Message.Item>
+          <Message.Item>1080p or greater image quality. E.g., 1920x1080 pixels (16:9) or 1440x1080 pixels (4:3).</Message.Item>
         </Message.List>
       </Message>
     )
   }
 
   renderPreview = () => {
-    const { file, imagePreviewUrl } = this.state
-    if (!file) return null
+    const { files } = this.state
+    if (files.length === 0) return
+    let itemsPerRow
+
+    switch (files.length) {
+      case 1:
+        itemsPerRow = 1
+        break
+      case 2:
+      case 4:
+        itemsPerRow = 2
+        break
+      default:
+        itemsPerRow = 3
+        break
+    }
 
     return (
-      <Card fluid>
-        <Image
-          src={imagePreviewUrl}
-          className="img-preview"
-        />
-      </Card>
+      <div>
+        <Card.Group itemsPerRow={itemsPerRow} stackable>
+          {files.map((file, index) =>
+            <Card key={index}>
+              <Image
+                src={file.preview}
+                className="img-preview"
+              />
+
+              <Card.Content extra>
+                <Card.Meta>{file.name}</Card.Meta>
+              </Card.Content>
+            </Card>
+          )}
+        </Card.Group>
+        <br/>
+      </div>
+
     )
   }
 
@@ -149,6 +181,7 @@ class UploadPage extends Component {
           type="file"
           accept="image/png,image/jpeg"
           onChange={this.handleImageChange}
+          multiple
           required
         />
       </Form.Field>
@@ -156,8 +189,8 @@ class UploadPage extends Component {
   }
 
   renderInputTags = () => {
-    const { file, tags, tagSuggestions } = this.state
-    if (!file) return null
+    const { files, tags, tagSuggestions } = this.state
+    if (files.length === 0) return null
 
     return (
       <Form.Dropdown
@@ -181,8 +214,8 @@ class UploadPage extends Component {
   }
 
   renderCheckboxNSFW = () => {
-    const { file } = this.state
-    if (!file) return null
+    const { files } = this.state
+    if (files.length === 0) return null
 
     return (
       <Form.Checkbox
@@ -194,8 +227,8 @@ class UploadPage extends Component {
   }
 
   renderButtonSubmit = () => {
-    const { file } = this.state
-    if (!file) return null
+    const { files } = this.state
+    if (files.length === 0) return null
 
     return (
       <Form.Button type="submit" primary>Submit</Form.Button>
@@ -217,12 +250,14 @@ class UploadPage extends Component {
   }
 
   render() {
+    const { files } = this.state
+
     return (
-      <Container text>
+      <Container text={files.length <= 1}>
         <Segment>
           <Header>Screenshot Upload</Header>
           {this.renderMessage()}
-          {this.renderPreview()} 
+          {this.renderPreview()}
           {this.renderForm()}
         </Segment>
       </Container>
