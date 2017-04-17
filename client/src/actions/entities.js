@@ -27,8 +27,8 @@ export function getScreenshotsByUserId (userId) {
 export function getFilteredScreenshots () {
   return (dispatch, getState) => {
     const { screenshots } = getState()
-    const { page, limit } = screenshots
-    dispatch(getScreenshots({ page, limit }))
+    const { sortBy, nsfw, page, limit } = screenshots
+    dispatch(getScreenshots({ sortBy, nsfw, page, limit }))
   }
 }
 

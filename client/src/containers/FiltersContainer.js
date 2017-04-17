@@ -21,9 +21,9 @@ function mapStateToProps(state) {
 
   // TODO: improve route matching?
   const showFilters = pathname === '/' 
-  || pathname.match('/tag/') 
-  || pathname.match('/favorites') 
-  || pathname.match('/uploads')
+  // || pathname.match('/tag/') 
+  // || pathname.match('/favorites') 
+  // || pathname.match('/uploads')
 
   return {
     isMobile,

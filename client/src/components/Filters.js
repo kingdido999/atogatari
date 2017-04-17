@@ -26,29 +26,23 @@ const propTypes = {
 
 class Filters extends Component {
 
-  handleSortByDate = () => {
+  handleChangeSortBy = (sortBy) => {
     const { dispatch } = this.props
-    dispatch(setSortBy('date'))
-  }
-
-  handleSortByPopularity = () => {
-    const { dispatch } = this.props
-    dispatch(setSortBy('popularity'))
+    dispatch(firstPage())
+    dispatch(setSortBy(sortBy))
+    dispatch(getFilteredScreenshots())
   }
 
   handleChangeNSFW = () => {
     const { dispatch } = this.props
+    dispatch(firstPage())
     dispatch(toggleNSFW())
+    dispatch(getFilteredScreenshots())
   }
 
-  handleViewSingle = () => {
+  handleChangeView = (view) => {
     const { dispatch } = this.props 
-    dispatch(setView('single'))
-  }
-
-  handleViewGrid = () => {
-    const { dispatch } = this.props
-    dispatch(setView('grid'))
+    dispatch(setView(view))
   }
 
   handlePaginate = (action) => {
@@ -83,8 +77,16 @@ class Filters extends Component {
 
     return (
       <Menu attached='bottom' borderless>
-        <Menu.Item name='recent' active={sortBy === 'date'} onClick={this.handleSortByDate} />
-        <Menu.Item name='popular' active={sortBy === 'popularity'} onClick={this.handleSortByPopularity} />
+        <Menu.Item 
+          name='recent' 
+          active={sortBy === 'date'} 
+          onClick={() => this.handleChangeSortBy('date')} 
+        />
+        <Menu.Item 
+          name='popular' 
+          active={sortBy === 'popularity'} 
+          onClick={() => this.handleChangeSortBy('popularity')} 
+        />
         <Menu.Item>
           <Checkbox 
             label={nsfw ? 'Switch to SAFE' : 'Switch to NSFW'} 
@@ -105,6 +107,10 @@ class Filters extends Component {
             disabled={!hasPrevPage}
             onClick={() => this.handlePaginate('prev')} 
           />
+          <Menu.Item
+            content={page}
+            disabled
+          />
           <Menu.Item 
             icon='angle right' 
             disabled={!hasNextPage}
@@ -117,10 +123,18 @@ class Filters extends Component {
           />
 
           {!isMobile &&
-            <Menu.Item icon='expand' active={view === 'single'} onClick={this.handleViewSingle} />
+            <Menu.Item 
+              icon='expand' 
+              active={view === 'single'} 
+              onClick={() => this.handleChangeView('single')} 
+            />
           }
           {!isMobile &&
-            <Menu.Item icon='grid layout' active={view === 'grid'} onClick={this.handleViewGrid} />
+            <Menu.Item 
+              icon='grid layout' 
+              active={view === 'grid'} 
+              onClick={() => this.handleChangeView('grid')}
+            />
           }
         </Menu.Menu>
       </Menu>

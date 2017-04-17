@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getFilteredTagScreenshotIds } from '../selectors'
+import { getTagScreenshotIds } from '../selectors'
 import TagPage from '../components/TagPage'
 
 class TagContainer extends Component {
@@ -14,7 +14,7 @@ class TagContainer extends Component {
 function mapStateToProps(state, ownProps) {
   const { entities, user, screenshots, screenshotFavorites, userFavorites } = state
   const { isAuthenticated, uid } = user
-  const { view } = screenshots
+  const { view, itemsPerRow } = screenshots
   const { tags } = entities
   const { name } = ownProps.params
   const tag = tags[name]
@@ -22,8 +22,9 @@ function mapStateToProps(state, ownProps) {
   return {
     isAuthenticated,
     view,
+    itemsPerRow,
     tag,
-    screenshotIds: getFilteredTagScreenshotIds(state, ownProps),
+    screenshotIds: getTagScreenshotIds(state, ownProps),
     screenshots: entities.screenshots,
     screenshotFavorites,
     userFavorites: userFavorites[uid]

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getFilteredUserScreenshotIds } from '../selectors'
+import { getUserScreenshotIds } from '../selectors'
 import UserUploadsPage from '../components/UserUploadsPage'
 
 class UserUploadsContainer extends Component {
@@ -24,7 +24,7 @@ function mapStateToProps (state, ownProps) {
     isAuthenticated,
     view,
     itemsPerRow,
-    screenshotIds: getFilteredUserScreenshotIds(state, ownProps),
+    screenshotIds: getUserScreenshotIds(state, ownProps),
     screenshots: entities.screenshots,
     favorites,
     screenshotFavorites,

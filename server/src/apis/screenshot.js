@@ -146,13 +146,33 @@ async function getScreenshot (ctx) {
 
 async function getScreenshots (ctx) {
   const { query } = ctx.request
-  const { page, limit } = query
+  const { sortBy, nsfw, page, limit } = query
+
+  let sort
+
+  switch (sortBy) {
+    case 'date':
+      sort = '-date'
+      break
+    case 'popularity':
+      sort = '-favorites'
+      break
+    default:
+      sort = '-date'
+  }
+
+  const criteria = {}
+
+  if (!(nsfw === 'true')) {
+    criteria.nsfw = false
+  }
 
   const results = await Screenshot
-    .paginate({}, {
+    .paginate(criteria, {
       page: page ? Number(page) : 1,
       limit: limit ? Number(limit) : 9,
-      populate: 'user favorites'
+      populate: 'user favorites',
+      sort
     })
   
   ctx.response.body = results
