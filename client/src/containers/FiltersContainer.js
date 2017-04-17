@@ -15,7 +15,7 @@ class FiltersContainer extends Component {
 function mapStateToProps(state) {
   const { environment, screenshots, routing } = state
   const { isMobile } = environment
-  const { nsfw, sortBy, view } = screenshots
+  const { nsfw, sortBy, view, total, pages, page, limit } = screenshots
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
 
@@ -30,6 +30,10 @@ function mapStateToProps(state) {
     nsfw,
     view,
     sortBy,
+    total,
+    pages,
+    page,
+    limit,
     showFilters
   }
 }

@@ -146,13 +146,16 @@ async function getScreenshot (ctx) {
 
 async function getScreenshots (ctx) {
   const { query } = ctx.request
+  const { page, limit } = query
 
-  const screenshots = await Screenshot
-    .find(query)
-    .populate('user favorites')
-    .exec()
-    
-  ctx.response.body = screenshots
+  const results = await Screenshot
+    .paginate({}, {
+      page: page ? Number(page) : 1,
+      limit: limit ? Number(limit) : 9,
+      populate: 'user favorites'
+    })
+  
+  ctx.response.body = results
   ctx.status = 200
 }
 

@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate'
+
 const Schema = mongoose.Schema
 
 const screenshotSchema = new Schema({
@@ -42,5 +44,6 @@ const screenshotSchema = new Schema({
 })
 
 screenshotSchema.set('timestamps', true)
+screenshotSchema.plugin(mongoosePaginate)
 
 export default mongoose.model('Screenshot', screenshotSchema)

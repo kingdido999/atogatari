@@ -24,13 +24,39 @@ export function getScreenshotsByUserId (userId) {
   return getScreenshots({ user: userId })
 }
 
+export function getFilteredScreenshots () {
+  return (dispatch, getState) => {
+    const { screenshots } = getState()
+    const { page, limit } = screenshots
+    dispatch(getScreenshots({ page, limit }))
+  }
+}
+
 export function getScreenshots (params) {
+  return dispatch => {
+    dispatch({
+      type: 'GET_SCREENSHOT_PENDING'
+    })
+
+    ax.get('/screenshots', { params })
+    .then(res => {
+      const { docs } = res.data
+      const normalizedData = normalize(docs, [schemas.screenshotSchema])
+      dispatch(receiveScreenshots({ data: normalizedData, ...res.data }))
+    })
+    .catch(err => {
+      return {
+        type: 'GET_SCREENSHOTS_REJECTED',
+        payload: err
+      }
+    })
+  }
+}
+
+export function receiveScreenshots (payload) {
   return {
-    type: 'GET_SCREENSHOTS',
-    payload: ax.get('/screenshots', { params,
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), [schemas.screenshotSchema])
-      }] })
+    type: 'GET_SCREENSHOTS_FULFILLED',
+    payload
   }
 }
 
@@ -74,6 +100,55 @@ export function setView (view) {
   return {
     type: 'SET_VIEW',
     view
+  }
+}
+
+export function firstPage () {
+  return dispatch => dispatch(setPage(1))
+}
+
+export function prevPage () {
+  return (dispatch, getState) => {
+    const { screenshots } = getState()
+    const { page } = screenshots
+
+    if (page > 1) {
+      dispatch(setPage(page - 1))
+    }
+  }
+}
+
+export function nextPage () {
+  return (dispatch, getState) => {
+    const { screenshots } = getState()
+    const { page, pages } = screenshots
+
+    if (page < pages) {
+      dispatch(setPage(page + 1))
+    }
+  }
+}
+
+export function lastPage () {
+  return (dispatch, getState) => {
+    const { screenshots } = getState()
+    const { pages } = screenshots
+
+    dispatch(setPage(pages))
+  }
+}
+
+export function setPage (page) {
+  return {
+    type: 'SET_PAGE',
+    page
+  }
+}
+
+export function setLimit (limit) {
+  return {
+    type: 'SET_LIMIT',
+    limit
   }
 }
 
