@@ -152,13 +152,13 @@ async function getScreenshots (ctx) {
 
   switch (sortBy) {
     case 'date':
-      sort = '-date'
+      sort = '-createdAt'
       break
     case 'popularity':
       sort = '-favorites'
       break
     default:
-      sort = '-date'
+      sort = '-createdAt'
   }
 
   const criteria = {}
