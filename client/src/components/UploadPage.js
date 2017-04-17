@@ -112,8 +112,7 @@ class UploadPage extends Component {
     return (
       <Message info>
         <Message.List>
-          <Message.Item>ANIME screenshot in PNG or JPEG format only.</Message.Item>
-          <Message.Item>You can submit at most 30 screenshots at one time.</Message.Item>
+          <Message.Item>You can submit up to 30 ANIME screenshots at one time.</Message.Item>
           <Message.Item>1080p or greater image quality. E.g., 1920x1080 pixels (16:9) or 1440x1080 pixels (4:3).</Message.Item>
         </Message.List>
       </Message>

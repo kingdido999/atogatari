@@ -7,7 +7,7 @@ export function login (creds) {
   return {
     type: 'LOGIN',
     payload: new Promise((resolve, reject) => {
-      ax.post('/login', creds)
+      ax.post('/user/login', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
         resolve(res)
@@ -21,7 +21,7 @@ export function signup (creds) {
   return {
     type: 'SIGNUP',
     payload: new Promise((resolve, reject) => {
-      ax.post('/signup', creds)
+      ax.post('/user/signup', creds)
       .then(res => {
         localStorage.setItem('token', res.data.token)
         resolve(res)
@@ -106,7 +106,7 @@ export function getUserFavorites () {
 
 export function toggleFavorite (params) {
   return dispatch => {
-    ax.post('/user/favorite', params, {
+    ax.post('/user/toggleFavorite', params, {
       headers: getAuthHeader()
     })
     .then(res => {
@@ -130,38 +130,6 @@ export function removeFavorite (favorite) {
   return {
     type: 'REMOVE_FAVORITE',
     favorite
-  }
-}
-
-export function getFavoriteScreenshots (params) {
-  return {
-    type: 'GET_FAVORITE_SCREENSHOTS',
-    payload: ax.post('/user/favoriteScreenshots', params, {
-      headers: getAuthHeader()
-    })
-  }
-}
-
-export function getUploadedScreenshotsIfNeeded () {
-  return (dispatch, getState) => {
-    const { user } = getState()
-    const { isAuthenticated, screenshots } = user
-
-    if (isAuthenticated && screenshots.ids.length === 0) {
-      dispatch(getUploadedScreenshots())
-    }
-  }
-}
-
-export function getUploadedScreenshots () {
-  return {
-    type: 'GET_UPLOADED_SCREENSHOTS',
-    payload: ax.post('/user/uploadedScreenshots', {}, {
-      headers: getAuthHeader(),
-      transformResponse: [function(data) {
-        return normalize(JSON.parse(data), [schemas.screenshotSchema])
-      }]
-    })
   }
 }
 
