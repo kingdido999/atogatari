@@ -15,6 +15,7 @@ export default function route (router) {
 
   router.get('/favorites', favorite.getFavorites)
 
+  router.get('/tags', tag.getTags)
   router.get('/tag', tag.getTag)
   router.post('/tag', tokenAuth(), tag.addTag)
   router.del('/tag/:name', tokenAuth(), tag.deleteTag)

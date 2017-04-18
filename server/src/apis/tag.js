@@ -1,6 +1,18 @@
 import Screenshot from '../models/Screenshot'
 import Tag from '../models/Tag'
 
+async function getTags (ctx) {
+	const { query } = ctx.request
+
+	const tags = await Tag
+		.find(query)
+		.populate('screenshots')
+		.exec()
+
+	ctx.response.body = tags
+	ctx.status = 200
+}
+
 async function getTag (ctx) {
   const { query } = ctx.request
 
@@ -86,6 +98,7 @@ async function deleteTag (ctx) {
 }
 
 export default {
+	getTags,
   getTag,
   addTag,
   deleteTag

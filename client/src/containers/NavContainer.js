@@ -17,9 +17,10 @@ function mapStateToProps(state) {
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
   const showFilters = pathname === '/' 
-  || pathname.match('/tag/') 
-  || pathname.match('/favorites') 
-  || pathname.match('/uploads')
+  || pathname.match('/screenshots')
+  // || pathname.match('/tag/') 
+  // || pathname.match('/favorites') 
+  // || pathname.match('/uploads')
 
   const attached = showFilters ? 'top' : false
 

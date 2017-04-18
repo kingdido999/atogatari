@@ -21,6 +21,7 @@ function mapStateToProps(state) {
 
   // TODO: improve route matching?
   const showFilters = pathname === '/' 
+    || pathname.match('/screenshots')
   // || pathname.match('/tag/') 
   // || pathname.match('/favorites') 
   // || pathname.match('/uploads')

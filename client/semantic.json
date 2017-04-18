@@ -43,7 +43,8 @@
     "form",
     "transition",
     "checkbox",
-    "search"
+    "search",
+    "table"
   ],
   "version": "2.2.10"
 }

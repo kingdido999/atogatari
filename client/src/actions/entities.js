@@ -188,6 +188,18 @@ export function getTagByNameIfNeeded (name) {
   }
 }
 
+export function getTags (params) {
+  return {
+    type: 'GET_TAGS',
+    payload: ax.get('/tags', {
+      params,
+      transformResponse: [function (data) {
+        return normalize(JSON.parse(data), [schemas.tagSchema])
+      }]
+    })
+  }
+}
+
 export function getTag (params) {
   return {
     type: 'GET_TAG',

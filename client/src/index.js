@@ -13,6 +13,7 @@ import LoginContainer from './containers/LoginContainer'
 import UploadContainer from './containers/UploadContainer'
 import ScreenshotContainer from './containers/ScreenshotContainer'
 import TagContainer from './containers/TagContainer'
+import TagsContainer from './containers/TagsContainer'
 import UserContainer from './containers/UserContainer'
 import UserFavoritesContainer from './containers/UserFavoritesContainer'
 import UserUploadsContainer from './containers/UserUploadsContainer'
@@ -24,10 +25,12 @@ render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={ScreenshotsContainer} />
-        <Route path="login" component={LoginContainer} />
-        <Route path="upload" component={UploadContainer} onEnter={requireAuth} />
+        <Route path="screenshots" component={ScreenshotsContainer} />
+        <Route path="tags" component={TagsContainer} />
         <Route path="screenshot/:screenshotId" component={ScreenshotContainer} />
         <Route path="tag/:name" component={TagContainer} />
+        <Route path="login" component={LoginContainer} />
+        <Route path="upload" component={UploadContainer} onEnter={requireAuth} />
         <Route path="user/:userId" component={UserContainer}>
           <Route path="favorites" component={UserFavoritesContainer} />
           <Route path="uploads" component={UserUploadsContainer} />

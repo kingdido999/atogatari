@@ -7,7 +7,8 @@ const tagSchema = new Schema({
     required: true
   },
   type: {
-		type: String
+		type: String,
+    default: 'General'
   },
   screenshots: [{
     type: Schema.Types.ObjectId,
