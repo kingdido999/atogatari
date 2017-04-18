@@ -14,7 +14,7 @@ import { writeFile } from '../utils'
 
 const UPLOAD_PATH = 'assets/images'
 const SUPPORTED_TYPES = ['image/png', 'image/jpeg']
-const FILES_COUNT_MAXIMUM = 30
+const FILES_COUNT_MAXIMUM = 9
 
 const WIDTH_SMALL = 384
 const WIDTH_MEDIUM = 1152
@@ -27,12 +27,15 @@ const HEIGHT_MINIMUM = 1080
 const WIDTH_MAXIMUM = 3840
 const HEIGHT_MAXIMUM = 2160
 
-async function upload (ctx) {
+async function upload(ctx) {
   const { files, fields } = await asyncBusboy(ctx.req)
 
   if (files.length > FILES_COUNT_MAXIMUM) {
-    ctx.throw(400, `You are trying to upload ${files.length} screenshots at a time, 
-      which exceeds the limit of ${FILES_COUNT_MAXIMUM}.`)
+    ctx.throw(
+      400,
+      `You are trying to upload ${files.length} screenshots at a time, 
+      which exceeds the limit of ${FILES_COUNT_MAXIMUM}.`
+    )
   }
 
   const fileMap = new Map()
@@ -52,7 +55,7 @@ async function upload (ctx) {
   ctx.status = 200
 }
 
-async function validateFile (file, fileMap, ctx) {
+async function validateFile(file, fileMap, ctx) {
   if (!SUPPORTED_TYPES.includes(file.mime)) {
     ctx.throw(400, `${file.filename} has invalid file type ${file.mime}.`)
   }
@@ -71,19 +74,29 @@ async function validateFile (file, fileMap, ctx) {
   const fileSize = sizeOf(fileOriginal)
 
   if (fileSize.width < WIDTH_MINIMUM && fileSize.height < HEIGHT_MINIMUM) {
-    fileMap.forEach(filenames => fs.unlinkSync(`${UPLOAD_PATH}/${filenames.original}`))
-    ctx.throw(400, `File "${file.filename}" is ${fileSize.width}x${fileSize.height} pixels. 
-      Valid screenshot must have width >= ${WIDTH_MINIMUM}px or height >= ${HEIGHT_MINIMUM}px.`)
+    fileMap.forEach(filenames =>
+      fs.unlinkSync(`${UPLOAD_PATH}/${filenames.original}`)
+    )
+    ctx.throw(
+      400,
+      `File "${file.filename}" is ${fileSize.width}x${fileSize.height} pixels. 
+      Valid screenshot must have width >= ${WIDTH_MINIMUM}px or height >= ${HEIGHT_MINIMUM}px.`
+    )
   }
 
   if (fileSize.width > WIDTH_MAXIMUM || fileSize.height > HEIGHT_MAXIMUM) {
-    fileMap.forEach(filenames => fs.unlinkSync(`${UPLOAD_PATH}/${filenames.original}`))
-    ctx.throw(400, `File "${file.filename}" is ${fileSize.width}x${fileSize.height} pixels. 
-      It exceeds the maximum width ${WIDTH_MAXIMUM}px or the maximum height ${HEIGHT_MAXIMUM}px.`)
+    fileMap.forEach(filenames =>
+      fs.unlinkSync(`${UPLOAD_PATH}/${filenames.original}`)
+    )
+    ctx.throw(
+      400,
+      `File "${file.filename}" is ${fileSize.width}x${fileSize.height} pixels. 
+      It exceeds the maximum width ${WIDTH_MAXIMUM}px or the maximum height ${HEIGHT_MAXIMUM}px.`
+    )
   }
 }
 
-async function uploadFile (file, fileMap, userId, tagList, nsfw) {
+async function uploadFile(file, fileMap, userId, tagList, nsfw) {
   const filenames = fileMap.get(file.filename)
   const fileOriginal = `${UPLOAD_PATH}/${filenames.original}`
   const fileSize = sizeOf(fileOriginal)
@@ -120,7 +133,7 @@ async function uploadFile (file, fileMap, userId, tagList, nsfw) {
   tagList.forEach(name => addTag(name, screenshot._id))
 }
 
-async function addTag (name, screenshotId) {
+async function addTag(name, screenshotId) {
   let tag = await Tag.findOne({ name }).exec()
 
   if (!tag) {
@@ -131,12 +144,10 @@ async function addTag (name, screenshotId) {
   await tag.save()
 }
 
-
-async function getScreenshot (ctx) {
+async function getScreenshot(ctx) {
   const { id } = ctx.request.query
 
-  const screenshot = await Screenshot
-    .findById(id)
+  const screenshot = await Screenshot.findById(id)
     .populate('user favorites')
     .exec()
 
@@ -144,7 +155,7 @@ async function getScreenshot (ctx) {
   ctx.status = 200
 }
 
-async function getScreenshots (ctx) {
+async function getScreenshots(ctx) {
   const { query } = ctx.request
   const { sortBy, nsfw, page, limit } = query
 
@@ -167,32 +178,27 @@ async function getScreenshots (ctx) {
     criteria.nsfw = false
   }
 
-  const results = await Screenshot
-    .paginate(criteria, {
-      page: page ? Number(page) : 1,
-      limit: limit ? Number(limit) : 9,
-      populate: 'user favorites',
-      sort
-    })
-  
+  const results = await Screenshot.paginate(criteria, {
+    page: page ? Number(page) : 1,
+    limit: limit ? Number(limit) : 9,
+    populate: 'user favorites',
+    sort
+  })
+
   ctx.response.body = results
   ctx.status = 200
 }
 
-async function deleteScreenshot (ctx) {
+async function deleteScreenshot(ctx) {
   const { id } = ctx.params
-  const screenshot = await Screenshot
-    .findById(id)
-    .exec()
+  const screenshot = await Screenshot.findById(id).exec()
 
   if (!screenshot) {
     ctx.throw(400)
   }
 
   const { uid } = ctx.state
-  let authedUser = await User
-    .findById(uid)
-    .exec()
+  let authedUser = await User.findById(uid).exec()
 
   const { user, favorites, file } = screenshot
   const isOwner = uid === user.toString()
@@ -202,8 +208,7 @@ async function deleteScreenshot (ctx) {
     ctx.throw(401, 'You are not allowed to perform this action.')
   }
 
-  await User
-    .where({ _id: user })
+  await User.where({ _id: user })
     .update({
       $pull: {
         screenshots: id
@@ -211,8 +216,7 @@ async function deleteScreenshot (ctx) {
     })
     .exec()
 
-  await User
-    .where()
+  await User.where()
     .setOptions({ multi: true })
     .update({
       $pull: {
@@ -221,25 +225,20 @@ async function deleteScreenshot (ctx) {
     })
     .exec()
 
-  await Favorite
-    .remove({
-      _id: { $in: favorites }
-    })
-    .exec()
+  await Favorite.remove({
+    _id: { $in: favorites }
+  }).exec()
 
-  await Tag
-    .where()
+  await Tag.where()
     .setOptions({ multi: true })
     .update({
       $pull: { screenshots: id }
     })
     .exec()
 
-  await Tag
-    .remove({
-      screenshots: { $exists: true, $size: 0 }
-    })
-    .exec()
+  await Tag.remove({
+    screenshots: { $exists: true, $size: 0 }
+  }).exec()
 
   await screenshot.remove()
 
@@ -254,15 +253,14 @@ async function deleteScreenshot (ctx) {
     screenshotId: id,
     userId: user
   }
-  
+
   ctx.status = 200
 }
 
-async function download (ctx) {
+async function download(ctx) {
   const { screenshotId } = ctx.request.body
 
-  await Screenshot
-    .where({ _id: screenshotId })
+  await Screenshot.where({ _id: screenshotId })
     .update({
       $inc: { downloadCount: 1 }
     })

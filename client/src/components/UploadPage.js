@@ -1,5 +1,14 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Header, Message, Form, Image, Label, Card } from 'semantic-ui-react'
+import {
+  Container,
+  Segment,
+  Header,
+  Message,
+  Form,
+  Image,
+  Label,
+  Card
+} from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
 import Zooming from 'zooming'
@@ -14,7 +23,6 @@ const propTypes = {
 }
 
 class UploadPage extends Component {
-
   state = {
     files: [],
     tagSuggestions: [],
@@ -26,7 +34,6 @@ class UploadPage extends Component {
   }
 
   handleInputChange = (event, { value }) => {
-
     this.setState({
       tags: value
     })
@@ -35,9 +42,7 @@ class UploadPage extends Component {
   handleSearchChange = (event, value) => {
     const { dispatch } = this.props
 
-
-    dispatch(search({ query: value }))
-    .then(res => {
+    dispatch(search({ query: value })).then(res => {
       const { value } = res
       const { data } = value
       const newSuggestions = data.map(({ name }) => {
@@ -45,18 +50,24 @@ class UploadPage extends Component {
       })
 
       this.setState({
-        tagSuggestions: uniqBy(union(this.state.tagSuggestions, newSuggestions), 'text')
+        tagSuggestions: uniqBy(
+          union(this.state.tagSuggestions, newSuggestions),
+          'text'
+        )
       })
     })
   }
 
   handleAddTag = (event, { value }) => {
     this.setState({
-      tagSuggestions: uniqBy([ { text: value, value }, ...this.state.tagSuggestions ], 'text')
+      tagSuggestions: uniqBy(
+        [{ text: value, value }, ...this.state.tagSuggestions],
+        'text'
+      )
     })
   }
 
-  handleImageChange = (e) => {
+  handleImageChange = e => {
     e.preventDefault()
     const { dispatch } = this.props
     dispatch(resetErrorMessageIfNeeded())
@@ -72,7 +83,7 @@ class UploadPage extends Component {
         file.preview = reader.result
 
         this.setState({
-          files: [ ...this.state.files, file ]
+          files: [...this.state.files, file]
         })
 
         this.state.zooming.listen('.img-preview')
@@ -90,7 +101,7 @@ class UploadPage extends Component {
     })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault()
 
     const { dispatch } = this.props
@@ -101,8 +112,7 @@ class UploadPage extends Component {
     data.append('tags', JSON.stringify(tags))
     data.append('nsfw', nsfw)
 
-    dispatch(upload(data))
-    .then(() => browserHistory.push('/'))
+    dispatch(upload(data)).then(() => browserHistory.push('/'))
   }
 
   renderMessage = () => {
@@ -110,10 +120,20 @@ class UploadPage extends Component {
     if (files.length > 0) return null
 
     return (
-      <Message info>
+      <Message>
         <Message.List>
-          <Message.Item>You can submit up to 30 ANIME screenshots at one time.</Message.Item>
-          <Message.Item>1080p or greater image quality. E.g., 1920x1080 pixels (16:9) or 1440x1080 pixels (4:3).</Message.Item>
+          <Message.Item>
+            It must contain anime character(s).
+          </Message.Item>
+          <Message.Item>
+            1080p or greater image quality. E.g., 1920x1080 pixels (16:9).
+          </Message.Item>
+          <Message.Item>
+            You can submit up to 9 screenshots at one time.
+          </Message.Item>
+          <Message.Item>
+            Unqualified images will be removed without prior notice.
+          </Message.Item>
         </Message.List>
       </Message>
     )
@@ -140,22 +160,18 @@ class UploadPage extends Component {
     return (
       <div>
         <Card.Group itemsPerRow={itemsPerRow} stackable>
-          {files.map((file, index) =>
+          {files.map((file, index) => (
             <Card key={index}>
-              <Image
-                src={file.preview}
-                className="img-preview"
-              />
+              <Image src={file.preview} className="img-preview" />
 
               <Card.Content extra>
                 <Card.Meta>{file.name}</Card.Meta>
               </Card.Content>
             </Card>
-          )}
+          ))}
         </Card.Group>
-        <br/>
+        <br />
       </div>
-
     )
   }
 
@@ -194,8 +210,8 @@ class UploadPage extends Component {
     return (
       <Form.Dropdown
         options={tagSuggestions}
-        placeholder='Enter tags'
-        additionLabel=''
+        placeholder="Enter tags"
+        additionLabel=""
         icon={null}
         search
         selection
@@ -203,7 +219,7 @@ class UploadPage extends Component {
         multiple
         allowAdditions
         noResultsMessage={'Type to show suggestions...'}
-        name='tags'
+        name="tags"
         value={tags}
         onAddItem={this.handleAddTag}
         onChange={this.handleInputChange}
@@ -218,8 +234,8 @@ class UploadPage extends Component {
 
     return (
       <Form.Checkbox
-        label='NSFW (Not Safe For Work)'
-        name='nsfw'
+        label="NSFW (Not Safe For Work)"
+        name="nsfw"
         onChange={this.handleInputToggle}
       />
     )
@@ -229,9 +245,7 @@ class UploadPage extends Component {
     const { files } = this.state
     if (files.length === 0) return null
 
-    return (
-      <Form.Button type="submit" primary>Submit</Form.Button>
-    )
+    return <Form.Button type="submit" primary>Submit</Form.Button>
   }
 
   renderTagLabels = () => {
@@ -239,11 +253,11 @@ class UploadPage extends Component {
 
     return (
       <Label.Group>
-        {tags.map((tag, index) =>
+        {tags.map((tag, index) => (
           <Label key={index}>
             {tag}
           </Label>
-        )}
+        ))}
       </Label.Group>
     )
   }
