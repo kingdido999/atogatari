@@ -1,37 +1,43 @@
 import { normalize } from 'normalizr'
 import { ax, getAuthHeader } from '../utils'
 
+import { makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
 
-export function login (creds) {
+export const addFavorite = makeActionCreator('ADD_FAVORITE', 'favorite')
+export const removeFavorite = makeActionCreator('REMOVE_FAVORITE', 'favorite')
+
+export function login(creds) {
   return {
     type: 'LOGIN',
     payload: new Promise((resolve, reject) => {
-      ax.post('/user/login', creds)
-      .then(res => {
-        localStorage.setItem('token', res.data.token)
-        resolve(res)
-      })
-      .catch(err => reject(err))
+      ax
+        .post('/user/login', creds)
+        .then(res => {
+          localStorage.setItem('token', res.data.token)
+          resolve(res)
+        })
+        .catch(err => reject(err))
     })
   }
 }
 
-export function signup (creds) {
+export function signup(creds) {
   return {
     type: 'SIGNUP',
     payload: new Promise((resolve, reject) => {
-      ax.post('/user/signup', creds)
-      .then(res => {
-        localStorage.setItem('token', res.data.token)
-        resolve(res)
-      })
-      .catch(err => reject(err))
+      ax
+        .post('/user/signup', creds)
+        .then(res => {
+          localStorage.setItem('token', res.data.token)
+          resolve(res)
+        })
+        .catch(err => reject(err))
     })
   }
 }
 
-export function logoutIfNeeded () {
+export function logoutIfNeeded() {
   return (dispatch, getState) => {
     const { user } = getState()
     const { isAuthenticated, uid } = user
@@ -42,98 +48,99 @@ export function logoutIfNeeded () {
   }
 }
 
-export function logout () {
+export function logout() {
   return {
     type: 'LOGOUT',
     payload: new Promise((resolve, reject) => {
       try {
         localStorage.removeItem('token')
         resolve()
-      } catch(e) {
+      } catch (e) {
         reject(e)
       }
     })
   }
 }
 
-export function getAuthedUserIfNeeded () {
+export function getAuthedUserIfNeeded() {
   return (dispatch, getState) => {
     const { user } = getState()
     const { isAuthenticated, uid } = user
 
     if (isAuthenticated && uid === null) {
-      dispatch(getAuthedUser())
-      .then(() => {})
-      .catch(() => dispatch(logout()))
+      dispatch(getAuthedUser()).then(() => {}).catch(() => dispatch(logout()))
     }
   }
 }
 
-export function getAuthedUser () {
+export function getAuthedUser() {
   return {
     type: 'GET_AUTHED_USER',
-    payload: ax.post('/user', {}, {
-      headers: getAuthHeader(),
-      transformResponse: [function(data) {
-        return normalize(JSON.parse(data), schemas.userSchema)
-      }]
-    })
+    payload: ax.post(
+      '/user',
+      {},
+      {
+        headers: getAuthHeader(),
+        transformResponse: [
+          function(data) {
+            return normalize(JSON.parse(data), schemas.userSchema)
+          }
+        ]
+      }
+    )
   }
 }
 
-export function getUserFavoritesIfNeeded () {
+export function getUserFavoritesIfNeeded() {
   return (dispatch, getState) => {
     const { user, userFavorites } = getState()
     const { isAuthenticated, uid } = user
 
-    if (isAuthenticated && userFavorites[uid] && userFavorites[uid].ids.length === 0) {
+    if (
+      isAuthenticated &&
+      userFavorites[uid] &&
+      userFavorites[uid].ids.length === 0
+    ) {
       dispatch(getUserFavorites())
     }
   }
 }
 
-export function getUserFavorites () {
+export function getUserFavorites() {
   return {
     type: 'GET_USER_FAVORITES',
-    payload: ax.post('/user/favorites', {}, {
-      headers: getAuthHeader(),
-      transformResponse: [function(data) {
-        return normalize(JSON.parse(data), [schemas.favoriteSchema])
-      }]
-    })
-  }
-}
-
-export function toggleFavorite (params) {
-  return dispatch => {
-    ax.post('/user/toggleFavorite', params, {
-      headers: getAuthHeader()
-    })
-    .then(res => {
-      if (res.status === 201) {
-        dispatch(addFavorite(res.data))
-      } else {
-        dispatch(removeFavorite(res.data))
+    payload: ax.post(
+      '/user/favorites',
+      {},
+      {
+        headers: getAuthHeader(),
+        transformResponse: [
+          function(data) {
+            return normalize(JSON.parse(data), [schemas.favoriteSchema])
+          }
+        ]
       }
-    })
+    )
   }
 }
 
-export function addFavorite (favorite) {
-  return {
-    type: 'ADD_FAVORITE',
-    favorite
+export function toggleFavorite(params) {
+  return dispatch => {
+    ax
+      .post('/user/toggleFavorite', params, {
+        headers: getAuthHeader()
+      })
+      .then(res => {
+        if (res.status === 201) {
+          dispatch(addFavorite(res.data))
+        } else {
+          dispatch(removeFavorite(res.data))
+        }
+      })
   }
 }
 
-export function removeFavorite (favorite) {
-  return {
-    type: 'REMOVE_FAVORITE',
-    favorite
-  }
-}
-
-export function upload (data) {
+export function upload(data) {
   return {
     type: 'UPLOAD',
     payload: ax.post('/screenshot/upload', data, {
@@ -142,7 +149,7 @@ export function upload (data) {
   }
 }
 
-export function deleteScreenshot (id) {
+export function deleteScreenshot(id) {
   return {
     type: 'DELETE_SCREENSHOT',
     payload: ax.delete(`/screenshot/${id}`, {
@@ -151,16 +158,20 @@ export function deleteScreenshot (id) {
   }
 }
 
-export function addTag (name, screenshotId) {
+export function addTag(name, screenshotId) {
   return {
     type: 'ADD_TAG',
-    payload: ax.post('/tag', { name, screenshotId }, {
-      headers: getAuthHeader()
-    })
+    payload: ax.post(
+      '/tag',
+      { name, screenshotId },
+      {
+        headers: getAuthHeader()
+      }
+    )
   }
 }
 
-export function deleteTag (name, screenshotId) {
+export function deleteTag(name, screenshotId) {
   return {
     type: 'DELETE_TAG',
     payload: ax.delete(`/tag/${name}`, {

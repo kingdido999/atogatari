@@ -1,11 +1,6 @@
-export function setErrorMessage(message) {
-	return {
-		type: 'SET_ERROR_MESSAGE',
-		message
-	}
-}
+import { makeActionCreator } from '../utils'
 
-export function resetErrorMessageIfNeeded () {
+export function resetErrorMessageIfNeeded() {
 	return (dispatch, getState) => {
 		const { errorMessage } = getState()
 
@@ -15,8 +10,5 @@ export function resetErrorMessageIfNeeded () {
 	}
 }
 
-export function resetErrorMessage() {
-	return {
-		type: 'RESET_ERROR_MESSAGE'
-	}
-}
+export const setErrorMessage = makeActionCreator('SET_ERROR_MESSAGE', 'message')
+export const resetErrorMessage = makeActionCreator('RESET_ERROR_MESSAGE')

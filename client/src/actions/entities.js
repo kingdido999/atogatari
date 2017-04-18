@@ -1,16 +1,23 @@
 import { normalize } from 'normalizr'
 import { ax } from '../utils'
 
+import { makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
 
-export function search (params) {
+export const setPage = makeActionCreator('SET_PAGE', 'page')
+export const setLimit = makeActionCreator('SET_LIMIT', 'limit')
+export const setSortBy = makeActionCreator('SET_SORT_BY', 'sortBy')
+export const toggleNSFW = makeActionCreator('TOGGLE_NSFW')
+export const setView = makeActionCreator('SET_VIEW', 'view')
+
+export function search(params) {
   return {
     type: 'SEARCH',
     payload: ax.get('/search', { params })
   }
 }
 
-export function getScreenshotsByUserIdIfNeeded (userId) {
+export function getScreenshotsByUserIdIfNeeded(userId) {
   return (dispatch, getState) => {
     const { userScreenshots } = getState()
 
@@ -20,11 +27,11 @@ export function getScreenshotsByUserIdIfNeeded (userId) {
   }
 }
 
-export function getScreenshotsByUserId (userId) {
+export function getScreenshotsByUserId(userId) {
   return getScreenshots({ user: userId })
 }
 
-export function getFilteredScreenshots () {
+export function getFilteredScreenshots() {
   return (dispatch, getState) => {
     const { screenshots } = getState()
     const { sortBy, nsfw, page, limit } = screenshots
@@ -32,35 +39,36 @@ export function getFilteredScreenshots () {
   }
 }
 
-export function getScreenshots (params) {
+export function getScreenshots(params) {
   return dispatch => {
     dispatch({
       type: 'GET_SCREENSHOT_PENDING'
     })
 
-    ax.get('/screenshots', { params })
-    .then(res => {
-      const { docs } = res.data
-      const normalizedData = normalize(docs, [schemas.screenshotSchema])
-      dispatch(receiveScreenshots({ data: normalizedData, ...res.data }))
-    })
-    .catch(err => {
-      return {
-        type: 'GET_SCREENSHOTS_REJECTED',
-        payload: err
-      }
-    })
+    ax
+      .get('/screenshots', { params })
+      .then(res => {
+        const { docs } = res.data
+        const normalizedData = normalize(docs, [schemas.screenshotSchema])
+        dispatch(receiveScreenshots({ data: normalizedData, ...res.data }))
+      })
+      .catch(err => {
+        return {
+          type: 'GET_SCREENSHOTS_REJECTED',
+          payload: err
+        }
+      })
   }
 }
 
-export function receiveScreenshots (payload) {
+export function receiveScreenshots(payload) {
   return {
     type: 'GET_SCREENSHOTS_FULFILLED',
     payload
   }
 }
 
-export function getScreenshotIfNeeded (id) {
+export function getScreenshotIfNeeded(id) {
   return (dispatch, getState) => {
     const { entities } = getState()
     const { screenshots } = entities
@@ -71,43 +79,25 @@ export function getScreenshotIfNeeded (id) {
   }
 }
 
-export function getScreenshotById (id) {
+export function getScreenshotById(id) {
   return {
     type: 'GET_SCREENSHOT',
     payload: ax.get('/screenshot', {
       params: { id },
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), schemas.screenshotSchema)
-      }]
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), schemas.screenshotSchema)
+        }
+      ]
     })
   }
 }
 
-export function setSortBy (sortBy) {
-  return {
-    type: 'SET_SORT_BY',
-    sortBy
-  }
-}
-
-export function toggleNSFW () {
-  return {
-    type: 'TOGGLE_NSFW'
-  }
-}
-
-export function setView (view) {
-  return {
-    type: 'SET_VIEW',
-    view
-  }
-}
-
-export function firstPage () {
+export function firstPage() {
   return dispatch => dispatch(setPage(1))
 }
 
-export function prevPage () {
+export function prevPage() {
   return (dispatch, getState) => {
     const { screenshots } = getState()
     const { page } = screenshots
@@ -118,7 +108,7 @@ export function prevPage () {
   }
 }
 
-export function nextPage () {
+export function nextPage() {
   return (dispatch, getState) => {
     const { screenshots } = getState()
     const { page, pages } = screenshots
@@ -129,7 +119,7 @@ export function nextPage () {
   }
 }
 
-export function lastPage () {
+export function lastPage() {
   return (dispatch, getState) => {
     const { screenshots } = getState()
     const { pages } = screenshots
@@ -138,21 +128,7 @@ export function lastPage () {
   }
 }
 
-export function setPage (page) {
-  return {
-    type: 'SET_PAGE',
-    page
-  }
-}
-
-export function setLimit (limit) {
-  return {
-    type: 'SET_LIMIT',
-    limit
-  }
-}
-
-export function getFavoritesByUserIdIfNeeded (userId) {
+export function getFavoritesByUserIdIfNeeded(userId) {
   return (dispatch, getState) => {
     const { userFavorites } = getState()
 
@@ -162,22 +138,25 @@ export function getFavoritesByUserIdIfNeeded (userId) {
   }
 }
 
-export function getFavoritesByUserId (userId) {
+export function getFavoritesByUserId(userId) {
   return getFavorites({ user: userId })
 }
 
-export function getFavorites (params) {
+export function getFavorites(params) {
   return {
     type: 'GET_FAVORITES',
-    payload: ax.get('/favorites', { params,
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), [schemas.favoriteSchema])
-      }]
+    payload: ax.get('/favorites', {
+      params,
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), [schemas.favoriteSchema])
+        }
+      ]
     })
   }
 }
 
-export function getTagByNameIfNeeded (name) {
+export function getTagByNameIfNeeded(name) {
   return (dispatch, getState) => {
     const { entities } = getState()
     const { tags } = entities
@@ -188,31 +167,35 @@ export function getTagByNameIfNeeded (name) {
   }
 }
 
-export function getTags (params) {
+export function getTags(params) {
   return {
     type: 'GET_TAGS',
     payload: ax.get('/tags', {
       params,
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), [schemas.tagSchema])
-      }]
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), [schemas.tagSchema])
+        }
+      ]
     })
   }
 }
 
-export function getTag (params) {
+export function getTag(params) {
   return {
     type: 'GET_TAG',
     payload: ax.get('/tag', {
       params,
-      transformResponse: [function (data) {
-        return normalize(JSON.parse(data), schemas.tagSchema)
-      }]
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), schemas.tagSchema)
+        }
+      ]
     })
   }
 }
 
-export function downloadScreenshot (screenshotId) {
+export function downloadScreenshot(screenshotId) {
   return {
     type: 'DOWNLOAD_SCREENSHOT',
     payload: ax.post('/screenshot/download', { screenshotId })

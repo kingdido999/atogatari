@@ -1,22 +1,17 @@
-function changeIsMobile(isMobile) {
-  return {
-    type: 'CHANGE_IS_MOBILE',
-    isMobile,
-  }
-}
+import { makeActionCreator } from '../utils'
 
-export function changeWidthAndHeight(height, width) {
-  return {
-    type: 'CHANGE_WIDTH_AND_HEIGHT',
-    height,
-    width,
-  }
-}
+const changeIsMobile = makeActionCreator('CHANGE_IS_MOBILE', 'isMobile')
+export const changeWidthAndHeight = makeActionCreator(
+  'CHANGE_WIDTH_AND_HEIGHT',
+  'height',
+  'width'
+)
 
 export function initEnvironment() {
   return dispatch => {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-      .test(navigator.userAgent)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
 
     dispatch(changeIsMobile(isMobile))
     dispatch(changeWidthAndHeight(window.innerHeight, window.innerWidth))

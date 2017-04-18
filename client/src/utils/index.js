@@ -1,22 +1,22 @@
 import axios from 'axios'
 
 const baseURL = process.env.NODE_ENV === 'production'
-? 'https://api.atogatari.com'
-: ''
+  ? 'https://api.atogatari.com'
+  : ''
 
 export const ax = axios.create({
   baseURL: baseURL
 })
 
-export function isFullUrl (url) {
+export function isFullUrl(url) {
   return url.includes('http')
 }
 
-export function getImageUrl (filename) {
+export function getImageUrl(filename) {
   return `${baseURL}/images/${filename}`
 }
 
-export function downloadFromUrl (url, filename) {
+export function downloadFromUrl(url, filename) {
   const a = document.createElement('a')
   a.href = url
   a.download = filename // Set the file name.
@@ -26,21 +26,21 @@ export function downloadFromUrl (url, filename) {
   document.body.removeChild(a)
 }
 
-export function pluralize (singular, count) {
+export function pluralize(singular, count) {
   return singular + (count > 1 ? 's' : '')
 }
 
-export function getAuthHeader () {
+export function getAuthHeader() {
   return {
-    'Authorization': localStorage.getItem('token')
+    Authorization: localStorage.getItem('token')
   }
 }
 
-export function isLoggedIn () {
+export function isLoggedIn() {
   return localStorage.getItem('token') ? true : false
 }
 
-export function requireAuth (nextState, replace) {
+export function requireAuth(nextState, replace) {
   if (!isLoggedIn()) {
     replace({
       pathname: '/login',
@@ -49,6 +49,16 @@ export function requireAuth (nextState, replace) {
   }
 }
 
-export function separator (separators) {
+export function separator(separators) {
   return new RegExp(separators.join('|'), 'g')
+}
+
+export function makeActionCreator(type, ...argNames) {
+  return function(...args) {
+    let action = { type }
+    argNames.forEach((arg, index) => {
+      action[argNames[index]] = args[index]
+    })
+    return action
+  }
 }
