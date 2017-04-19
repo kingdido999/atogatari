@@ -1,6 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
-import { Container, Segment, Grid, Button, Dropdown, Label, Header } from 'semantic-ui-react'
+import {
+  Container,
+  Segment,
+  Grid,
+  Button,
+  Dropdown,
+  Label,
+  Header
+} from 'semantic-ui-react'
 import { uniqBy, union } from 'lodash'
 import Zooming from 'zooming'
 import moment from 'moment'
@@ -30,13 +38,12 @@ const propTypes = {
 }
 
 class ScreenshotPage extends Component {
-
   state = {
     tag: '',
     tagSuggestions: []
   }
 
-  componentWillMount () {
+  componentWillMount() {
     const { params, dispatch } = this.props
     const { screenshotId } = params
     dispatch(getScreenshotIfNeeded(screenshotId))
@@ -51,7 +58,7 @@ class ScreenshotPage extends Component {
     }
   }
 
-  render () {
+  render() {
     return (
       <Container>
         <Grid stackable>
@@ -94,7 +101,7 @@ class ScreenshotPage extends Component {
       </Segment>
     )
   }
-  
+
   renderUploaderSegment = () => {
     const { users, screenshot } = this.props
     if (!screenshot) return null
@@ -104,7 +111,7 @@ class ScreenshotPage extends Component {
 
     return (
       <Segment>
-        <Header size='small'>
+        <Header size="small">
           <Link to={`/user/${uploader._id}`}>{uploader.username}</Link>
           <Header.Subheader>
             {moment(screenshot.createdAt).fromNow()}
@@ -121,16 +128,16 @@ class ScreenshotPage extends Component {
     return (
       <Segment>
         <Label.Group>
-          {screenshotTags.names.map((name, index) =>
-            <Tag 
+          {screenshotTags.names.map((name, index) => (
+            <Tag
               key={index}
-              color='teal'
+              color="teal"
               name={name}
               dispatch={dispatch}
               isAdmin={isAdmin}
               screenshotId={screenshot._id}
             />
-          )}
+          ))}
         </Label.Group>
       </Segment>
     )
@@ -144,8 +151,8 @@ class ScreenshotPage extends Component {
       <Segment>
         <Dropdown
           options={this.state.tagSuggestions}
-          placeholder='Enter a new tag'
-          additionLabel=''
+          placeholder="Enter a new tag"
+          additionLabel=""
           icon={null}
           search
           selection
@@ -158,7 +165,6 @@ class ScreenshotPage extends Component {
           onChange={this.handleChange}
         />
       </Segment>
-
     )
   }
 
@@ -175,21 +181,29 @@ class ScreenshotPage extends Component {
   }
 
   renderActionSegment = () => {
-    const { dispatch, isAuthenticated, isOwner, isAdmin, screenshot, screenshotFavorites, userFavorites } = this.props
+    const {
+      dispatch,
+      isAuthenticated,
+      isOwner,
+      isAdmin,
+      screenshot,
+      screenshotFavorites,
+      userFavorites
+    } = this.props
     if (!screenshot || !screenshotFavorites) return null
     const { _id, file } = screenshot
 
     const isFavorited = isAuthenticated && userFavorites
-    ? userFavorites.ids.find(favoriteId => {
-        return screenshotFavorites.ids.includes(favoriteId)
-      }) !== undefined
-    : false
+      ? userFavorites.ids.find(favoriteId => {
+          return screenshotFavorites.ids.includes(favoriteId)
+        }) !== undefined
+      : false
 
     const favoritesCount = screenshotFavorites.ids.length
 
     return (
       <Segment>
-        <Button.Group size='large' fluid>
+        <Button.Group size="large" fluid>
           <FavoriteButton
             dispatch={dispatch}
             screenshotId={_id}
@@ -197,35 +211,31 @@ class ScreenshotPage extends Component {
             favoritesCount={favoritesCount}
             isAuthenticated={isAuthenticated}
           />
-          <DownloadButton
-            dispatch={dispatch}
-            screenshotId={_id}
-            file={file}
-          />
+          <DownloadButton dispatch={dispatch} screenshotId={_id} file={file} />
 
-          {isAuthenticated && (isOwner || isAdmin) &&
-            <DeleteButton dispatch={dispatch} screenshotId={_id} />
-          }
+          {isAuthenticated &&
+            (isOwner || isAdmin) &&
+            <DeleteButton dispatch={dispatch} screenshotId={_id} />}
         </Button.Group>
       </Segment>
     )
   }
 
-
   handleSearchChange = (event, value) => {
     const { dispatch } = this.props
 
-    dispatch(search({ query: value }))
-    .then(res => {
+    dispatch(search({ query: value })).then(res => {
       const { value } = res
       const { data } = value
-      const newSuggestions = data
-        .map(({ name }) => {
-          return { text: name, value: name }
-        })
+      const newSuggestions = data.map(({ name }) => {
+        return { text: name, value: name }
+      })
 
       this.setState({
-        tagSuggestions: uniqBy(union(this.state.tagSuggestions, newSuggestions), 'text')
+        tagSuggestions: uniqBy(
+          union(this.state.tagSuggestions, newSuggestions),
+          'text'
+        )
       })
     })
   }
@@ -234,8 +244,9 @@ class ScreenshotPage extends Component {
     this.setState({ tag: value })
 
     const { dispatch, screenshot } = this.props
-    dispatch(addTag(value, screenshot._id))
-    .then(() => this.setState({ tag: '', tagSuggestions: [] }))
+    dispatch(addTag(value, screenshot._id)).then(() =>
+      this.setState({ tag: '', tagSuggestions: [] })
+    )
   }
 }
 

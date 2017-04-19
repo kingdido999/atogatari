@@ -131,9 +131,6 @@ class UploadPage extends Component {
           <Message.Item>
             You can submit up to 9 screenshots at one time.
           </Message.Item>
-          <Message.Item>
-            Unqualified images will be removed without prior notice.
-          </Message.Item>
         </Message.List>
       </Message>
     )
@@ -262,6 +259,17 @@ class UploadPage extends Component {
     )
   }
 
+  renderAgreement = () => {
+    const { files } = this.state  
+    if (files.length === 0) return null
+      
+    return (
+      <small>
+        By submitting you agree that unqualified images will be removed without prior notice.
+      </small>
+    )
+  }
+
   render() {
     const { files } = this.state
 
@@ -272,6 +280,7 @@ class UploadPage extends Component {
           {this.renderMessage()}
           {this.renderPreview()}
           {this.renderForm()}
+          {this.renderAgreement()}
         </Segment>
       </Container>
     )

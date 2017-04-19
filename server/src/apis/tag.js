@@ -1,31 +1,25 @@
 import Screenshot from '../models/Screenshot'
 import Tag from '../models/Tag'
 
-async function getTags (ctx) {
+async function getTags(ctx) {
 	const { query } = ctx.request
 
-	const tags = await Tag
-		.find(query)
-		.populate('screenshots')
-		.exec()
+	const tags = await Tag.find(query).populate('screenshots').exec()
 
 	ctx.response.body = tags
 	ctx.status = 200
 }
 
-async function getTag (ctx) {
-  const { query } = ctx.request
+async function getTag(ctx) {
+	const { query } = ctx.request
 
-  const tag = await Tag
-    .findOne(query)
-    .populate('screenshots')
-    .exec()
+	const tag = await Tag.findOne(query).populate('screenshots').exec()
 
-  ctx.response.body = tag
-  ctx.status = 200
+	ctx.response.body = tag
+	ctx.status = 200
 }
 
-async function addTag (ctx) {
+async function addTag(ctx) {
 	let { name, screenshotId } = ctx.request.body
 	name = name.trim().toLowerCase()
 
@@ -62,7 +56,7 @@ async function addTag (ctx) {
 	ctx.status = 200
 }
 
-async function deleteTag (ctx) {
+async function deleteTag(ctx) {
 	let { name } = ctx.params
 	const { screenshotId } = ctx.request.query
 
@@ -86,7 +80,7 @@ async function deleteTag (ctx) {
 	} else {
 		await tag.remove()
 	}
-	
+
 	await screenshot.save()
 
 	ctx.response.body = {
@@ -97,9 +91,23 @@ async function deleteTag (ctx) {
 	ctx.status = 200
 }
 
+async function updateTag(ctx) {
+	const { name } = ctx.params
+	const { type } = ctx.request.body
+
+	if (!['General', 'Anime', 'Character'].includes(type)) {
+		ctx.throw(400, 'Invalid type.')
+	}
+
+	await Tag.where({ name }).update({ type }).exec()
+
+	ctx.status = 200
+}
+
 export default {
 	getTags,
-  getTag,
-  addTag,
-  deleteTag
+	getTag,
+	addTag,
+	deleteTag,
+	updateTag
 }

@@ -4,16 +4,20 @@ const Schema = mongoose.Schema
 const tagSchema = new Schema({
   name: {
     type: String,
+    index: true,
+    unique: true,
     required: true
   },
   type: {
-		type: String,
+    type: String,
     default: 'General'
   },
-  screenshots: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Screenshot'
-  }]
+  screenshots: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Screenshot'
+    }
+  ]
 })
 
 tagSchema.set('timestamps', true)
