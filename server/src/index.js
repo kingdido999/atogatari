@@ -26,8 +26,7 @@ const router = new Router()
 app.use(error())
 app.use(
 	cors({
-		origin: ALLOW_ORIGIN,
-		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+		origin: ALLOW_ORIGIN
 	})
 )
 app.use(logger())

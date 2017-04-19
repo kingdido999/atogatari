@@ -188,7 +188,7 @@ export function setTagType(name, type) {
 export function updateTag(name, params) {
   return {
     type: 'UPDATE_TAG',
-    payload: ax.patch(`/tag/${name}`, params, {
+    payload: ax.put(`/tag/${name}`, params, {
       headers: getAuthHeader()
     })
   }

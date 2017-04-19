@@ -18,7 +18,7 @@ export default function route(router) {
   router.get('/tags', tag.getTags)
   router.get('/tag', tag.getTag)
   router.post('/tag', tokenAuth(), tag.addTag)
-  router.patch('/tag/:name', tokenAuth(), tag.updateTag)
+  router.put('/tag/:name', tokenAuth(), tag.updateTag)
   router.del('/tag/:name', tokenAuth(), tag.deleteTag)
 
   router.post('/user', tokenAuth(), user.getAuthedUser)
