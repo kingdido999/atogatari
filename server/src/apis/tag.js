@@ -99,8 +99,11 @@ async function updateTag(ctx) {
 		ctx.throw(400, 'Invalid type.')
 	}
 
-	await Tag.where({ name }).update({ type }).exec()
+	const tag = await Tag.findOne({ name }).exec()
+	tag.type = type
+	await tag.save()
 
+	ctx.response.body = tag
 	ctx.status = 200
 }
 

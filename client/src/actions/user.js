@@ -181,10 +181,6 @@ export function deleteTag(name, screenshotId) {
   }
 }
 
-export function setTagType(name, type) {
-  return dispatch => dispatch(updateTag(name, { type }))
-}
-
 export function updateTag(name, params) {
   return {
     type: 'UPDATE_TAG',

@@ -1,7 +1,7 @@
 import { schema } from 'normalizr'
 
 const options = {
-  idAttribute: '_id'
+	idAttribute: '_id'
 }
 
 const userSchema = new schema.Entity('users', {}, options)
@@ -10,27 +10,23 @@ const favoriteSchema = new schema.Entity('favorites', {}, options)
 const tagSchema = new schema.Entity('tags', {}, { idAttribute: 'name' })
 
 userSchema.define({
-  screenshots: [screenshotSchema],
-  favorites: [favoriteSchema]
+	screenshots: [screenshotSchema],
+	favorites: [favoriteSchema]
 })
 
 screenshotSchema.define({
-  favorites: [favoriteSchema],
-  user: userSchema
+	favorites: [favoriteSchema],
+	user: userSchema,
+	tagDocs: [tagSchema]
 })
 
 favoriteSchema.define({
-  user: userSchema,
-  screenshot: screenshotSchema
+	user: userSchema,
+	screenshot: screenshotSchema
 })
 
 tagSchema.define({
-  screenshots: [screenshotSchema]
+	screenshots: [screenshotSchema]
 })
 
-export {
-  userSchema,
-  screenshotSchema,
-  favoriteSchema,
-  tagSchema
-}
+export { userSchema, screenshotSchema, favoriteSchema, tagSchema }

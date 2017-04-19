@@ -8,6 +8,12 @@ export const ax = axios.create({
   baseURL: baseURL
 })
 
+export const TAG_TYPE_COLOR_MAP = {
+  General: null,
+  Anime: 'blue',
+  Character: 'teal'
+}
+
 export function isFullUrl(url) {
   return url.includes('http')
 }

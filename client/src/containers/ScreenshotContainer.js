@@ -4,24 +4,29 @@ import { connect } from 'react-redux'
 import ScreenshotPage from '../components/ScreenshotPage'
 
 class ScreenshotContainer extends Component {
-
-  render () {
-    return <ScreenshotPage { ...this.props } />
+  render() {
+    return <ScreenshotPage {...this.props} />
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, screenshotFavorites, screenshotTags, userFavorites } = state
-  const { users, screenshots } = entities
+  const {
+    entities,
+    user,
+    screenshotFavorites,
+    screenshotTags,
+    userFavorites
+  } = state
+  const { users, screenshots, tags } = entities
   const { isAuthenticated, uid } = user
   const { screenshotId } = ownProps.params
   const screenshot = screenshots[screenshotId]
-  const authedUser = users[uid]   
-  const isOwner = screenshot !== undefined 
-    && uid === screenshot.user
-  const isAdmin = authedUser !== undefined
-    && authedUser.roles 
-    && authedUser.roles.includes('admin')
+  const authedUser = users[uid]
+  const isOwner = screenshot !== undefined && uid === screenshot.user
+  const isAdmin =
+    authedUser !== undefined &&
+    authedUser.roles &&
+    authedUser.roles.includes('admin')
 
   return {
     isAuthenticated,
@@ -29,6 +34,7 @@ function mapStateToProps(state, ownProps) {
     isAdmin,
     screenshot,
     users,
+    tags,
     screenshotFavorites: screenshotFavorites[screenshotId],
     screenshotTags: screenshotTags[screenshotId],
     userFavorites: userFavorites[uid]

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { Table, Dropdown } from 'semantic-ui-react'
-import { Link } from 'react-router'
+import { Table } from 'semantic-ui-react'
 
-import { setTagType } from '../actions/user'
+import Tag from './Tag'
+import TagTypesDropdown from './TagTypesDropdown'
 
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
@@ -12,17 +12,8 @@ const propTypes = {
 }
 
 export class TagTableRow extends Component {
-	handleChangeType = (event, { value }) => {
-		const { dispatch, tag } = this.props
-		const { name, type } = tag
-
-		if (value !== type) {
-			dispatch(setTagType(name, value))
-		}
-	}
-
 	render() {
-		const { isAuthenticated, tag, types } = this.props
+		const { tag } = this.props
 		const { name, type } = tag
 
 		return (
@@ -31,18 +22,10 @@ export class TagTableRow extends Component {
 					{tag.screenshots.length}
 				</Table.Cell>
 				<Table.Cell>
-					<Link to={`/tag/${name}`}>
-						{name}
-					</Link>
+					<Tag type={type} name={name} />
 				</Table.Cell>
 				<Table.Cell collapsing>
-					<Dropdown
-						selection
-						disabled={!isAuthenticated}
-						defaultValue={type}
-						options={types}
-						onChange={this.handleChangeType}
-					/>
+					<TagTypesDropdown {...this.props} name={name} type={type} />
 				</Table.Cell>
 			</Table.Row>
 		)

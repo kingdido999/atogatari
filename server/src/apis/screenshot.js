@@ -148,7 +148,7 @@ async function getScreenshot(ctx) {
   const { id } = ctx.request.query
 
   const screenshot = await Screenshot.findById(id)
-    .populate('user favorites')
+    .populate('user favorites tagDocs')
     .exec()
 
   ctx.response.body = screenshot

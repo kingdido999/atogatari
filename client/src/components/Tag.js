@@ -3,53 +3,54 @@ import { Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import { deleteTag } from '../actions/user'
+import { TAG_TYPE_COLOR_MAP } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func,
-  color: PropTypes.string,
+  type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   count: PropTypes.number,
   isAdmin: PropTypes.bool,
-  screenshotId: PropTypes.string,
+  screenshotId: PropTypes.string
 }
 
 class Tag extends Component {
-
   handleClick = () => {
     const { name } = this.props
     browserHistory.push(`/tag/${name}`)
   }
 
-  handleRemove = (event) => {
+  handleRemove = event => {
     event.stopPropagation()
     const { dispatch, name, screenshotId } = this.props
     dispatch(deleteTag(name, screenshotId))
   }
 
-  render () {
-    const { name, isAdmin, count, color } = this.props
+  render() {
+    const { type, name, isAdmin, count } = this.props
+    const color = TAG_TYPE_COLOR_MAP[type]
 
     if (isAdmin) {
       return (
         <Label
-          as='a'
+          as="a"
           color={color}
           content={name}
           detail={count}
           onClick={this.handleClick}
-          onRemove={this.handleRemove}>
-        </Label>
+          onRemove={this.handleRemove}
+        />
       )
     }
 
     return (
       <Label
-        as='a'
+        as="a"
         color={color}
         content={name}
         detail={count}
-        onClick={this.handleClick}>
-      </Label>
+        onClick={this.handleClick}
+      />
     )
   }
 }

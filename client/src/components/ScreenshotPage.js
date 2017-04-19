@@ -32,6 +32,7 @@ const propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   screenshot: PropTypes.object,
   users: PropTypes.object.isRequired,
+  tags: PropTypes.object.isRequired,
   screenshotFavorites: PropTypes.object,
   screenshotTags: PropTypes.object,
   userFavorites: PropTypes.object
@@ -122,7 +123,7 @@ class ScreenshotPage extends Component {
   }
 
   renderTagsSegment = () => {
-    const { dispatch, isAdmin, screenshot, screenshotTags } = this.props
+    const { dispatch, isAdmin, screenshot, tags, screenshotTags } = this.props
     if (!screenshotTags || screenshotTags.names.length === 0) return null
 
     return (
@@ -131,7 +132,7 @@ class ScreenshotPage extends Component {
           {screenshotTags.names.map((name, index) => (
             <Tag
               key={index}
-              color="teal"
+              type={tags[name] ? tags[name].type : 'General'}
               name={name}
               dispatch={dispatch}
               isAdmin={isAdmin}
