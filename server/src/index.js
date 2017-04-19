@@ -14,17 +14,22 @@ import { DATABASE, NODE_ENV, ALLOW_ORIGIN } from '../.env'
 
 mongoose.Promise = global.Promise
 mongoose.connect(DATABASE, {
-  promiseLibrary: global.Promise,
-  config: {
-    autoIndex: NODE_ENV !== 'production'
-  }
+	promiseLibrary: global.Promise,
+	config: {
+		autoIndex: NODE_ENV !== 'production'
+	}
 })
 
 const app = new Koa()
 const router = new Router()
 
 app.use(error())
-app.use(cors({ origin: ALLOW_ORIGIN }))
+app.use(
+	cors({
+		origin: ALLOW_ORIGIN,
+		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+	})
+)
 app.use(logger())
 app.use(serve('assets'))
 app.use(bodyParser())
