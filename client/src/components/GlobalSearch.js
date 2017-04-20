@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Search, Grid, Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
+import Tag from './Tag'
 import { search } from '../actions/entities'
 
 const propTypes = {
@@ -11,11 +12,13 @@ const propTypes = {
 
 const MIN_CHARACTERS = 1
 
-const resultRenderer = ({ name, screenshots }) => {
+const resultRenderer = ({ name, type, screenshots }) => {
   return (
     <Grid>
-      <Grid.Column textAlign='left' width={12}>{name}</Grid.Column>
-      <Grid.Column textAlign='right' width={4}>
+      <Grid.Column textAlign="left" width={12}>
+        <Tag name={name} type={type} />
+      </Grid.Column>
+      <Grid.Column textAlign="right" width={4}>
         <Label circular content={screenshots.length} />
       </Grid.Column>
     </Grid>
@@ -23,7 +26,6 @@ const resultRenderer = ({ name, screenshots }) => {
 }
 
 class GlobalSearch extends Component {
-
   state = {
     query: ''
   }
@@ -42,7 +44,7 @@ class GlobalSearch extends Component {
     browserHistory.push(`/tag/${name}`)
   }
 
-  render () {
+  render() {
     const { query } = this.state
     const { search } = this.props
     const { results } = search

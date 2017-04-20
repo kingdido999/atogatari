@@ -7,8 +7,7 @@ import TagTypesDropdown from './TagTypesDropdown'
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	isAuthenticated: PropTypes.bool.isRequired,
-	tag: PropTypes.object.isRequired,
-	types: PropTypes.array.isRequired
+	tag: PropTypes.object.isRequired
 }
 
 export class TagTableRow extends Component {

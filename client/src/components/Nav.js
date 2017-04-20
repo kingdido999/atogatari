@@ -11,12 +11,11 @@ const propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   attached: PropTypes.oneOf(['top', false]).isRequired,
   uid: PropTypes.string,
-  search: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired
 }
 
 class Nav extends Component {
-
-  handleLogout = (event) => {
+  handleLogout = event => {
     event.preventDefault()
     const { dispatch } = this.props
 
@@ -27,12 +26,26 @@ class Nav extends Component {
     const { uid } = this.props
 
     return (
-      <Dropdown icon='user outline' item>
+      <Dropdown icon="user outline" item>
         <Dropdown.Menu>
-          <Dropdown.Item icon='favorite' text='Favorites' as={Link} to={`/user/${uid}/favorites`} />
-          <Dropdown.Item icon='cloud upload' text='Uploads' as={Link} to={`/user/${uid}/uploads`} />
+          <Dropdown.Item
+            icon="favorite"
+            text="Favorites"
+            as={Link}
+            to={`/user/${uid}/favorites`}
+          />
+          <Dropdown.Item
+            icon="cloud upload"
+            text="Uploads"
+            as={Link}
+            to={`/user/${uid}/uploads`}
+          />
           {/* <Dropdown.Item icon='settings' text='Settings' as={Link} to='/user/settings' /> */}
-          <Dropdown.Item icon='log out' text='Logout' onClick={this.handleLogout} />
+          <Dropdown.Item
+            icon="log out"
+            text="Logout"
+            onClick={this.handleLogout}
+          />
         </Dropdown.Menu>
       </Dropdown>
     )
@@ -42,27 +55,38 @@ class Nav extends Component {
     const { attached, isMobile, isAuthenticated } = this.props
 
     return (
-      <Menu size="huge" attached={attached} color='red' inverted borderless>
-        <Menu.Item as={Link} to='/' name='atogatari' header />
-        <Menu.Item as={Link} to='/screenshots' name='screenshots' activeClassName='active' />
-        <Menu.Item as={Link} to='/tags' name='tags' activeClassName='active' />
+      <Menu size="huge" attached={attached} borderless>
+        <Menu.Item as={Link} to="/" name="atogatari" header />
+        <Menu.Item
+          as={Link}
+          to="/screenshots"
+          name="screenshots"
+          activeClassName="active"
+        />
+        <Menu.Item as={Link} to="/tags" name="tags" activeClassName="active" />
 
-        <Menu.Menu position='right'>
+        <Menu.Menu position="right">
           {!isMobile &&
             <Menu.Item>
-              <GlobalSearch
-                { ...this.props }
-              />
-            </Menu.Item>
-          }
-          
+              <GlobalSearch {...this.props} />
+            </Menu.Item>}
+
           {!isAuthenticated &&
-            <Menu.Item as={Link} to="/login" name='login' activeClassName="active" />
-          }
+            <Menu.Item
+              as={Link}
+              to="/login"
+              name="login"
+              activeClassName="active"
+            />}
 
           {isAuthenticated &&
-            <Menu.Item as={Link} to="/upload" icon='cloud upload' name='upload' activeClassName="active" />
-          }
+            <Menu.Item
+              as={Link}
+              to="/upload"
+              icon="cloud upload"
+              name="submit"
+              activeClassName="active"
+            />}
 
           {isAuthenticated && this.renderDropdown()}
         </Menu.Menu>
