@@ -1,4 +1,4 @@
-import { merge, omit } from 'lodash'
+import { merge, omit, get } from 'lodash'
 import { combineReducers } from 'redux'
 
 export default combineReducers({
@@ -9,19 +9,20 @@ export default combineReducers({
 })
 
 function screenshots(state = {}, action) {
-  if (
-    action.payload &&
-    action.payload.data &&
-    action.payload.data.entities &&
-    action.payload.data.entities.screenshots
-  ) {
-    return merge({}, state, action.payload.data.entities.screenshots)
+  const screenshots = get(action, 'payload.data.entities.screenshots')
+  if (screenshots) {
+    return merge({}, state, screenshots)
   }
 
   return state
 }
 
 function favorites(state = {}, action) {
+  const favorites = get(action, 'payload.data.entities.favorites')
+  if (favorites) {
+    return merge({}, state, favorites)
+  }
+
   switch (action.type) {
     case 'ADD_FAVORITE':
       return {
@@ -34,19 +35,16 @@ function favorites(state = {}, action) {
     case 'REMOVE_FAVORITE':
       return omit(state, action.favorite._id)
     default:
-      if (
-        action.payload &&
-        action.payload.data &&
-        action.payload.data.entities &&
-        action.payload.data.entities.favorites
-      ) {
-        return merge({}, state, action.payload.data.entities.favorites)
-      }
       return state
   }
 }
 
 function tags(state = {}, action) {
+  const tags = get(action, 'payload.data.entities.tags')
+  if (tags) {
+    return merge({}, state, tags)
+  }
+
   switch (action.type) {
     case 'UPDATE_TAG_FULFILLED':
       return {
@@ -57,26 +55,14 @@ function tags(state = {}, action) {
         }
       }
     default:
-      if (
-        action.payload &&
-        action.payload.data &&
-        action.payload.data.entities &&
-        action.payload.data.entities.tags
-      ) {
-        return merge({}, state, action.payload.data.entities.tags)
-      }
       return state
   }
 }
 
 function users(state = {}, action) {
-  if (
-    action.payload &&
-    action.payload.data &&
-    action.payload.data.entities &&
-    action.payload.data.entities.users
-  ) {
-    return merge({}, state, action.payload.data.entities.users)
+  const users = get(action, 'payload.data.entities.users')
+  if (users) {
+    return merge({}, state, users)
   }
 
   return state
