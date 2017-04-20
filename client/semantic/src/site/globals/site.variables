@@ -52,10 +52,3 @@
 
 @lightPrimaryColor   : @lightTeal;
 @lightSecondaryColor : @lightBlack;
-
-
-/*-------------------
-        Page
---------------------*/
-
-@pageBackground      : #EAEAEA;

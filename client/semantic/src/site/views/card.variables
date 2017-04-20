@@ -4,7 +4,7 @@
 
 /* Card */
 @background: @white;
-@borderRadius: @defaultBorderRadius;
+@borderRadius: 1px;
 @margin: 1em 0em;
 @minHeight: 0px;
 @padding: 0em;

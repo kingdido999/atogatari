@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import {
   Container,
   Segment,
-  Header,
-  Message,
+  Grid,
   Form,
   Image,
   Label,
-  Card
+  Card,
+  Divider
 } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
@@ -115,27 +115,6 @@ class UploadPage extends Component {
     dispatch(upload(data)).then(() => browserHistory.push('/'))
   }
 
-  renderMessage = () => {
-    const { files } = this.state
-    if (files.length > 0) return null
-
-    return (
-      <Message>
-        <Message.List>
-          <Message.Item>
-            It must contain anime character(s).
-          </Message.Item>
-          <Message.Item>
-            1080p or greater image quality. E.g., 1920x1080 pixels (16:9).
-          </Message.Item>
-          <Message.Item>
-            You can submit up to 9 screenshots at one time.
-          </Message.Item>
-        </Message.List>
-      </Message>
-    )
-  }
-
   renderPreview = () => {
     const { files } = this.state
     if (files.length === 0) return
@@ -155,20 +134,17 @@ class UploadPage extends Component {
     }
 
     return (
-      <div>
-        <Card.Group itemsPerRow={itemsPerRow} stackable>
-          {files.map((file, index) => (
-            <Card key={index}>
-              <Image src={file.preview} className="img-preview" />
+      <Card.Group itemsPerRow={itemsPerRow} stackable>
+        {files.map((file, index) => (
+          <Card key={index}>
+            <Image src={file.preview} className="img-preview" />
 
-              <Card.Content extra>
-                <Card.Meta>{file.name}</Card.Meta>
-              </Card.Content>
-            </Card>
-          ))}
-        </Card.Group>
-        <br />
-      </div>
+            <Card.Content extra>
+              <Card.Meta>{file.name}</Card.Meta>
+            </Card.Content>
+          </Card>
+        ))}
+      </Card.Group>
     )
   }
 
@@ -178,6 +154,8 @@ class UploadPage extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
+        {this.renderPreview()}
+        <Divider horizontal />
         {this.renderInputFile()}
         {this.renderInputTags()}
         {this.renderCheckboxNSFW()}
@@ -259,14 +237,30 @@ class UploadPage extends Component {
     )
   }
 
-  renderAgreement = () => {
-    const { files } = this.state  
-    if (files.length === 0) return null
-      
+  renderInstructions = () => {
     return (
-      <small>
-        By submitting you agree that unqualified images will be removed without prior notice.
-      </small>
+      <Segment color="orange" padded vertical inverted>
+        <Grid columns="equal" stackable divided>
+          <Grid.Row textAlign="center">
+            <Grid.Column>
+              <h2>No Character, No Game</h2>
+              <p>Make sure to have character(s) on your screenshot.</p>
+            </Grid.Column>
+            <Grid.Column>
+              <h2>Hi-Res Image Only</h2>
+              <p>
+                Image quality below 1080p is not accepted.
+              </p>
+            </Grid.Column>
+            <Grid.Column>
+              <h2>Multiple Uploads</h2>
+              <p>
+                You may submit up to 9 files at one time.
+              </p>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
     )
   }
 
@@ -274,15 +268,15 @@ class UploadPage extends Component {
     const { files } = this.state
 
     return (
-      <Container text={files.length <= 1}>
-        <Segment>
-          <Header>Screenshot Upload</Header>
-          {this.renderMessage()}
-          {this.renderPreview()}
+      <div>
+        {this.renderInstructions()}
+
+        <Divider section horizontal>Screenshot Upload</Divider>
+
+        <Container text={files.length <= 1}>
           {this.renderForm()}
-          {this.renderAgreement()}
-        </Segment>
-      </Container>
+        </Container>
+      </div>
     )
   }
 }
