@@ -181,7 +181,7 @@ async function getScreenshots(ctx) {
   const results = await Screenshot.paginate(criteria, {
     page: page ? Number(page) : 1,
     limit: limit ? Number(limit) : 9,
-    populate: 'user favorites',
+    populate: 'user favorites tagDocs',
     sort
   })
 
