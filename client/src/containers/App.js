@@ -32,9 +32,8 @@ class App extends Component {
           <br />
         </Segment>
 
-        <Segment textAlign="center" vertical padded>
-          <Footer />
-        </Segment>
+        <Footer />
+
       </div>
     )
   }

@@ -244,7 +244,7 @@ class UploadPage extends Component {
           <Grid.Row textAlign="center">
             <Grid.Column>
               <h2>No Character, No Game</h2>
-              <p>Make sure to have character(s) on your screenshot.</p>
+              <p>Make sure to have character(s) in your screenshot.</p>
             </Grid.Column>
             <Grid.Column>
               <h2>Hi-Res Image Only</h2>
