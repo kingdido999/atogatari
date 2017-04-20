@@ -72,7 +72,7 @@
   },
   "scripts": {
     "build-css": "node-sass src/styles/app.scss src/styles/app.css",
-    "watch-css": "npm run build-css && node-sass src/styles/ -o src/styles/ --watch --recursive",
+    "watch-css": "npm run build-css && node-sass src/styles/app.scss src/styles/app.css --watch --recursive",
     "start-js": "node scripts/start.js",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "node scripts/build.js",

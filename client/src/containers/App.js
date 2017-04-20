@@ -8,12 +8,12 @@ import { getAuthedUserIfNeeded } from '../actions/user'
 import NavContainer from './NavContainer'
 import FiltersContainer from './FiltersContainer'
 import ErrorMessageContainer from './ErrorMessageContainer'
+import Footer from '../components/Footer'
 
 import '../styles/app.css'
 
 class App extends Component {
-
-  componentDidMount () {
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(initEnvironment())
     dispatch(getAuthedUserIfNeeded())
@@ -29,6 +29,11 @@ class App extends Component {
           <ErrorMessageContainer />
 
           {this.props.children}
+          <br />
+        </Segment>
+
+        <Segment id="footer" textAlign="center" vertical padded>
+          <Footer />
         </Segment>
       </div>
     )
