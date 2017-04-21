@@ -5,10 +5,18 @@ import User from '../models/User'
 import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 
+const PASSWORD_MIN_LENGTH = 8
 const TOKEN_EXPIRES_IN = '14 days'
 
-async function signup (ctx) {
+async function signup(ctx) {
   const { email, password, username } = ctx.request.body
+
+  if (password.length < PASSWORD_MIN_LENGTH) {
+    ctx.throw(
+      400,
+      `Password length must be greater than ${PASSWORD_MIN_LENGTH}`
+    )
+  }
 
   let user = await User.findOne({
     $or: [{ email }, { username }]
@@ -37,7 +45,7 @@ async function signup (ctx) {
   ctx.status = 201
 }
 
-async function login (ctx) {
+async function login(ctx) {
   const { email, password } = ctx.request.body
 
   const user = await User.findOne({
@@ -63,10 +71,8 @@ async function login (ctx) {
   ctx.status = 200
 }
 
-
-async function getAuthedUser (ctx) {
-  const user = await User
-    .findById(ctx.state.uid)
+async function getAuthedUser(ctx) {
+  const user = await User.findById(ctx.state.uid)
     .populate('screenshots')
     .populate({
       path: 'favorites',
@@ -74,15 +80,14 @@ async function getAuthedUser (ctx) {
     })
     .exec()
 
-    ctx.response.body = user
-    ctx.status = 200
+  ctx.response.body = user
+  ctx.status = 200
 }
 
-async function getUserFavorites (ctx) {
-  const favorites = await Favorite
-    .find({
-      user: ctx.state.uid
-    })
+async function getUserFavorites(ctx) {
+  const favorites = await Favorite.find({
+    user: ctx.state.uid
+  })
     .populate('user screenshot')
     .exec()
 
@@ -91,12 +96,10 @@ async function getUserFavorites (ctx) {
   ctx.status = 200
 }
 
-async function toggleFavorite (ctx) {
+async function toggleFavorite(ctx) {
   const { screenshotId } = ctx.request.body
 
-  const screenshot = await Screenshot
-    .findById(screenshotId)
-    .exec()
+  const screenshot = await Screenshot.findById(screenshotId).exec()
 
   if (!screenshot) {
     ctx.throw(400)
@@ -104,27 +107,27 @@ async function toggleFavorite (ctx) {
 
   const user = await User.findById(ctx.state.uid)
 
-  let favorite = await Favorite
-    .findOne({
-      user: ctx.state.uid,
-      screenshot: screenshotId
-    })
-    .exec()
+  let favorite = await Favorite.findOne({
+    user: ctx.state.uid,
+    screenshot: screenshotId
+  }).exec()
 
   if (favorite) {
     await favorite.remove()
 
-    await User
-      .update({ _id: ctx.state.uid }, {
+    await User.update(
+      { _id: ctx.state.uid },
+      {
         $pull: { favorites: favorite._id }
-      })
-      .exec()
+      }
+    ).exec()
 
-    await Screenshot
-      .update({ _id: screenshotId }, {
+    await Screenshot.update(
+      { _id: screenshotId },
+      {
         $pull: { favorites: favorite._id }
-      })
-      .exec()
+      }
+    ).exec()
 
     ctx.status = 202
   } else {
@@ -146,15 +149,12 @@ async function toggleFavorite (ctx) {
   ctx.response.body = favorite
 }
 
-async function getFavoriteScreenshots (ctx) {
-  const favorites = await Favorite
-    .find({
-      user: ctx.state.uid
-    })
-    .exec()
+async function getFavoriteScreenshots(ctx) {
+  const favorites = await Favorite.find({
+    user: ctx.state.uid
+  }).exec()
 
-  const screenshots = await Screenshot
-    .find()
+  const screenshots = await Screenshot.find()
     .where('_id')
     .in(favorites.map(favorite => favorite.screenshot))
     .populate('favorites')
@@ -165,11 +165,10 @@ async function getFavoriteScreenshots (ctx) {
   ctx.status = 200
 }
 
-async function getUploadedScreenshots (ctx) {
-  const screenshots = await Screenshot
-    .find({
-      user: ctx.state.uid
-    })
+async function getUploadedScreenshots(ctx) {
+  const screenshots = await Screenshot.find({
+    user: ctx.state.uid
+  })
     .populate('favorites')
     .exec()
 

@@ -12,6 +12,7 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   tag: PropTypes.object,
+  screenshotIds: PropTypes.array.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotFavorites: PropTypes.object.isRequired,
   userFavorites: PropTypes.object
