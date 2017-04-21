@@ -87,7 +87,7 @@ class Filters extends Component {
     return (
       <Menu attached="bottom" borderless>
         <Menu.Item
-          name="recent"
+          name="latest"
           active={sortBy === 'date'}
           onClick={() => this.handleChangeSortBy('date')}
         />
@@ -153,7 +153,7 @@ class Filters extends Component {
     return (
       <Menu attached="bottom" borderless>
         <Menu.Item
-          name="recent"
+          name="latest"
           active={sortBy === 'date'}
           onClick={() => this.handleChangeSortBy('date')}
         />
