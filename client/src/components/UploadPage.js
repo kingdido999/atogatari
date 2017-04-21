@@ -160,7 +160,7 @@ class UploadPage extends Component {
     }
 
     return (
-      <Container text={files.length <= 1}>
+      <Container text={files.length === 1 || files.length % 2 === 0}>
         <Card.Group itemsPerRow={itemsPerRow} stackable>
           {files.map((file, index) => (
             <Card key={index}>
@@ -284,6 +284,9 @@ class UploadPage extends Component {
   }
 
   renderInstructions = () => {
+    const { files } = this.state
+    if (files.length > 0) return null
+
     return (
       <Segment color="pink" padded vertical inverted>
         <Grid columns="equal" stackable divided>
@@ -315,13 +318,15 @@ class UploadPage extends Component {
       <div>
         {this.renderInstructions()}
 
-        <Divider section horizontal>Screenshot Upload</Divider>
+        <Divider section horizontal>Upload</Divider>
 
         {this.renderPreview()}
 
         <Container text>
-          {this.renderForm()}
+          <Segment>{this.renderForm()}</Segment>
+
         </Container>
+
       </div>
     )
   }
