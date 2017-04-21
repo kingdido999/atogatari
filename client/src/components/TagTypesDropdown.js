@@ -11,11 +11,11 @@ const propTypes = {
 	type: PropTypes.string.isRequired
 }
 
-const generateTypeOption = text => {
+const generateTypeOption = type => {
 	return {
-		text,
-		value: text,
-		label: { color: TAG_TYPE_COLOR_MAP[text], empty: true, circular: true }
+		text: type,
+		value: type,
+		label: { color: TAG_TYPE_COLOR_MAP[type], empty: true, circular: true }
 	}
 }
 
@@ -30,15 +30,14 @@ class TagTypesDropdown extends Component {
 
 	render() {
 		const { isAuthenticated, type } = this.props
-		const options = [
-			generateTypeOption('General'),
-			generateTypeOption('Anime'),
-			generateTypeOption('Character')
-		]
+		const types = ['General', 'Anime', 'Character'].filter(t => t !== type)
+		const options = types.map(generateTypeOption)
+
 		return (
 			<Dropdown
 				disabled={!isAuthenticated}
-				defaultValue={type}
+				text="Move to"
+				selectOnBlur={false}
 				options={options}
 				onChange={this.handleChangeType}
 			/>

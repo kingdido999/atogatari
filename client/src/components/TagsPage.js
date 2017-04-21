@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Table } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 
-import TagTableRow from './TagTableRow'
+import TagsTable from './TagsTable'
 import { getTags } from '../actions/entities'
 
 const propTypes = {
@@ -17,35 +17,20 @@ class TagsPage extends Component {
     dispatch(getTags())
   }
 
-  handleChangeType = (event, data) => {
-    console.log(data)
-  }
-
   render() {
-    const { dispatch, isAuthenticated, tags, tagNames } = this.props
-
     return (
-      <Container text>
-        <Table celled striped unstackable compact>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Screenshots</Table.HeaderCell>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>Type</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
-            {tagNames.map((name, index) => (
-              <TagTableRow
-                key={index}
-                dispatch={dispatch}
-                isAuthenticated={isAuthenticated}
-                tag={tags[name]}
-              />
-            ))}
-          </Table.Body>
-        </Table>
+      <Container>
+        <Grid columns="equal" stackable>
+          <Grid.Column>
+            <TagsTable {...this.props} type="General" />
+          </Grid.Column>
+          <Grid.Column>
+            <TagsTable {...this.props} type="Anime" />
+          </Grid.Column>
+          <Grid.Column>
+            <TagsTable {...this.props} type="Character" />
+          </Grid.Column>
+        </Grid>
       </Container>
     )
   }

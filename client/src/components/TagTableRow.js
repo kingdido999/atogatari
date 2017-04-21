@@ -17,11 +17,8 @@ export class TagTableRow extends Component {
 
 		return (
 			<Table.Row>
-				<Table.Cell collapsing>
-					{tag.screenshots.length}
-				</Table.Cell>
 				<Table.Cell>
-					<Tag type={type} name={name} />
+					<Tag type={type} name={name} count={tag.screenshots.length} />
 				</Table.Cell>
 				<Table.Cell collapsing>
 					<TagTypesDropdown {...this.props} name={name} type={type} />
