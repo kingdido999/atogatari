@@ -13,12 +13,11 @@ const propTypes = {
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired,
   screenshotFavorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object,
+  userFavorites: PropTypes.object
 }
 
 class ScreenshotsPage extends Component {
-
-  componentWillMount () {
+  componentWillMount() {
     const { dispatch } = this.props
     dispatch(getScreenshots())
   }
@@ -30,10 +29,7 @@ class ScreenshotsPage extends Component {
 
     return (
       <Container>
-        <ScreenshotCards
-          zooming={zooming}
-          { ...this.props }
-        />
+        <ScreenshotCards zooming={zooming} {...this.props} />
       </Container>
     )
   }

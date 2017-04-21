@@ -42,7 +42,7 @@ export function getFilteredScreenshots() {
 export function getScreenshots(params) {
   return dispatch => {
     dispatch({
-      type: 'GET_SCREENSHOT_PENDING'
+      type: 'GET_SCREENSHOTS_PENDING'
     })
 
     ax

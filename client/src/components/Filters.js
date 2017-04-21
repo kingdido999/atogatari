@@ -45,26 +45,36 @@ class Filters extends Component {
   }
 
   handlePaginate = action => {
-    const { dispatch } = this.props
+    const { dispatch, page, pages } = this.props
 
     switch (action) {
       case 'first':
-        dispatch(firstPage())
+        if (page !== 1) {
+          dispatch(firstPage())
+          dispatch(getFilteredScreenshots())
+        }
         break
       case 'prev':
-        dispatch(prevPage())
+        if (page > 1) {
+          dispatch(prevPage())
+          dispatch(getFilteredScreenshots())
+        }
         break
       case 'next':
-        dispatch(nextPage())
+        if (page < pages) {
+          dispatch(nextPage())
+          dispatch(getFilteredScreenshots())
+        }
         break
       case 'last':
-        dispatch(lastPage())
+        if (page !== pages) {
+          dispatch(lastPage())
+          dispatch(getFilteredScreenshots())
+        }
         break
       default:
         return
     }
-
-    dispatch(getFilteredScreenshots())
   }
 
   render() {
