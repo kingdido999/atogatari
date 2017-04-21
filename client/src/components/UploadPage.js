@@ -160,7 +160,7 @@ class UploadPage extends Component {
     }
 
     return (
-      <Container text={files.length === 1 || files.length % 2 === 0}>
+      <Container text={[1, 2, 4].includes(files.length)}>
         <Card.Group itemsPerRow={itemsPerRow} stackable>
           {files.map((file, index) => (
             <Card key={index}>
