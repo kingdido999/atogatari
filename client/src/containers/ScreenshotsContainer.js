@@ -17,11 +17,14 @@ function mapStateToProps(state) {
     screenshotFavorites,
     userFavorites
   } = state
+  const { users } = entities
   const { isAuthenticated, uid } = user
   const { ids, view, itemsPerRow } = screenshots
 
   return {
     isAuthenticated,
+    uid,
+    users,
     view,
     itemsPerRow,
     screenshots: entities.screenshots,

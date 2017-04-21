@@ -5,14 +5,19 @@ import { getTagScreenshotIds } from '../selectors'
 import TagPage from '../components/TagPage'
 
 class TagContainer extends Component {
-
-  render () {
-    return <TagPage { ...this.props } />
+  render() {
+    return <TagPage {...this.props} />
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, screenshots, screenshotFavorites, userFavorites } = state
+  const {
+    entities,
+    user,
+    screenshots,
+    screenshotFavorites,
+    userFavorites
+  } = state
   const { isAuthenticated, uid } = user
   const { view, itemsPerRow } = screenshots
   const { tags } = entities
@@ -21,6 +26,8 @@ function mapStateToProps(state, ownProps) {
 
   return {
     isAuthenticated,
+    users: entities.users,
+    uid,
     view,
     itemsPerRow,
     tag,

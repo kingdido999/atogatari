@@ -11,6 +11,7 @@ import path from 'path'
 import fs from 'fs'
 
 import { writeFile } from '../utils'
+import { NODE_ENV } from '../../.env.js'
 
 const UPLOAD_PATH = 'assets/images'
 const SUPPORTED_TYPES = ['image/png', 'image/jpeg']
@@ -242,12 +243,14 @@ async function deleteScreenshot(ctx) {
 
   await screenshot.remove()
 
-  const { small, medium, large, original } = file
+  if (NODE_ENV === 'production') {
+    const { small, medium, large, original } = file
 
-  fs.unlinkSync(`${UPLOAD_PATH}/${small}`)
-  fs.unlinkSync(`${UPLOAD_PATH}/${medium}`)
-  fs.unlinkSync(`${UPLOAD_PATH}/${large}`)
-  fs.unlinkSync(`${UPLOAD_PATH}/${original}`)
+    fs.unlinkSync(`${UPLOAD_PATH}/${small}`)
+    fs.unlinkSync(`${UPLOAD_PATH}/${medium}`)
+    fs.unlinkSync(`${UPLOAD_PATH}/${large}`)
+    fs.unlinkSync(`${UPLOAD_PATH}/${original}`)
+  }
 
   ctx.response.body = {
     screenshotId: id,

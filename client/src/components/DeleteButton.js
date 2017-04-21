@@ -1,33 +1,64 @@
 import React, { Component, PropTypes } from 'react'
-import { Button } from 'semantic-ui-react'
-import { browserHistory } from 'react-router'
+import { Button, Popup } from 'semantic-ui-react'
 
 import { deleteScreenshot } from '../actions/user'
 
-class DeleteButton extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  screenshotId: PropTypes.string.isRequired,
+  onDelete: PropTypes.func
+}
 
-  handleClick = () => {
-    const { dispatch, screenshotId } = this.props
-    dispatch(deleteScreenshot(screenshotId))
-    .then(() => {
-      browserHistory.goBack()
+class DeleteButton extends Component {
+  state = {
+    isOpen: false
+  }
+
+  handleOpen = () => {
+    this.setState({
+      isOpen: true
     })
   }
 
-  render () {
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
+
+  handleClick = () => {
+    const { dispatch, screenshotId, onDelete } = this.props
+    this.setState({
+      isOpen: false
+    })
+    dispatch(deleteScreenshot(screenshotId)).then(() => {
+      if (onDelete) onDelete()
+    })
+  }
+
+  render() {
     return (
-      <Button
-        basic
-        icon="trash"
-        onClick={this.handleClick}
+      <Popup
+        trigger={<Button basic icon="trash" />}
+        content={
+          <Button
+            icon="warning sign"
+            labelPosition="left"
+            content="Confirm Delete"
+            color="red"
+            onClick={this.handleClick}
+          />
+        }
+        open={this.state.isOpen}
+        onOpen={this.handleOpen}
+        onClose={this.handleClose}
+        on="click"
+        position="bottom center"
       />
     )
   }
 }
 
-DeleteButton.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  screenshotId: PropTypes.string.isRequired
-}
+DeleteButton.propTypes = propTypes
 
 export default DeleteButton

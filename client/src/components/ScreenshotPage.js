@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import {
   Container,
   Segment,
@@ -217,7 +217,11 @@ class ScreenshotPage extends Component {
 
           {isAuthenticated &&
             (isOwner || isAdmin) &&
-            <DeleteButton dispatch={dispatch} screenshotId={_id} />}
+            <DeleteButton
+              dispatch={dispatch}
+              screenshotId={_id}
+              onDelete={browserHistory.goBack}
+            />}
         </Button.Group>
       </Segment>
     )

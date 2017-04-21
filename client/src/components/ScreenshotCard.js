@@ -6,6 +6,7 @@ import DownloadButton from './DownloadButton'
 import FavoriteButton from './FavoriteButton'
 import WhatAnimeGaIconButton from './WhatAnimeGaIconButton'
 import DetailsButton from './DetailsButton'
+import DeleteButton from './DeleteButton'
 
 import { getImageUrl } from '../utils'
 
@@ -16,7 +17,9 @@ const propTypes = {
   view: PropTypes.string.isRequired,
   screenshot: PropTypes.object,
   screenshotFavorites: PropTypes.object,
-  userFavorites: PropTypes.object
+  userFavorites: PropTypes.object,
+  isAdmin: PropTypes.bool,
+  isOwner: PropTypes.bool
 }
 
 class ScreenshotCard extends Component {
@@ -28,7 +31,9 @@ class ScreenshotCard extends Component {
       view,
       screenshot,
       userFavorites,
-      screenshotFavorites
+      screenshotFavorites,
+      isOwner,
+      isAdmin
     } = this.props
     if (!screenshot || !screenshotFavorites) return null
     const { _id, file, nsfw } = screenshot
@@ -69,6 +74,9 @@ class ScreenshotCard extends Component {
               file={file}
             />
             <WhatAnimeGaIconButton url={getImageUrl(file.medium)} />
+            {isAuthenticated &&
+              (isOwner || isAdmin) &&
+              <DeleteButton dispatch={dispatch} screenshotId={_id} />}
             <DetailsButton screenshotId={_id} />
           </Button.Group>
         </Card.Content>
