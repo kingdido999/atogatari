@@ -26,7 +26,7 @@ class TagsPage extends Component {
 
     return (
       <Container text>
-        <Table celled striped unstackable>
+        <Table celled striped unstackable compact>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Screenshots</Table.HeaderCell>

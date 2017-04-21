@@ -23,7 +23,7 @@
 @blue             : #2185D0;
 @violet           : #6435C9;
 @purple           : #A333C8;
-@pink             : #E03997;
+@pink             : #F7567C;
 @brown            : #A5673F;
 @grey             : #767676;
 @black            : #1B1C1D;
@@ -52,3 +52,9 @@
 
 @lightPrimaryColor   : @lightTeal;
 @lightSecondaryColor : @lightBlack;
+
+/*-------------------
+        Page
+--------------------*/
+
+@pageBackground      : #FCFCFC;

@@ -7,7 +7,8 @@ import {
   Image,
   Label,
   Card,
-  Divider
+  Divider,
+  Button
 } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
@@ -93,6 +94,31 @@ class UploadPage extends Component {
     }
   }
 
+  handleRemoveImage = index => {
+    this.setState(
+      {
+        files: this.state.files.filter((_, i) => i !== index)
+      },
+      () => {
+        this.refs.files.length = this.state.files.length
+        if (this.state.files.length === 0) {
+          this.handleReset()
+        }
+      }
+    )
+  }
+
+  handleReset = () => {
+    const { dispatch } = this.props
+    dispatch(resetErrorMessageIfNeeded())
+    this.setState({
+      files: [],
+      tagSuggestions: [],
+      tags: [],
+      nsfw: false
+    })
+  }
+
   handleInputToggle = (event, data) => {
     const { name, checked } = data
 
@@ -134,17 +160,28 @@ class UploadPage extends Component {
     }
 
     return (
-      <Card.Group itemsPerRow={itemsPerRow} stackable>
-        {files.map((file, index) => (
-          <Card key={index}>
-            <Image src={file.preview} className="img-preview" />
+      <Container text={files.length <= 1}>
+        <Card.Group itemsPerRow={itemsPerRow} stackable>
+          {files.map((file, index) => (
+            <Card key={index}>
+              <Image src={file.preview} className="img-preview" />
 
-            <Card.Content extra>
-              <Card.Meta>{file.name}</Card.Meta>
-            </Card.Content>
-          </Card>
-        ))}
-      </Card.Group>
+              <Card.Content extra>
+                <Card.Meta>{file.name}</Card.Meta>
+              </Card.Content>
+              <Card.Content extra>
+                <Button
+                  icon="remove"
+                  onClick={() => this.handleRemoveImage(index)}
+                  basic
+                  fluid
+                />
+              </Card.Content>
+            </Card>
+          ))}
+        </Card.Group>
+        <Divider horizontal />
+      </Container>
     )
   }
 
@@ -154,8 +191,6 @@ class UploadPage extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
-        {this.renderPreview()}
-        <Divider horizontal />
         {this.renderInputFile()}
         {this.renderInputTags()}
         {this.renderCheckboxNSFW()}
@@ -165,12 +200,16 @@ class UploadPage extends Component {
   }
 
   renderInputFile = () => {
+    const { files } = this.state
+    if (files.length > 0) return null
+
     return (
       <Form.Field>
         <input
           type="file"
           accept="image/png,image/jpeg"
           onChange={this.handleImageChange}
+          ref="files"
           multiple
           required
         />
@@ -219,8 +258,15 @@ class UploadPage extends Component {
   renderButtonSubmit = () => {
     const { files } = this.state
     if (files.length === 0) return null
-
-    return <Form.Button type="submit" primary>Submit</Form.Button>
+    return (
+      <Form.Field>
+        <Button.Group fluid>
+          <Button content="Reset" onClick={this.handleReset} />
+          <Button.Or />
+          <Button type="submit" primary>Submit</Button>
+        </Button.Group>
+      </Form.Field>
+    )
   }
 
   renderTagLabels = () => {
@@ -239,7 +285,7 @@ class UploadPage extends Component {
 
   renderInstructions = () => {
     return (
-      <Segment color="orange" padded vertical inverted>
+      <Segment color="pink" padded vertical inverted>
         <Grid columns="equal" stackable divided>
           <Grid.Row textAlign="center">
             <Grid.Column>
@@ -265,15 +311,15 @@ class UploadPage extends Component {
   }
 
   render() {
-    const { files } = this.state
-
     return (
       <div>
         {this.renderInstructions()}
 
         <Divider section horizontal>Screenshot Upload</Divider>
 
-        <Container text={files.length <= 1}>
+        {this.renderPreview()}
+
+        <Container text>
           {this.renderForm()}
         </Container>
       </div>

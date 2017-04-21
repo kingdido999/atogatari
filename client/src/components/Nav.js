@@ -55,8 +55,8 @@ class Nav extends Component {
     const { attached, isMobile, isAuthenticated } = this.props
 
     return (
-      <Menu size="huge" attached={attached} borderless>
-        <Menu.Item as={Link} to="/" name="atogatari" header />
+      <Menu size="large" attached={attached} borderless>
+        <Menu.Item as={Link} to="/" name="ATOGATARI" header />
         <Menu.Item
           as={Link}
           to="/screenshots"
