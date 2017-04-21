@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { Table } from 'semantic-ui-react'
 
 import TagTableRow from './TagTableRow'
-import { TAG_TYPE_COLOR_MAP } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -20,10 +19,12 @@ class TagsTable extends Component {
     })
 
     return (
-      <Table color={TAG_TYPE_COLOR_MAP[type]} celled unstackable compact>
+      <Table selectable unstackable compact>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan={3}>{type}</Table.HeaderCell>
+            <Table.HeaderCell colSpan={3} textAlign="center">
+              {type}
+            </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>

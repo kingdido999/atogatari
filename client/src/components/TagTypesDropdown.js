@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Header } from 'semantic-ui-react'
 
 import { updateTag } from '../actions/user'
 import { TAG_TYPE_COLOR_MAP } from '../utils'
@@ -36,10 +36,11 @@ class TagTypesDropdown extends Component {
 		return (
 			<Dropdown
 				disabled={!isAuthenticated}
-				text="Move to"
+				text="Edit"
 				selectOnBlur={false}
 				options={options}
 				onChange={this.handleChangeType}
+				header={<Header content="move to..." />}
 			/>
 		)
 	}
