@@ -134,6 +134,7 @@ class ScreenshotPage extends Component {
               key={index}
               type={tags[name] ? tags[name].type : 'General'}
               name={name}
+              count={tags[name] ? tags[name].screenshots.length : null}
               dispatch={dispatch}
               isAdmin={isAdmin}
               screenshotId={screenshot._id}
