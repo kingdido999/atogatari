@@ -146,7 +146,7 @@ async function addTag(name, screenshotId) {
 }
 
 async function getScreenshot(ctx) {
-  const { id } = ctx.request.query
+  const { id } = ctx.params
 
   const screenshot = await Screenshot.findById(id)
     .populate('user favorites tagDocs')

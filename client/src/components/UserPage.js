@@ -8,7 +8,6 @@ const propTypes = {
 }
 
 class UserPage extends Component {
-
   render() {
     const { user } = this.props
     if (!user) return null
@@ -20,11 +19,23 @@ class UserPage extends Component {
             <Menu.Item>
               <Header>
                 <Link to={`/user/${user._id}`}>{user.username}</Link>
-                <Header.Subheader>Joined {moment(user.createdAt).fromNow()}</Header.Subheader>
+                <Header.Subheader>
+                  Joined {moment(user.createdAt).fromNow()}
+                </Header.Subheader>
               </Header>
             </Menu.Item>
-            <Menu.Item as={Link} to={`/user/${user._id}/favorites`} name='Favorites' activeClassName="active" />
-            <Menu.Item as={Link} to={`/user/${user._id}/uploads`} name='Uploads' activeClassName="active" />
+            <Menu.Item
+              as={Link}
+              to={`/user/${user._id}/favorites`}
+              name="Favorites"
+              activeClassName="active"
+            />
+            <Menu.Item
+              as={Link}
+              to={`/user/${user._id}/uploads`}
+              name="Uploads"
+              activeClassName="active"
+            />
             {/* <Menu.Item name='Settings' activeClassName="active" /> */}
           </Menu>
         </Segment>
@@ -32,7 +43,7 @@ class UserPage extends Component {
         <Segment basic vertical>
           {this.props.children}
         </Segment>
-        
+
       </Container>
     )
   }

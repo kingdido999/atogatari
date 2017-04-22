@@ -12,9 +12,7 @@ const propTypes = {
   itemsPerRow: PropTypes.number.isRequired,
   users: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
-  screenshotIds: PropTypes.array.isRequired,
-  userFavorites: PropTypes.object,
-  screenshotFavorites: PropTypes.object.isRequired
+  screenshotIds: PropTypes.array.isRequired
 }
 
 class ScreenshotCards extends Component {
@@ -25,11 +23,10 @@ class ScreenshotCards extends Component {
       users,
       uid,
       screenshots,
-      screenshotIds,
-      screenshotFavorites
+      screenshotIds
     } = this.props
 
-    const cards = []
+    let cards = []
 
     screenshotIds.forEach((id, index) => {
       const authedUser = users[uid]
@@ -39,12 +36,13 @@ class ScreenshotCards extends Component {
         authedUser !== undefined &&
         authedUser.roles &&
         authedUser.roles.includes('admin')
+
       cards.push(
         <ScreenshotCard
           {...this.props}
           key={index}
           screenshot={screenshot}
-          screenshotFavorites={screenshotFavorites[id]}
+          authedUser={authedUser}
           isOwner={isOwner}
           isAdmin={isAdmin}
         />

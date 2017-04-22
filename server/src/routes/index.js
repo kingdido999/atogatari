@@ -7,7 +7,7 @@ import search from '../apis/search'
 import tokenAuth from '../middlewares/tokenAuth'
 
 export default function route(router) {
-  router.get('/screenshot', screenshot.getScreenshot)
+  router.get('/screenshot/:id', screenshot.getScreenshot)
   router.get('/screenshots', screenshot.getScreenshots)
   router.post('/screenshot/upload', tokenAuth(), screenshot.upload)
   router.post('/screenshot/download', screenshot.download)
@@ -15,12 +15,13 @@ export default function route(router) {
 
   router.get('/favorites', favorite.getFavorites)
 
+  router.get('/tag/:name', tag.getTag)
   router.get('/tags', tag.getTags)
-  router.get('/tag', tag.getTag)
   router.post('/tag', tokenAuth(), tag.addTag)
   router.put('/tag/:name', tokenAuth(), tag.updateTag)
   router.del('/tag/:name', tokenAuth(), tag.deleteTag)
 
+  router.get('/user/:id', user.getUser)
   router.post('/user', tokenAuth(), user.getAuthedUser)
   router.post('/user/signup', user.signup)
   router.post('/user/login', user.login)

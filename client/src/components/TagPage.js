@@ -4,37 +4,18 @@ import Zooming from 'zooming'
 
 import ScreenshotCards from './ScreenshotCards'
 import TagTypesDropdown from './TagTypesDropdown'
-import { getTagByNameIfNeeded } from '../actions/entities'
-import { getUserFavoritesIfNeeded } from '../actions/user'
 import { TAG_TYPE_COLOR_MAP } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  authedUser: PropTypes.object,
   tag: PropTypes.object,
   screenshotIds: PropTypes.array.isRequired,
-  screenshots: PropTypes.object.isRequired,
-  screenshotFavorites: PropTypes.object.isRequired,
-  userFavorites: PropTypes.object
+  screenshots: PropTypes.object.isRequired
 }
 
 class TagPage extends Component {
-  componentWillMount() {
-    const { params, dispatch } = this.props
-    const { name } = params
-    dispatch(getTagByNameIfNeeded(name))
-    dispatch(getUserFavoritesIfNeeded())
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { params, dispatch } = this.props
-
-    const name = nextProps.params.name
-    if (name !== params.name) {
-      dispatch(getTagByNameIfNeeded(name))
-    }
-  }
-
   render() {
     const { dispatch, isAuthenticated, tag, screenshotIds } = this.props
     if (!tag) return null

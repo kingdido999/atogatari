@@ -2,11 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import TagsPage from '../components/TagsPage'
+import { getTags } from '../actions/entities'
 
 class TagsContainer extends Component {
-
-  render () {
-    return <TagsPage { ...this.props } />
+  componentWillMount() {
+    const { dispatch } = this.props
+    dispatch(getTags())
+  }
+  render() {
+    return <TagsPage {...this.props} />
   }
 }
 

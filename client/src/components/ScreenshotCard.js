@@ -16,8 +16,7 @@ const propTypes = {
   zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   screenshot: PropTypes.object,
-  screenshotFavorites: PropTypes.object,
-  userFavorites: PropTypes.object,
+  authedUser: PropTypes.object,
   isAdmin: PropTypes.bool,
   isOwner: PropTypes.bool
 }
@@ -30,21 +29,18 @@ class ScreenshotCard extends Component {
       zooming,
       view,
       screenshot,
-      userFavorites,
-      screenshotFavorites,
+      authedUser,
       isOwner,
       isAdmin
     } = this.props
-    if (!screenshot || !screenshotFavorites) return null
-    const { _id, file, nsfw } = screenshot
+    if (!screenshot) return null
+    const { _id, file, nsfw, favorites } = screenshot
 
-    const isFavorited = isAuthenticated && userFavorites
-      ? userFavorites.ids.find(favoriteId => {
-          return screenshotFavorites.ids.includes(favoriteId)
-        }) !== undefined
+    const isFavorited = authedUser
+      ? authedUser.favorites.find(id => favorites.includes(id)) !== undefined
       : false
 
-    const favoritesCount = screenshotFavorites.ids.length
+    const favoritesCount = favorites.length
     const isSingleView = view === 'single'
     const src = getImageUrl(isSingleView ? file.medium : file.small)
 

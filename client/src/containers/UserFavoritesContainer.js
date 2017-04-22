@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getUserFavoriteScreenshotIds } from '../selectors'
 import UserFavoritesPage from '../components/UserFavoritesPage'
 
 class UserFavoritesContainer extends Component {
@@ -11,30 +10,29 @@ class UserFavoritesContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const {
-    user,
-    entities,
-    screenshots,
-    screenshotFavorites,
-    userFavorites
-  } = state
-  const { isAuthenticated } = user
+  const { user, entities, screenshots } = state
+  const { isAuthenticated, uid } = user
   const { view, itemsPerRow } = screenshots
   const { favorites, users } = entities
   const { params } = ownProps
   const { userId } = params
+  const screenshotIds = users[userId]
+    ? users[userId].favorites.reduce(
+        (acc, id) => acc.concat(favorites[id].screenshot),
+        []
+      )
+    : []
 
   return {
     isAuthenticated,
     view,
     itemsPerRow,
+    authedUser: users[uid],
     users,
     uid: userId,
-    screenshotIds: getUserFavoriteScreenshotIds(state, ownProps),
+    screenshotIds,
     screenshots: entities.screenshots,
-    favorites,
-    screenshotFavorites,
-    userFavorites: userFavorites[userId]
+    favorites
   }
 }
 

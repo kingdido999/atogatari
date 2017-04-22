@@ -91,21 +91,6 @@ export function getAuthedUser() {
   }
 }
 
-export function getUserFavoritesIfNeeded() {
-  return (dispatch, getState) => {
-    const { user, userFavorites } = getState()
-    const { isAuthenticated, uid } = user
-
-    if (
-      isAuthenticated &&
-      userFavorites[uid] &&
-      userFavorites[uid].ids.length === 0
-    ) {
-      dispatch(getUserFavorites())
-    }
-  }
-}
-
 export function getUserFavorites() {
   return {
     type: 'GET_USER_FAVORITES',

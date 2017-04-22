@@ -2,21 +2,30 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ScreenshotPage from '../components/ScreenshotPage'
+import { getScreenshotIfNeeded } from '../actions/entities'
 
 class ScreenshotContainer extends Component {
+  componentWillMount() {
+    const { params, dispatch } = this.props
+    const { screenshotId } = params
+    dispatch(getScreenshotIfNeeded(screenshotId))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { params, dispatch } = this.props
+    const screenshotId = nextProps.params.screenshotId
+
+    if (screenshotId !== params.screenshotId) {
+      dispatch(getScreenshotIfNeeded(screenshotId))
+    }
+  }
   render() {
     return <ScreenshotPage {...this.props} />
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const {
-    entities,
-    user,
-    screenshotFavorites,
-    screenshotTags,
-    userFavorites
-  } = state
+  const { entities, user } = state
   const { users, screenshots, tags } = entities
   const { isAuthenticated, uid } = user
   const { screenshotId } = ownProps.params
@@ -32,12 +41,10 @@ function mapStateToProps(state, ownProps) {
     isAuthenticated,
     isOwner,
     isAdmin,
+    authedUser,
     screenshot,
     users,
-    tags,
-    screenshotFavorites: screenshotFavorites[screenshotId],
-    screenshotTags: screenshotTags[screenshotId],
-    userFavorites: userFavorites[uid]
+    tags
   }
 }
 

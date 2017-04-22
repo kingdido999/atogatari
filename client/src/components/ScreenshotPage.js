@@ -20,7 +20,6 @@ import FavoriteButton from '../components/FavoriteButton'
 import WhatAnimeGaButton from '../components/WhatAnimeGaButton'
 import DeleteButton from '../components/DeleteButton'
 
-import { getScreenshotIfNeeded } from '../actions/entities'
 import { search } from '../actions/entities'
 import { addTag } from '../actions/user'
 import { getImageUrl } from '../utils'
@@ -30,33 +29,16 @@ const propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
+  authedUser: PropTypes.object,
   screenshot: PropTypes.object,
   users: PropTypes.object.isRequired,
-  tags: PropTypes.object.isRequired,
-  screenshotFavorites: PropTypes.object,
-  screenshotTags: PropTypes.object,
-  userFavorites: PropTypes.object
+  tags: PropTypes.object.isRequired
 }
 
 class ScreenshotPage extends Component {
   state = {
     tag: '',
     tagSuggestions: []
-  }
-
-  componentWillMount() {
-    const { params, dispatch } = this.props
-    const { screenshotId } = params
-    dispatch(getScreenshotIfNeeded(screenshotId))
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { params, dispatch } = this.props
-    const screenshotId = nextProps.params.screenshotId
-
-    if (screenshotId !== params.screenshotId) {
-      dispatch(getScreenshotIfNeeded(screenshotId))
-    }
   }
 
   render() {
@@ -123,13 +105,13 @@ class ScreenshotPage extends Component {
   }
 
   renderTagsSegment = () => {
-    const { dispatch, isAdmin, screenshot, tags, screenshotTags } = this.props
-    if (!screenshotTags || screenshotTags.names.length === 0) return null
+    const { dispatch, isAdmin, screenshot, tags } = this.props
+    if (!screenshot || screenshot.tags.length === 0) return null
 
     return (
       <Segment>
         <Label.Group>
-          {screenshotTags.names.map((name, index) => (
+          {screenshot.tags.map((name, index) => (
             <Tag
               key={index}
               type={tags[name] ? tags[name].type : 'General'}
@@ -188,20 +170,17 @@ class ScreenshotPage extends Component {
       isAuthenticated,
       isOwner,
       isAdmin,
-      screenshot,
-      screenshotFavorites,
-      userFavorites
+      authedUser,
+      screenshot
     } = this.props
-    if (!screenshot || !screenshotFavorites) return null
-    const { _id, file } = screenshot
+    if (!screenshot) return null
+    const { _id, file, favorites } = screenshot
 
-    const isFavorited = isAuthenticated && userFavorites
-      ? userFavorites.ids.find(favoriteId => {
-          return screenshotFavorites.ids.includes(favoriteId)
-        }) !== undefined
+    const isFavorited = authedUser
+      ? authedUser.favorites.find(id => favorites.includes(id)) !== undefined
       : false
 
-    const favoritesCount = screenshotFavorites.ids.length
+    const favoritesCount = favorites.length
 
     return (
       <Segment>

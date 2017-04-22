@@ -11,9 +11,9 @@ async function getTags(ctx) {
 }
 
 async function getTag(ctx) {
-	const { query } = ctx.request
+	const { name } = ctx.params
 
-	const tag = await Tag.findOne(query).populate('screenshots').exec()
+	const tag = await Tag.findOne({ name }).populate('screenshots').exec()
 
 	ctx.response.body = tag
 	ctx.status = 200

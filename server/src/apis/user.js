@@ -71,6 +71,14 @@ async function login(ctx) {
   ctx.status = 200
 }
 
+async function getUser(ctx) {
+  const { id } = ctx.params
+  const user = await User.findById(id).populate('screenshots favorites').exec()
+
+  ctx.response.body = user
+  ctx.status = 200
+}
+
 async function getAuthedUser(ctx) {
   const user = await User.findById(ctx.state.uid)
     .populate('screenshots')
@@ -180,6 +188,7 @@ async function getUploadedScreenshots(ctx) {
 export default {
   signup,
   login,
+  getUser,
   getAuthedUser,
   getUserFavorites,
   toggleFavorite,

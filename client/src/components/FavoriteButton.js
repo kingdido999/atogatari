@@ -4,31 +4,34 @@ import { Link } from 'react-router'
 
 import { toggleFavorite } from '../actions/user'
 
-class FavoriteButton extends Component {
+const propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isFavorited: PropTypes.bool.isRequired,
+  screenshotId: PropTypes.string.isRequired,
+  favoritesCount: PropTypes.number.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
+}
 
+class FavoriteButton extends Component {
   toggleFavorite = () => {
     const { dispatch, isAuthenticated, screenshotId } = this.props
     if (!isAuthenticated) return
     dispatch(toggleFavorite({ screenshotId: screenshotId }))
   }
 
-  renderIcon (isFavorited) {
+  renderIcon(isFavorited) {
     if (isFavorited) {
-      return (
-        <Icon name="favorite" color='yellow' />
-      )
+      return <Icon name="favorite" color="yellow" />
     } else {
-      return (
-        <Icon name="favorite" />
-      )
+      return <Icon name="favorite" />
     }
   }
 
-  renderButton (isFavorited, favoritesCount) {
+  renderButton(isFavorited, favoritesCount) {
     const icon = this.renderIcon(isFavorited)
     const content = isFavorited
-    ? favoritesCount > 1 ? favoritesCount : ''
-    : favoritesCount > 0 ? favoritesCount : ''
+      ? favoritesCount > 1 ? favoritesCount : ''
+      : favoritesCount > 0 ? favoritesCount : ''
 
     return (
       <Button
@@ -40,13 +43,11 @@ class FavoriteButton extends Component {
     )
   }
 
-  renderLoginButton () {
-    return (
-      <Button primary content='Login' as={Link} to="/login" />
-    )
+  renderLoginButton() {
+    return <Button primary content="Login" as={Link} to="/login" />
   }
 
-  render () {
+  render() {
     const { isAuthenticated, isFavorited, favoritesCount } = this.props
     const button = this.renderButton(isFavorited, favoritesCount)
 
@@ -55,8 +56,8 @@ class FavoriteButton extends Component {
         <Popup
           trigger={button}
           content={this.renderLoginButton()}
-          on='click'
-          position='bottom center'
+          on="click"
+          position="bottom center"
         />
       )
     }
@@ -65,12 +66,6 @@ class FavoriteButton extends Component {
   }
 }
 
-FavoriteButton.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isFavorited: PropTypes.bool.isRequired,
-  screenshotId: PropTypes.string.isRequired,
-  favoritesCount: PropTypes.number.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
-}
+FavoriteButton.propTypes = propTypes
 
 export default FavoriteButton

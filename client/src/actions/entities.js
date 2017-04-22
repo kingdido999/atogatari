@@ -19,9 +19,10 @@ export function search(params) {
 
 export function getScreenshotsByUserIdIfNeeded(userId) {
   return (dispatch, getState) => {
-    const { userScreenshots } = getState()
+    const { entities } = getState()
+    const { users } = entities
 
-    if (!userScreenshots[userId]) {
+    if (!users[userId]) {
       dispatch(getScreenshotsByUserId(userId))
     }
   }
@@ -74,19 +75,94 @@ export function getScreenshotIfNeeded(id) {
     const { screenshots } = entities
 
     if (!screenshots[id]) {
-      dispatch(getScreenshotById(id))
+      dispatch(getScreenshot(id))
     }
   }
 }
 
-export function getScreenshotById(id) {
+export function getScreenshot(id) {
   return {
     type: 'GET_SCREENSHOT',
-    payload: ax.get('/screenshot', {
-      params: { id },
+    payload: ax.get(`/screenshot/${id}`, {
       transformResponse: [
         function(data) {
           return normalize(JSON.parse(data), schemas.screenshotSchema)
+        }
+      ]
+    })
+  }
+}
+
+export function getFavoritesByUserId(userId) {
+  return getFavorites({ user: userId })
+}
+
+export function getFavorites(params) {
+  return {
+    type: 'GET_FAVORITES',
+    payload: ax.get('/favorites', {
+      params,
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), [schemas.favoriteSchema])
+        }
+      ]
+    })
+  }
+}
+
+export function getTags(params) {
+  return {
+    type: 'GET_TAGS',
+    payload: ax.get('/tags', {
+      params,
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), [schemas.tagSchema])
+        }
+      ]
+    })
+  }
+}
+
+export function getTag(name) {
+  return {
+    type: 'GET_TAG',
+    payload: ax.get(`/tag/${name}`, {
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), schemas.tagSchema)
+        }
+      ]
+    })
+  }
+}
+
+export function downloadScreenshot(screenshotId) {
+  return {
+    type: 'DOWNLOAD_SCREENSHOT',
+    payload: ax.post('/screenshot/download', { screenshotId })
+  }
+}
+
+export function getUserByIdIfNeeded(id) {
+  return (dispatch, getState) => {
+    const { entities } = getState()
+    const { users } = entities
+
+    if (!users[id]) {
+      dispatch(getUserById(id))
+    }
+  }
+}
+
+export function getUserById(id) {
+  return {
+    type: 'GET_USER',
+    payload: ax.get(`/user/${id}`, {
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), schemas.userSchema)
         }
       ]
     })
@@ -125,79 +201,5 @@ export function lastPage() {
     const { pages } = screenshots
 
     dispatch(setPage(pages))
-  }
-}
-
-export function getFavoritesByUserIdIfNeeded(userId) {
-  return (dispatch, getState) => {
-    const { userFavorites } = getState()
-
-    if (!userFavorites[userId]) {
-      dispatch(getFavoritesByUserId(userId))
-    }
-  }
-}
-
-export function getFavoritesByUserId(userId) {
-  return getFavorites({ user: userId })
-}
-
-export function getFavorites(params) {
-  return {
-    type: 'GET_FAVORITES',
-    payload: ax.get('/favorites', {
-      params,
-      transformResponse: [
-        function(data) {
-          return normalize(JSON.parse(data), [schemas.favoriteSchema])
-        }
-      ]
-    })
-  }
-}
-
-export function getTagByNameIfNeeded(name) {
-  return (dispatch, getState) => {
-    const { entities } = getState()
-    const { tags } = entities
-
-    if (!tags[name]) {
-      dispatch(getTag({ name }))
-    }
-  }
-}
-
-export function getTags(params) {
-  return {
-    type: 'GET_TAGS',
-    payload: ax.get('/tags', {
-      params,
-      transformResponse: [
-        function(data) {
-          return normalize(JSON.parse(data), [schemas.tagSchema])
-        }
-      ]
-    })
-  }
-}
-
-export function getTag(params) {
-  return {
-    type: 'GET_TAG',
-    payload: ax.get('/tag', {
-      params,
-      transformResponse: [
-        function(data) {
-          return normalize(JSON.parse(data), schemas.tagSchema)
-        }
-      ]
-    })
-  }
-}
-
-export function downloadScreenshot(screenshotId) {
-  return {
-    type: 'DOWNLOAD_SCREENSHOT',
-    payload: ax.post('/screenshot/download', { screenshotId })
   }
 }

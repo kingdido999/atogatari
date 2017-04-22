@@ -5,7 +5,7 @@ export default combineReducers({
   results
 })
 
-function isFetching (state = false, action) {
+function isFetching(state = false, action) {
   switch (action.type) {
     case 'SEARCH_PENDING':
       return true
@@ -17,12 +17,12 @@ function isFetching (state = false, action) {
   }
 }
 
-function results (state = {}, action) {
+function results(state = {}, action) {
   switch (action.type) {
     case 'SEARCH_FULFILLED':
       return action.payload.data
-    case 'DELETE_TAG_FULFILLED':
-      return state.filter(({ name }) => name !== action.payload.data.name)
+    // case 'DELETE_TAG_FULFILLED':
+    //   return state.filter(({ name }) => name !== action.payload.data.name)
     default:
       return state
   }
