@@ -6,7 +6,8 @@ import { signup } from '../actions/user'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  size: PropTypes.string.isRequired
+  size: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 class SignupForm extends Component {
@@ -32,7 +33,7 @@ class SignupForm extends Component {
   }
 
   render() {
-    const { size } = this.props
+    const { size, loading } = this.props
 
     return (
       <Form size={size} onSubmit={this.handleSubmit}>
@@ -66,7 +67,7 @@ class SignupForm extends Component {
           title="Your password length is less than 8"
         />
 
-        <Form.Button type="submit" size={size} fluid primary>
+        <Form.Button type="submit" size={size} loading={loading} fluid primary>
           Sign Up
         </Form.Button>
       </Form>

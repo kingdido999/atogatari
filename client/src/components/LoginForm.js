@@ -7,16 +7,16 @@ import { login } from '../actions/user'
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   size: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 class LoginForm extends Component {
-
   state = {
     email: '',
     password: ''
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     const target = event.target
     const { value, name } = target
 
@@ -25,40 +25,39 @@ class LoginForm extends Component {
     })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault()
     const { dispatch } = this.props
 
-    dispatch(login(this.state))
-    .then(() => browserHistory.goBack())
+    dispatch(login(this.state)).then(() => browserHistory.goBack())
   }
 
   render() {
-    const { size } = this.props
+    const { size, loading } = this.props
 
     return (
-      <Form
-        size={size}
-        onSubmit={this.handleSubmit}>
+      <Form size={size} onSubmit={this.handleSubmit}>
 
-        <Form.Input 
-          label='Email or username' 
-          icon='user'
-          iconPosition='left' 
-          name='email'
-          onChange={this.handleChange} 
+        <Form.Input
+          label="Email or username"
+          icon="user"
+          iconPosition="left"
+          name="email"
+          onChange={this.handleChange}
         />
 
-        <Form.Input 
-          label='Password' 
-          icon='lock' 
-          iconPosition='left' 
-          name='password'
-          type='password'
-          onChange={this.handleChange} 
+        <Form.Input
+          label="Password"
+          icon="lock"
+          iconPosition="left"
+          name="password"
+          type="password"
+          onChange={this.handleChange}
         />
 
-        <Form.Button type="submit" size={size} fluid primary>Log In</Form.Button>
+        <Form.Button type="submit" size={size} loading={loading} fluid primary>
+          Log In
+        </Form.Button>
       </Form>
     )
   }

@@ -6,31 +6,39 @@ import SignupForm from '../components/SignupForm'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  isLoggingIn: PropTypes.bool.isRequired,
+  isSigningUp: PropTypes.bool.isRequired
 }
 
 class LoginPage extends Component {
-
   render() {
     const size = 'large'
-    const { dispatch, isFetching } = this.props
+    const { dispatch, isSigningUp, isLoggingIn } = this.props
 
     return (
       <Container text>
-        <Segment loading={isFetching}>
+        <Segment>
           <Grid divided stackable>
             <Grid.Row columns={2}>
               <Grid.Column>
                 <Segment basic>
                   <Header size={size}>Sign Up</Header>
-                  <SignupForm size={size} dispatch={dispatch}/>
+                  <SignupForm
+                    size={size}
+                    dispatch={dispatch}
+                    loading={isSigningUp}
+                  />
                 </Segment>
               </Grid.Column>
-              
+
               <Grid.Column>
                 <Segment basic>
                   <Header size={size}>Log In</Header>
-                  <LoginForm size={size} dispatch={dispatch} />
+                  <LoginForm
+                    size={size}
+                    dispatch={dispatch}
+                    loading={isLoggingIn}
+                  />
                 </Segment>
               </Grid.Column>
             </Grid.Row>

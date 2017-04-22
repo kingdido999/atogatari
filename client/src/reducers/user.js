@@ -3,20 +3,30 @@ import { combineReducers } from 'redux'
 import { isLoggedIn } from '../utils'
 
 export default combineReducers({
-  isFetching,
+  isLoggingIn,
+  isSigningUp,
   isAuthenticated,
   uid,
   isUploading
 })
 
-function isFetching (state = false, action) {
+function isLoggingIn(state = false, action) {
   switch (action.type) {
     case 'LOGIN_PENDING':
-    case 'SIGNUP_PENDING':
       return true
     case 'LOGIN_FULFILLED':
-    case 'SIGNUP_FULFILLED':
     case 'LOGIN_REJECTED':
+      return false
+    default:
+      return state
+  }
+}
+
+function isSigningUp(state = false, action) {
+  switch (action.type) {
+    case 'SIGNUP_PENDING':
+      return true
+    case 'SIGNUP_FULFILLED':
     case 'SIGNUP_REJECTED':
       return false
     default:
@@ -24,7 +34,7 @@ function isFetching (state = false, action) {
   }
 }
 
-function isAuthenticated (state = isLoggedIn(), action) {
+function isAuthenticated(state = isLoggedIn(), action) {
   switch (action.type) {
     case 'LOGIN_FULFILLED':
     case 'SIGNUP_FULFILLED':
@@ -36,7 +46,7 @@ function isAuthenticated (state = isLoggedIn(), action) {
   }
 }
 
-function uid (state = null, action) {
+function uid(state = null, action) {
   switch (action.type) {
     case 'LOGIN_FULFILLED':
     case 'SIGNUP_FULFILLED':
@@ -50,7 +60,7 @@ function uid (state = null, action) {
   }
 }
 
-function isUploading (state = false, action) {
+function isUploading(state = false, action) {
   switch (action.type) {
     case 'UPLOAD_PENDING':
       return true
