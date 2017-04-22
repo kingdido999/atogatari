@@ -22,13 +22,9 @@ class TagsTable extends Component {
       <Table selectable unstackable compact>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan={3} textAlign="center">
+            <Table.HeaderCell colSpan={3}>
               {type}
             </Table.HeaderCell>
-          </Table.Row>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
