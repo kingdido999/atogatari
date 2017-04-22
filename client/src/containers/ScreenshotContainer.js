@@ -27,7 +27,7 @@ class ScreenshotContainer extends Component {
 function mapStateToProps(state, ownProps) {
   const { entities, user } = state
   const { users, screenshots, tags } = entities
-  const { isAuthenticated, uid } = user
+  const { uid } = user
   const { screenshotId } = ownProps.params
   const screenshot = screenshots[screenshotId]
   const authedUser = users[uid]
@@ -38,7 +38,6 @@ function mapStateToProps(state, ownProps) {
     authedUser.roles.includes('admin')
 
   return {
-    isAuthenticated,
     isOwner,
     isAdmin,
     authedUser,

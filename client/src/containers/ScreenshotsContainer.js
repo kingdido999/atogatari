@@ -17,13 +17,11 @@ class ScreenshotsContainer extends Component {
 function mapStateToProps(state) {
   const { user, entities, screenshots } = state
   const { users } = entities
-  const { isAuthenticated, uid } = user
+  const { uid } = user
   const { ids, view, itemsPerRow } = screenshots
 
   return {
-    isAuthenticated,
-    uid,
-    users,
+    authedUser: users[uid],
     view,
     itemsPerRow,
     screenshots: entities.screenshots,

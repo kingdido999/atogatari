@@ -9,13 +9,13 @@ const propTypes = {
   isFavorited: PropTypes.bool.isRequired,
   screenshotId: PropTypes.string.isRequired,
   favoritesCount: PropTypes.number.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  authedUser: PropTypes.object
 }
 
 class FavoriteButton extends Component {
   toggleFavorite = () => {
-    const { dispatch, isAuthenticated, screenshotId } = this.props
-    if (!isAuthenticated) return
+    const { dispatch, authedUser, screenshotId } = this.props
+    if (!authedUser) return
     dispatch(toggleFavorite({ screenshotId: screenshotId }))
   }
 
@@ -48,10 +48,10 @@ class FavoriteButton extends Component {
   }
 
   render() {
-    const { isAuthenticated, isFavorited, favoritesCount } = this.props
+    const { authedUser, isFavorited, favoritesCount } = this.props
     const button = this.renderButton(isFavorited, favoritesCount)
 
-    if (!isAuthenticated) {
+    if (!authedUser) {
       return (
         <Popup
           trigger={button}

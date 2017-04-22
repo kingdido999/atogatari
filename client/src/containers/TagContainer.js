@@ -34,9 +34,8 @@ function mapStateToProps(state, ownProps) {
 
   return {
     isAuthenticated,
-    users: entities.users,
     authedUser: users[uid],
-    uid,
+    users: entities.users,
     view,
     itemsPerRow,
     tag,

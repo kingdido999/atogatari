@@ -27,7 +27,7 @@ class UserUploadsContainer extends Component {
 
 function mapStateToProps(state, ownProps) {
   const { user, entities, screenshots } = state
-  const { isAuthenticated, uid } = user
+  const { uid } = user
   const { view, itemsPerRow } = screenshots
   const { favorites, users } = entities
   const { params } = ownProps
@@ -35,7 +35,6 @@ function mapStateToProps(state, ownProps) {
   const screenshotIds = users[userId] ? users[userId].screenshots : []
 
   return {
-    isAuthenticated,
     view,
     users,
     authedUser: users[uid],

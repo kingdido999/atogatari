@@ -12,33 +12,27 @@ import { getImageUrl } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
   zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   screenshot: PropTypes.object,
-  authedUser: PropTypes.object,
   isAdmin: PropTypes.bool,
-  isOwner: PropTypes.bool
+  isOwner: PropTypes.bool,
+  isFavorited: PropTypes.bool.isRequired
 }
 
 class ScreenshotCard extends Component {
   render() {
     const {
       dispatch,
-      isAuthenticated,
       zooming,
       view,
       screenshot,
-      authedUser,
       isOwner,
-      isAdmin
+      isAdmin,
+      isFavorited
     } = this.props
     if (!screenshot) return null
     const { _id, file, nsfw, favorites } = screenshot
-
-    const isFavorited = authedUser
-      ? authedUser.favorites.find(id => favorites.includes(id)) !== undefined
-      : false
 
     const favoritesCount = favorites.length
     const isSingleView = view === 'single'
@@ -70,8 +64,7 @@ class ScreenshotCard extends Component {
               file={file}
             />
             <WhatAnimeGaIconButton url={getImageUrl(file.medium)} />
-            {isAuthenticated &&
-              (isOwner || isAdmin) &&
+            {(isOwner || isAdmin) &&
               <DeleteButton dispatch={dispatch} screenshotId={_id} />}
             <DetailsButton screenshotId={_id} />
           </Button.Group>

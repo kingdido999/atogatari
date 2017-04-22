@@ -5,12 +5,10 @@ import ScreenshotCard from './ScreenshotCard'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  uid: PropTypes.string,
   zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   itemsPerRow: PropTypes.number.isRequired,
-  users: PropTypes.object.isRequired,
+  authedUser: PropTypes.object,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired
 }
@@ -20,22 +18,24 @@ class ScreenshotCards extends Component {
     const {
       itemsPerRow,
       view,
-      users,
-      uid,
+      authedUser,
       screenshots,
       screenshotIds
     } = this.props
 
+    const isAdmin =
+      authedUser && authedUser.roles && authedUser.roles.includes('admin')
+
     let cards = []
 
     screenshotIds.forEach((id, index) => {
-      const authedUser = users[uid]
       const screenshot = screenshots[id]
-      const isOwner = screenshot !== undefined && uid === screenshot.user
-      const isAdmin =
-        authedUser !== undefined &&
-        authedUser.roles &&
-        authedUser.roles.includes('admin')
+      if (!screenshot) return
+      const { favorites } = screenshot
+      const isOwner = authedUser && authedUser._id === screenshot.user
+      const isFavorited = authedUser
+        ? authedUser.favorites.find(id => favorites.includes(id)) !== undefined
+        : false
 
       cards.push(
         <ScreenshotCard
@@ -45,6 +45,7 @@ class ScreenshotCards extends Component {
           authedUser={authedUser}
           isOwner={isOwner}
           isAdmin={isAdmin}
+          isFavorited={isFavorited}
         />
       )
     })

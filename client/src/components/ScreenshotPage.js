@@ -26,7 +26,6 @@ import { getImageUrl } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   authedUser: PropTypes.object,
@@ -128,8 +127,8 @@ class ScreenshotPage extends Component {
   }
 
   renderAddTagSegment = () => {
-    const { isAuthenticated, tag } = this.props
-    if (!isAuthenticated) return null
+    const { authedUser, tag } = this.props
+    if (!authedUser) return null
 
     return (
       <Segment>
@@ -165,14 +164,7 @@ class ScreenshotPage extends Component {
   }
 
   renderActionSegment = () => {
-    const {
-      dispatch,
-      isAuthenticated,
-      isOwner,
-      isAdmin,
-      authedUser,
-      screenshot
-    } = this.props
+    const { dispatch, isOwner, isAdmin, authedUser, screenshot } = this.props
     if (!screenshot) return null
     const { _id, file, favorites } = screenshot
 
@@ -190,12 +182,10 @@ class ScreenshotPage extends Component {
             screenshotId={_id}
             isFavorited={isFavorited}
             favoritesCount={favoritesCount}
-            isAuthenticated={isAuthenticated}
           />
           <DownloadButton dispatch={dispatch} screenshotId={_id} file={file} />
 
-          {isAuthenticated &&
-            (isOwner || isAdmin) &&
+          {(isOwner || isAdmin) &&
             <DeleteButton
               dispatch={dispatch}
               screenshotId={_id}
