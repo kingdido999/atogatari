@@ -15,17 +15,17 @@ class ScreenshotsContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user, entities, screenshots } = state
+  const { user, entities, screenshots, ui } = state
   const { users } = entities
   const { uid } = user
-  const { ids, view, itemsPerRow } = screenshots
+  const { view, itemsPerRow } = ui
 
   return {
     authedUser: users[uid],
     view,
     itemsPerRow,
     screenshots: entities.screenshots,
-    screenshotIds: ids
+    screenshotIds: screenshots.ids
   }
 }
 

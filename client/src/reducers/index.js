@@ -6,6 +6,7 @@ import search from './search'
 import entities from './entities'
 import screenshots from './screenshots'
 import tags from './tags'
+import ui from './ui'
 import environment from './environment'
 import errorMessage from './errorMessage'
 
@@ -15,6 +16,7 @@ export default combineReducers({
 	entities,
 	screenshots,
 	tags,
+	ui,
 	environment,
 	errorMessage,
 	routing: routerReducer

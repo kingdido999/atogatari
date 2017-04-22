@@ -25,9 +25,9 @@ class TagContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, screenshots } = state
+  const { entities, user, ui } = state
   const { isAuthenticated, uid } = user
-  const { view, itemsPerRow } = screenshots
+  const { view, itemsPerRow } = ui
   const { tags, users } = entities
   const { name } = ownProps.params
   const tag = tags[name]
