@@ -84,7 +84,7 @@ class Nav extends Component {
               as={Link}
               to="/upload"
               icon="cloud upload"
-              name="submit"
+              name="upload"
               activeClassName="active"
             />}
 

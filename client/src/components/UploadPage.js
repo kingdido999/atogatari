@@ -186,11 +186,8 @@ class UploadPage extends Component {
   }
 
   renderForm = () => {
-    const { isUploading } = this.props
-    const size = 'large'
-
     return (
-      <Form onSubmit={this.handleSubmit} loading={isUploading} size={size}>
+      <Form onSubmit={this.handleSubmit} size="large">
         {this.renderInputFile()}
         {this.renderInputTags()}
         {this.renderCheckboxNSFW()}
@@ -258,12 +255,14 @@ class UploadPage extends Component {
   renderButtonSubmit = () => {
     const { files } = this.state
     if (files.length === 0) return null
+    const { isUploading } = this.props
+
     return (
       <Form.Field>
         <Button.Group fluid>
           <Button content="Reset" onClick={this.handleReset} />
           <Button.Or />
-          <Button type="submit" primary>Submit</Button>
+          <Button type="submit" loading={isUploading} primary>Submit</Button>
         </Button.Group>
       </Form.Field>
     )
