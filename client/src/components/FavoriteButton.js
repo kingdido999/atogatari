@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Button, Icon, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
-import { toggleFavorite } from '../actions/user'
+import { addFavorite, removeFavorite } from '../actions/user'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -14,12 +14,16 @@ const propTypes = {
 
 class FavoriteButton extends Component {
   toggleFavorite = () => {
-    const { dispatch, authedUser, screenshotId } = this.props
-    if (!authedUser) return
-    dispatch(toggleFavorite({ screenshotId: screenshotId }))
+    const { dispatch, isFavorited, screenshotId } = this.props
+    if (isFavorited) {
+      dispatch(removeFavorite(screenshotId))
+    } else {
+      dispatch(addFavorite(screenshotId))
+    }
   }
 
-  renderIcon(isFavorited) {
+  renderIcon = () => {
+    const { isFavorited } = this.props
     if (isFavorited) {
       return <Icon name="favorite" color="yellow" />
     } else {
@@ -27,8 +31,8 @@ class FavoriteButton extends Component {
     }
   }
 
-  renderButton(isFavorited, favoritesCount) {
-    const icon = this.renderIcon(isFavorited)
+  renderButton = () => {
+    const { isFavorited, favoritesCount } = this.props
     const content = isFavorited
       ? favoritesCount > 1 ? favoritesCount : ''
       : favoritesCount > 0 ? favoritesCount : ''
@@ -36,7 +40,7 @@ class FavoriteButton extends Component {
     return (
       <Button
         basic
-        icon={icon}
+        icon={this.renderIcon()}
         onClick={this.toggleFavorite}
         content={content}
       />
@@ -48,8 +52,8 @@ class FavoriteButton extends Component {
   }
 
   render() {
-    const { authedUser, isFavorited, favoritesCount } = this.props
-    const button = this.renderButton(isFavorited, favoritesCount)
+    const { authedUser } = this.props
+    const button = this.renderButton()
 
     if (!authedUser) {
       return (

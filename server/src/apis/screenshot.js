@@ -252,11 +252,7 @@ async function deleteScreenshot(ctx) {
     fs.unlinkSync(`${UPLOAD_PATH}/${original}`)
   }
 
-  ctx.response.body = {
-    screenshotId: id,
-    userId: user
-  }
-
+  ctx.response.body = screenshot
   ctx.status = 200
 }
 

@@ -1,11 +1,7 @@
 import { normalize } from 'normalizr'
 import { ax, getAuthHeader } from '../utils'
 
-import { makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
-
-export const addFavorite = makeActionCreator('ADD_FAVORITE', 'favorite')
-export const removeFavorite = makeActionCreator('REMOVE_FAVORITE', 'favorite')
 
 export function login(creds) {
   return {
@@ -109,19 +105,26 @@ export function getUserFavorites() {
   }
 }
 
-export function toggleFavorite(params) {
-  return dispatch => {
-    ax
-      .post('/user/toggleFavorite', params, {
+export function addFavorite(screenshotId) {
+  return {
+    type: 'ADD_FAVORITE',
+    payload: ax.post(
+      '/favorite',
+      { screenshotId },
+      {
         headers: getAuthHeader()
-      })
-      .then(res => {
-        if (res.status === 201) {
-          dispatch(addFavorite(res.data))
-        } else {
-          dispatch(removeFavorite(res.data))
-        }
-      })
+      }
+    )
+  }
+}
+
+export function removeFavorite(screenshotId) {
+  return {
+    type: 'REMOVE_FAVORITE',
+    payload: ax.delete('/favorite', {
+      params: { screenshotId },
+      headers: getAuthHeader()
+    })
   }
 }
 

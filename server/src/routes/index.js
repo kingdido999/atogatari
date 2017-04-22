@@ -14,6 +14,8 @@ export default function route(router) {
   router.del('/screenshot/:id', tokenAuth(), screenshot.deleteScreenshot)
 
   router.get('/favorites', favorite.getFavorites)
+  router.post('/favorite', tokenAuth(), favorite.addFavorite)
+  router.del('/favorite', tokenAuth(), favorite.removeFavorite)
 
   router.get('/tag/:name', tag.getTag)
   router.get('/tags', tag.getTags)
@@ -26,7 +28,6 @@ export default function route(router) {
   router.post('/user/signup', user.signup)
   router.post('/user/login', user.login)
   router.post('/user/favorites', tokenAuth(), user.getUserFavorites)
-  router.post('/user/toggleFavorite', tokenAuth(), user.toggleFavorite)
 
   router.get('/search', search.search)
 }

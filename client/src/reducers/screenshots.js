@@ -16,7 +16,7 @@ export default combineReducers({
   itemsPerRow
 })
 
-function isFetching (state = false, action) {
+function isFetching(state = false, action) {
   switch (action.type) {
     case 'GET_SCREENSHOTS_PENDING':
       return true
@@ -28,18 +28,18 @@ function isFetching (state = false, action) {
   }
 }
 
-function ids (state = [], action) {
+function ids(state = [], action) {
   switch (action.type) {
     case 'GET_SCREENSHOTS_FULFILLED':
       return action.payload.data.result
     case 'DELETE_SCREENSHOT_FULFILLED':
-      return state.filter(id => id !== action.payload.data.screenshotId)
+      return state.filter(id => id !== action.payload.data._id)
     default:
       return state
   }
 }
 
-function total (state = 0, action) {
+function total(state = 0, action) {
   switch (action.type) {
     case 'GET_SCREENSHOTS_FULFILLED':
       return action.payload.total
@@ -48,7 +48,7 @@ function total (state = 0, action) {
   }
 }
 
-function pages (state = 1, action) {
+function pages(state = 1, action) {
   switch (action.type) {
     case 'GET_SCREENSHOTS_FULFILLED':
       return action.payload.pages
@@ -57,7 +57,7 @@ function pages (state = 1, action) {
   }
 }
 
-function page (state = 1, action) {
+function page(state = 1, action) {
   switch (action.type) {
     case 'GET_SCREENSHOTS_FULFILLED':
       return action.payload.page
@@ -68,7 +68,7 @@ function page (state = 1, action) {
   }
 }
 
-function limit (state = 9, action) {
+function limit(state = 9, action) {
   switch (action.type) {
     case 'GET_SCREENSHOTS_FULFILLED':
       return action.payload.limit
@@ -77,7 +77,7 @@ function limit (state = 9, action) {
   }
 }
 
-function sortBy (state = 'date', action) {
+function sortBy(state = 'date', action) {
   switch (action.type) {
     case 'SET_SORT_BY':
       return action.sortBy
@@ -86,7 +86,7 @@ function sortBy (state = 'date', action) {
   }
 }
 
-function nsfw (state = false, action) {
+function nsfw(state = false, action) {
   switch (action.type) {
     case 'TOGGLE_NSFW':
       return !state
@@ -95,7 +95,7 @@ function nsfw (state = false, action) {
   }
 }
 
-function view (state = 'grid', action) {
+function view(state = 'grid', action) {
   switch (action.type) {
     case 'SET_VIEW':
       return action.view
@@ -104,7 +104,7 @@ function view (state = 'grid', action) {
   }
 }
 
-function itemsPerRow (state = MAX_ITEMS_PER_ROW, action) {
+function itemsPerRow(state = MAX_ITEMS_PER_ROW, action) {
   switch (action.type) {
     case 'CHANGE_WIDTH_AND_HEIGHT':
       return Math.min(Math.floor(action.width / ITEM_WIDTH), MAX_ITEMS_PER_ROW)

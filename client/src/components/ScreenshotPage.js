@@ -179,6 +179,7 @@ class ScreenshotPage extends Component {
         <Button.Group size="large" fluid>
           <FavoriteButton
             dispatch={dispatch}
+            authedUser={authedUser}
             screenshotId={_id}
             isFavorited={isFavorited}
             favoritesCount={favoritesCount}

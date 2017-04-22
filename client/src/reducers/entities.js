@@ -10,15 +10,15 @@ export default combineReducers({
 
 function screenshot(state = {}, action) {
   switch (action.type) {
-    case 'ADD_FAVORITE':
+    case 'ADD_FAVORITE_FULFILLED':
       return {
         ...state,
-        favorites: [...state.favorites, action.favorite._id]
+        favorites: [...state.favorites, action.payload.data._id]
       }
-    case 'REMOVE_FAVORITE':
+    case 'REMOVE_FAVORITE_FULFILLED':
       return {
         ...state,
-        favorites: state.favorites.filter(id => id !== action.favorite._id)
+        favorites: state.favorites.filter(id => id !== action.payload.data._id)
       }
     case 'ADD_TAG_FULFILLED':
       return {
@@ -37,24 +37,24 @@ function screenshot(state = {}, action) {
 
 function screenshots(state = {}, action) {
   switch (action.type) {
-    case 'ADD_FAVORITE':
+    case 'ADD_FAVORITE_FULFILLED':
       return {
         ...state,
-        [action.favorite.screenshot]: screenshot(
-          state[action.favorite.screenshot],
+        [action.payload.data.screenshot]: screenshot(
+          state[action.payload.data.screenshot],
           action
         )
       }
-    case 'REMOVE_FAVORITE':
+    case 'REMOVE_FAVORITE_FULFILLED':
       return {
         ...state,
-        [action.favorite.screenshot]: screenshot(
-          state[action.favorite.screenshot],
+        [action.payload.data.screenshot]: screenshot(
+          state[action.payload.data.screenshot],
           action
         )
       }
     case 'DELETE_SCREENSHOT_FULFILLED':
-      return omit(state, action.payload.data.screenshotId)
+      return omit(state, action.payload.data._id)
     case 'ADD_TAG_FULFILLED':
       return {
         ...state,
@@ -82,16 +82,16 @@ function screenshots(state = {}, action) {
 
 function favorites(state = {}, action) {
   switch (action.type) {
-    case 'ADD_FAVORITE':
+    case 'ADD_FAVORITE_FULFILLED':
       return {
         ...state,
-        [action.favorite._id]: {
-          ...state[action.favorite._id],
-          ...action.favorite
+        [action.payload.data._id]: {
+          ...state[action.payload.data._id],
+          ...action.payload.data
         }
       }
-    case 'REMOVE_FAVORITE':
-      return omit(state, action.favorite._id)
+    case 'REMOVE_FAVORITE_FULFILLED':
+      return omit(state, action.payload.data._id)
     default:
       if (get(action, 'payload.data.entities.favorites')) {
         return merge({}, state, action.payload.data.entities.favorites)
@@ -122,21 +122,21 @@ function tags(state = {}, action) {
 
 function user(state = {}, action) {
   switch (action.type) {
-    case 'ADD_FAVORITE':
+    case 'ADD_FAVORITE_FULFILLED':
       return {
         ...state,
-        favorites: [...state.favorites, action.favorite._id]
+        favorites: [...state.favorites, action.payload.data._id]
       }
-    case 'REMOVE_FAVORITE':
+    case 'REMOVE_FAVORITE_FULFILLED':
       return {
         ...state,
-        favorites: state.favorites.filter(id => id !== action.favorite._id)
+        favorites: state.favorites.filter(id => id !== action.payload.data._id)
       }
     case 'DELETE_SCREENSHOT_FULFILLED':
       return {
         ...state,
         screenshots: state.screenshots.filter(
-          id => id !== action.payload.data.screenshotId
+          id => id !== action.payload.data._id
         )
       }
     default:
@@ -146,21 +146,27 @@ function user(state = {}, action) {
 
 function users(state = {}, action) {
   switch (action.type) {
-    case 'ADD_FAVORITE':
+    case 'ADD_FAVORITE_FULFILLED':
       return {
         ...state,
-        [action.favorite.user]: user(state[action.favorite.user], action)
+        [action.payload.data.user]: user(
+          state[action.payload.data.user],
+          action
+        )
       }
-    case 'REMOVE_FAVORITE':
+    case 'REMOVE_FAVORITE_FULFILLED':
       return {
         ...state,
-        [action.favorite.user]: user(state[action.favorite.user], action)
+        [action.payload.data.user]: user(
+          state[action.payload.data.user],
+          action
+        )
       }
     case 'DELETE_SCREENSHOT_FULFILLED':
       return {
         ...state,
-        [action.payload.data.userId]: user(
-          state[action.payload.data.userId],
+        [action.payload.data.user]: user(
+          state[action.payload.data.user],
           action
         )
       }
