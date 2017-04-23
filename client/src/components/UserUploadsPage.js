@@ -7,7 +7,8 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   authedUser: PropTypes.object,
   screenshots: PropTypes.object.isRequired,
-  favorites: PropTypes.object.isRequired
+  favorites: PropTypes.object.isRequired,
+  screenshotIds: PropTypes.array.isRequired
 }
 
 class UserUploadsPage extends Component {

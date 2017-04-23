@@ -35,7 +35,6 @@ class ScreenshotCards extends Component {
       if (!screenshot) return
       const { favorites, user } = screenshot
       const owner = users[user]
-      if (!owner) return
       const isOwner = authedUser && authedUser._id === screenshot.user
       const isFavorited = authedUser
         ? authedUser.favorites.find(id => favorites.includes(id)) !== undefined
