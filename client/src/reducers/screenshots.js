@@ -72,7 +72,7 @@ function limit(state = 9, action) {
   }
 }
 
-function sortBy(state = 'date', action) {
+function sortBy(state = 'Latest', action) {
   switch (action.type) {
     case 'SET_SORT_BY':
       return action.sortBy

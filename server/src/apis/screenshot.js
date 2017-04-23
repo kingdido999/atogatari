@@ -163,11 +163,14 @@ async function getScreenshots(ctx) {
   let sort
 
   switch (sortBy) {
-    case 'date':
+    case 'Latest':
       sort = '-createdAt'
       break
-    case 'popularity':
+    case 'Most Popular':
       sort = '-favorites'
+      break
+    case 'Least Tags':
+      sort = 'tags'
       break
     default:
       sort = '-createdAt'

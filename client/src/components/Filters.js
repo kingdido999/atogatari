@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Menu, Checkbox } from 'semantic-ui-react'
+import { Menu, Dropdown, Checkbox } from 'semantic-ui-react'
 
 import {
   setSortBy,
@@ -24,11 +24,27 @@ const propTypes = {
   limit: PropTypes.number.isRequired
 }
 
+const generateOptions = text => {
+  return {
+    key: text,
+    text: text,
+    value: text,
+    content: text
+  }
+}
+
+const SORT_BY_OPTIONS = [
+  generateOptions('Latest'),
+  generateOptions('Most Popular'),
+  generateOptions('Least Tags')
+]
+
 class Filters extends Component {
-  handleChangeSortBy = sortBy => {
+  handleChangeSortBy = (event, { value }) => {
+    console.log(value)
     const { dispatch } = this.props
     dispatch(firstPage())
-    dispatch(setSortBy(sortBy))
+    dispatch(setSortBy(value))
     dispatch(getFilteredScreenshots())
   }
 
@@ -96,16 +112,14 @@ class Filters extends Component {
 
     return (
       <Menu attached="bottom" borderless>
-        <Menu.Item
-          name="latest"
-          active={sortBy === 'date'}
-          onClick={() => this.handleChangeSortBy('date')}
+        <Dropdown
+          defaultValue={sortBy}
+          options={SORT_BY_OPTIONS}
+          onChange={this.handleChangeSortBy}
+          item
+          inline
         />
-        <Menu.Item
-          name="popular"
-          active={sortBy === 'popularity'}
-          onClick={() => this.handleChangeSortBy('popularity')}
-        />
+
         <Menu.Item>
           <Checkbox
             label={nsfw ? 'Switch to SAFE' : 'Switch to NSFW'}
