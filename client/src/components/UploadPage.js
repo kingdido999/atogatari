@@ -100,7 +100,6 @@ class UploadPage extends Component {
         files: this.state.files.filter((_, i) => i !== index)
       },
       () => {
-        this.refs.files.length = this.state.files.length
         if (this.state.files.length === 0) {
           this.handleReset()
         }
