@@ -178,28 +178,27 @@ async function getScreenshots(ctx) {
       sort = { createdAt: -1 }
   }
 
-  const criteria = {}
+  const aggregation = []
 
   if (!(nsfw === 'true')) {
-    criteria.nsfw = false
+    aggregation.push({
+      $match: { nsfw: false }
+    })
   }
 
-  const aggregation = [
-    { $match: criteria },
-    {
-      $project: {
-        createdAt: 1,
-        favorites: 1,
-        tags: 1,
-        user: 1,
-        nsfw: 1,
-        file: 1,
-        downloadCount: 1,
-        favoritesCount: { $size: '$favorites' },
-        tagsCount: { $size: '$tags' }
-      }
+  aggregation.push({
+    $project: {
+      createdAt: 1,
+      favorites: 1,
+      tags: 1,
+      user: 1,
+      nsfw: 1,
+      file: 1,
+      downloadCount: 1,
+      favoritesCount: { $size: '$favorites' },
+      tagsCount: { $size: '$tags' }
     }
-  ]
+  })
 
   const docs = await Screenshot.aggregate(aggregation).exec()
   const total = docs.length
