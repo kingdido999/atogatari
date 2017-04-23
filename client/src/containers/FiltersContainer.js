@@ -12,12 +12,14 @@ class FiltersContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { environment, filter, routing, ui } = state
+  const { environment, filter, screenshotLists, routing, ui } = state
   const { isMobile } = environment
   const { view } = ui
-  const { nsfw, sortBy, total, pages, page, limit } = filter
+  const { nsfw, sortBy, page, limit } = filter
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
+  const key = JSON.stringify(filter)
+  const screenshotList = screenshotLists[key]
 
   // TODO: improve route matching?
   const showFilters = pathname === '/' || pathname.match('/screenshots')
@@ -30,8 +32,8 @@ function mapStateToProps(state) {
     nsfw,
     view,
     sortBy,
-    total,
-    pages,
+    total: screenshotList ? screenshotList.total : 0,
+    pages: screenshotList ? screenshotList.pages : 1,
     page,
     limit,
     showFilters

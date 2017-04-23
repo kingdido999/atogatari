@@ -5,10 +5,7 @@ import {
   setSortBy,
   toggleNSFW,
   setView,
-  firstPage,
-  prevPage,
-  nextPage,
-  lastPage,
+  setPage,
   getFilteredScreenshots
 } from '../actions/entities'
 
@@ -41,18 +38,17 @@ const SORT_BY_OPTIONS = [
 
 class Filters extends Component {
   handleChangeSortBy = (event, { value }) => {
-    console.log(value)
     const { dispatch } = this.props
-    dispatch(firstPage())
+    dispatch(setPage(1))
     dispatch(setSortBy(value))
-    dispatch(getFilteredScreenshots())
+    dispatch(getFilteredScreenshots({ sortBy: value }))
   }
 
   handleChangeNSFW = () => {
-    const { dispatch } = this.props
-    dispatch(firstPage())
+    const { dispatch, nsfw } = this.props
+    dispatch(setPage(1))
     dispatch(toggleNSFW())
-    dispatch(getFilteredScreenshots())
+    dispatch(getFilteredScreenshots({ nsfw: !nsfw }))
   }
 
   handleChangeView = view => {
@@ -66,26 +62,26 @@ class Filters extends Component {
     switch (action) {
       case 'first':
         if (page !== 1) {
-          dispatch(firstPage())
-          dispatch(getFilteredScreenshots())
+          dispatch(setPage(1))
+          dispatch(getFilteredScreenshots({ page: 1 }))
         }
         break
       case 'prev':
         if (page > 1) {
-          dispatch(prevPage())
-          dispatch(getFilteredScreenshots())
+          dispatch(setPage(page - 1))
+          dispatch(getFilteredScreenshots({ page: page - 1 }))
         }
         break
       case 'next':
         if (page < pages) {
-          dispatch(nextPage())
-          dispatch(getFilteredScreenshots())
+          dispatch(setPage(page + 1))
+          dispatch(getFilteredScreenshots({ page: page + 1 }))
         }
         break
       case 'last':
         if (page !== pages) {
-          dispatch(lastPage())
-          dispatch(getFilteredScreenshots())
+          dispatch(setPage(pages))
+          dispatch(getFilteredScreenshots({ page: pages }))
         }
         break
       default:

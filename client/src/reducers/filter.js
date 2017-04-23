@@ -1,31 +1,11 @@
 import { combineReducers } from 'redux'
 
 export default combineReducers({
-  total,
-  pages,
-  page,
-  limit,
   sortBy,
-  nsfw
+  nsfw,
+  limit,
+  page
 })
-
-function total(state = 0, action) {
-  switch (action.type) {
-    case 'SET_TOTAL':
-      return action.total
-    default:
-      return state
-  }
-}
-
-function pages(state = 1, action) {
-  switch (action.type) {
-    case 'SET_PAGES':
-      return action.pages
-    default:
-      return state
-  }
-}
 
 function page(state = 1, action) {
   switch (action.type) {

@@ -20,8 +20,7 @@ function mapStateToProps(state) {
   const { users } = entities
   const { uid } = user
   const { view, itemsPerRow } = ui
-  const { sortBy, nsfw, total, pages, page, limit } = filter
-  const key = JSON.stringify({ sortBy, nsfw, total, limit, pages, page })
+  const key = JSON.stringify(filter)
   const screenshotList = screenshotLists[key]
 
   return {

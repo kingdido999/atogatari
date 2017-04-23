@@ -1,11 +1,11 @@
 import { normalize } from 'normalizr'
-import { ax } from '../utils'
+import { merge } from 'lodash'
 
-import { makeActionCreator } from '../utils'
+import { ax, makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
 
-export const setTotal = makeActionCreator('SET_TOTAL', 'total')
-export const setPages = makeActionCreator('SET_PAGES', 'pages')
+export const setTotal = makeActionCreator('SET_TOTAL', 'key', 'total')
+export const setPages = makeActionCreator('SET_PAGES', 'key', 'pages')
 export const setPage = makeActionCreator('SET_PAGE', 'page')
 export const setLimit = makeActionCreator('SET_LIMIT', 'limit')
 export const setSortBy = makeActionCreator('SET_SORT_BY', 'sortBy')
@@ -34,14 +34,13 @@ export function getScreenshotsByUserId(userId) {
   return getScreenshots({ user: userId })
 }
 
-export function getFilteredScreenshots() {
+export function getFilteredScreenshots(params) {
   return (dispatch, getState) => {
     const { filter, screenshotLists } = getState()
-    const { sortBy, nsfw, total, pages, page, limit } = filter
-    const key = JSON.stringify({ sortBy, nsfw, total, limit, pages, page })
-
+    const mergedParams = merge({}, filter, params)
+    const key = JSON.stringify(mergedParams)
     if (!screenshotLists[key]) {
-      dispatch(getScreenshots({ sortBy, nsfw, page, limit }))
+      dispatch(getScreenshots(mergedParams))
     }
   }
 }
@@ -59,12 +58,12 @@ export function getScreenshots(params) {
         const { sortBy, nsfw } = filter
         const { docs, total, limit, pages, page } = res.data
         const normalizedData = normalize(docs, [schemas.screenshotSchema])
-        const key = JSON.stringify({ sortBy, nsfw, total, limit, pages, page })
+        const key = JSON.stringify({ sortBy, nsfw, limit, page })
 
         dispatch(receiveScreenshots(key, { data: normalizedData }))
-        dispatch(setTotal(total))
+        dispatch(setTotal(key, total))
+        dispatch(setPages(key, pages))
         dispatch(setLimit(limit))
-        dispatch(setPages(pages))
         dispatch(setPage(page))
       })
       .catch(err => {
@@ -181,40 +180,5 @@ export function getUserById(id) {
         }
       ]
     })
-  }
-}
-
-export function firstPage() {
-  return dispatch => dispatch(setPage(1))
-}
-
-export function prevPage() {
-  return (dispatch, getState) => {
-    const { filter } = getState()
-    const { page } = filter
-
-    if (page > 1) {
-      dispatch(setPage(page - 1))
-    }
-  }
-}
-
-export function nextPage() {
-  return (dispatch, getState) => {
-    const { filter } = getState()
-    const { page, pages } = filter
-
-    if (page < pages) {
-      dispatch(setPage(page + 1))
-    }
-  }
-}
-
-export function lastPage() {
-  return (dispatch, getState) => {
-    const { filter } = getState()
-    const { pages } = filter
-
-    dispatch(setPage(pages))
   }
 }
