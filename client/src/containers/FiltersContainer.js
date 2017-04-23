@@ -12,10 +12,10 @@ class FiltersContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { environment, screenshots, routing, ui } = state
+  const { environment, filter, routing, ui } = state
   const { isMobile } = environment
   const { view } = ui
-  const { nsfw, sortBy, total, pages, page, limit } = screenshots
+  const { nsfw, sortBy, total, pages, page, limit } = filter
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
 

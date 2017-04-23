@@ -4,6 +4,8 @@ import { ax } from '../utils'
 import { makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
 
+export const setTotal = makeActionCreator('SET_TOTAL', 'total')
+export const setPages = makeActionCreator('SET_PAGES', 'pages')
 export const setPage = makeActionCreator('SET_PAGE', 'page')
 export const setLimit = makeActionCreator('SET_LIMIT', 'limit')
 export const setSortBy = makeActionCreator('SET_SORT_BY', 'sortBy')
@@ -34,8 +36,8 @@ export function getScreenshotsByUserId(userId) {
 
 export function getFilteredScreenshots() {
   return (dispatch, getState) => {
-    const { screenshots } = getState()
-    const { sortBy, nsfw, page, limit } = screenshots
+    const { filter } = getState()
+    const { sortBy, nsfw, page, limit } = filter
     dispatch(getScreenshots({ sortBy, nsfw, page, limit }))
   }
 }
@@ -49,9 +51,13 @@ export function getScreenshots(params) {
     ax
       .get('/screenshots', { params })
       .then(res => {
-        const { docs } = res.data
+        const { docs, total, limit, pages, page } = res.data
         const normalizedData = normalize(docs, [schemas.screenshotSchema])
-        dispatch(receiveScreenshots({ data: normalizedData, ...res.data }))
+        dispatch(receiveScreenshots({ data: normalizedData }))
+        dispatch(setTotal(total))
+        dispatch(setLimit(limit))
+        dispatch(setPages(pages))
+        dispatch(setPage(page))
       })
       .catch(err => {
         return {
@@ -175,8 +181,8 @@ export function firstPage() {
 
 export function prevPage() {
   return (dispatch, getState) => {
-    const { screenshots } = getState()
-    const { page } = screenshots
+    const { filter } = getState()
+    const { page } = filter
 
     if (page > 1) {
       dispatch(setPage(page - 1))
@@ -186,8 +192,8 @@ export function prevPage() {
 
 export function nextPage() {
   return (dispatch, getState) => {
-    const { screenshots } = getState()
-    const { page, pages } = screenshots
+    const { filter } = getState()
+    const { page, pages } = filter
 
     if (page < pages) {
       dispatch(setPage(page + 1))
@@ -197,8 +203,8 @@ export function nextPage() {
 
 export function lastPage() {
   return (dispatch, getState) => {
-    const { screenshots } = getState()
-    const { pages } = screenshots
+    const { filter } = getState()
+    const { pages } = filter
 
     dispatch(setPage(pages))
   }
