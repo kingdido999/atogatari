@@ -14,7 +14,8 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
-  screenshot: PropTypes.object,
+  screenshot: PropTypes.object.isRequired,
+  owner: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool,
   isOwner: PropTypes.bool,
   isFavorited: PropTypes.bool.isRequired

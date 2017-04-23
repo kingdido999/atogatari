@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
 
 const Schema = mongoose.Schema
 
@@ -54,6 +53,5 @@ screenshotSchema.virtual('tagDocs', {
 })
 
 screenshotSchema.set('timestamps', true)
-screenshotSchema.plugin(mongoosePaginate)
 
 export default mongoose.model('Screenshot', screenshotSchema)

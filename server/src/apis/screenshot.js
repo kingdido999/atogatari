@@ -158,22 +158,24 @@ async function getScreenshot(ctx) {
 
 async function getScreenshots(ctx) {
   const { query } = ctx.request
-  const { sortBy, nsfw, page, limit } = query
+  let { sortBy, nsfw, page, limit } = query
+  page = page ? Number(page) : 1
+  limit = limit ? Number(limit) : 9
 
   let sort
 
   switch (sortBy) {
     case 'Latest':
-      sort = '-createdAt'
+      sort = { createdAt: -1 }
       break
     case 'Most Popular':
-      sort = '-favorites'
+      sort = { favoritesCount: -1 }
       break
     case 'Least Tags':
-      sort = 'tags'
+      sort = { tagsCount: 1 }
       break
     default:
-      sort = '-createdAt'
+      sort = { createdAt: -1 }
   }
 
   const criteria = {}
@@ -182,12 +184,44 @@ async function getScreenshots(ctx) {
     criteria.nsfw = false
   }
 
-  const results = await Screenshot.paginate(criteria, {
-    page: page ? Number(page) : 1,
-    limit: limit ? Number(limit) : 9,
-    populate: 'user favorites tagDocs',
-    sort
+  const aggregation = [
+    { $match: criteria },
+    {
+      $project: {
+        createdAt: 1,
+        favorites: 1,
+        tags: 1,
+        user: 1,
+        nsfw: 1,
+        file: 1,
+        downloadCount: 1,
+        favoritesCount: { $size: '$favorites' },
+        tagsCount: { $size: '$tags' }
+      }
+    }
+  ]
+
+  const docs = await Screenshot.aggregate(aggregation).exec()
+  const total = docs.length
+
+  const paginatedDocs = await Screenshot.aggregate([
+    ...aggregation,
+    { $sort: sort },
+    { $skip: (page - 1) * limit },
+    { $limit: limit }
+  ]).exec()
+
+  const populatedDocs = await Screenshot.populate(paginatedDocs, {
+    path: 'user favorites tagDocs'
   })
+
+  const results = {
+    docs: populatedDocs,
+    total,
+    limit,
+    page,
+    pages: Math.ceil(total / limit) || 1
+  }
 
   ctx.response.body = results
   ctx.status = 200

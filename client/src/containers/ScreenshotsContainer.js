@@ -25,6 +25,7 @@ function mapStateToProps(state) {
     authedUser: users[uid],
     view,
     itemsPerRow,
+    users,
     screenshots: entities.screenshots,
     screenshotIds: screenshots.ids
   }

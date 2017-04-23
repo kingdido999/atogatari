@@ -9,6 +9,7 @@ const propTypes = {
   view: PropTypes.string.isRequired,
   itemsPerRow: PropTypes.number.isRequired,
   authedUser: PropTypes.object,
+  users: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired
 }
@@ -19,6 +20,7 @@ class ScreenshotCards extends Component {
       itemsPerRow,
       view,
       authedUser,
+      users,
       screenshots,
       screenshotIds
     } = this.props
@@ -31,7 +33,9 @@ class ScreenshotCards extends Component {
     screenshotIds.forEach((id, index) => {
       const screenshot = screenshots[id]
       if (!screenshot) return
-      const { favorites } = screenshot
+      const { favorites, user } = screenshot
+      const owner = users[user]
+      if (!owner) return
       const isOwner = authedUser && authedUser._id === screenshot.user
       const isFavorited = authedUser
         ? authedUser.favorites.find(id => favorites.includes(id)) !== undefined
@@ -43,6 +47,7 @@ class ScreenshotCards extends Component {
           key={index}
           screenshot={screenshot}
           authedUser={authedUser}
+          owner={owner}
           isOwner={isOwner}
           isAdmin={isAdmin}
           isFavorited={isFavorited}

@@ -5,18 +5,17 @@ const propTypes = {
   id: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   dataOriginal: PropTypes.string,
-  zooming: PropTypes.object.isRequired,
+  zooming: PropTypes.object.isRequired
 }
 
 class ZoomableImage extends Component {
-
-  componentDidMount () {
+  componentDidMount() {
     const { id, zooming } = this.props
     const image = document.getElementById(id)
     zooming.listen(image)
   }
 
-  render () {
+  render() {
     const { id, src, dataOriginal } = this.props
 
     return (
