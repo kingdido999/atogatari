@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import user from './user'
 import search from './search'
 import entities from './entities'
-import screenshots from './screenshots'
+import screenshotLists from './screenshotLists'
 import tags from './tags'
 import ui from './ui'
 import filter from './filter'
@@ -15,7 +15,7 @@ export default combineReducers({
   user,
   search,
   entities,
-  screenshots,
+  screenshotLists,
   tags,
   ui,
   filter,

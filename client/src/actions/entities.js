@@ -36,14 +36,18 @@ export function getScreenshotsByUserId(userId) {
 
 export function getFilteredScreenshots() {
   return (dispatch, getState) => {
-    const { filter } = getState()
-    const { sortBy, nsfw, page, limit } = filter
-    dispatch(getScreenshots({ sortBy, nsfw, page, limit }))
+    const { filter, screenshotLists } = getState()
+    const { sortBy, nsfw, total, pages, page, limit } = filter
+    const key = JSON.stringify({ sortBy, nsfw, total, limit, pages, page })
+
+    if (!screenshotLists[key]) {
+      dispatch(getScreenshots({ sortBy, nsfw, page, limit }))
+    }
   }
 }
 
 export function getScreenshots(params) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: 'GET_SCREENSHOTS_PENDING'
     })
@@ -51,9 +55,13 @@ export function getScreenshots(params) {
     ax
       .get('/screenshots', { params })
       .then(res => {
+        const { filter } = getState()
+        const { sortBy, nsfw } = filter
         const { docs, total, limit, pages, page } = res.data
         const normalizedData = normalize(docs, [schemas.screenshotSchema])
-        dispatch(receiveScreenshots({ data: normalizedData }))
+        const key = JSON.stringify({ sortBy, nsfw, total, limit, pages, page })
+
+        dispatch(receiveScreenshots(key, { data: normalizedData }))
         dispatch(setTotal(total))
         dispatch(setLimit(limit))
         dispatch(setPages(pages))
@@ -68,9 +76,10 @@ export function getScreenshots(params) {
   }
 }
 
-export function receiveScreenshots(payload) {
+export function receiveScreenshots(key, payload) {
   return {
     type: 'GET_SCREENSHOTS_FULFILLED',
+    key,
     payload
   }
 }

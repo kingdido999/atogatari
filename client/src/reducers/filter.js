@@ -62,5 +62,3 @@ function nsfw(state = false, action) {
       return state
   }
 }
-
-
