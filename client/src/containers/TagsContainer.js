@@ -5,7 +5,7 @@ import TagsPage from '../components/TagsPage'
 import { getTags } from '../actions/entities'
 
 class TagsContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(getTags())
   }

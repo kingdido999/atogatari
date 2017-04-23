@@ -5,7 +5,7 @@ import ScreenshotPage from '../components/ScreenshotPage'
 import { getScreenshotIfNeeded } from '../actions/entities'
 
 class ScreenshotContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { params, dispatch } = this.props
     const { screenshotId } = params
     dispatch(getScreenshotIfNeeded(screenshotId))
@@ -19,6 +19,7 @@ class ScreenshotContainer extends Component {
       dispatch(getScreenshotIfNeeded(screenshotId))
     }
   }
+
   render() {
     return <ScreenshotPage {...this.props} />
   }

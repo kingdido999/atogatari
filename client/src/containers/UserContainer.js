@@ -5,7 +5,7 @@ import UserPage from '../components/UserPage'
 import { getUserByIdIfNeeded } from '../actions/entities'
 
 class UserContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch, params } = this.props
     const { userId } = params
     dispatch(getUserByIdIfNeeded(userId))

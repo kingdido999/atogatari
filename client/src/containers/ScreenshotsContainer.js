@@ -5,10 +5,11 @@ import ScreenshotsPage from '../components/ScreenshotsPage'
 import { getScreenshots } from '../actions/entities'
 
 class ScreenshotsContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(getScreenshots())
   }
+
   render() {
     return <ScreenshotsPage {...this.props} />
   }

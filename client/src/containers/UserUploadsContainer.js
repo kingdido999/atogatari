@@ -5,7 +5,7 @@ import UserUploadsPage from '../components/UserUploadsPage'
 import { getScreenshotsByUserIdIfNeeded } from '../actions/entities'
 
 class UserUploadsContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch, params } = this.props
     const { userId } = params
     dispatch(getScreenshotsByUserIdIfNeeded(userId))
