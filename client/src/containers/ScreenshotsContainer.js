@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ScreenshotsPage from '../components/ScreenshotsPage'
-import { getScreenshots } from '../actions/entities'
+import { getFilteredScreenshots } from '../actions/entities'
 
 class ScreenshotsContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(getScreenshots())
+    dispatch(getFilteredScreenshots())
   }
 
   render() {
