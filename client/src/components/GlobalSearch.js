@@ -15,10 +15,10 @@ const MIN_CHARACTERS = 1
 const resultRenderer = ({ name, type, screenshots }) => {
   return (
     <Grid>
-      <Grid.Column textAlign="left" width={12}>
+      <Grid.Column>
         <Tag name={name} type={type} />
       </Grid.Column>
-      <Grid.Column textAlign="right" width={4}>
+      <Grid.Column floated="right">
         <Label circular content={screenshots.length} />
       </Grid.Column>
     </Grid>

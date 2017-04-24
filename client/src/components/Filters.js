@@ -167,11 +167,7 @@ class Filters extends Component {
   }
 
   renderMobileFilters = () => {
-    const { sortBy, pages, page, total } = this.props
-    const isFirstPage = page === 1
-    const hasPrevPage = page > 1
-    const hasNextPage = page < pages
-    const isLastPage = page === pages
+    const { sortBy } = this.props
 
     return (
       <Menu attached="bottom" borderless>
@@ -183,31 +179,43 @@ class Filters extends Component {
           inline
         />
 
-        <Menu.Menu position="right">
-          {total > 0 && <Menu.Item content={`${total} results`} disabled />}
-          <Menu.Item
-            icon="angle double left"
-            disabled={isFirstPage}
-            onClick={() => this.handlePaginate('first')}
-          />
-          <Menu.Item
-            icon="angle left"
-            disabled={!hasPrevPage}
-            onClick={() => this.handlePaginate('prev')}
-          />
-          <Menu.Item content={page} disabled />
-          <Menu.Item
-            icon="angle right"
-            disabled={!hasNextPage}
-            onClick={() => this.handlePaginate('next')}
-          />
-          <Menu.Item
-            icon="angle double right"
-            disabled={isLastPage}
-            onClick={() => this.handlePaginate('last')}
-          />
-        </Menu.Menu>
+        {this.renderRightMenu()}
       </Menu>
+    )
+  }
+
+  renderRightMenu = () => {
+    const { pages, page, total } = this.props
+    const isFirstPage = page === 1
+    const hasPrevPage = page > 1
+    const hasNextPage = page < pages
+    const isLastPage = page === pages
+
+    return (
+      <Menu.Menu position="right">
+        {total > 0 && <Menu.Item content={`${total} results`} disabled />}
+        <Menu.Item
+          icon="angle double left"
+          disabled={isFirstPage}
+          onClick={() => this.handlePaginate('first')}
+        />
+        <Menu.Item
+          icon="angle left"
+          disabled={!hasPrevPage}
+          onClick={() => this.handlePaginate('prev')}
+        />
+        <Menu.Item content={page} disabled />
+        <Menu.Item
+          icon="angle right"
+          disabled={!hasNextPage}
+          onClick={() => this.handlePaginate('next')}
+        />
+        <Menu.Item
+          icon="angle double right"
+          disabled={isLastPage}
+          onClick={() => this.handlePaginate('last')}
+        />
+      </Menu.Menu>
     )
   }
 }

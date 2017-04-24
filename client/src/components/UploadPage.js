@@ -34,110 +34,52 @@ class UploadPage extends Component {
     })
   }
 
-  handleInputChange = (event, { value }) => {
-    this.setState({
-      tags: value
-    })
-  }
+  render() {
+    return (
+      <div>
+        {this.renderInstructions()}
 
-  handleSearchChange = (event, value) => {
-    const { dispatch } = this.props
+        <Divider section horizontal>Upload</Divider>
 
-    dispatch(search({ query: value })).then(res => {
-      const { value } = res
-      const { data } = value
-      const newSuggestions = data.map(({ name }) => {
-        return { text: name, value: name }
-      })
+        {this.renderPreview()}
 
-      this.setState({
-        tagSuggestions: uniqBy(
-          union(this.state.tagSuggestions, newSuggestions),
-          'text'
-        )
-      })
-    })
-  }
+        <Container text>
+          <Segment>{this.renderForm()}</Segment>
 
-  handleAddTag = (event, { value }) => {
-    this.setState({
-      tagSuggestions: uniqBy(
-        [{ text: value, value }, ...this.state.tagSuggestions],
-        'text'
-      )
-    })
-  }
+        </Container>
 
-  handleImageChange = e => {
-    e.preventDefault()
-    const { dispatch } = this.props
-    dispatch(resetErrorMessageIfNeeded())
-
-    this.setState({ files: [] })
-    const files = e.target.files
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      let reader = new FileReader()
-
-      reader.onloadend = () => {
-        file.preview = reader.result
-
-        this.setState({
-          files: [...this.state.files, file]
-        })
-
-        this.state.zooming.listen('.img-preview')
-      }
-
-      reader.readAsDataURL(file)
-    }
-  }
-
-  handleRemoveImage = index => {
-    this.setState(
-      {
-        files: this.state.files.filter((_, i) => i !== index)
-      },
-      () => {
-        if (this.state.files.length === 0) {
-          this.handleReset()
-        }
-      }
+      </div>
     )
   }
 
-  handleReset = () => {
-    const { dispatch } = this.props
-    dispatch(resetErrorMessageIfNeeded())
-    this.setState({
-      files: [],
-      tagSuggestions: [],
-      tags: [],
-      nsfw: false
-    })
-  }
+  renderInstructions = () => {
+    const { files } = this.state
+    if (files.length > 0) return null
 
-  handleInputToggle = (event, data) => {
-    const { name, checked } = data
-
-    this.setState({
-      [name]: checked
-    })
-  }
-
-  handleSubmit = event => {
-    event.preventDefault()
-
-    const { dispatch } = this.props
-    const { files, tags, nsfw } = this.state
-
-    const data = new FormData()
-    files.forEach(file => data.append('file[]', file))
-    data.append('tags', JSON.stringify(tags))
-    data.append('nsfw', nsfw)
-
-    dispatch(uploadScreenshot(data)).then(() => browserHistory.push('/'))
+    return (
+      <Segment color="pink" padded vertical inverted>
+        <Grid columns="equal" stackable divided>
+          <Grid.Row textAlign="center">
+            <Grid.Column>
+              <h2>No Character, No Game</h2>
+              <p>Make sure to have character(s) in your screenshot.</p>
+            </Grid.Column>
+            <Grid.Column>
+              <h2>Hi-Res Image Only</h2>
+              <p>
+                Image quality below 1080p is not accepted.
+              </p>
+            </Grid.Column>
+            <Grid.Column>
+              <h2>Multiple Uploads</h2>
+              <p>
+                You may submit up to 9 files at one time.
+              </p>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
+    )
   }
 
   renderPreview = () => {
@@ -281,52 +223,110 @@ class UploadPage extends Component {
     )
   }
 
-  renderInstructions = () => {
-    const { files } = this.state
-    if (files.length > 0) return null
+  handleInputChange = (event, { value }) => {
+    this.setState({
+      tags: value
+    })
+  }
 
-    return (
-      <Segment color="pink" padded vertical inverted>
-        <Grid columns="equal" stackable divided>
-          <Grid.Row textAlign="center">
-            <Grid.Column>
-              <h2>No Character, No Game</h2>
-              <p>Make sure to have character(s) in your screenshot.</p>
-            </Grid.Column>
-            <Grid.Column>
-              <h2>Hi-Res Image Only</h2>
-              <p>
-                Image quality below 1080p is not accepted.
-              </p>
-            </Grid.Column>
-            <Grid.Column>
-              <h2>Multiple Uploads</h2>
-              <p>
-                You may submit up to 9 files at one time.
-              </p>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
+  handleSearchChange = (event, value) => {
+    const { dispatch } = this.props
+
+    dispatch(search({ query: value })).then(res => {
+      const { value } = res
+      const { data } = value
+      const newSuggestions = data.map(({ name }) => {
+        return { text: name, value: name }
+      })
+
+      this.setState({
+        tagSuggestions: uniqBy(
+          union(this.state.tagSuggestions, newSuggestions),
+          'text'
+        )
+      })
+    })
+  }
+
+  handleAddTag = (event, { value }) => {
+    this.setState({
+      tagSuggestions: uniqBy(
+        [{ text: value, value }, ...this.state.tagSuggestions],
+        'text'
+      )
+    })
+  }
+
+  handleImageChange = e => {
+    e.preventDefault()
+    const { dispatch } = this.props
+    dispatch(resetErrorMessageIfNeeded())
+
+    this.setState({ files: [] })
+    const files = e.target.files
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      let reader = new FileReader()
+
+      reader.onloadend = () => {
+        file.preview = reader.result
+
+        this.setState({
+          files: [...this.state.files, file]
+        })
+
+        this.state.zooming.listen('.img-preview')
+      }
+
+      reader.readAsDataURL(file)
+    }
+  }
+
+  handleRemoveImage = index => {
+    this.setState(
+      {
+        files: this.state.files.filter((_, i) => i !== index)
+      },
+      () => {
+        if (this.state.files.length === 0) {
+          this.handleReset()
+        }
+      }
     )
   }
 
-  render() {
-    return (
-      <div>
-        {this.renderInstructions()}
+  handleReset = () => {
+    const { dispatch } = this.props
+    dispatch(resetErrorMessageIfNeeded())
+    this.setState({
+      files: [],
+      tagSuggestions: [],
+      tags: [],
+      nsfw: false
+    })
+  }
 
-        <Divider section horizontal>Upload</Divider>
+  handleInputToggle = (event, data) => {
+    const { name, checked } = data
 
-        {this.renderPreview()}
+    this.setState({
+      [name]: checked
+    })
+  }
 
-        <Container text>
-          <Segment>{this.renderForm()}</Segment>
+  handleSubmit = event => {
+    event.preventDefault()
 
-        </Container>
+    const { dispatch } = this.props
+    const { files, tags, nsfw } = this.state
 
-      </div>
-    )
+    const data = new FormData()
+    files.forEach(file => data.append('file[]', file))
+    data.append('tags', JSON.stringify(tags))
+    data.append('nsfw', nsfw)
+
+    dispatch(uploadScreenshot(data)).then(() => browserHistory.push('/'))
   }
 }
 
