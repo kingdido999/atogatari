@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Segment } from 'semantic-ui-react'
 
 import { initEnvironment } from '../actions/environment'
-import { getAuthedUserIfNeeded } from '../actions/user'
+import { getAuthedUserIfNeeded } from '../actions/authed'
 
 import NavContainer from './NavContainer'
 import FiltersContainer from './FiltersContainer'

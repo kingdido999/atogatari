@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Form } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
-import { signup } from '../actions/user'
+import { signup } from '../actions/entities'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
-import { deleteTag } from '../actions/user'
+import { deleteTag } from '../actions/authed'
 import { TAG_TYPE_COLOR_MAP } from '../utils'
 
 const propTypes = {

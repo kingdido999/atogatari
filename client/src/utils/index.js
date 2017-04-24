@@ -5,7 +5,10 @@ const baseURL = process.env.NODE_ENV === 'production'
   : ''
 
 export const ax = axios.create({
-  baseURL: baseURL
+  baseURL,
+  headers: {
+    Authorization: localStorage.getItem('token')
+  }
 })
 
 export const TAG_TYPE_COLOR_MAP = {

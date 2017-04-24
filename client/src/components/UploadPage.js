@@ -14,7 +14,7 @@ import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
 import Zooming from 'zooming'
 
-import { upload } from '../actions/user'
+import { uploadScreenshot } from '../actions/authed'
 import { search } from '../actions/entities'
 import { resetErrorMessageIfNeeded } from '../actions/common'
 
@@ -137,7 +137,7 @@ class UploadPage extends Component {
     data.append('tags', JSON.stringify(tags))
     data.append('nsfw', nsfw)
 
-    dispatch(upload(data)).then(() => browserHistory.push('/'))
+    dispatch(uploadScreenshot(data)).then(() => browserHistory.push('/'))
   }
 
   renderPreview = () => {

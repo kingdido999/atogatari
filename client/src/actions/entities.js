@@ -13,10 +13,57 @@ export const toggleNSFW = makeActionCreator('TOGGLE_NSFW')
 export const setView = makeActionCreator('SET_VIEW', 'view')
 export const setQuery = makeActionCreator('SET_QUERY', 'query')
 
-export function search(params) {
+export function login(creds) {
   return {
-    type: 'SEARCH',
-    payload: ax.get('/search', { params })
+    type: 'LOGIN',
+    payload: new Promise((resolve, reject) => {
+      ax
+        .post('/user/login', creds)
+        .then(res => {
+          localStorage.setItem('token', res.data.token)
+          resolve(res)
+        })
+        .catch(err => reject(err))
+    })
+  }
+}
+
+export function signup(creds) {
+  return {
+    type: 'SIGNUP',
+    payload: new Promise((resolve, reject) => {
+      ax
+        .post('/user/signup', creds)
+        .then(res => {
+          localStorage.setItem('token', res.data.token)
+          resolve(res)
+        })
+        .catch(err => reject(err))
+    })
+  }
+}
+
+export function getUserByIdIfNeeded(id) {
+  return (dispatch, getState) => {
+    const { entities } = getState()
+    const { users } = entities
+
+    if (!users[id]) {
+      dispatch(getUserById(id))
+    }
+  }
+}
+
+export function getUserById(id) {
+  return {
+    type: 'GET_USER',
+    payload: ax.get(`/user/${id}`, {
+      transformResponse: [
+        function(data) {
+          return normalize(JSON.parse(data), schemas.userSchema)
+        }
+      ]
+    })
   }
 }
 
@@ -108,21 +155,10 @@ export function getScreenshot(id) {
   }
 }
 
-export function getFavoritesByUserId(userId) {
-  return getFavorites({ user: userId })
-}
-
-export function getFavorites(params) {
+export function downloadScreenshot(screenshotId) {
   return {
-    type: 'GET_FAVORITES',
-    payload: ax.get('/favorites', {
-      params,
-      transformResponse: [
-        function(data) {
-          return normalize(JSON.parse(data), [schemas.favoriteSchema])
-        }
-      ]
-    })
+    type: 'DOWNLOAD_SCREENSHOT',
+    payload: ax.post('/screenshot/download', { screenshotId })
   }
 }
 
@@ -153,33 +189,9 @@ export function getTag(name) {
   }
 }
 
-export function downloadScreenshot(screenshotId) {
+export function search(params) {
   return {
-    type: 'DOWNLOAD_SCREENSHOT',
-    payload: ax.post('/screenshot/download', { screenshotId })
-  }
-}
-
-export function getUserByIdIfNeeded(id) {
-  return (dispatch, getState) => {
-    const { entities } = getState()
-    const { users } = entities
-
-    if (!users[id]) {
-      dispatch(getUserById(id))
-    }
-  }
-}
-
-export function getUserById(id) {
-  return {
-    type: 'GET_USER',
-    payload: ax.get(`/user/${id}`, {
-      transformResponse: [
-        function(data) {
-          return normalize(JSON.parse(data), schemas.userSchema)
-        }
-      ]
-    })
+    type: 'SEARCH',
+    payload: ax.get('/search', { params })
   }
 }

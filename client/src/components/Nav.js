@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
-import { logout } from '../actions/user'
+import { logout } from '../actions/authed'
 import GlobalSearch from './GlobalSearch'
 
 const propTypes = {

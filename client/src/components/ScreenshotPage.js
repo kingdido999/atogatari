@@ -21,7 +21,7 @@ import WhatAnimeGaButton from '../components/WhatAnimeGaButton'
 import DeleteButton from '../components/DeleteButton'
 
 import { search } from '../actions/entities'
-import { addTag } from '../actions/user'
+import { addTag } from '../actions/authed'
 import { getImageUrl } from '../utils'
 
 const propTypes = {

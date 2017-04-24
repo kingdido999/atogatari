@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
-import { deleteScreenshot } from '../actions/user'
+import { deleteScreenshot } from '../actions/authed'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
