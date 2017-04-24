@@ -100,7 +100,7 @@ class Filters extends Component {
   }
 
   renderFilters = () => {
-    const { sortBy, nsfw, view, pages, page } = this.props
+    const { sortBy, nsfw, view, pages, page, total } = this.props
     const isFirstPage = page === 1
     const hasPrevPage = page > 1
     const hasNextPage = page < pages
@@ -126,6 +126,8 @@ class Filters extends Component {
         </Menu.Item>
 
         <Menu.Menu position="right">
+          {total > 0 && <Menu.Item content={`${total} results`} disabled />}
+
           <Menu.Item
             icon="angle double left"
             disabled={isFirstPage}
@@ -158,13 +160,14 @@ class Filters extends Component {
             active={view === 'grid'}
             onClick={() => this.handleChangeView('grid')}
           />
+
         </Menu.Menu>
       </Menu>
     )
   }
 
   renderMobileFilters = () => {
-    const { sortBy, pages, page } = this.props
+    const { sortBy, pages, page, total } = this.props
     const isFirstPage = page === 1
     const hasPrevPage = page > 1
     const hasNextPage = page < pages
@@ -172,18 +175,16 @@ class Filters extends Component {
 
     return (
       <Menu attached="bottom" borderless>
-        <Menu.Item
-          name="latest"
-          active={sortBy === 'date'}
-          onClick={() => this.handleChangeSortBy('date')}
-        />
-        <Menu.Item
-          name="popular"
-          active={sortBy === 'popularity'}
-          onClick={() => this.handleChangeSortBy('popularity')}
+        <Dropdown
+          defaultValue={sortBy}
+          options={SORT_BY_OPTIONS}
+          onChange={this.handleChangeSortBy}
+          item
+          inline
         />
 
         <Menu.Menu position="right">
+          {total > 0 && <Menu.Item content={`${total} results`} disabled />}
           <Menu.Item
             icon="angle double left"
             disabled={isFirstPage}
