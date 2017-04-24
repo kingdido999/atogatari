@@ -20,10 +20,12 @@ class App extends Component {
   }
 
   render() {
+    const { showFilters } = this.props
     return (
       <div className="App site">
         <NavContainer />
-        <FiltersContainer />
+
+        {showFilters && <FiltersContainer />}
 
         <Segment vertical className="site-content">
           <ErrorMessageContainer />
@@ -39,4 +41,20 @@ class App extends Component {
   }
 }
 
-export default connect()(App)
+function mapStateToProps(state) {
+  const { routing } = state
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
+
+  // TODO: improve route matching?
+  const showFilters = pathname === '/' || pathname.match('/screenshots')
+  // || pathname.match('/tag/')
+  // || pathname.match('/favorites')
+  // || pathname.match('/uploads')
+
+  return {
+    showFilters
+  }
+}
+
+export default connect(mapStateToProps)(App)
