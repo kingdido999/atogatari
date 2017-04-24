@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Dropdown, Header } from 'semantic-ui-react'
 
 import { updateTag } from '../actions/authed'
-import { TAG_TYPE_COLOR_MAP } from '../utils'
+import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,

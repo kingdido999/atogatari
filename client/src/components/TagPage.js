@@ -4,7 +4,7 @@ import Zooming from 'zooming'
 
 import ScreenshotCards from './ScreenshotCards'
 import TagTypesDropdown from './TagTypesDropdown'
-import { TAG_TYPE_COLOR_MAP } from '../utils'
+import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Dropdown, Checkbox } from 'semantic-ui-react'
 
+import { SORT_BY } from '../constants/filter'
+
 import {
   setSortBy,
   toggleNSFW,
@@ -31,9 +33,9 @@ const generateOptions = text => {
 }
 
 const SORT_BY_OPTIONS = [
-  generateOptions('Latest'),
-  generateOptions('Most Popular'),
-  generateOptions('Least Tags')
+  generateOptions(SORT_BY.LATEST),
+  generateOptions(SORT_BY.MOST_POPULAR),
+  generateOptions(SORT_BY.LEAST_TAGS)
 ]
 
 class Filters extends Component {
