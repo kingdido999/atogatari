@@ -67,21 +67,6 @@ export function getUserById(id) {
   }
 }
 
-export function getScreenshotsByUserIdIfNeeded(userId) {
-  return (dispatch, getState) => {
-    const { entities } = getState()
-    const { users } = entities
-
-    if (!users[userId]) {
-      dispatch(getScreenshotsByUserId(userId))
-    }
-  }
-}
-
-export function getScreenshotsByUserId(userId) {
-  return getScreenshots({ user: userId })
-}
-
 export function getFilteredScreenshots(params) {
   return (dispatch, getState) => {
     const { filter, screenshotLists } = getState()

@@ -2,24 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import UserUploadsPage from '../components/UserUploadsPage'
-import { getScreenshotsByUserIdIfNeeded } from '../actions/entities'
 
 class UserUploadsContainer extends Component {
-  componentDidMount() {
-    const { dispatch, params } = this.props
-    const { userId } = params
-    dispatch(getScreenshotsByUserIdIfNeeded(userId))
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, params } = this.props
-    const userId = nextProps.params.userId
-
-    if (userId !== params.userId) {
-      dispatch(getScreenshotsByUserIdIfNeeded(userId))
-    }
-  }
-
   render() {
     return <UserUploadsPage {...this.props} />
   }
