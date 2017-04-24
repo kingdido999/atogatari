@@ -3,7 +3,7 @@ import { Search, Grid, Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import Tag from './Tag'
-import { search } from '../actions/entities'
+import { search, setQuery } from '../actions/entities'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -26,17 +26,11 @@ const resultRenderer = ({ name, type, screenshots }) => {
 }
 
 class GlobalSearch extends Component {
-  state = {
-    query: ''
-  }
-
   handleSearchChange = (e, value) => {
-    this.setState({ query: value }, () => {
-      if (value.length < MIN_CHARACTERS) return
-
-      const { dispatch } = this.props
-      dispatch(search(this.state))
-    })
+    const { dispatch } = this.props
+    dispatch(setQuery(value))
+    if (value.length < MIN_CHARACTERS) return
+    dispatch(search({ query: value }))
   }
 
   handleResultSelect = (e, item) => {
@@ -45,9 +39,8 @@ class GlobalSearch extends Component {
   }
 
   render() {
-    const { query } = this.state
     const { search } = this.props
-    const { results } = search
+    const { query, results } = search
 
     return (
       <Search

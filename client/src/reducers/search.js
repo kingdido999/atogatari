@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 export default combineReducers({
   isFetching,
+  query,
   results
 })
 
@@ -12,6 +13,15 @@ function isFetching(state = false, action) {
     case 'SEARCH_FULFILLED':
     case 'SEARCH_REJECTED':
       return false
+    default:
+      return state
+  }
+}
+
+function query(state = '', action) {
+  switch (action.type) {
+    case 'SET_QUERY':
+      return action.query
     default:
       return state
   }

@@ -11,6 +11,7 @@ export const setLimit = makeActionCreator('SET_LIMIT', 'limit')
 export const setSortBy = makeActionCreator('SET_SORT_BY', 'sortBy')
 export const toggleNSFW = makeActionCreator('TOGGLE_NSFW')
 export const setView = makeActionCreator('SET_VIEW', 'view')
+export const setQuery = makeActionCreator('SET_QUERY', 'query')
 
 export function search(params) {
   return {
