@@ -169,7 +169,7 @@ async function getScreenshots(ctx) {
       sort = { createdAt: -1 }
       break
     case 'Most Popular':
-      sort = { favoritesCount: -1, createdAt: -1 }
+      sort = { favoritesCount: -1, downloadCount: -1, createdAt: -1 }
       break
     case 'Least Tags':
       sort = { tagsCount: 1, createdAt: -1 }
