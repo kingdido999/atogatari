@@ -31,7 +31,12 @@ class UserPage extends Component {
               activeClassName="active"
             >
               Favorites
-              <Label color="yellow" content={user.favorites.length} floating />
+              {user.favorites.length > 0 &&
+                <Label
+                  color="yellow"
+                  content={user.favorites.length}
+                  floating
+                />}
             </Menu.Item>
             <Menu.Item
               as={Link}
@@ -40,8 +45,12 @@ class UserPage extends Component {
               activeClassName="active"
             >
               Uploads
-              <Label color="teal" content={user.screenshots.length} floating />
-
+              {user.screenshots.length > 0 &&
+                <Label
+                  color="teal"
+                  content={user.screenshots.length}
+                  floating
+                />}
             </Menu.Item>
             {/* <Menu.Item name='Settings' activeClassName="active" /> */}
           </Menu>
