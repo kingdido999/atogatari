@@ -166,16 +166,16 @@ async function getScreenshots(ctx) {
 
   switch (sortBy) {
     case 'Latest':
-      sort = { createdAt: -1, updatedAt: -1 }
+      sort = { createdAt: -1 }
       break
     case 'Most Popular':
-      sort = { favoritesCount: -1, updatedAt: -1 }
+      sort = { favoritesCount: -1, createdAt: -1 }
       break
     case 'Least Tags':
-      sort = { tagsCount: 1, updatedAt: -1 }
+      sort = { tagsCount: 1, createdAt: -1 }
       break
     default:
-      sort = { createdAt: -1, updateAt: -1 }
+      sort = { createdAt: -1 }
   }
 
   const aggregation = []
