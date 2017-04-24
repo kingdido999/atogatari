@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import TagPage from '../components/TagPage'
-import { getTag } from '../actions/entities'
+import { getTagIfNeeded } from '../actions/entities'
 
 class TagContainer extends Component {
   componentDidMount() {
     const { params, dispatch } = this.props
     const { name } = params
-    dispatch(getTag(name))
+    dispatch(getTagIfNeeded(name))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -16,7 +16,7 @@ class TagContainer extends Component {
 
     const name = nextProps.params.name
     if (name !== params.name) {
-      dispatch(getTag(name))
+      dispatch(getTagIfNeeded(name))
     }
   }
   render() {

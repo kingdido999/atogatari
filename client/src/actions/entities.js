@@ -161,6 +161,17 @@ export function getTags(params) {
   }
 }
 
+export function getTagIfNeeded(name) {
+  return (dispatch, getState) => {
+    const { entities } = getState()
+    const { tags } = entities
+
+    if (!tags[name]) {
+      dispatch(getTag(name))
+    }
+  }
+}
+
 export function getTag(name) {
   return {
     type: 'GET_TAG',
