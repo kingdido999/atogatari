@@ -26,8 +26,8 @@ class TagPage extends Component {
     return (
       <Container>
         <Segment>
-          <Grid>
-            <Grid.Column floated="left" width={4}>
+          <Grid columns="equal">
+            <Grid.Column>
               <Label
                 size="large"
                 color={TAG_TYPE_COLOR_MAP[tag.type]}
@@ -36,7 +36,7 @@ class TagPage extends Component {
               />
             </Grid.Column>
 
-            <Grid.Column floated="right" width={2} verticalAlign="middle">
+            <Grid.Column verticalAlign="middle" textAlign="right">
               <TagTypesDropdown
                 dispatch={dispatch}
                 isAuthenticated={isAuthenticated}
@@ -45,9 +45,11 @@ class TagPage extends Component {
               />
             </Grid.Column>
           </Grid>
-
         </Segment>
-        <ScreenshotCards zooming={zooming} {...this.props} />
+
+        <Segment basic vertical>
+          <ScreenshotCards zooming={zooming} {...this.props} />
+        </Segment>
       </Container>
     )
   }
