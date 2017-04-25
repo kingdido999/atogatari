@@ -9,6 +9,7 @@ import uuid from 'uuid/v4'
 import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
+import { uniq } from 'lodash'
 
 import { writeFile } from '../utils'
 import { NODE_ENV } from '../../.env.js'
@@ -46,7 +47,7 @@ async function upload(ctx) {
   }
 
   const { tags, nsfw } = fields
-  const tagList = JSON.parse(tags).map(tag => tag.toLowerCase())
+  const tagList = uniq(JSON.parse(tags).map(tag => tag.trim().toLowerCase()))
   const userId = ctx.state.uid
 
   for (let i = 0; i < files.length; i++) {
