@@ -5,19 +5,19 @@ import {
   Segment,
   Grid,
   Button,
-  Label,
-  Header
+  Header,
+  Divider
 } from 'semantic-ui-react'
 import Zooming from 'zooming'
 import moment from 'moment'
 
-import Tag from '../components/Tag'
-import AddTagDropdown from '../components/AddTagDropdown'
-import ZoomableImage from '../components/ZoomableImage'
-import DownloadButton from '../components/DownloadButton'
-import FavoriteButton from '../components/FavoriteButton'
-import WhatAnimeGaButton from '../components/WhatAnimeGaButton'
-import DeleteButton from '../components/DeleteButton'
+import Tags from './Tags'
+import AddTagDropdown from './AddTagDropdown'
+import ZoomableImage from './ZoomableImage'
+import DownloadButton from './DownloadButton'
+import FavoriteButton from './FavoriteButton'
+import WhatAnimeGaButton from './WhatAnimeGaButton'
+import DeleteButton from './DeleteButton'
 
 import { getImageUrl } from '../utils'
 
@@ -91,27 +91,14 @@ class ScreenshotPage extends Component {
   }
 
   renderTags = () => {
-    const { dispatch, authedUser, isAdmin, screenshot, tags } = this.props
+    const { dispatch, authedUser, screenshot } = this.props
     if (!screenshot) return null
 
     return (
       <div>
-        {screenshot.tags.length > 0 &&
-          <Label.Group>
-            {screenshot.tags.map((name, index) => (
-              <Tag
-                key={index}
-                type={tags[name] ? tags[name].type : 'General'}
-                name={name}
-                count={tags[name] ? tags[name].screenshots.length : 1}
-                dispatch={dispatch}
-                isAdmin={isAdmin}
-                screenshotId={screenshot._id}
-              />
-            ))}
-          </Label.Group>}
+        <Tags {...this.props} tagNames={screenshot.tags} />
 
-        {screenshot.tags.length > 0 && authedUser && <br />}
+        {screenshot.tags.length > 0 && authedUser && <Divider />}
 
         {authedUser &&
           <AddTagDropdown

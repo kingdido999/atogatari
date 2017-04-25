@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { Popup, Button, Label } from 'semantic-ui-react'
+import { Popup, Button, Divider } from 'semantic-ui-react'
 
-import Tag from './Tag'
+import Tags from './Tags'
 import AddTagDropdown from './AddTagDropdown'
 
 const propTypes = {
@@ -37,30 +37,13 @@ class TagsButton extends Component {
   }
 
   renderTags = () => {
-    const {
-      dispatch,
-      isAuthenticated,
-      tagNames,
-      tags,
-      screenshotId
-    } = this.props
+    const { dispatch, isAuthenticated, tagNames, screenshotId } = this.props
 
     return (
       <div>
-        {tagNames.length > 0 &&
-          <Label.Group>
-            {tagNames.map((name, index) => (
-              <Tag
-                key={index}
-                type={tags[name] ? tags[name].type : 'General'}
-                name={name}
-                count={tags[name] ? tags[name].screenshots.length : 1}
-                dispatch={dispatch}
-              />
-            ))}
-          </Label.Group>}
+        <Tags {...this.props} />
 
-        {tagNames.length > 0 && isAuthenticated && <br />}
+        {tagNames.length > 0 && isAuthenticated && <Divider />}
 
         {isAuthenticated &&
           <AddTagDropdown dispatch={dispatch} screenshotId={screenshotId} />}
