@@ -13,7 +13,7 @@ function mapStateToProps(state, ownProps) {
   const { user, entities, ui } = state
   const { uid } = user
   const { view, itemsPerRow } = ui
-  const { favorites, users } = entities
+  const { favorites, users, tags } = entities
   const { params } = ownProps
   const { userId } = params
   const screenshotIds = users[userId]
@@ -27,6 +27,7 @@ function mapStateToProps(state, ownProps) {
     view,
     itemsPerRow,
     authedUser: users[uid],
+    tags,
     users,
     uid: userId,
     screenshotIds,

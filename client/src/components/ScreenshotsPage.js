@@ -9,6 +9,7 @@ const propTypes = {
   view: PropTypes.string.isRequired,
   itemsPerRow: PropTypes.number.isRequired,
   authedUser: PropTypes.object,
+  tags: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired
 }

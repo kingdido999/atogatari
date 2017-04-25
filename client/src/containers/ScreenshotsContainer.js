@@ -17,7 +17,7 @@ class ScreenshotsContainer extends Component {
 
 function mapStateToProps(state) {
   const { user, entities, screenshotLists, filter, ui } = state
-  const { users } = entities
+  const { users, tags } = entities
   const { uid } = user
   const { view, itemsPerRow } = ui
   const key = JSON.stringify(filter)
@@ -28,6 +28,7 @@ function mapStateToProps(state) {
     view,
     itemsPerRow,
     users,
+    tags,
     screenshots: entities.screenshots,
     screenshotIds: screenshotList ? screenshotList.ids : []
   }

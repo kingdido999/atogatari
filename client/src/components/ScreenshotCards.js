@@ -10,6 +10,7 @@ const propTypes = {
   itemsPerRow: PropTypes.number.isRequired,
   authedUser: PropTypes.object,
   users: PropTypes.object.isRequired,
+  tags: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired
 }
@@ -45,7 +46,6 @@ class ScreenshotCards extends Component {
           {...this.props}
           key={index}
           screenshot={screenshot}
-          authedUser={authedUser}
           owner={owner}
           isOwner={isOwner}
           isAdmin={isAdmin}

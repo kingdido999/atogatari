@@ -8,6 +8,7 @@ const propTypes = {
   authedUser: PropTypes.object,
   screenshots: PropTypes.object.isRequired,
   favorites: PropTypes.object.isRequired,
+  tags: PropTypes.object.isRequired,
   screenshotIds: PropTypes.array.isRequired
 }
 

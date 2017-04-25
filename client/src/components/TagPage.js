@@ -9,6 +9,7 @@ import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  tags: PropTypes.object.isRequired,
   tag: PropTypes.object,
   screenshotIds: PropTypes.array.isRequired,
   screenshots: PropTypes.object.isRequired

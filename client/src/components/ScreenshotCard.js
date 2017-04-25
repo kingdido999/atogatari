@@ -3,10 +3,11 @@ import { Card, Button } from 'semantic-ui-react'
 
 import ZoomableImage from './ZoomableImage'
 import DownloadButton from './DownloadButton'
+import TagsButton from './TagsButton'
 import FavoriteButton from './FavoriteButton'
 import WhatAnimeGaIconButton from './WhatAnimeGaIconButton'
-import DetailsButton from './DetailsButton'
 import DeleteButton from './DeleteButton'
+import DetailsButton from './DetailsButton'
 
 import { getImageUrl } from '../utils'
 
@@ -15,6 +16,7 @@ const propTypes = {
   zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   screenshot: PropTypes.object.isRequired,
+  tags: PropTypes.object.isRequired,
   owner: PropTypes.object,
   isAdmin: PropTypes.bool,
   isOwner: PropTypes.bool,
@@ -28,6 +30,7 @@ class ScreenshotCard extends Component {
       zooming,
       view,
       screenshot,
+      tags,
       isOwner,
       isAdmin,
       isFavorited
@@ -52,6 +55,11 @@ class ScreenshotCard extends Component {
 
         <Card.Content extra>
           <Button.Group fluid compact>
+            <TagsButton
+              dispatch={dispatch}
+              tagNames={screenshot.tags}
+              tags={tags}
+            />
             <FavoriteButton
               {...this.props}
               screenshotId={_id}

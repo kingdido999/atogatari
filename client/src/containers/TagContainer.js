@@ -38,6 +38,7 @@ function mapStateToProps(state, ownProps) {
     users: entities.users,
     view,
     itemsPerRow,
+    tags,
     tag,
     screenshotIds: tag ? tag.screenshots : [],
     screenshots: entities.screenshots
