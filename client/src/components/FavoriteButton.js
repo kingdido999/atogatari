@@ -6,15 +6,16 @@ import { addFavorite, removeFavorite } from '../actions/authed'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   isFavorited: PropTypes.bool.isRequired,
   screenshotId: PropTypes.string.isRequired,
-  favoritesCount: PropTypes.number.isRequired,
-  authedUser: PropTypes.object
+  favoritesCount: PropTypes.number.isRequired
 }
 
 class FavoriteButton extends Component {
   toggleFavorite = () => {
-    const { dispatch, isFavorited, screenshotId } = this.props
+    const { dispatch, isAuthenticated, isFavorited, screenshotId } = this.props
+    if (!isAuthenticated) return
     if (isFavorited) {
       dispatch(removeFavorite(screenshotId))
     } else {
@@ -52,10 +53,10 @@ class FavoriteButton extends Component {
   }
 
   render() {
-    const { authedUser } = this.props
+    const { isAuthenticated } = this.props
     const button = this.renderButton()
 
-    if (!authedUser) {
+    if (!isAuthenticated) {
       return (
         <Popup
           trigger={button}

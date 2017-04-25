@@ -7,7 +7,8 @@ import { addTag } from '../actions/authed'
 
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
-	screenshotId: PropTypes.string.isRequired
+	screenshotId: PropTypes.string.isRequired,
+	fluid: PropTypes.bool
 }
 
 class AddTagDropdown extends Component {
@@ -16,15 +17,17 @@ class AddTagDropdown extends Component {
 	}
 
 	render() {
+		const { fluid } = this.props
+
 		return (
 			<Dropdown
 				options={this.state.tagSuggestions}
 				placeholder="Enter a new tag"
 				additionLabel=""
 				icon={null}
+				fluid={fluid}
 				search
 				selection
-				fluid
 				allowAdditions
 				selectOnBlur={false}
 				noResultsMessage={'Type to show suggestions...'}

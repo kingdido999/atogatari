@@ -18,6 +18,7 @@ const propTypes = {
   screenshot: PropTypes.object.isRequired,
   tags: PropTypes.object.isRequired,
   owner: PropTypes.object,
+  isAuthenticated: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool,
   isOwner: PropTypes.bool,
   isFavorited: PropTypes.bool.isRequired
@@ -30,7 +31,6 @@ class ScreenshotCard extends Component {
       zooming,
       view,
       screenshot,
-      tags,
       isOwner,
       isAdmin,
       isFavorited
@@ -56,9 +56,9 @@ class ScreenshotCard extends Component {
         <Card.Content extra>
           <Button.Group fluid compact>
             <TagsButton
-              dispatch={dispatch}
+              {...this.props}
               tagNames={screenshot.tags}
-              tags={tags}
+              screenshotId={_id}
             />
             <FavoriteButton
               {...this.props}

@@ -103,7 +103,7 @@ class ScreenshotPage extends Component {
                 key={index}
                 type={tags[name] ? tags[name].type : 'General'}
                 name={name}
-                count={tags[name] ? tags[name].screenshots.length : null}
+                count={tags[name] ? tags[name].screenshots.length : 1}
                 dispatch={dispatch}
                 isAdmin={isAdmin}
                 screenshotId={screenshot._id}
@@ -114,7 +114,11 @@ class ScreenshotPage extends Component {
         {screenshot.tags.length > 0 && authedUser && <br />}
 
         {authedUser &&
-          <AddTagDropdown dispatch={dispatch} screenshotId={screenshot._id} />}
+          <AddTagDropdown
+            dispatch={dispatch}
+            screenshotId={screenshot._id}
+            fluid={true}
+          />}
       </div>
     )
   }
@@ -142,7 +146,7 @@ class ScreenshotPage extends Component {
       <Button.Group size="large" fluid>
         <FavoriteButton
           dispatch={dispatch}
-          authedUser={authedUser}
+          isAuthenticated={authedUser !== undefined}
           screenshotId={_id}
           isFavorited={isFavorited}
           favoritesCount={favoritesCount}

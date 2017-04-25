@@ -47,6 +47,7 @@ class ScreenshotCards extends Component {
           key={index}
           screenshot={screenshot}
           owner={owner}
+          isAuthenticated={authedUser !== undefined}
           isOwner={isOwner}
           isAdmin={isAdmin}
           isFavorited={isFavorited}

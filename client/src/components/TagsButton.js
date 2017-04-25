@@ -2,11 +2,14 @@ import React, { Component, PropTypes } from 'react'
 import { Popup, Button, Label } from 'semantic-ui-react'
 
 import Tag from './Tag'
+import AddTagDropdown from './AddTagDropdown'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   tags: PropTypes.object.isRequired,
-  tagNames: PropTypes.array.isRequired
+  tagNames: PropTypes.array.isRequired,
+  screenshotId: PropTypes.string.isRequired
 }
 
 class TagsButton extends Component {
@@ -34,24 +37,34 @@ class TagsButton extends Component {
   }
 
   renderTags = () => {
-    const { dispatch, tagNames, tags } = this.props
-
-    if (tagNames.length === 0) {
-      return 'No tags yet...'
-    }
+    const {
+      dispatch,
+      isAuthenticated,
+      tagNames,
+      tags,
+      screenshotId
+    } = this.props
 
     return (
-      <Label.Group>
-        {tagNames.map((name, index) => (
-          <Tag
-            key={index}
-            type={tags[name] ? tags[name].type : 'General'}
-            name={name}
-            count={tags[name] ? tags[name].screenshots.length : null}
-            dispatch={dispatch}
-          />
-        ))}
-      </Label.Group>
+      <div>
+        {tagNames.length > 0 &&
+          <Label.Group>
+            {tagNames.map((name, index) => (
+              <Tag
+                key={index}
+                type={tags[name] ? tags[name].type : 'General'}
+                name={name}
+                count={tags[name] ? tags[name].screenshots.length : 1}
+                dispatch={dispatch}
+              />
+            ))}
+          </Label.Group>}
+
+        {tagNames.length > 0 && isAuthenticated && <br />}
+
+        {isAuthenticated &&
+          <AddTagDropdown dispatch={dispatch} screenshotId={screenshotId} />}
+      </div>
     )
   }
 }
