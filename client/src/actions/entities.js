@@ -46,9 +46,14 @@ export function signup(creds) {
 export function getUserByIdIfNeeded(id) {
   return (dispatch, getState) => {
     const { entities } = getState()
-    const { users } = entities
+    const { users, favorites, screenshots } = entities
+    const user = users[id]
 
-    if (!users[id]) {
+    if (
+      !user ||
+      difference(user.favorites, Object.keys(favorites)).length > 0 ||
+      difference(user.screenshots, Object.keys(screenshots)).length > 0
+    ) {
       dispatch(getUserById(id))
     }
   }
@@ -166,12 +171,10 @@ export function getTagIfNeeded(name) {
     const { entities } = getState()
     const { tags, screenshots } = entities
     const tag = tags[name]
-    const diffScreenshots = difference(
-      tag.screenshots,
-      Object.keys(screenshots)
-    )
 
-    if (!tag || diffScreenshots.length > 0) {
+    if (
+      !tag || difference(tag.screenshots, Object.keys(screenshots)).length > 0
+    ) {
       dispatch(getTag(name))
     }
   }
