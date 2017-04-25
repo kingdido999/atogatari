@@ -17,7 +17,6 @@ class TagsButton extends Component {
         content={this.renderTags()}
         on="hover"
         position="bottom center"
-        flowing
         hoverable
       />
     )
