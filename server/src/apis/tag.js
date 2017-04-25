@@ -4,7 +4,7 @@ import Tag from '../models/Tag'
 async function getTags(ctx) {
 	const { query } = ctx.request
 
-	const tags = await Tag.find(query).populate('screenshots').sort('name').exec()
+	const tags = await Tag.find(query).sort('name').exec()
 
 	ctx.response.body = tags
 	ctx.status = 200

@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr'
-import { merge } from 'lodash'
+import { merge, difference } from 'lodash'
 
 import { ax, makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
@@ -164,9 +164,14 @@ export function getTags(params) {
 export function getTagIfNeeded(name) {
   return (dispatch, getState) => {
     const { entities } = getState()
-    const { tags } = entities
+    const { tags, screenshots } = entities
+    const tag = tags[name]
+    const diffScreenshots = difference(
+      tag.screenshots,
+      Object.keys(screenshots)
+    )
 
-    if (!tags[name]) {
+    if (!tag || diffScreenshots.length > 0) {
       dispatch(getTag(name))
     }
   }
