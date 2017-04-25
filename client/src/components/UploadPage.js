@@ -12,7 +12,6 @@ import {
 } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
-import Zooming from 'zooming'
 
 import { uploadScreenshot } from '../actions/authed'
 import { search } from '../actions/entities'
@@ -28,10 +27,7 @@ class UploadPage extends Component {
     files: [],
     tagSuggestions: [],
     tags: [],
-    nsfw: false,
-    zooming: new Zooming({
-      bgColor: '#000'
-    })
+    nsfw: false
   }
 
   render() {
@@ -105,18 +101,16 @@ class UploadPage extends Component {
         <Card.Group itemsPerRow={itemsPerRow} stackable>
           {files.map((file, index) => (
             <Card key={index}>
-              <Image src={file.preview} className="img-preview" />
+              <Image
+                src={file.preview}
+                label={{
+                  corner: 'right',
+                  onRemove: () => this.handleRemoveImage(index)
+                }}
+              />
 
               <Card.Content extra>
                 <Card.Meta>{file.name}</Card.Meta>
-              </Card.Content>
-              <Card.Content extra>
-                <Button
-                  icon="remove"
-                  onClick={() => this.handleRemoveImage(index)}
-                  basic
-                  fluid
-                />
               </Card.Content>
             </Card>
           ))}
@@ -279,8 +273,6 @@ class UploadPage extends Component {
         this.setState({
           files: [...this.state.files, file]
         })
-
-        this.state.zooming.listen('.img-preview')
       }
 
       reader.readAsDataURL(file)
