@@ -249,9 +249,13 @@ class UploadPage extends Component {
   }
 
   handleAddTag = (event, { value }) => {
+    const trimmedValue = value.trim()
     this.setState({
       tagSuggestions: uniqBy(
-        [{ text: value, value }, ...this.state.tagSuggestions],
+        [
+          { text: trimmedValue, value: trimmedValue },
+          ...this.state.tagSuggestions
+        ],
         'text'
       )
     })
