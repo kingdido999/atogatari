@@ -11,6 +11,7 @@ const propTypes = {
   name: PropTypes.string.isRequired,
   count: PropTypes.number,
   isAdmin: PropTypes.bool,
+  deletable: PropTypes.bool,
   screenshotId: PropTypes.string
 }
 
@@ -27,10 +28,10 @@ class Tag extends Component {
   }
 
   render() {
-    const { type, name, isAdmin, count } = this.props
+    const { type, name, isAdmin, count, screenshotId, deletable } = this.props
     const color = TAG_TYPE_COLOR_MAP[type]
 
-    if (isAdmin) {
+    if (deletable && isAdmin && screenshotId) {
       return (
         <Label
           as="a"

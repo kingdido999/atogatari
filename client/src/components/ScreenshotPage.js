@@ -96,7 +96,12 @@ class ScreenshotPage extends Component {
 
     return (
       <div>
-        <Tags {...this.props} tagNames={screenshot.tags} />
+        <Tags
+          {...this.props}
+          tagNames={screenshot.tags}
+          screenshotId={screenshot._id}
+          deletable={true}
+        />
 
         {screenshot.tags.length > 0 && authedUser && <Divider />}
 

@@ -100,6 +100,18 @@ function favorites(state = {}, action) {
   }
 }
 
+function tag(state = {}, action) {
+  switch (action.type) {
+    case 'DELETE_TAG_FULFILLED':
+      return {
+        ...state,
+        screenshots: state.screenshots.filter(
+          screenshotId => screenshotId !== action.payload.data.screenshotId
+        )
+      }
+  }
+}
+
 function tags(state = {}, action) {
   switch (action.type) {
     case 'UPDATE_TAG_FULFILLED':
@@ -111,7 +123,11 @@ function tags(state = {}, action) {
         }
       }
     case 'DELETE_TAG_FULFILLED':
-      return omit(state, action.payload.data.name)
+      if (!state[action.payload.data.name]) return state
+      return {
+        ...state,
+        [action.payload.data.name]: tag(state[action.payload.data.name], action)
+      }
     default:
       if (get(action, 'payload.data.entities.tags')) {
         return merge({}, state, action.payload.data.entities.tags)

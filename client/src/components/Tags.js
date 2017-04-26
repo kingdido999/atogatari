@@ -7,7 +7,9 @@ const propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	tagNames: PropTypes.array.isRequired,
 	tags: PropTypes.object.isRequired,
-	isAdmin: PropTypes.bool
+	isAdmin: PropTypes.bool,
+	deletable: PropTypes.bool,
+	screenshotId: PropTypes.string.isRequired
 }
 
 class Tags extends Component {

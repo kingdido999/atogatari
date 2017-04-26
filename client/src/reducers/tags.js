@@ -2,10 +2,10 @@ import { combineReducers } from 'redux'
 
 export default combineReducers({
   isFetching,
-  names,
+  names
 })
 
-function isFetching (state = false, action) {
+function isFetching(state = false, action) {
   switch (action.type) {
     case 'GET_TAGS_PENDING':
       return true
@@ -17,7 +17,7 @@ function isFetching (state = false, action) {
   }
 }
 
-function names (state = [], action) {
+function names(state = [], action) {
   switch (action.type) {
     case 'GET_TAGS_FULFILLED':
       return action.payload.data.result
