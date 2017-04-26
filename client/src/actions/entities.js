@@ -74,9 +74,11 @@ export function getUserById(id) {
 
 export function getFilteredScreenshots(params) {
   return (dispatch, getState) => {
-    const { filter, screenshotLists } = getState()
+    const { filter, screenshotLists, routing } = getState()
+    const { locationBeforeTransitions } = routing
+    const { pathname } = locationBeforeTransitions
     const mergedParams = merge({}, filter, params)
-    const key = JSON.stringify(mergedParams)
+    const key = JSON.stringify(merge({}, mergedParams, { pathname }))
     if (!screenshotLists[key]) {
       dispatch(getScreenshots(mergedParams))
     }
@@ -92,11 +94,13 @@ export function getScreenshots(params) {
     ax
       .get('/screenshots', { params })
       .then(res => {
-        const { filter } = getState()
+        const { filter, routing } = getState()
+        const { locationBeforeTransitions } = routing
+        const { pathname } = locationBeforeTransitions
         const { sortBy, nsfw } = filter
         const { docs, total, limit, pages, page } = res.data
         const normalizedData = normalize(docs, [schemas.screenshotSchema])
-        const key = JSON.stringify({ sortBy, nsfw, limit, page })
+        const key = JSON.stringify({ sortBy, nsfw, limit, page, pathname })
 
         dispatch(receiveScreenshots(key, { data: normalizedData }))
         dispatch(setTotal(key, total))

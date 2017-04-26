@@ -16,11 +16,13 @@ class ScreenshotsContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user, entities, screenshotLists, filter, ui } = state
+  const { user, entities, screenshotLists, filter, ui, routing } = state
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
   const { users, tags } = entities
   const { isAuthenticated, uid } = user
   const { view, itemsPerRow } = ui
-  const key = JSON.stringify(filter)
+  const key = JSON.stringify({ ...filter, pathname })
   const screenshotList = screenshotLists[key]
 
   return {

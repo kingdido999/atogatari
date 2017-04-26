@@ -10,11 +10,13 @@ class FiltersContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { environment, filter, screenshotLists, ui } = state
+  const { environment, filter, screenshotLists, ui, routing } = state
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
   const { isMobile } = environment
   const { view } = ui
   const { nsfw, sortBy, page, limit } = filter
-  const key = JSON.stringify(filter)
+  const key = JSON.stringify({ ...filter, pathname })
   const screenshotList = screenshotLists[key]
 
   return {
