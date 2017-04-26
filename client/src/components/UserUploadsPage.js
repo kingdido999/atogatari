@@ -5,6 +5,7 @@ import ScreenshotCards from '../components/ScreenshotCards'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   authedUser: PropTypes.object,
   tags: PropTypes.object.isRequired,
   screenshots: PropTypes.object.isRequired,

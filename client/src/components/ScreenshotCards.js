@@ -8,6 +8,7 @@ const propTypes = {
   zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   itemsPerRow: PropTypes.number.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   authedUser: PropTypes.object,
   users: PropTypes.object.isRequired,
   tags: PropTypes.object.isRequired,
@@ -47,7 +48,6 @@ class ScreenshotCards extends Component {
           key={index}
           screenshot={screenshot}
           owner={owner}
-          isAuthenticated={authedUser !== undefined}
           isOwner={isOwner}
           isAdmin={isAdmin}
           isFavorited={isFavorited}

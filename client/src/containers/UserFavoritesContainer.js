@@ -11,7 +11,7 @@ class UserFavoritesContainer extends Component {
 
 function mapStateToProps(state, ownProps) {
   const { user, entities, ui } = state
-  const { uid } = user
+  const { isAuthenticated, uid } = user
   const { view, itemsPerRow } = ui
   const { favorites, users, tags } = entities
   const { params } = ownProps
@@ -26,6 +26,7 @@ function mapStateToProps(state, ownProps) {
   return {
     view,
     itemsPerRow,
+    isAuthenticated,
     authedUser: users[uid],
     tags,
     users,

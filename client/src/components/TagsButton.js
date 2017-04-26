@@ -14,6 +14,9 @@ const propTypes = {
 
 class TagsButton extends Component {
   render() {
+    const { tagNames, isAuthenticated } = this.props
+    if (!isAuthenticated && tagNames.length === 0) return null
+
     return (
       <Popup
         trigger={this.renderButton()}
@@ -26,14 +29,7 @@ class TagsButton extends Component {
   }
 
   renderButton = () => {
-    const { tagNames } = this.props
-    return (
-      <Button
-        basic
-        icon="tags"
-        content={tagNames.length > 0 ? tagNames.length : null}
-      />
-    )
+    return <Button basic icon="tags" />
   }
 
   renderTags = () => {
