@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import TagPage from '../components/TagPage'
-import { getTagIfNeeded } from '../actions/entities'
+import { getTagIfNeeded, getFilteredScreenshots } from '../actions/entities'
 
 class TagContainer extends Component {
   componentDidMount() {
     const { params, dispatch } = this.props
     const { name } = params
     dispatch(getTagIfNeeded(name))
+    dispatch(getFilteredScreenshots())
   }
 
   componentWillReceiveProps(nextProps) {
@@ -17,6 +18,7 @@ class TagContainer extends Component {
     const name = nextProps.params.name
     if (name !== params.name) {
       dispatch(getTagIfNeeded(name))
+      dispatch(getFilteredScreenshots())
     }
   }
   render() {
@@ -25,12 +27,16 @@ class TagContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, user, ui } = state
+  const { entities, user, screenshotLists, ui, filter, routing } = state
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
   const { isAuthenticated, uid } = user
   const { view, itemsPerRow } = ui
   const { tags, users } = entities
   const { name } = ownProps.params
   const tag = tags[name]
+  const key = JSON.stringify({ ...filter, pathname })
+  const screenshotList = screenshotLists[key]
 
   return {
     isAuthenticated,
@@ -40,7 +46,7 @@ function mapStateToProps(state, ownProps) {
     itemsPerRow,
     tags,
     tag,
-    screenshotIds: tag ? tag.screenshots : [],
+    screenshotIds: screenshotList ? screenshotList.ids : [],
     screenshots: entities.screenshots
   }
 }

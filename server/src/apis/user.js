@@ -75,34 +75,16 @@ async function login(ctx) {
 
 async function getUser(ctx) {
   const { id } = ctx.params
-  const user = await User.findById(id).populate('screenshots favorites').exec()
+  const user = await User.findById(id).exec()
 
   ctx.response.body = user
   ctx.status = 200
 }
 
 async function getAuthedUser(ctx) {
-  const user = await User.findById(ctx.state.uid)
-    .populate('screenshots')
-    .populate({
-      path: 'favorites',
-      populate: { path: 'screenshot' }
-    })
-    .exec()
+  const user = await User.findById(ctx.state.uid).exec()
 
   ctx.response.body = user
-  ctx.status = 200
-}
-
-async function getUserFavorites(ctx) {
-  const favorites = await Favorite.find({
-    user: ctx.state.uid
-  })
-    .populate('user screenshot')
-    .exec()
-
-  ctx.response.body = favorites
-
   ctx.status = 200
 }
 
@@ -252,7 +234,6 @@ export default {
   login,
   getUser,
   getAuthedUser,
-  getUserFavorites,
   getScreenshots,
   getFavoriteScreenshots,
   getUploadedScreenshots

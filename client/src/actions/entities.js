@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr'
-import { merge, difference } from 'lodash'
+import { merge } from 'lodash'
 
 import { ax, makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
@@ -46,14 +46,10 @@ export function signup(creds) {
 export function getUserByIdIfNeeded(id) {
   return (dispatch, getState) => {
     const { entities } = getState()
-    const { users, favorites, screenshots } = entities
+    const { users } = entities
     const user = users[id]
 
-    if (
-      !user ||
-      difference(user.favorites, Object.keys(favorites)).length > 0 ||
-      difference(user.screenshots, Object.keys(screenshots)).length > 0
-    ) {
+    if (!user) {
       dispatch(getUserById(id))
     }
   }
@@ -80,13 +76,26 @@ export function getFilteredScreenshots(params) {
     const mergedParams = merge({}, filter, params)
     const key = JSON.stringify(merge({}, mergedParams, { pathname }))
     if (!screenshotLists[key]) {
-      dispatch(getScreenshots(mergedParams))
+      const url = pathname.split('/')
+
+      if (pathname === '/') {
+        dispatch(getScreenshots(mergedParams))
+      } else if (pathname.match('/tag/')) {
+        const name = url[url.length - 1]
+        dispatch(getTagScreenshots(name, mergedParams))
+      } else if (pathname.match('/favorites')) {
+        const userId = url[url.length - 2]
+        dispatch(getUserFavoriteScreenshots(userId, params))
+      } else if (pathname.match('/uploads')) {
+        const userId = url[url.length - 2]
+        dispatch(getUserScreenshots(userId, params))
+      }
     }
   }
 }
 
 export function getScreenshots(params) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({
       type: 'GET_SCREENSHOTS_PENDING'
     })
@@ -94,19 +103,7 @@ export function getScreenshots(params) {
     ax
       .get('/screenshots', { params })
       .then(res => {
-        const { filter, routing } = getState()
-        const { locationBeforeTransitions } = routing
-        const { pathname } = locationBeforeTransitions
-        const { sortBy, nsfw } = filter
-        const { docs, total, limit, pages, page } = res.data
-        const normalizedData = normalize(docs, [schemas.screenshotSchema])
-        const key = JSON.stringify({ sortBy, nsfw, limit, page, pathname })
-
-        dispatch(receiveScreenshots(key, { data: normalizedData }))
-        dispatch(setTotal(key, total))
-        dispatch(setPages(key, pages))
-        dispatch(setLimit(limit))
-        dispatch(setPage(page))
+        dispatch(receivePaginatedScreenshots(res.data))
       })
       .catch(err => {
         return {
@@ -114,6 +111,84 @@ export function getScreenshots(params) {
           payload: err
         }
       })
+  }
+}
+
+export function getTagScreenshots(name, params) {
+  return dispatch => {
+    dispatch({
+      type: 'GET_SCREENSHOTS_PENDING'
+    })
+
+    ax
+      .get(`/tag/${name}/screenshots`, { params })
+      .then(res => {
+        dispatch(receivePaginatedScreenshots(res.data))
+      })
+      .catch(err => {
+        return {
+          type: 'GET_SCREENSHOTS_REJECTED',
+          payload: err
+        }
+      })
+  }
+}
+
+export function getUserScreenshots(userId, params) {
+  return dispatch => {
+    dispatch({
+      type: 'GET_SCREENSHOTS_PENDING'
+    })
+
+    ax
+      .get(`/user/${userId}/screenshots`, { params })
+      .then(res => {
+        dispatch(receivePaginatedScreenshots(res.data))
+      })
+      .catch(err => {
+        return {
+          type: 'GET_SCREENSHOTS_REJECTED',
+          payload: err
+        }
+      })
+  }
+}
+
+export function getUserFavoriteScreenshots(userId, params) {
+  return dispatch => {
+    dispatch({
+      type: 'GET_SCREENSHOTS_PENDING'
+    })
+
+    ax
+      .get(`/user/${userId}/favoriteScreenshots`, { params })
+      .then(res => {
+        dispatch(receivePaginatedScreenshots(res.data))
+      })
+      .catch(err => {
+        return {
+          type: 'GET_SCREENSHOTS_REJECTED',
+          payload: err
+        }
+      })
+  }
+}
+
+export function receivePaginatedScreenshots(data) {
+  return (dispatch, getState) => {
+    const { filter, routing } = getState()
+    const { locationBeforeTransitions } = routing
+    const { pathname } = locationBeforeTransitions
+    const { sortBy, nsfw } = filter
+    const { docs, total, limit, pages, page } = data
+    const normalizedData = normalize(docs, [schemas.screenshotSchema])
+    const key = JSON.stringify({ sortBy, nsfw, limit, page, pathname })
+
+    dispatch(receiveScreenshots(key, { data: normalizedData }))
+    dispatch(setTotal(key, total))
+    dispatch(setPages(key, pages))
+    dispatch(setLimit(limit))
+    dispatch(setPage(page))
   }
 }
 
@@ -173,12 +248,10 @@ export function getTags(params) {
 export function getTagIfNeeded(name) {
   return (dispatch, getState) => {
     const { entities } = getState()
-    const { tags, screenshots } = entities
+    const { tags } = entities
     const tag = tags[name]
 
-    if (
-      !tag || difference(tag.screenshots, Object.keys(screenshots)).length > 0
-    ) {
+    if (!tag) {
       dispatch(getTag(name))
     }
   }

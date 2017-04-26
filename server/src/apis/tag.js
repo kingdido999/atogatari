@@ -14,7 +14,7 @@ async function getTags(ctx) {
 async function getTag(ctx) {
 	const { name } = ctx.params
 
-	const tag = await Tag.findOne({ name }).populate('screenshots').exec()
+	const tag = await Tag.findOne({ name }).exec()
 
 	ctx.response.body = tag
 	ctx.status = 200

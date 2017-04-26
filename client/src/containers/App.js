@@ -47,10 +47,12 @@ function mapStateToProps(state) {
   const { pathname } = locationBeforeTransitions
 
   // TODO: improve route matching?
-  const showFilters = pathname === '/' || pathname.match('/screenshots')
-  // || pathname.match('/tag/')
-  // || pathname.match('/favorites')
-  // || pathname.match('/uploads')
+  const showFilters =
+    pathname === '/' ||
+    pathname.match('/screenshots') ||
+    pathname.match('/tag/') ||
+    pathname.match('/favorites') ||
+    pathname.match('/uploads')
 
   return {
     showFilters
