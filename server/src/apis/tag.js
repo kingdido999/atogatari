@@ -1,5 +1,6 @@
 import Screenshot from '../models/Screenshot'
 import Tag from '../models/Tag'
+import { sort, CONVERT_TO_SCREENSHOTS } from './common'
 
 async function getTags(ctx) {
 	const { query } = ctx.request
@@ -26,7 +27,7 @@ async function getTagScreenshots(ctx) {
 	page = page ? Number(page) : 1
 	limit = limit ? Number(limit) : 9
 
-	const aggregation = [
+	let aggregation = [
 		{
 			$match: { name }
 		},
@@ -38,29 +39,12 @@ async function getTagScreenshots(ctx) {
 				from: 'screenshots',
 				localField: 'screenshots',
 				foreignField: '_id',
-				as: 'tagScreenshots'
-			}
-		},
-		{
-			$project: {
-				screenshot: { $arrayElemAt: ['$tagScreenshots', 0] }
-			}
-		},
-		{
-			$project: {
-				_id: '$screenshot._id',
-				createdAt: '$screenshot.createdAt',
-				favorites: '$screenshot.favorites',
-				tags: '$screenshot.tags',
-				user: '$screenshot.user',
-				nsfw: '$screenshot.nsfw',
-				file: '$screenshot.file',
-				downloadCount: '$screenshot.downloadCount',
-				favoritesCount: { $size: '$screenshot.favorites' },
-				tagsCount: { $size: '$screenshot.tags' }
+				as: 'screenshots'
 			}
 		}
 	]
+
+	aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
 
 	if (!(nsfw === 'true')) {
 		aggregation.push({
@@ -70,25 +54,10 @@ async function getTagScreenshots(ctx) {
 
 	const docs = await Tag.aggregate(aggregation).exec()
 	const total = docs.length
-	let sort
-
-	switch (sortBy) {
-		case 'Latest':
-			sort = { createdAt: -1 }
-			break
-		case 'Most Popular':
-			sort = { favoritesCount: -1, downloadCount: -1, createdAt: -1 }
-			break
-		case 'Least Tags':
-			sort = { tagsCount: 1, createdAt: -1 }
-			break
-		default:
-			sort = { createdAt: -1 }
-	}
 
 	const paginatedDocs = await Tag.aggregate([
 		...aggregation,
-		{ $sort: sort },
+		{ $sort: sort(sortBy) },
 		{ $skip: (page - 1) * limit },
 		{ $limit: limit }
 	]).exec()

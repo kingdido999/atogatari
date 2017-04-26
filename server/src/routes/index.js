@@ -25,10 +25,11 @@ export default function route(router) {
   router.del('/tag/:name', tokenAuth(), tag.deleteTag)
 
   router.get('/user/:id', user.getUser)
+  router.get('/user/:id/screenshots', user.getScreenshots)
+  router.get('/user/:id/favoriteScreenshots', user.getFavoriteScreenshots)
   router.post('/user', tokenAuth(), user.getAuthedUser)
   router.post('/user/signup', user.signup)
   router.post('/user/login', user.login)
-  router.post('/user/favorites', tokenAuth(), user.getUserFavorites)
 
   router.get('/search', search.search)
 }

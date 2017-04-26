@@ -1,9 +1,11 @@
+import mongoose from 'mongoose'
 import { SECRET } from '../../.env'
 import { getRandomString, sha512, generateToken } from '../utils'
 
 import User from '../models/User'
 import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
+import { sort, CONVERT_TO_SCREENSHOTS } from './common'
 
 const PASSWORD_MIN_LENGTH = 8
 const TOKEN_EXPIRES_IN = '14 days'
@@ -104,19 +106,132 @@ async function getUserFavorites(ctx) {
   ctx.status = 200
 }
 
+async function getScreenshots(ctx) {
+  const { id } = ctx.params
+  const { query } = ctx.request
+  let { sortBy, nsfw, page, limit } = query
+  page = page ? Number(page) : 1
+  limit = limit ? Number(limit) : 9
+
+  let aggregation = [
+    {
+      $match: { _id: mongoose.Types.ObjectId(id) }
+    },
+    {
+      $unwind: '$screenshots'
+    },
+    {
+      $lookup: {
+        from: 'screenshots',
+        localField: 'screenshots',
+        foreignField: '_id',
+        as: 'screenshots'
+      }
+    }
+  ]
+
+  aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
+
+  if (!(nsfw === 'true')) {
+    aggregation.push({
+      $match: { nsfw: false }
+    })
+  }
+
+  const docs = await User.aggregate(aggregation).exec()
+  const total = docs.length
+
+  const paginatedDocs = await User.aggregate([
+    ...aggregation,
+    { $sort: sort(sortBy) },
+    { $skip: (page - 1) * limit },
+    { $limit: limit }
+  ]).exec()
+
+  const populatedDocs = await Screenshot.populate(paginatedDocs, {
+    path: 'user favorites tagDocs'
+  })
+
+  const results = {
+    docs: populatedDocs,
+    total,
+    limit,
+    page,
+    pages: Math.ceil(total / limit) || 1
+  }
+
+  ctx.response.body = results
+  ctx.status = 200
+}
+
 async function getFavoriteScreenshots(ctx) {
-  const favorites = await Favorite.find({
-    user: ctx.state.uid
-  }).exec()
+  const { id } = ctx.params
+  const { query } = ctx.request
+  let { sortBy, nsfw, page, limit } = query
+  page = page ? Number(page) : 1
+  limit = limit ? Number(limit) : 9
 
-  const screenshots = await Screenshot.find()
-    .where('_id')
-    .in(favorites.map(favorite => favorite.screenshot))
-    .populate('favorites')
-    .exec()
+  let aggregation = [
+    {
+      $match: { _id: mongoose.Types.ObjectId(id) }
+    },
+    {
+      $unwind: '$favorites'
+    },
+    {
+      $lookup: {
+        from: 'favorites',
+        localField: 'favorites',
+        foreignField: '_id',
+        as: 'userFavorites'
+      }
+    },
+    {
+      $project: {
+        favorite: { $arrayElemAt: ['$userFavorites', 0] }
+      }
+    },
+    {
+      $lookup: {
+        from: 'screenshots',
+        localField: 'favorite.screenshot',
+        foreignField: '_id',
+        as: 'screenshots'
+      }
+    }
+  ]
 
-  ctx.response.body = screenshots
+  aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
 
+  if (!(nsfw === 'true')) {
+    aggregation.push({
+      $match: { nsfw: false }
+    })
+  }
+
+  const docs = await User.aggregate(aggregation).exec()
+  const total = docs.length
+
+  const paginatedDocs = await User.aggregate([
+    ...aggregation,
+    { $sort: sort(sortBy) },
+    { $skip: (page - 1) * limit },
+    { $limit: limit }
+  ]).exec()
+
+  const populatedDocs = await Screenshot.populate(paginatedDocs, {
+    path: 'user favorites tagDocs'
+  })
+
+  const results = {
+    docs: populatedDocs,
+    total,
+    limit,
+    page,
+    pages: Math.ceil(total / limit) || 1
+  }
+
+  ctx.response.body = results
   ctx.status = 200
 }
 
@@ -138,6 +253,7 @@ export default {
   getUser,
   getAuthedUser,
   getUserFavorites,
+  getScreenshots,
   getFavoriteScreenshots,
   getUploadedScreenshots
 }

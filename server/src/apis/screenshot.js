@@ -13,6 +13,7 @@ import { uniq } from 'lodash'
 
 import { writeFile } from '../utils'
 import { NODE_ENV } from '../../.env.js'
+import { sort } from './common'
 
 const UPLOAD_PATH = 'assets/images'
 const SUPPORTED_TYPES = ['image/png', 'image/jpeg']
@@ -187,25 +188,10 @@ async function getScreenshots(ctx) {
 
   const docs = await Screenshot.aggregate(aggregation).exec()
   const total = docs.length
-  let sort
-
-  switch (sortBy) {
-    case 'Latest':
-      sort = { createdAt: -1 }
-      break
-    case 'Most Popular':
-      sort = { favoritesCount: -1, downloadCount: -1, createdAt: -1 }
-      break
-    case 'Least Tags':
-      sort = { tagsCount: 1, createdAt: -1 }
-      break
-    default:
-      sort = { createdAt: -1 }
-  }
 
   const paginatedDocs = await Screenshot.aggregate([
     ...aggregation,
-    { $sort: sort },
+    { $sort: sort(sortBy) },
     { $skip: (page - 1) * limit },
     { $limit: limit }
   ]).exec()
