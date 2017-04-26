@@ -163,22 +163,6 @@ async function getScreenshots(ctx) {
   page = page ? Number(page) : 1
   limit = limit ? Number(limit) : 9
 
-  let sort
-
-  switch (sortBy) {
-    case 'Latest':
-      sort = { createdAt: -1 }
-      break
-    case 'Most Popular':
-      sort = { favoritesCount: -1, downloadCount: -1, createdAt: -1 }
-      break
-    case 'Least Tags':
-      sort = { tagsCount: 1, createdAt: -1 }
-      break
-    default:
-      sort = { createdAt: -1 }
-  }
-
   const aggregation = []
 
   if (!(nsfw === 'true')) {
@@ -203,6 +187,21 @@ async function getScreenshots(ctx) {
 
   const docs = await Screenshot.aggregate(aggregation).exec()
   const total = docs.length
+  let sort
+
+  switch (sortBy) {
+    case 'Latest':
+      sort = { createdAt: -1 }
+      break
+    case 'Most Popular':
+      sort = { favoritesCount: -1, downloadCount: -1, createdAt: -1 }
+      break
+    case 'Least Tags':
+      sort = { tagsCount: 1, createdAt: -1 }
+      break
+    default:
+      sort = { createdAt: -1 }
+  }
 
   const paginatedDocs = await Screenshot.aggregate([
     ...aggregation,
