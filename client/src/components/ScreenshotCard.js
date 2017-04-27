@@ -44,7 +44,7 @@ class ScreenshotCard extends Component {
 
     return (
       <Card fluid={isSingleView} color={nsfw ? 'yellow' : null}>
-        <div className="flex-centered bg-black">
+        <div className="flex-centered">
           <ZoomableImage
             id={_id}
             src={src}

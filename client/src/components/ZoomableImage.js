@@ -12,7 +12,11 @@ class ZoomableImage extends Component {
   componentDidMount() {
     const { id, zooming } = this.props
     const image = document.getElementById(id)
+    image.setAttribute('src', image.getAttribute('data-src'))
     zooming.listen(image)
+    image.onload = function() {
+      image.removeAttribute('data-src')
+    }
   }
 
   render() {
@@ -22,7 +26,7 @@ class ZoomableImage extends Component {
       <Image
         fluid
         id={id}
-        src={src}
+        data-src={src}
         data-original={dataOriginal}
         alt="screenshot"
       />
