@@ -24,7 +24,7 @@ class Tags extends Component {
 						key={index}
 						type={tags[name] ? tags[name].type : 'General'}
 						name={name}
-						count={tags[name] ? tags[name].screenshots.length : 1}
+						count={tags[name] ? tags[name].screenshots.length : null}
 					/>
 				))}
 			</Label.Group>

@@ -128,6 +128,8 @@ function tags(state = {}, action) {
         ...state,
         [action.payload.data.name]: tag(state[action.payload.data.name], action)
       }
+    case 'DELETE_SCREENSHOT_FULFILLED':
+      return omit(state, action.payload.data.tags)
     default:
       if (get(action, 'payload.data.entities.tags')) {
         return merge({}, state, action.payload.data.entities.tags)
