@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Grid, Label } from 'semantic-ui-react'
+import { Container, Segment, Grid } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
+import Tag from './Tag'
 import ScreenshotCards from './ScreenshotCards'
 import TagTypesDropdown from './TagTypesDropdown'
-import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -17,9 +17,9 @@ const propTypes = {
 
 class TagPage extends Component {
   render() {
-    const { dispatch, isAuthenticated, tag, screenshotIds } = this.props
+    const { dispatch, isAuthenticated, tag } = this.props
     if (!tag) return null
-    const { name, type } = tag
+    const { name, type, screenshots } = tag
     const zooming = new Zooming({
       bgColor: '#000'
     })
@@ -29,11 +29,11 @@ class TagPage extends Component {
         <Segment>
           <Grid columns="equal">
             <Grid.Column>
-              <Label
-                size="large"
-                color={TAG_TYPE_COLOR_MAP[tag.type]}
-                content={tag.name}
-                detail={screenshotIds.length}
+              <Tag
+                dispatch={dispatch}
+                type={type}
+                name={name}
+                count={screenshots.length}
               />
             </Grid.Column>
 
