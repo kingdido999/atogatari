@@ -13,7 +13,6 @@ import { getImageUrl } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   screenshot: PropTypes.object.isRequired,
   tags: PropTypes.object.isRequired,
@@ -28,7 +27,6 @@ class ScreenshotCard extends Component {
   render() {
     const {
       dispatch,
-      zooming,
       view,
       screenshot,
       isOwner,
@@ -49,7 +47,6 @@ class ScreenshotCard extends Component {
             id={_id}
             src={src}
             dataOriginal={getImageUrl(file.large)}
-            zooming={zooming}
           />
         </div>
 
