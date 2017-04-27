@@ -25,13 +25,16 @@ class UserUploadsContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { user, entities, ui } = state
+  const { user, entities, ui, screenshotLists, filter, routing } = state
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
   const { isAuthenticated, uid } = user
   const { view, itemsPerRow } = ui
   const { favorites, users, tags } = entities
   const { params } = ownProps
   const { userId } = params
-  const screenshotIds = users[userId] ? users[userId].screenshots : []
+  const key = JSON.stringify({ ...filter, pathname })
+  const screenshotList = screenshotLists[key]
 
   return {
     view,
@@ -41,7 +44,7 @@ function mapStateToProps(state, ownProps) {
     tags,
     uid: userId,
     itemsPerRow,
-    screenshotIds,
+    screenshotIds: screenshotList ? screenshotList.ids : [],
     screenshots: entities.screenshots,
     favorites
   }

@@ -11,7 +11,7 @@ import faker from 'faker'
 import { uniq } from 'lodash'
 
 const NUM_USER = 5
-const NUM_BANGUMI_SCREENSHOT = 30
+const NUM_BANGUMI_SCREENSHOT = 500
 
 mongoose.Promise = global.Promise
 mongoose.connect(DATABASE, {
@@ -20,13 +20,13 @@ mongoose.connect(DATABASE, {
 
 run()
 
-async function run () {
+async function run() {
   await purge()
   await seed()
   process.exit()
 }
 
-async function purge () {
+async function purge() {
   console.log('Removing current data...')
 
   await Tag.remove({})
@@ -35,16 +35,11 @@ async function purge () {
   await Screenshot.remove({})
 }
 
-async function seed () {
+async function seed() {
   console.log('Seeding new data...')
 
   const userList = []
-  const admin = createUser(
-    'test@bu.edu',
-    'test',
-    '123456',
-    ['admin']
-  )
+  const admin = createUser('test@bu.edu', 'test', '123456', ['admin'])
   await admin.save()
   userList.push(admin)
 
@@ -53,7 +48,6 @@ async function seed () {
     await user.save()
     userList.push(user)
   }
-
 
   for (let j = 0; j < NUM_BANGUMI_SCREENSHOT; j++) {
     const user = faker.random.arrayElement(userList)
@@ -66,10 +60,9 @@ async function seed () {
     user.screenshots.push(screenshot)
     await user.save()
   }
-
 }
 
-function createRandomWords (count) {
+function createRandomWords(count) {
   const tags = []
 
   for (let i = 0; i < count; i++) {
@@ -79,7 +72,7 @@ function createRandomWords (count) {
   return uniq(tags)
 }
 
-function createUser (
+function createUser(
   email = faker.internet.email(),
   username = faker.internet.userName(),
   password = faker.internet.password(),
@@ -97,7 +90,7 @@ function createUser (
   })
 }
 
-function createScreenshot (user, tags) {
+function createScreenshot(user, tags) {
   return new Screenshot({
     user: user._id,
     nsfw: faker.random.boolean(),
@@ -111,7 +104,7 @@ function createScreenshot (user, tags) {
   })
 }
 
-async function createTag (name, screenshotId) {
+async function createTag(name, screenshotId) {
   let tag = await Tag.findOne({ name }).exec()
 
   if (!tag) {

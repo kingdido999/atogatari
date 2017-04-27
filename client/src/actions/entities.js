@@ -88,10 +88,10 @@ export function getFilteredScreenshots(params, reset) {
         dispatch(getTagScreenshots(name, mergedParams))
       } else if (pathname.match('/favorites')) {
         const userId = url[url.length - 2]
-        dispatch(getUserFavoriteScreenshots(userId, params))
+        dispatch(getUserFavoriteScreenshots(userId, mergedParams))
       } else if (pathname.match('/uploads')) {
         const userId = url[url.length - 2]
-        dispatch(getUserScreenshots(userId, params))
+        dispatch(getUserScreenshots(userId, mergedParams))
       }
     }
   }
