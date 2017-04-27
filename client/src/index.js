@@ -4,6 +4,7 @@ import { render } from 'react-dom'
 import React from 'react'
 
 import { requireAuth } from './utils'
+import { logPageView } from './ga'
 import store from './store'
 import history from './history'
 
@@ -22,15 +23,22 @@ import '../semantic/dist/semantic.min.css'
 
 render(
   <Provider store={store}>
-    <Router history={history}>
+    <Router history={history} onUpdate={logPageView}>
       <Route path="/" component={App}>
         <IndexRoute component={ScreenshotsContainer} />
         <Route path="screenshots" component={ScreenshotsContainer} />
         <Route path="tags" component={TagsContainer} />
-        <Route path="screenshot/:screenshotId" component={ScreenshotContainer} />
+        <Route
+          path="screenshot/:screenshotId"
+          component={ScreenshotContainer}
+        />
         <Route path="tag/:name" component={TagContainer} />
         <Route path="login" component={LoginContainer} />
-        <Route path="upload" component={UploadContainer} onEnter={requireAuth} />
+        <Route
+          path="upload"
+          component={UploadContainer}
+          onEnter={requireAuth}
+        />
         <Route path="user/:userId" component={UserContainer}>
           <Route path="favorites" component={UserFavoritesContainer} />
           <Route path="uploads" component={UserUploadsContainer} />
