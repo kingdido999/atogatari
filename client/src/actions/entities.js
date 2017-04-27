@@ -68,13 +68,16 @@ export function getUserById(id) {
   }
 }
 
-export function getFilteredScreenshots(params) {
+export function getFilteredScreenshots(params, reset) {
   return (dispatch, getState) => {
+    if (reset) dispatch(resetScreenshotLists())
+
     const { filter, screenshotLists, routing } = getState()
     const { locationBeforeTransitions } = routing
     const { pathname } = locationBeforeTransitions
     const mergedParams = merge({}, filter, params)
     const key = JSON.stringify(merge({}, mergedParams, { pathname }))
+
     if (!screenshotLists[key]) {
       const url = pathname.split('/')
 
@@ -197,6 +200,12 @@ export function receiveScreenshots(key, payload) {
     type: 'GET_SCREENSHOTS_FULFILLED',
     key,
     payload
+  }
+}
+
+export function resetScreenshotLists() {
+  return {
+    type: 'RESET_SCREENSHOT_LISTS'
   }
 }
 

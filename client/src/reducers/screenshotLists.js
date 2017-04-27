@@ -45,6 +45,8 @@ export default function screenshotLists(state = {}, action) {
         ...state,
         [action.key]: screenshotList(state[action.key], action)
       }
+    case 'RESET_SCREENSHOT_LISTS':
+      return {}
     default:
       return state
   }

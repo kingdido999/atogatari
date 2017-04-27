@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
 import { deleteScreenshot } from '../actions/authed'
+import { getFilteredScreenshots } from '../actions/entities'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -33,6 +34,7 @@ class DeleteButton extends Component {
     })
     dispatch(deleteScreenshot(screenshotId)).then(() => {
       if (onDelete) onDelete()
+      dispatch(getFilteredScreenshots({}, true))
     })
   }
 

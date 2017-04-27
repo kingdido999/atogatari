@@ -7,7 +7,7 @@ import { getFilteredScreenshots } from '../actions/entities'
 class ScreenshotsContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(getFilteredScreenshots())
+    dispatch(getFilteredScreenshots({}))
   }
 
   render() {

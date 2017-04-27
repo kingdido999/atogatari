@@ -53,6 +53,11 @@ class Filters extends Component {
     dispatch(getFilteredScreenshots({ nsfw: !nsfw }))
   }
 
+  handleRefresh = () => {
+    const { dispatch } = this.props
+    dispatch(getFilteredScreenshots({}, true))
+  }
+
   handleChangeView = view => {
     const { dispatch } = this.props
     dispatch(setView(view))
@@ -152,6 +157,8 @@ class Filters extends Component {
             onClick={() => this.handlePaginate('last')}
           />
 
+          <Menu.Item icon="refresh" onClick={this.handleRefresh} />
+
           <Menu.Item
             icon="expand"
             active={view === 'single'}
@@ -217,6 +224,7 @@ class Filters extends Component {
           disabled={isLastPage}
           onClick={() => this.handlePaginate('last')}
         />
+        <Menu.Item icon="refresh" onClick={this.handleRefresh} />
       </Menu.Menu>
     )
   }

@@ -2,8 +2,23 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import UserUploadsPage from '../components/UserUploadsPage'
+import { getFilteredScreenshots } from '../actions/entities'
 
 class UserUploadsContainer extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(getFilteredScreenshots())
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { params, dispatch } = this.props
+
+    const userId = nextProps.params.userId
+    if (userId !== params.userId) {
+      dispatch(getFilteredScreenshots())
+    }
+  }
+
   render() {
     return <UserUploadsPage {...this.props} />
   }
