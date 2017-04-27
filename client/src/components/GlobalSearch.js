@@ -15,10 +15,10 @@ const MIN_CHARACTERS = 1
 const resultRenderer = ({ name, type, screenshots }) => {
   return (
     <Grid>
-      <Grid.Column>
+      <Grid.Column floated="left">
         <Tag name={name} type={type} />
       </Grid.Column>
-      <Grid.Column floated="right">
+      <Grid.Column floated="right" width={3}>
         <Label circular content={screenshots.length} />
       </Grid.Column>
     </Grid>
@@ -44,7 +44,6 @@ class GlobalSearch extends Component {
 
     return (
       <Search
-        fluid
         minCharacters={MIN_CHARACTERS}
         onSearchChange={this.handleSearchChange}
         onResultSelect={this.handleResultSelect}
