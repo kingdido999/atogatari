@@ -34,7 +34,7 @@ function sortBy(state = 'Latest', action) {
   }
 }
 
-function nsfw(state = false, action) {
+function nsfw(state = true, action) {
   switch (action.type) {
     case 'TOGGLE_NSFW':
       return !state

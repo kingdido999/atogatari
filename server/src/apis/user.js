@@ -3,7 +3,6 @@ import { SECRET } from '../../.env'
 import { getRandomString, sha512, generateToken } from '../utils'
 
 import User from '../models/User'
-import Favorite from '../models/Favorite'
 import Screenshot from '../models/Screenshot'
 import { sort, CONVERT_TO_SCREENSHOTS } from './common'
 
@@ -109,16 +108,21 @@ async function getScreenshots(ctx) {
         foreignField: '_id',
         as: 'screenshots'
       }
+    },
+    {
+      $project: {
+        screenshot: { $arrayElemAt: ['$screenshots', 0] }
+      }
     }
   ]
 
-  aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
-
   if (!(nsfw === 'true')) {
     aggregation.push({
-      $match: { nsfw: false }
+      $match: { 'screenshot.nsfw': false }
     })
   }
+
+  aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
 
   const docs = await User.aggregate(aggregation).exec()
   const total = docs.length
@@ -180,16 +184,21 @@ async function getFavoriteScreenshots(ctx) {
         foreignField: '_id',
         as: 'screenshots'
       }
+    },
+    {
+      $project: {
+        screenshot: { $arrayElemAt: ['$screenshots', 0] }
+      }
     }
   ]
 
-  aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
-
   if (!(nsfw === 'true')) {
     aggregation.push({
-      $match: { nsfw: false }
+      $match: { 'screenshot.nsfw': false }
     })
   }
+
+  aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
 
   const docs = await User.aggregate(aggregation).exec()
   const total = docs.length

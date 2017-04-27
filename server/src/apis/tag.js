@@ -41,16 +41,21 @@ async function getTagScreenshots(ctx) {
 				foreignField: '_id',
 				as: 'screenshots'
 			}
+		},
+		{
+			$project: {
+				screenshot: { $arrayElemAt: ['$screenshots', 0] }
+			}
 		}
 	]
 
-	aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
-
 	if (!(nsfw === 'true')) {
 		aggregation.push({
-			$match: { nsfw: false }
+			$match: { 'screenshot.nsfw': false }
 		})
 	}
+
+	aggregation = [...aggregation, ...CONVERT_TO_SCREENSHOTS]
 
 	const docs = await Tag.aggregate(aggregation).exec()
 	const total = docs.length

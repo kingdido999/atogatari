@@ -14,11 +14,6 @@ export const sort = sortBy => {
 export const CONVERT_TO_SCREENSHOTS = [
 	{
 		$project: {
-			screenshot: { $arrayElemAt: ['$screenshots', 0] }
-		}
-	},
-	{
-		$project: {
 			_id: '$screenshot._id',
 			createdAt: '$screenshot.createdAt',
 			favorites: '$screenshot.favorites',
