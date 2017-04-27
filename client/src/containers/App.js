@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Segment } from 'semantic-ui-react'
+import LoadingBar from 'react-redux-loading-bar'
 
 import { initEnvironment } from '../actions/environment'
 import { getAuthedUserIfNeeded } from '../actions/authed'
@@ -23,9 +24,11 @@ class App extends Component {
     const { showFilters } = this.props
     return (
       <div className="App site">
+
         <NavContainer />
 
         {showFilters && <FiltersContainer />}
+        <LoadingBar showFastActions className="loading-bar" />
 
         <Segment vertical className="site-content">
           <ErrorMessageContainer />

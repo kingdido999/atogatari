@@ -1,5 +1,6 @@
 import { routerReducer } from 'react-router-redux'
 import { combineReducers } from 'redux'
+import { loadingBarReducer } from 'react-redux-loading-bar'
 
 import user from './user'
 import search from './search'
@@ -21,5 +22,6 @@ export default combineReducers({
   filter,
   environment,
   errorMessage,
-  routing: routerReducer
+  routing: routerReducer,
+  loadingBar: loadingBarReducer
 })
