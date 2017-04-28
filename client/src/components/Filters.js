@@ -224,7 +224,6 @@ class Filters extends Component {
           disabled={isLastPage}
           onClick={() => this.handlePaginate('last')}
         />
-        <Menu.Item icon="refresh" onClick={this.handleRefresh} />
       </Menu.Menu>
     )
   }
