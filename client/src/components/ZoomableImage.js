@@ -16,10 +16,6 @@ class ZoomableImage extends Component {
       defaultZoomable: image,
       bgColor: '#000'
     })
-    image.setAttribute('src', image.getAttribute('data-src'))
-    image.onload = function() {
-      image.removeAttribute('data-src')
-    }
   }
 
   render() {
@@ -29,7 +25,7 @@ class ZoomableImage extends Component {
       <Image
         fluid
         id={id}
-        data-src={src}
+        src={src}
         data-original={dataOriginal}
         alt="screenshot"
       />
