@@ -144,10 +144,9 @@ class Filters extends Component {
 
         <Menu.Item>
           <Checkbox
-            label={nsfw ? 'NSFW' : 'SAFE'}
+            label="NSFW"
             checked={nsfw}
             onChange={this.handleChangeNSFW}
-            slider
           />
         </Menu.Item>
 
