@@ -52,10 +52,10 @@ class Nav extends Component {
   }
 
   render() {
-    const { attached, isMobile, isAuthenticated } = this.props
+    const { isMobile, isAuthenticated } = this.props
 
     return (
-      <Menu size="large" attached={attached} borderless>
+      <Menu size="large" borderless>
         <Menu.Item as={Link} to="/" name="ATOGATARI" header />
         <Menu.Item as={Link} to="/tags" name="tags" activeClassName="active" />
 

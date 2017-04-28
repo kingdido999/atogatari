@@ -7,7 +7,6 @@ import { initEnvironment } from '../actions/environment'
 import { getAuthedUserIfNeeded } from '../actions/authed'
 
 import NavContainer from './NavContainer'
-import FiltersContainer from './FiltersContainer'
 import ErrorMessageContainer from './ErrorMessageContainer'
 import Footer from '../components/Footer'
 
@@ -21,20 +20,16 @@ class App extends Component {
   }
 
   render() {
-    const { showFilters } = this.props
     return (
       <div className="App site">
-
         <NavContainer />
 
-        {showFilters && <FiltersContainer />}
         <LoadingBar showFastActions className="loading-bar" />
 
-        <Segment vertical className="site-content">
+        <Segment vertical basic className="site-content">
           <ErrorMessageContainer />
 
           {this.props.children}
-          <br />
         </Segment>
 
         <Footer />
@@ -44,22 +39,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { routing } = state
-  const { locationBeforeTransitions } = routing
-  const { pathname } = locationBeforeTransitions
-
-  // TODO: improve route matching?
-  const showFilters =
-    pathname === '/' ||
-    pathname.match('/screenshots') ||
-    pathname.match('/tag/') ||
-    pathname.match('/favorites') ||
-    pathname.match('/uploads')
-
-  return {
-    showFilters
-  }
-}
-
-export default connect(mapStateToProps)(App)
+export default connect()(App)

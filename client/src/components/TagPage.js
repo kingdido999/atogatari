@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Grid } from 'semantic-ui-react'
+import { Container, Menu } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
-import Tag from './Tag'
+import FiltersContainer from '../containers/FiltersContainer'
 import ScreenshotCards from './ScreenshotCards'
 import TagTypesDropdown from './TagTypesDropdown'
+import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -19,38 +20,30 @@ class TagPage extends Component {
   render() {
     const { dispatch, isAuthenticated, tag } = this.props
     if (!tag) return null
-    const { name, type, screenshots } = tag
+    const { name, type } = tag
+    const color = TAG_TYPE_COLOR_MAP[type]
     const zooming = new Zooming({
       bgColor: '#000'
     })
 
     return (
       <Container>
-        <Segment>
-          <Grid columns="equal">
-            <Grid.Column>
-              <Tag
-                dispatch={dispatch}
-                type={type}
-                name={name}
-                count={screenshots.length}
-              />
-            </Grid.Column>
+        <Menu color={color} inverted={color !== null} widths={2} borderless>
+          <Menu.Item>
+            {name.toUpperCase()}
+          </Menu.Item>
+          <Menu.Item>
+            <TagTypesDropdown
+              dispatch={dispatch}
+              isAuthenticated={isAuthenticated}
+              name={name}
+              type={type}
+            />
+          </Menu.Item>
+        </Menu>
 
-            <Grid.Column verticalAlign="middle" textAlign="right">
-              <TagTypesDropdown
-                dispatch={dispatch}
-                isAuthenticated={isAuthenticated}
-                name={name}
-                type={type}
-              />
-            </Grid.Column>
-          </Grid>
-        </Segment>
-
-        <Segment basic vertical>
-          <ScreenshotCards {...this.props} zooming={zooming} />
-        </Segment>
+        <FiltersContainer />
+        <ScreenshotCards {...this.props} zooming={zooming} />
       </Container>
     )
   }

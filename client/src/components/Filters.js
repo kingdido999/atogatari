@@ -98,12 +98,8 @@ class Filters extends Component {
 
   render() {
     const { isMobile } = this.props
-
-    if (isMobile) {
-      return this.renderMobileFilters()
-    } else {
-      return this.renderFilters()
-    }
+    const filters = isMobile ? this.renderMobileFilters() : this.renderFilters()
+    return filters
   }
 
   renderFilters = () => {
@@ -114,7 +110,7 @@ class Filters extends Component {
     const isLastPage = page === pages
 
     return (
-      <Menu attached="bottom" borderless>
+      <Menu borderless>
         <Dropdown
           defaultValue={sortBy}
           options={SORT_BY_OPTIONS}
@@ -179,7 +175,7 @@ class Filters extends Component {
     const { sortBy } = this.props
 
     return (
-      <Menu attached="bottom" borderless>
+      <Menu borderless>
         <Dropdown
           defaultValue={sortBy}
           options={SORT_BY_OPTIONS}

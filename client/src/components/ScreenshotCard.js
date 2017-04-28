@@ -20,7 +20,6 @@ const propTypes = {
   owner: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool,
-  isOwner: PropTypes.bool,
   isFavorited: PropTypes.bool.isRequired
 }
 
@@ -31,7 +30,6 @@ class ScreenshotCard extends Component {
       zooming,
       view,
       screenshot,
-      isOwner,
       isAdmin,
       isFavorited
     } = this.props
@@ -73,8 +71,7 @@ class ScreenshotCard extends Component {
               file={file}
             />
             <WhatAnimeGaIconButton url={getImageUrl(file.medium)} />
-            {(isOwner || isAdmin) &&
-              <DeleteButton dispatch={dispatch} screenshotId={_id} />}
+            {isAdmin && <DeleteButton dispatch={dispatch} screenshotId={_id} />}
             <DetailsButton screenshotId={_id} />
           </Button.Group>
         </Card.Content>

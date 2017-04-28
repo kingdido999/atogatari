@@ -13,7 +13,7 @@ class DetailsButton extends Component {
   }
 
   render() {
-    return <Button basic icon="maximize" onClick={this.handleClick} />
+    return <Button basic icon="ellipsis vertical" onClick={this.handleClick} />
   }
 }
 

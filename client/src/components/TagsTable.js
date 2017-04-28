@@ -14,6 +14,8 @@ const propTypes = {
 class TagsTable extends Component {
   render() {
     const { dispatch, isAuthenticated, tags, tagNames, type } = this.props
+    if (tagNames.length === 0) return null
+
     const filteredTagNames = tagNames.filter(name => {
       return tags[name].type === type
     })
@@ -22,8 +24,11 @@ class TagsTable extends Component {
       <Table selectable unstackable compact>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan={3}>
+            <Table.HeaderCell>
               {type}
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="right">
+              {filteredTagNames.length}
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
