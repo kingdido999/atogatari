@@ -6,8 +6,8 @@
     Border Radius
 --------------------*/
 
-@relativeBorderRadius: @relative7px;
-@absoluteBorderRadius: @7px;
+@relativeBorderRadius: @relative4px;
+@absoluteBorderRadius: @4px;
 
 /*-------------------
       Site Colors

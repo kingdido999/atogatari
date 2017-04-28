@@ -29,7 +29,7 @@ class ZoomableImage extends Component {
 
   render() {
     const { id, src, dataOriginal } = this.props
-    const className = this.state.loaded ? 'image-loaded' : 'image'
+    const className = this.state.loaded ? 'lz-image-loaded' : 'lz-image'
 
     return (
       <Image

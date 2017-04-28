@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import FiltersContainer from '../containers/FiltersContainer'
@@ -24,7 +24,10 @@ class ScreenshotsPage extends Component {
     return (
       <Container>
         <FiltersContainer />
-        <ScreenshotCards {...this.props} zooming={zooming} />
+
+        <Segment vertical basic>
+          <ScreenshotCards {...this.props} zooming={zooming} />
+        </Segment>
       </Container>
     )
   }

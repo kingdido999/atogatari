@@ -2,4 +2,5 @@
     User Variable Overrides
 *******************************/
 
-@borderRadius: 0px;
+@borderRadius: 2px;
+@boxShadow: none;

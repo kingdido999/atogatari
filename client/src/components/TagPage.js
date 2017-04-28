@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Menu } from 'semantic-ui-react'
+import { Container, Segment, Menu } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import FiltersContainer from '../containers/FiltersContainer'
@@ -43,7 +43,9 @@ class TagPage extends Component {
         </Menu>
 
         <FiltersContainer />
-        <ScreenshotCards {...this.props} zooming={zooming} />
+        <Segment vertical basic>
+          <ScreenshotCards {...this.props} zooming={zooming} />
+        </Segment>
       </Container>
     )
   }
