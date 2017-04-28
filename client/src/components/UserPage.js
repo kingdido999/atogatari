@@ -1,15 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import { Container, Menu, Header, Label } from 'semantic-ui-react'
 import { Link } from 'react-router'
-import moment from 'moment'
+
+import FiltersContainer from '../containers/FiltersContainer'
 
 const propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  showFilters: PropTypes.bool
 }
 
 class UserPage extends Component {
   render() {
-    const { user } = this.props
+    const { user, showFilters } = this.props
     if (!user) return null
 
     return (
@@ -18,9 +20,6 @@ class UserPage extends Component {
           <Menu.Item>
             <Header>
               <Link to={`/user/${user._id}`}>{user.username}</Link>
-              <Header.Subheader>
-                Joined {moment(user.createdAt).fromNow()}
-              </Header.Subheader>
             </Header>
           </Menu.Item>
           <Menu.Item
@@ -44,6 +43,9 @@ class UserPage extends Component {
               <Label color="teal" content={user.screenshots.length} floating />}
           </Menu.Item>
           {/* <Menu.Item name='Settings' activeClassName="active" /> */}
+
+          {showFilters && <FiltersContainer />}
+
         </Menu>
 
         {this.props.children}

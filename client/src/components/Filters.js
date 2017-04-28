@@ -110,7 +110,30 @@ class Filters extends Component {
     const isLastPage = page === pages
 
     return (
-      <Menu borderless>
+      <Menu.Menu position="right">
+        {total > 0 && <Menu.Item content={`${total} results`} disabled />}
+
+        <Menu.Item
+          icon="angle double left"
+          disabled={isFirstPage}
+          onClick={() => this.handlePaginate('first')}
+        />
+        <Menu.Item
+          icon="angle left"
+          disabled={!hasPrevPage}
+          onClick={() => this.handlePaginate('prev')}
+        />
+        <Menu.Item content={page} disabled />
+        <Menu.Item
+          icon="angle right"
+          disabled={!hasNextPage}
+          onClick={() => this.handlePaginate('next')}
+        />
+        <Menu.Item
+          icon="angle double right"
+          disabled={isLastPage}
+          onClick={() => this.handlePaginate('last')}
+        />
         <Dropdown
           defaultValue={sortBy}
           options={SORT_BY_OPTIONS}
@@ -121,53 +144,27 @@ class Filters extends Component {
 
         <Menu.Item>
           <Checkbox
-            label={nsfw ? 'Switch to SAFE' : 'Switch to NSFW'}
+            label={nsfw ? 'NSFW' : 'SAFE'}
             checked={nsfw}
             onChange={this.handleChangeNSFW}
             slider
           />
         </Menu.Item>
 
-        <Menu.Menu position="right">
-          {total > 0 && <Menu.Item content={`${total} results`} disabled />}
+        <Menu.Item icon="refresh" onClick={this.handleRefresh} />
 
-          <Menu.Item
-            icon="angle double left"
-            disabled={isFirstPage}
-            onClick={() => this.handlePaginate('first')}
-          />
-          <Menu.Item
-            icon="angle left"
-            disabled={!hasPrevPage}
-            onClick={() => this.handlePaginate('prev')}
-          />
-          <Menu.Item content={page} disabled />
-          <Menu.Item
-            icon="angle right"
-            disabled={!hasNextPage}
-            onClick={() => this.handlePaginate('next')}
-          />
-          <Menu.Item
-            icon="angle double right"
-            disabled={isLastPage}
-            onClick={() => this.handlePaginate('last')}
-          />
+        <Menu.Item
+          icon="expand"
+          active={view === 'single'}
+          onClick={() => this.handleChangeView('single')}
+        />
+        <Menu.Item
+          icon="grid layout"
+          active={view === 'grid'}
+          onClick={() => this.handleChangeView('grid')}
+        />
 
-          <Menu.Item icon="refresh" onClick={this.handleRefresh} />
-
-          <Menu.Item
-            icon="expand"
-            active={view === 'single'}
-            onClick={() => this.handleChangeView('single')}
-          />
-          <Menu.Item
-            icon="grid layout"
-            active={view === 'grid'}
-            onClick={() => this.handleChangeView('grid')}
-          />
-
-        </Menu.Menu>
-      </Menu>
+      </Menu.Menu>
     )
   }
 

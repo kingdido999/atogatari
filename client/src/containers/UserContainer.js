@@ -26,13 +26,17 @@ class UserContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities } = state
+  const { entities, routing } = state
   const { users } = entities
   const { params } = ownProps
   const { userId } = params
+  const { locationBeforeTransitions } = routing
+  const { pathname } = locationBeforeTransitions
+  const showFilters = pathname.match('/favorites') || pathname.match('/uploads')
 
   return {
-    user: users[userId]
+    user: users[userId],
+    showFilters
   }
 }
 
