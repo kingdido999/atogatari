@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import Zooming from 'zooming'
 
 import ScreenshotCards from '../components/ScreenshotCards'
 
@@ -14,7 +15,11 @@ const propTypes = {
 
 class UserFavoritesPage extends Component {
   render() {
-    return <ScreenshotCards {...this.props} />
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
+
+    return <ScreenshotCards {...this.props} zooming={zooming} />
   }
 }
 

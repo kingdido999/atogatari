@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Container, Segment, Grid } from 'semantic-ui-react'
+import Zooming from 'zooming'
 
 import Tag from './Tag'
 import ScreenshotCards from './ScreenshotCards'
@@ -19,6 +20,9 @@ class TagPage extends Component {
     const { dispatch, isAuthenticated, tag } = this.props
     if (!tag) return null
     const { name, type, screenshots } = tag
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
 
     return (
       <Container>
@@ -45,7 +49,7 @@ class TagPage extends Component {
         </Segment>
 
         <Segment basic vertical>
-          <ScreenshotCards {...this.props} />
+          <ScreenshotCards {...this.props} zooming={zooming} />
         </Segment>
       </Container>
     )

@@ -9,6 +9,7 @@ import {
   Divider
 } from 'semantic-ui-react'
 import moment from 'moment'
+import Zooming from 'zooming'
 
 import Tags from './Tags'
 import AddTagDropdown from './AddTagDropdown'
@@ -58,12 +59,16 @@ class ScreenshotPage extends Component {
     if (!screenshot) return null
 
     const { _id, file } = screenshot
+    const zooming = new Zooming({
+      bgColor: '#000'
+    })
 
     return (
       <ZoomableImage
         id={_id}
         src={getImageUrl(file.medium)}
         dataOriginal={getImageUrl(file.large)}
+        zooming={zooming}
       />
     )
   }

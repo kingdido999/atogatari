@@ -5,6 +5,7 @@ import ScreenshotCard from './ScreenshotCard'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
+  zooming: PropTypes.object.isRequired,
   view: PropTypes.string.isRequired,
   itemsPerRow: PropTypes.number.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,

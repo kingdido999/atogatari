@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { Image } from 'semantic-ui-react'
-import Zooming from 'zooming'
 
 const propTypes = {
   id: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  dataOriginal: PropTypes.string
+  dataOriginal: PropTypes.string,
+  zooming: PropTypes.object.isRequired
 }
 
 class ZoomableImage extends Component {
@@ -14,17 +14,13 @@ class ZoomableImage extends Component {
   }
 
   componentDidMount() {
-    const { id } = this.props
+    const { id, zooming } = this.props
     const imgTag = document.getElementById(id)
     const imgSrc = imgTag.getAttribute('src')
     const img = new window.Image()
     img.onload = this.onImageLoad
     img.src = imgSrc
-
-    new Zooming({
-      defaultZoomable: imgTag,
-      bgColor: '#000'
-    })
+    zooming.listen(imgTag)
   }
 
   onImageLoad = () => {
