@@ -170,23 +170,6 @@ class Filters extends Component {
 
   renderMobileFilters = () => {
     const { sortBy } = this.props
-
-    return (
-      <Menu borderless>
-        <Dropdown
-          defaultValue={sortBy}
-          options={SORT_BY_OPTIONS}
-          onChange={this.handleChangeSortBy}
-          item
-          inline
-        />
-
-        {this.renderRightMenu()}
-      </Menu>
-    )
-  }
-
-  renderRightMenu = () => {
     const { pages, page, total } = this.props
     const isFirstPage = page === 1
     const hasPrevPage = page > 1
@@ -195,6 +178,14 @@ class Filters extends Component {
 
     return (
       <Menu.Menu position="right">
+        <Dropdown
+          defaultValue={sortBy}
+          options={SORT_BY_OPTIONS}
+          onChange={this.handleChangeSortBy}
+          item
+          inline
+        />
+
         {total > 0 && <Menu.Item content={`${total} results`} disabled />}
         <Menu.Item
           icon="angle double left"

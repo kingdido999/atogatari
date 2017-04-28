@@ -9,7 +9,6 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
-  attached: PropTypes.oneOf(['top', false]).isRequired,
   uid: PropTypes.string,
   search: PropTypes.object.isRequired
 }
