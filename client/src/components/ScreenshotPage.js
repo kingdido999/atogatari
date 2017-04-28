@@ -1,13 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Link, browserHistory } from 'react-router'
-import {
-  Container,
-  Segment,
-  Grid,
-  Button,
-  Header,
-  Divider
-} from 'semantic-ui-react'
+import { Container, Segment, Grid, Button, Header } from 'semantic-ui-react'
 import moment from 'moment'
 import Zooming from 'zooming'
 
@@ -102,8 +95,6 @@ class ScreenshotPage extends Component {
           screenshotId={screenshot._id}
           deletable={true}
         />
-
-        {screenshot.tags.length > 0 && authedUser && <Divider />}
 
         {authedUser &&
           <AddTagDropdown

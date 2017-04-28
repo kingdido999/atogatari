@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Popup, Button, Divider } from 'semantic-ui-react'
+import { Popup, Button } from 'semantic-ui-react'
 
 import Tags from './Tags'
 import AddTagDropdown from './AddTagDropdown'
@@ -22,7 +22,7 @@ class TagsButton extends Component {
         trigger={this.renderButton()}
         content={this.renderTags()}
         on="hover"
-        position="bottom center"
+        position="top left"
         hoverable
       />
     )
@@ -33,13 +33,11 @@ class TagsButton extends Component {
   }
 
   renderTags = () => {
-    const { dispatch, isAuthenticated, tagNames, screenshotId } = this.props
+    const { dispatch, isAuthenticated, screenshotId } = this.props
 
     return (
       <div>
         <Tags {...this.props} />
-
-        {tagNames.length > 0 && isAuthenticated && <Divider />}
 
         {isAuthenticated &&
           <AddTagDropdown dispatch={dispatch} screenshotId={screenshotId} />}

@@ -158,6 +158,7 @@ class UploadPage extends Component {
         options={tagSuggestions}
         placeholder="Enter tags"
         additionLabel=""
+        additionPosition="buttom"
         icon={null}
         search
         selection
