@@ -12,6 +12,7 @@ export const setSortBy = makeActionCreator('SET_SORT_BY', 'sortBy')
 export const toggleNSFW = makeActionCreator('TOGGLE_NSFW')
 export const setView = makeActionCreator('SET_VIEW', 'view')
 export const setQuery = makeActionCreator('SET_QUERY', 'query')
+export const resetFilter = makeActionCreator('RESET_FILTER')
 
 export function login(creds) {
   return {

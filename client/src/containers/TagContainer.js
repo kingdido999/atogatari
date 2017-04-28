@@ -2,12 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import TagPage from '../components/TagPage'
-import { getTagIfNeeded, getFilteredScreenshots } from '../actions/entities'
+import {
+  getTagIfNeeded,
+  getFilteredScreenshots,
+  resetFilter
+} from '../actions/entities'
 
 class TagContainer extends Component {
   componentDidMount() {
     const { params, dispatch } = this.props
     const { name } = params
+    dispatch(resetFilter())
     dispatch(getTagIfNeeded(name))
     dispatch(getFilteredScreenshots())
   }
@@ -17,6 +22,7 @@ class TagContainer extends Component {
 
     const name = nextProps.params.name
     if (name !== params.name) {
+      dispatch(resetFilter())
       dispatch(getTagIfNeeded(name))
       dispatch(getFilteredScreenshots())
     }
