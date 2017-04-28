@@ -169,44 +169,21 @@ class Filters extends Component {
   }
 
   renderMobileFilters = () => {
-    const { sortBy } = this.props
-    const { pages, page, total } = this.props
-    const isFirstPage = page === 1
+    const { pages, page } = this.props
     const hasPrevPage = page > 1
     const hasNextPage = page < pages
-    const isLastPage = page === pages
 
     return (
       <Menu.Menu position="right">
-        <Dropdown
-          defaultValue={sortBy}
-          options={SORT_BY_OPTIONS}
-          onChange={this.handleChangeSortBy}
-          item
-          inline
-        />
-
-        {total > 0 && <Menu.Item content={`${total} results`} disabled />}
-        <Menu.Item
-          icon="angle double left"
-          disabled={isFirstPage}
-          onClick={() => this.handlePaginate('first')}
-        />
         <Menu.Item
           icon="angle left"
           disabled={!hasPrevPage}
           onClick={() => this.handlePaginate('prev')}
         />
-        <Menu.Item content={page} disabled />
         <Menu.Item
           icon="angle right"
           disabled={!hasNextPage}
           onClick={() => this.handlePaginate('next')}
-        />
-        <Menu.Item
-          icon="angle double right"
-          disabled={isLastPage}
-          onClick={() => this.handlePaginate('last')}
         />
       </Menu.Menu>
     )

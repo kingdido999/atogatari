@@ -24,7 +24,7 @@ class ScreenshotsPage extends Component {
     return (
       <Container>
         <Menu borderless>
-
+          <Menu.Item content="All Screenshots" disabled />
           <FiltersContainer />
         </Menu>
 

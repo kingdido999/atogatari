@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Segment, Menu } from 'semantic-ui-react'
+import { Container, Segment, Menu, Icon } from 'semantic-ui-react'
 import Zooming from 'zooming'
 
 import FiltersContainer from '../containers/FiltersContainer'
 import ScreenshotCards from './ScreenshotCards'
 import TagTypesDropdown from './TagTypesDropdown'
-// import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -21,7 +20,6 @@ class TagPage extends Component {
     const { dispatch, isAuthenticated, tag } = this.props
     if (!tag) return null
     const { name, type } = tag
-    // const color = TAG_TYPE_COLOR_MAP[type]
     const zooming = new Zooming({
       bgColor: '#000'
     })
@@ -29,7 +27,8 @@ class TagPage extends Component {
     return (
       <Container>
         <Menu borderless>
-          <Menu.Item header>
+          <Menu.Item header disabled>
+            <Icon name="tag" />
             {name.toUpperCase()}
           </Menu.Item>
           <Menu.Item>
