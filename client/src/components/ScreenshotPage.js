@@ -9,7 +9,7 @@ import AddTagDropdown from './AddTagDropdown'
 import ZoomableImage from './ZoomableImage'
 import DownloadButton from './DownloadButton'
 import FavoriteButton from './FavoriteButton'
-import WhatAnimeGaButton from './WhatAnimeGaButton'
+import WhatAnimeGaIconButton from './WhatAnimeGaIconButton'
 import DeleteButton from './DeleteButton'
 
 import { getImageUrl } from '../utils'
@@ -37,7 +37,6 @@ class ScreenshotPage extends Component {
               <Segment.Group>
                 <Segment>{this.renderUploader()}</Segment>
                 <Segment>{this.renderTags()}</Segment>
-                <Segment>{this.renderWhatanimegaButton()}</Segment>
                 <Segment>{this.renderActionButtons()}</Segment>
               </Segment.Group>
             </Grid.Column>
@@ -106,14 +105,6 @@ class ScreenshotPage extends Component {
     )
   }
 
-  renderWhatanimegaButton = () => {
-    const { screenshot } = this.props
-    if (!screenshot) return null
-    const { file } = screenshot
-
-    return <WhatAnimeGaButton url={getImageUrl(file.medium)} />
-  }
-
   renderActionButtons = () => {
     const { dispatch, isOwner, isAdmin, authedUser, screenshot } = this.props
     if (!screenshot) return null
@@ -135,6 +126,7 @@ class ScreenshotPage extends Component {
           favoritesCount={favoritesCount}
         />
         <DownloadButton dispatch={dispatch} screenshotId={_id} file={file} />
+        <WhatAnimeGaIconButton url={getImageUrl(file.small)} />
 
         {(isOwner || isAdmin) &&
           <DeleteButton
