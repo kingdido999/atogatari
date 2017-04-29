@@ -53,6 +53,11 @@ function screenshots(state = {}, action) {
           action
         )
       }
+    case 'UPDATE_SCREENSHOT_FULFILLED':
+      return {
+        ...state,
+        [action.payload.data._id]: action.payload.data
+      }
     case 'DELETE_SCREENSHOT_FULFILLED':
       return omit(state, action.payload.data._id)
     case 'ADD_TAG_FULFILLED':

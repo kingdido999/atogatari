@@ -96,3 +96,14 @@ export function updateTag(name, params) {
     payload: ax.put(`/tag/${name}`, params)
   }
 }
+
+export function setScreenshotNSFW(screenshotId, nsfw) {
+  return dispatch => dispatch(updateScreenshot(screenshotId, { nsfw }))
+}
+
+export function updateScreenshot(screenshotId, params) {
+  return {
+    type: 'UPDATE_SCREENSHOT',
+    payload: ax.put(`/screenshot/${screenshotId}`, params)
+  }
+}

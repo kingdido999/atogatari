@@ -6,6 +6,7 @@ import Zooming from 'zooming'
 
 import Tags from './Tags'
 import AddTagDropdown from './AddTagDropdown'
+import NSFWCheckbox from './NSFWCheckbox'
 import ZoomableImage from './ZoomableImage'
 import DownloadButton from './DownloadButton'
 import FavoriteButton from './FavoriteButton'
@@ -37,6 +38,7 @@ class ScreenshotPage extends Component {
               <Segment.Group>
                 <Segment>{this.renderUploader()}</Segment>
                 <Segment>{this.renderTags()}</Segment>
+                <Segment>{this.renderNSFW()}</Segment>
                 <Segment>{this.renderActionButtons()}</Segment>
               </Segment.Group>
             </Grid.Column>
@@ -102,6 +104,21 @@ class ScreenshotPage extends Component {
             fluid={true}
           />}
       </div>
+    )
+  }
+
+  renderNSFW = () => {
+    const { dispatch, authedUser, screenshot } = this.props
+    if (!screenshot) return null
+    const { _id, nsfw } = screenshot
+
+    return (
+      <NSFWCheckbox
+        dispatch={dispatch}
+        isAuthenticated={authedUser !== undefined}
+        screenshotId={_id}
+        nsfw={nsfw}
+      />
     )
   }
 

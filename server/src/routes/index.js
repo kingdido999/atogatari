@@ -11,6 +11,7 @@ export default function route(router) {
   router.get('/screenshots', screenshot.getScreenshots)
   router.post('/screenshot/upload', tokenAuth(), screenshot.upload)
   router.post('/screenshot/download', screenshot.download)
+  router.put('/screenshot/:id', tokenAuth(), screenshot.updateScreenshot)
   router.del('/screenshot/:id', tokenAuth(), screenshot.deleteScreenshot)
 
   router.get('/favorites', favorite.getFavorites)

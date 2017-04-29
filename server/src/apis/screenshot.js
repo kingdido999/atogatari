@@ -212,6 +212,22 @@ async function getScreenshots(ctx) {
   ctx.status = 200
 }
 
+async function updateScreenshot(ctx) {
+  const { id } = ctx.params
+  const { nsfw } = ctx.request.body
+  const screenshot = await Screenshot.findById(id).exec()
+
+  if (!screenshot) {
+    ctx.throw(400)
+  }
+
+  screenshot.nsfw = nsfw
+  await screenshot.save()
+
+  ctx.response.body = screenshot
+  ctx.status = 200
+}
+
 async function deleteScreenshot(ctx) {
   const { id } = ctx.params
   const screenshot = await Screenshot.findById(id).exec()
@@ -294,6 +310,7 @@ export default {
   upload,
   getScreenshot,
   getScreenshots,
+  updateScreenshot,
   deleteScreenshot,
   download
 }

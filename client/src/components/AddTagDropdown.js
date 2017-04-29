@@ -24,7 +24,7 @@ class AddTagDropdown extends Component {
 				options={this.state.tagSuggestions}
 				placeholder="Enter a new tag"
 				additionLabel=""
-				additionPosition="buttom"
+				additionPosition="bottom"
 				icon={null}
 				fluid={fluid}
 				search
