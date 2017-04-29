@@ -41,6 +41,8 @@ class TagTypesDropdown extends Component {
 				options={options}
 				onChange={this.handleChangeType}
 				header={<Header content="move to..." />}
+				button
+				basic
 			/>
 		)
 	}

@@ -15,13 +15,15 @@ class TagsContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user, entities, tags } = state
+  const { user, entities, tags, ui } = state
   const { isAuthenticated } = user
+  const { itemsPerRow } = ui
 
   return {
     isAuthenticated,
     tagNames: tags ? tags.names : [],
-    tags: entities.tags
+    tags: entities.tags,
+    itemsPerRow
   }
 }
 

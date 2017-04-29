@@ -1,30 +1,23 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Grid } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 
-import TagsTable from './TagsTable'
+import TagPool from './TagPool'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   tagNames: PropTypes.array.isRequired,
-  tags: PropTypes.object.isRequired
+  tags: PropTypes.object.isRequired,
+  itemsPerRow: PropTypes.number.isRequired
 }
 
 class TagsPage extends Component {
   render() {
     return (
       <Container>
-        <Grid columns="equal" stackable>
-          <Grid.Column>
-            <TagsTable {...this.props} type="General" />
-          </Grid.Column>
-          <Grid.Column>
-            <TagsTable {...this.props} type="Anime" />
-          </Grid.Column>
-          <Grid.Column>
-            <TagsTable {...this.props} type="Character" />
-          </Grid.Column>
-        </Grid>
+        <TagPool {...this.props} type="General" />
+        <TagPool {...this.props} type="Anime" />
+        <TagPool {...this.props} type="Character" />
       </Container>
     )
   }

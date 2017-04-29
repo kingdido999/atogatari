@@ -13,7 +13,8 @@ const propTypes = {
   count: PropTypes.number,
   isAdmin: PropTypes.bool,
   deletable: PropTypes.bool,
-  screenshotId: PropTypes.string
+  screenshotId: PropTypes.string,
+  horizontal: PropTypes.bool
 }
 
 class Tag extends Component {
@@ -30,7 +31,15 @@ class Tag extends Component {
   }
 
   render() {
-    const { type, name, isAdmin, count, screenshotId, deletable } = this.props
+    const {
+      type,
+      name,
+      isAdmin,
+      count,
+      screenshotId,
+      deletable,
+      horizontal
+    } = this.props
     const color = TAG_TYPE_COLOR_MAP[type]
 
     if (deletable && isAdmin && screenshotId) {
@@ -42,6 +51,7 @@ class Tag extends Component {
           detail={count}
           onClick={this.handleClick}
           onRemove={this.handleRemove}
+          horizontal={horizontal}
         />
       )
     }
@@ -53,6 +63,7 @@ class Tag extends Component {
         content={name}
         detail={count}
         onClick={this.handleClick}
+        horizontal={horizontal}
       />
     )
   }
