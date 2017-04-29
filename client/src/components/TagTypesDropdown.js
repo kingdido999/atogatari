@@ -8,7 +8,9 @@ const propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	isAuthenticated: PropTypes.bool.isRequired,
 	name: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired
+	type: PropTypes.string.isRequired,
+	item: PropTypes.bool,
+	upward: PropTypes.bool
 }
 
 const generateTypeOption = type => {
@@ -29,7 +31,7 @@ class TagTypesDropdown extends Component {
 	}
 
 	render() {
-		const { isAuthenticated, type } = this.props
+		const { isAuthenticated, type, item, upward } = this.props
 		const types = ['General', 'Anime', 'Character'].filter(t => t !== type)
 		const options = types.map(generateTypeOption)
 
@@ -40,6 +42,8 @@ class TagTypesDropdown extends Component {
 				selectOnBlur={false}
 				options={options}
 				onChange={this.handleChangeType}
+				item={item}
+				upward={upward}
 			/>
 		)
 	}

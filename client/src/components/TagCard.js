@@ -29,12 +29,12 @@ export class TagCard extends Component {
                 <small className="text grey">+{tag.screenshots.length}</small>
               </Grid.Column>
             </Grid>
-
           </Card.Header>
         </Card.Content>
         {isAuthenticated &&
           <Card.Content>
             <TagTypesDropdown {...this.props} name={name} type={type} />
+
           </Card.Content>}
       </Card>
     )

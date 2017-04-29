@@ -32,11 +32,11 @@ function mapStateToProps(state, ownProps) {
   const { userId } = params
   const { locationBeforeTransitions } = routing
   const { pathname } = locationBeforeTransitions
-  const showFilters = pathname.match('/favorites') || pathname.match('/uploads')
+  const matches = pathname.match('/favorites') || pathname.match('/uploads')
 
   return {
     user: users[userId],
-    showFilters
+    showFilters: matches !== null
   }
 }
 

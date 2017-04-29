@@ -139,7 +139,7 @@ class Filters extends Component {
           options={SORT_BY_OPTIONS}
           onChange={this.handleChangeSortBy}
           item
-          inline
+          upward
         />
 
         <Menu.Item>

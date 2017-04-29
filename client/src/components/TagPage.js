@@ -27,7 +27,7 @@ class TagPage extends Component {
 
     return (
       <Container>
-        <Menu borderless>
+        <Menu fixed="bottom" borderless>
           <Menu.Item>
             <Label color={TAG_TYPE_COLOR_MAP[type]} circular empty />
           </Menu.Item>
@@ -35,7 +35,12 @@ class TagPage extends Component {
             {name.toUpperCase()}
           </Menu.Item>
           <Menu.Item>
-            <TagTypesDropdown {...this.props} name={name} type={type} />
+            <TagTypesDropdown
+              {...this.props}
+              name={name}
+              type={type}
+              upward={true}
+            />
           </Menu.Item>
 
           <FiltersContainer />

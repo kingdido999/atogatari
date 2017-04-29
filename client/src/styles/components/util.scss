@@ -9,6 +9,10 @@
 	height: 100%;
 }
 
+.no-margin {
+  margin: 0 !important;
+}
+
 .bg-black {
 	background: black;
 }
@@ -17,6 +21,8 @@
 	background: white !important;
 }
 
-.text.grey {
-  color: #999;
+.text {
+  &.grey {
+    color: #999;
+  }
 }
