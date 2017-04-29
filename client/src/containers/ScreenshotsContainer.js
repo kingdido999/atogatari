@@ -8,7 +8,7 @@ class ScreenshotsContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(resetFilter())
-    dispatch(getFilteredScreenshots({}))
+    dispatch(getFilteredScreenshots({}, true))
   }
 
   render() {
