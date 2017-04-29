@@ -24,7 +24,7 @@ class App extends Component {
       <div className="App site">
         <NavContainer />
 
-        <LoadingBar showFastActions className="loading-bar" />
+        <LoadingBar updateTime={50} className="loading-bar" />
 
         <Segment vertical basic className="site-content">
           <ErrorMessageContainer />

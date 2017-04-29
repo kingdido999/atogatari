@@ -16,6 +16,7 @@ import { uniqBy, union } from 'lodash'
 import { uploadScreenshot } from '../actions/authed'
 import { search } from '../actions/entities'
 import { resetErrorMessageIfNeeded } from '../actions/common'
+import { MIN_CHARACTERS, DONE_TYPING_INTERVAL } from '../constants/search'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -27,7 +28,8 @@ class UploadPage extends Component {
     files: [],
     tagSuggestions: [],
     tags: [],
-    nsfw: false
+    nsfw: false,
+    typingTimer: null
   }
 
   render() {
@@ -121,20 +123,18 @@ class UploadPage extends Component {
   }
 
   renderForm = () => {
+    const { files } = this.state
     return (
       <Form onSubmit={this.handleSubmit} size="large">
-        {this.renderInputFile()}
-        {this.renderInputTags()}
-        {this.renderCheckboxNSFW()}
-        {this.renderButtonSubmit()}
+        {files.length === 0 && this.renderInputFile()}
+        {files.length > 0 && this.renderInputTags()}
+        {files.length > 0 && this.renderCheckboxNSFW()}
+        {files.length > 0 && this.renderButtonSubmit()}
       </Form>
     )
   }
 
   renderInputFile = () => {
-    const { files } = this.state
-    if (files.length > 0) return null
-
     return (
       <Form.Field>
         <input
@@ -150,8 +150,7 @@ class UploadPage extends Component {
   }
 
   renderInputTags = () => {
-    const { files, tags, tagSuggestions } = this.state
-    if (files.length === 0) return null
+    const { tags, tagSuggestions } = this.state
 
     return (
       <Form.Dropdown
@@ -176,9 +175,6 @@ class UploadPage extends Component {
   }
 
   renderCheckboxNSFW = () => {
-    const { files } = this.state
-    if (files.length === 0) return null
-
     return (
       <Form.Checkbox
         label="NSFW (Not Safe For Work)"
@@ -189,8 +185,6 @@ class UploadPage extends Component {
   }
 
   renderButtonSubmit = () => {
-    const { files } = this.state
-    if (files.length === 0) return null
     const { isUploading } = this.props
 
     return (
@@ -225,6 +219,17 @@ class UploadPage extends Component {
   }
 
   handleSearchChange = (event, value) => {
+    clearTimeout(this.state.typingTimer)
+    this.setState({
+      typingTimer: setTimeout(
+        () => this.handleDoneTyping(value),
+        DONE_TYPING_INTERVAL
+      )
+    })
+  }
+
+  handleDoneTyping = value => {
+    if (value.length < MIN_CHARACTERS) return
     const { dispatch } = this.props
 
     dispatch(search({ query: value })).then(res => {

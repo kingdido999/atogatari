@@ -4,13 +4,12 @@ import { browserHistory } from 'react-router'
 
 import Tag from './Tag'
 import { search, setQuery } from '../actions/entities'
+import { MIN_CHARACTERS, DONE_TYPING_INTERVAL } from '../constants/search'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   search: PropTypes.object.isRequired
 }
-
-const MIN_CHARACTERS = 1
 
 const resultRenderer = ({ name, type, screenshots }) => {
   return (
@@ -26,10 +25,25 @@ const resultRenderer = ({ name, type, screenshots }) => {
 }
 
 class GlobalSearch extends Component {
+  state = {
+    typingTimer: null
+  }
+
   handleSearchChange = (e, value) => {
+    clearTimeout(this.state.typingTimer)
+    this.setState({
+      typingTimer: setTimeout(
+        () => this.handleDoneTyping(value),
+        DONE_TYPING_INTERVAL
+      )
+    })
     const { dispatch } = this.props
     dispatch(setQuery(value))
+  }
+
+  handleDoneTyping = value => {
     if (value.length < MIN_CHARACTERS) return
+    const { dispatch } = this.props
     dispatch(search({ query: value }))
   }
 

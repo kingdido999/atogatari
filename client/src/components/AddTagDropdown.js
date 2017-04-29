@@ -4,6 +4,7 @@ import { uniqBy, union } from 'lodash'
 
 import { search } from '../actions/entities'
 import { addTag } from '../actions/authed'
+import { MIN_CHARACTERS, DONE_TYPING_INTERVAL } from '../constants/search'
 
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
@@ -13,7 +14,8 @@ const propTypes = {
 
 class AddTagDropdown extends Component {
 	state = {
-		tagSuggestions: []
+		tagSuggestions: [],
+		typingTimer: null
 	}
 
 	render() {
@@ -39,6 +41,17 @@ class AddTagDropdown extends Component {
 	}
 
 	handleSearchChange = (event, value) => {
+		clearTimeout(this.state.typingTimer)
+		this.setState({
+			typingTimer: setTimeout(
+				() => this.handleDoneTyping(value),
+				DONE_TYPING_INTERVAL
+			)
+		})
+	}
+
+	handleDoneTyping = value => {
+		if (value.length < MIN_CHARACTERS) return
 		const { dispatch } = this.props
 
 		dispatch(search({ query: value })).then(res => {
