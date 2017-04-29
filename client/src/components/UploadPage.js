@@ -14,7 +14,7 @@ import { browserHistory } from 'react-router'
 import { uniqBy, union } from 'lodash'
 
 import { uploadScreenshot } from '../actions/authed'
-import { search } from '../actions/entities'
+import { search, resetScreenshotLists } from '../actions/entities'
 import { resetErrorMessageIfNeeded } from '../actions/common'
 import { MIN_CHARACTERS, DONE_TYPING_INTERVAL } from '../constants/search'
 
@@ -328,7 +328,10 @@ class UploadPage extends Component {
     data.append('tags', JSON.stringify(tags))
     data.append('nsfw', nsfw)
 
-    dispatch(uploadScreenshot(data)).then(() => browserHistory.push('/'))
+    dispatch(uploadScreenshot(data)).then(() => {
+      dispatch(resetScreenshotLists())
+      browserHistory.push('/')
+    })
   }
 }
 
