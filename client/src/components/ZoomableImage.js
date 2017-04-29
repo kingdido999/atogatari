@@ -15,12 +15,17 @@ class ZoomableImage extends Component {
 
   componentDidMount() {
     const { id, zooming } = this.props
-    const imgTag = document.getElementById(id)
-    const imgSrc = imgTag.getAttribute('src')
-    const img = new window.Image()
-    img.onload = this.onImageLoad
+    const img = document.getElementById(id)
+    const imgSrc = img.getAttribute('src')
+    img.addEventListener('load', this.onImageLoad)
     img.src = imgSrc
-    zooming.listen(imgTag)
+    zooming.listen(img)
+  }
+
+  componentWillUnmount() {
+    const { id } = this.props
+    const img = document.getElementById(id)
+    img.removeEventListener('load', this.onImageLoad)
   }
 
   onImageLoad = () => {
