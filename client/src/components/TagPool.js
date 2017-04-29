@@ -31,7 +31,7 @@ class TagPool extends Component {
     return (
       <Segment basic vertical>
         <Divider section horizontal>
-          {type} + {filteredTagNames.length}
+          {type} +{filteredTagNames.length}
         </Divider>
 
         <Card.Group itemsPerRow={itemsPerRow}>
