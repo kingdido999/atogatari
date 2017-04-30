@@ -36,9 +36,7 @@ class UploadPage extends Component {
     return (
       <div>
         {this.renderInstructions()}
-
-        <Divider section horizontal>Upload</Divider>
-
+        <Divider horizontal />
         {this.renderPreview()}
 
         <Container text>
@@ -55,7 +53,7 @@ class UploadPage extends Component {
     if (files.length > 0) return null
 
     return (
-      <Segment color="pink" padded vertical inverted>
+      <Segment color="teal" padded vertical inverted>
         <Grid columns="equal" stackable divided>
           <Grid.Row textAlign="center">
             <Grid.Column>

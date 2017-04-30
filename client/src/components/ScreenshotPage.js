@@ -32,7 +32,7 @@ class ScreenshotPage extends Component {
         <Grid stackable>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
-              <Segment>{this.renderImage()}</Segment>
+              {this.renderImage()}
             </Grid.Column>
             <Grid.Column width={4}>
               <Segment.Group>

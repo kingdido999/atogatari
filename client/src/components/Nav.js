@@ -54,9 +54,9 @@ class Nav extends Component {
     const { isMobile, isAuthenticated } = this.props
 
     return (
-      <Menu size="large" borderless>
+      <Menu size="large" fixed="top" secondary borderless>
         <Menu.Item as={Link} to="/" name="ATOGATARI" header />
-        <Menu.Item as={Link} to="/tags" name="tags" activeClassName="active" />
+        <Menu.Item as={Link} to="/tags" name="TAGS" activeClassName="active" />
 
         <Menu.Menu position="right">
           {!isMobile &&
@@ -68,7 +68,7 @@ class Nav extends Component {
             <Menu.Item
               as={Link}
               to="/login"
-              name="login"
+              name="LOGIN"
               activeClassName="active"
             />}
 
@@ -76,8 +76,7 @@ class Nav extends Component {
             <Menu.Item
               as={Link}
               to="/upload"
-              icon="cloud upload"
-              name="upload"
+              name="UPLOAD"
               activeClassName="active"
             />}
 

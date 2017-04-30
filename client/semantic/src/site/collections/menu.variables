@@ -4,3 +4,27 @@
 
 @borderRadius: 2px;
 @boxShadow: none;
+
+/* Secondary */
+@secondaryBackground: none;
+@secondaryMargin: 0em -@secondaryItemSpacing;
+@secondaryItemBackground: none;
+@secondaryItemSpacing: @relative5px;
+@secondaryItemMargin: 0em @secondaryItemSpacing;
+@secondaryItemVerticalPadding: @relativeMini;
+@secondaryItemHorizontalPadding: @relativeSmall;
+@secondaryItemPadding: @relativeMini @relativeSmall;
+@secondaryItemBorderRadius: @defaultBorderRadius;
+@secondaryItemTransition: color @defaultDuration @defaultEasing;
+@secondaryItemColor: @unselectedTextColor;
+
+@secondaryHoverItemBackground: transparent;
+@secondaryHoverItemColor: @selectedTextColor;
+
+@secondaryActiveItemBackground: @transparentBlack;
+@secondaryActiveItemColor: @selectedTextColor;
+@secondaryActiveHoverItemBackground: @transparentBlack;
+@secondaryActiveHoverItemColor: @selectedTextColor;
+
+@secondaryActiveHoveredItemBackground: @transparentBlack;
+@secondaryActiveHoveredItemColor: @selectedTextColor;

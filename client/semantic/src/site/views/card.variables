@@ -16,3 +16,20 @@
   @borderShadow
 ;
 @border: none;
+
+/* Card Group */
+@horizontalSpacing: 0.5em;
+@rowSpacing: 1em;
+
+@groupMargin: -(@rowSpacing / 2) -(@horizontalSpacing / 2);
+@groupDisplay: flex;
+
+@groupCardFloat: none;
+@groupCardDisplay: flex;
+@groupCardMargin: (@rowSpacing / 2) (@horizontalSpacing / 2);
+
+/* Consecutive Cards */
+@consecutiveGroupDistance: (@rowSpacing / 2);
+
+
+@threeCardSpacing: @horizontalSpacing;

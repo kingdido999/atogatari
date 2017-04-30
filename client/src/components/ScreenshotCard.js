@@ -24,24 +24,23 @@ const propTypes = {
 }
 
 class ScreenshotCard extends Component {
-  render() {
-    const {
-      dispatch,
-      zooming,
-      view,
-      screenshot,
-      isAdmin,
-      isFavorited
-    } = this.props
-    if (!screenshot) return null
-    const { _id, file, nsfw, favorites } = screenshot
+  state = {
+    active: false
+  }
 
-    const favoritesCount = favorites.length
+  render() {
+    const { zooming, view, screenshot } = this.props
+    if (!screenshot) return null
+    const { _id, file } = screenshot
     const isSingleView = view === 'single'
     const src = getImageUrl(isSingleView ? file.medium : file.small)
 
     return (
-      <Card fluid={isSingleView} color={nsfw ? 'yellow' : null}>
+      <Card
+        fluid={isSingleView}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
         <div className="flex-centered">
           <ZoomableImage
             id={_id}
@@ -51,31 +50,38 @@ class ScreenshotCard extends Component {
           />
         </div>
 
-        <Card.Content extra>
-          <Button.Group fluid compact>
-            <TagsButton
-              {...this.props}
-              tagNames={screenshot.tags}
-              screenshotId={_id}
-            />
-            <FavoriteButton
-              {...this.props}
-              screenshotId={_id}
-              isFavorited={isFavorited}
-              favoritesCount={favoritesCount}
-            />
-
-            <DownloadButton
-              dispatch={dispatch}
-              screenshotId={_id}
-              file={file}
-            />
-            <WhatAnimeGaIconButton url={getImageUrl(file.medium)} />
-            {isAdmin && <DeleteButton dispatch={dispatch} screenshotId={_id} />}
-            <DetailsButton screenshotId={_id} />
-          </Button.Group>
-        </Card.Content>
+        {this.renderContent()}
       </Card>
+    )
+  }
+
+  renderContent = () => {
+    const { dispatch, screenshot, isAdmin, isFavorited } = this.props
+    if (!screenshot) return null
+    const { _id, file, favorites } = screenshot
+    const favoritesCount = favorites.length
+
+    return (
+      <Card.Content extra>
+        <Button.Group fluid compact>
+          <TagsButton
+            {...this.props}
+            tagNames={screenshot.tags}
+            screenshotId={_id}
+          />
+          <FavoriteButton
+            {...this.props}
+            screenshotId={_id}
+            isFavorited={isFavorited}
+            favoritesCount={favoritesCount}
+          />
+
+          <DownloadButton dispatch={dispatch} screenshotId={_id} file={file} />
+          <WhatAnimeGaIconButton url={getImageUrl(file.medium)} />
+          {isAdmin && <DeleteButton dispatch={dispatch} screenshotId={_id} />}
+          <DetailsButton screenshotId={_id} />
+        </Button.Group>
+      </Card.Content>
     )
   }
 }

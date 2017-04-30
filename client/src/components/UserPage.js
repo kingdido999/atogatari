@@ -16,7 +16,7 @@ class UserPage extends Component {
 
     return (
       <Container>
-        <Menu fixed="bottom" borderless>
+        <Menu fixed="bottom" className="transparent-white" secondary borderless>
           <Menu.Item>
             <Header>
               <Link to={`/user/${user._id}`}>{user.username}</Link>
