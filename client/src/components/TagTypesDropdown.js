@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 
-import { updateTag } from '../actions/authed'
+import { updateTagType } from '../actions/authed'
 import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
@@ -26,7 +26,7 @@ class TagTypesDropdown extends Component {
 		const { dispatch, name, type } = this.props
 
 		if (value !== type) {
-			dispatch(updateTag(name, { type: value }))
+			dispatch(updateTagType(name, type, value))
 		}
 	}
 

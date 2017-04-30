@@ -13,6 +13,7 @@ export const toggleNSFW = makeActionCreator('TOGGLE_NSFW')
 export const setView = makeActionCreator('SET_VIEW', 'view')
 export const setQuery = makeActionCreator('SET_QUERY', 'query')
 export const resetFilter = makeActionCreator('RESET_FILTER')
+export const resetTagList = makeActionCreator('RESET_TAG_LIST', 'tagType')
 
 export function login(creds) {
   return {
@@ -252,6 +253,43 @@ export function getTags(params) {
         }
       ]
     })
+  }
+}
+
+export function getTagsByTypeIfNeeded(type) {
+  return (dispatch, getState) => {
+    const { tagLists } = getState()
+
+    if (!tagLists[type]) {
+      dispatch(getTagsByType(type))
+    }
+  }
+}
+
+export function getTagsByType(type) {
+  return dispatch => {
+    dispatch({
+      type: 'GET_TAGS_PENDING'
+    })
+
+    ax
+      .get(`/tags/${type}`, {
+        transformResponse: [
+          function(data) {
+            return normalize(JSON.parse(data), [schemas.tagSchema])
+          }
+        ]
+      })
+      .then(res => dispatch(receiveTags(type, res)))
+      .catch(err => dispatch({ type: 'GET_TAGS_REJECTED', payload: err }))
+  }
+}
+
+export function receiveTags(tagType, payload) {
+  return {
+    type: 'GET_TAGS_FULFILLED',
+    tagType,
+    payload
   }
 }
 

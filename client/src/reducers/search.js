@@ -31,8 +31,6 @@ function results(state = {}, action) {
   switch (action.type) {
     case 'SEARCH_FULFILLED':
       return action.payload.data
-    // case 'DELETE_TAG_FULFILLED':
-    //   return state.filter(({ name }) => name !== action.payload.data.name)
     default:
       return state
   }

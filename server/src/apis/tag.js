@@ -11,6 +11,15 @@ async function getTags(ctx) {
 	ctx.status = 200
 }
 
+async function getTagsByType(ctx) {
+	const { type } = ctx.params
+
+	const tags = await Tag.find({ type }).sort('name').exec()
+
+	ctx.response.body = tags
+	ctx.status = 200
+}
+
 async function getTag(ctx) {
 	const { name } = ctx.params
 
@@ -173,6 +182,7 @@ async function updateTag(ctx) {
 
 export default {
 	getTags,
+	getTagsByType,
 	getTag,
 	getTagScreenshots,
 	addTag,

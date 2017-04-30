@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import TagsPage from '../components/TagsPage'
-import { getTags } from '../actions/entities'
+import { getTagsByTypeIfNeeded } from '../actions/entities'
 import { capitalizeFirstLetter } from '../utils'
 
 class TagsContainer extends Component {
   componentDidMount() {
     const { dispatch, params } = this.props
     const { type } = params
-    dispatch(getTags({ type: capitalizeFirstLetter(type) }))
+    dispatch(getTagsByTypeIfNeeded(capitalizeFirstLetter(type)))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -17,7 +17,7 @@ class TagsContainer extends Component {
 
     const type = nextProps.params.type
     if (type !== params.type) {
-      dispatch(getTags({ type: capitalizeFirstLetter(type) }))
+      dispatch(getTagsByTypeIfNeeded(capitalizeFirstLetter(type)))
     }
   }
 
@@ -27,15 +27,16 @@ class TagsContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { user, entities, tags, ui } = state
+  const { user, entities, tagLists, ui } = state
   const { isAuthenticated } = user
   const { itemsPerRow } = ui
   const { params } = ownProps
   const { type } = params
+  const tagList = tagLists[capitalizeFirstLetter(type)]
 
   return {
     isAuthenticated,
-    tagNames: tags ? tags.names : [],
+    tagNames: tagList ? tagList.names : [],
     tags: entities.tags,
     type,
     itemsPerRow

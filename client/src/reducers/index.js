@@ -6,7 +6,7 @@ import user from './user'
 import search from './search'
 import entities from './entities'
 import screenshotLists from './screenshotLists'
-import tags from './tags'
+import tagLists from './tagLists'
 import ui from './ui'
 import filter from './filter'
 import environment from './environment'
@@ -17,7 +17,7 @@ export default combineReducers({
   search,
   entities,
   screenshotLists,
-  tags,
+  tagLists,
   ui,
   filter,
   environment,

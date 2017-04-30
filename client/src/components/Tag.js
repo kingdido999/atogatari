@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
-import { deleteTag } from '../actions/authed'
-import { resetScreenshotLists } from '../actions/entities'
+import { deleteTagFromScreenshot } from '../actions/authed'
+import { resetTagList, resetScreenshotLists } from '../actions/entities'
 import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
 
 const propTypes = {
@@ -25,8 +25,9 @@ class Tag extends Component {
 
   handleRemove = event => {
     event.stopPropagation()
-    const { dispatch, name, screenshotId } = this.props
-    dispatch(deleteTag(name, screenshotId))
+    const { dispatch, name, type, screenshotId } = this.props
+    dispatch(deleteTagFromScreenshot(name, screenshotId))
+    dispatch(resetTagList(type))
     dispatch(resetScreenshotLists())
   }
 

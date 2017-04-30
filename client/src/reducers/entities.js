@@ -25,7 +25,7 @@ function screenshot(state = {}, action) {
         ...state,
         tags: [...state.tags, action.payload.data.name]
       }
-    case 'DELETE_TAG_FULFILLED':
+    case 'DELETE_TAG_FROM_SCREENSHOT_FULFILLED':
       return {
         ...state,
         tags: state.tags.filter(name => name !== action.payload.data.name)
@@ -68,7 +68,7 @@ function screenshots(state = {}, action) {
           action
         )
       }
-    case 'DELETE_TAG_FULFILLED':
+    case 'DELETE_TAG_FROM_SCREENSHOT_FULFILLED':
       return {
         ...state,
         [action.payload.data.screenshotId]: screenshot(
@@ -107,7 +107,7 @@ function favorites(state = {}, action) {
 
 function tag(state = {}, action) {
   switch (action.type) {
-    case 'DELETE_TAG_FULFILLED':
+    case 'DELETE_TAG_FROM_SCREENSHOT_FULFILLED':
       return {
         ...state,
         screenshots: state.screenshots.filter(
@@ -127,7 +127,7 @@ function tags(state = {}, action) {
           ...action.payload.data
         }
       }
-    case 'DELETE_TAG_FULFILLED':
+    case 'DELETE_TAG_FROM_SCREENSHOT_FULFILLED':
       if (!state[action.payload.data.name]) return state
       return {
         ...state,

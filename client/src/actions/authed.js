@@ -81,12 +81,31 @@ export function addTag(name, screenshotId) {
   }
 }
 
-export function deleteTag(name, screenshotId) {
+export function deleteTagFromScreenshot(name, screenshotId) {
   return {
-    type: 'DELETE_TAG',
+    type: 'DELETE_TAG_FROM_SCREENSHOT',
     payload: ax.delete(`/tag/${name}`, {
       params: { screenshotId }
     })
+  }
+}
+
+export function updateTagType(name, fromType, toType) {
+  return dispatch => {
+    dispatch({
+      type: 'UPDATE_TAG_PENDING'
+    })
+    ax
+      .put(`/tag/${name}`, { type: toType })
+      .then(res => {
+        dispatch({
+          type: 'UPDATE_TAG_FULFILLED',
+          payload: res
+        })
+        dispatch(removeTagFromList(name, fromType))
+        dispatch(addTagToList(name, toType))
+      })
+      .catch(err => dispatch({ type: 'UPDATE_TAG_REJECTED', payload: err }))
   }
 }
 
@@ -94,6 +113,22 @@ export function updateTag(name, params) {
   return {
     type: 'UPDATE_TAG',
     payload: ax.put(`/tag/${name}`, params)
+  }
+}
+
+export function removeTagFromList(name, tagType) {
+  return {
+    type: 'REMOVE_TAG_FROM_LIST',
+    name,
+    tagType
+  }
+}
+
+export function addTagToList(name, tagType) {
+  return {
+    type: 'ADD_TAG_TO_LIST',
+    name,
+    tagType
   }
 }
 

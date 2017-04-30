@@ -21,6 +21,7 @@ export default function route(router) {
   router.get('/tag/:name', tag.getTag)
   router.get('/tag/:name/screenshots', tag.getTagScreenshots)
   router.get('/tags', tag.getTags)
+  router.get('/tags/:type', tag.getTagsByType)
   router.post('/tag', tokenAuth(), tag.addTag)
   router.put('/tag/:name', tokenAuth(), tag.updateTag)
   router.del('/tag/:name', tokenAuth(), tag.deleteTag)
