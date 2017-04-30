@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Menu, Dropdown } from 'semantic-ui-react'
+import { Menu, Dropdown, Label } from 'semantic-ui-react'
 import { Link } from 'react-router'
 
 import { logout } from '../actions/authed'
@@ -10,7 +10,8 @@ const propTypes = {
   isMobile: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
   uid: PropTypes.string,
-  search: PropTypes.object.isRequired
+  search: PropTypes.object.isRequired,
+  tagLists: PropTypes.object.isRequired
 }
 
 class Nav extends Component {
@@ -58,7 +59,9 @@ class Nav extends Component {
   }
 
   renderMenu = () => {
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, tagLists } = this.props
+    const { Character, Anime, General } = tagLists
+
     return (
       <Menu size="large" fixed="top" secondary borderless>
         <Menu.Item as={Link} to="/" name="ATOGATARI" header />
@@ -67,19 +70,29 @@ class Nav extends Component {
           to="/tags/character"
           name="CHARACTER"
           activeClassName="active"
-        />
+        >
+          CHARACTER
+          {Character &&
+            <Label content={Character.names.length} color="orange" />}
+        </Menu.Item>
         <Menu.Item
           as={Link}
           to="/tags/anime"
           name="ANIME"
           activeClassName="active"
-        />
+        >
+          ANIME
+          {Anime && <Label content={Anime.names.length} color="blue" />}
+        </Menu.Item>
         <Menu.Item
           as={Link}
           to="/tags/general"
           name="GENERAL"
           activeClassName="active"
-        />
+        >
+          GENERAL
+          {General && <Label content={General.names.length} color="teal" />}
+        </Menu.Item>
 
         <Menu.Menu position="right">
           <Menu.Item>
