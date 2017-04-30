@@ -6,9 +6,9 @@
 @boxShadow: none;
 
 /* Secondary */
-@secondaryBackground: none;
+@secondaryBackground: @pageBackground;
 @secondaryMargin: 0em -@secondaryItemSpacing;
-@secondaryItemBackground: none;
+@secondaryItemBackground: transparent;
 @secondaryItemSpacing: @relative5px;
 @secondaryItemMargin: 0em @secondaryItemSpacing;
 @secondaryItemVerticalPadding: @relativeMini;
