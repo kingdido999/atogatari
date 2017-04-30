@@ -27,7 +27,7 @@ render(
       <Route path="/" component={App}>
         <IndexRoute component={ScreenshotsContainer} />
         <Route path="screenshots" component={ScreenshotsContainer} />
-        <Route path="tags" component={TagsContainer} />
+        <Route path="tags/:type" component={TagsContainer} />
         <Route
           path="screenshot/:screenshotId"
           component={ScreenshotContainer}

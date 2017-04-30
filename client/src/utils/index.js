@@ -29,6 +29,10 @@ export function pluralize(singular, count) {
   return singular + (count > 1 ? 's' : '')
 }
 
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
 export function isLoggedIn() {
   return localStorage.getItem('token') ? true : false
 }

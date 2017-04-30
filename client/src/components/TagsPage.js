@@ -8,6 +8,7 @@ const propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   tagNames: PropTypes.array.isRequired,
   tags: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
   itemsPerRow: PropTypes.number.isRequired
 }
 
@@ -15,9 +16,7 @@ class TagsPage extends Component {
   render() {
     return (
       <Container>
-        <TagPool {...this.props} type="General" />
-        <TagPool {...this.props} type="Anime" />
-        <TagPool {...this.props} type="Character" />
+        <TagPool {...this.props} />
       </Container>
     )
   }

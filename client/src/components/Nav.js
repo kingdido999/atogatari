@@ -51,18 +51,40 @@ class Nav extends Component {
   }
 
   render() {
-    const { isMobile, isAuthenticated } = this.props
+    const { isMobile } = this.props
 
+    if (isMobile) return this.renderMobileMenu()
+    return this.renderMenu()
+  }
+
+  renderMenu = () => {
+    const { isAuthenticated } = this.props
     return (
       <Menu size="large" fixed="top" secondary borderless>
         <Menu.Item as={Link} to="/" name="ATOGATARI" header />
-        <Menu.Item as={Link} to="/tags" name="TAGS" activeClassName="active" />
+        <Menu.Item
+          as={Link}
+          to="/tags/character"
+          name="CHARACTER"
+          activeClassName="active"
+        />
+        <Menu.Item
+          as={Link}
+          to="/tags/anime"
+          name="ANIME"
+          activeClassName="active"
+        />
+        <Menu.Item
+          as={Link}
+          to="/tags/general"
+          name="GENERAL"
+          activeClassName="active"
+        />
 
         <Menu.Menu position="right">
-          {!isMobile &&
-            <Menu.Item>
-              <GlobalSearch {...this.props} />
-            </Menu.Item>}
+          <Menu.Item>
+            <GlobalSearch {...this.props} />
+          </Menu.Item>
 
           {!isAuthenticated &&
             <Menu.Item
@@ -77,6 +99,50 @@ class Nav extends Component {
               as={Link}
               to="/upload"
               name="UPLOAD"
+              activeClassName="active"
+            />}
+
+          {isAuthenticated && this.renderDropdown()}
+        </Menu.Menu>
+      </Menu>
+    )
+  }
+
+  renderMobileMenu = () => {
+    const { isAuthenticated } = this.props
+
+    return (
+      <Menu size="large" fixed="top" secondary borderless>
+        <Menu.Item as={Link} to="/" name="ATOGATARI" header fitted />
+
+        <Menu.Item
+          as={Link}
+          to="/tags/character"
+          name="CHARACTER"
+          activeClassName="active"
+          fitted
+        />
+        <Menu.Item
+          as={Link}
+          to="/tags/anime"
+          name="ANIME"
+          activeClassName="active"
+          fitted
+        />
+        <Menu.Item
+          as={Link}
+          to="/tags/general"
+          name="GENERAL"
+          activeClassName="active"
+          fitted
+        />
+
+        <Menu.Menu position="right">
+          {!isAuthenticated &&
+            <Menu.Item
+              as={Link}
+              to="/login"
+              name="LOGIN"
               activeClassName="active"
             />}
 

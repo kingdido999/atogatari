@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Segment, Card, Divider } from 'semantic-ui-react'
+import { Segment, Card } from 'semantic-ui-react'
 
 import TagCard from './TagCard'
 
@@ -19,23 +19,14 @@ class TagPool extends Component {
       isAuthenticated,
       tags,
       tagNames,
-      type,
       itemsPerRow
     } = this.props
     if (tagNames.length === 0) return null
 
-    const filteredTagNames = tagNames.filter(name => {
-      return tags[name].type === type
-    })
-
     return (
       <Segment basic vertical>
-        <Divider section horizontal>
-          {type} +{filteredTagNames.length}
-        </Divider>
-
         <Card.Group itemsPerRow={itemsPerRow}>
-          {filteredTagNames.map((name, index) => (
+          {tagNames.map((name, index) => (
             <TagCard
               key={index}
               dispatch={dispatch}
