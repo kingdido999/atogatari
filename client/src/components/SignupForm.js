@@ -39,30 +39,29 @@ class SignupForm extends Component {
       <Form size={size} onSubmit={this.handleSubmit}>
 
         <Form.Input
-          label="Username"
           icon="user"
           iconPosition="left"
           name="username"
+          placeholder="Username"
           onChange={this.handleChange}
         />
 
         <Form.Input
-          label="Email"
           icon="mail"
           iconPosition="left"
           name="email"
           type="email"
+          placeholder="Email"
           onChange={this.handleChange}
         />
 
         <Form.Input
-          label="Password"
           icon="lock"
           iconPosition="left"
           name="password"
           type="password"
           pattern=".{8,}"
-          placeholder="At least 8 characters"
+          placeholder="Password (at least 8 characters)"
           onChange={this.handleChange}
           title="Your password length is less than 8"
         />

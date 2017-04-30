@@ -39,19 +39,19 @@ class LoginForm extends Component {
       <Form size={size} onSubmit={this.handleSubmit}>
 
         <Form.Input
-          label="Email or username"
           icon="user"
           iconPosition="left"
           name="email"
+          placeholder="Username or email"
           onChange={this.handleChange}
         />
 
         <Form.Input
-          label="Password"
           icon="lock"
           iconPosition="left"
           name="password"
           type="password"
+          placeholder="Password"
           onChange={this.handleChange}
         />
 
