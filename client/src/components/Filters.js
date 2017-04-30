@@ -39,63 +39,6 @@ const SORT_BY_OPTIONS = [
 ]
 
 class Filters extends Component {
-  handleChangeSortBy = (event, { value }) => {
-    const { dispatch } = this.props
-    dispatch(setPage(1))
-    dispatch(setSortBy(value))
-    dispatch(getFilteredScreenshots({ sortBy: value }))
-  }
-
-  handleChangeNSFW = () => {
-    const { dispatch, nsfw } = this.props
-    dispatch(setPage(1))
-    dispatch(toggleNSFW())
-    dispatch(getFilteredScreenshots({ nsfw: !nsfw }))
-  }
-
-  handleRefresh = () => {
-    const { dispatch } = this.props
-    dispatch(getFilteredScreenshots({}, true))
-  }
-
-  handleChangeView = view => {
-    const { dispatch } = this.props
-    dispatch(setView(view))
-  }
-
-  handlePaginate = action => {
-    const { dispatch, page, pages } = this.props
-
-    switch (action) {
-      case 'first':
-        if (page !== 1) {
-          dispatch(setPage(1))
-          dispatch(getFilteredScreenshots({ page: 1 }))
-        }
-        break
-      case 'prev':
-        if (page > 1) {
-          dispatch(setPage(page - 1))
-          dispatch(getFilteredScreenshots({ page: page - 1 }))
-        }
-        break
-      case 'next':
-        if (page < pages) {
-          dispatch(setPage(page + 1))
-          dispatch(getFilteredScreenshots({ page: page + 1 }))
-        }
-        break
-      case 'last':
-        if (page !== pages) {
-          dispatch(setPage(pages))
-          dispatch(getFilteredScreenshots({ page: pages }))
-        }
-        break
-      default:
-        return
-    }
-  }
-
   render() {
     const { isMobile } = this.props
     const filters = isMobile ? this.renderMobileFilters() : this.renderFilters()
@@ -186,6 +129,63 @@ class Filters extends Component {
         />
       </Menu.Menu>
     )
+  }
+
+  handleChangeSortBy = (event, { value }) => {
+    const { dispatch } = this.props
+    dispatch(setPage(1))
+    dispatch(setSortBy(value))
+    dispatch(getFilteredScreenshots({ sortBy: value }))
+  }
+
+  handleChangeNSFW = () => {
+    const { dispatch, nsfw } = this.props
+    dispatch(setPage(1))
+    dispatch(toggleNSFW())
+    dispatch(getFilteredScreenshots({ nsfw: !nsfw }))
+  }
+
+  handleRefresh = () => {
+    const { dispatch } = this.props
+    dispatch(getFilteredScreenshots({}, true))
+  }
+
+  handleChangeView = view => {
+    const { dispatch } = this.props
+    dispatch(setView(view))
+  }
+
+  handlePaginate = action => {
+    const { dispatch, page, pages } = this.props
+
+    switch (action) {
+      case 'first':
+        if (page !== 1) {
+          dispatch(setPage(1))
+          dispatch(getFilteredScreenshots({ page: 1 }))
+        }
+        break
+      case 'prev':
+        if (page > 1) {
+          dispatch(setPage(page - 1))
+          dispatch(getFilteredScreenshots({ page: page - 1 }))
+        }
+        break
+      case 'next':
+        if (page < pages) {
+          dispatch(setPage(page + 1))
+          dispatch(getFilteredScreenshots({ page: page + 1 }))
+        }
+        break
+      case 'last':
+        if (page !== pages) {
+          dispatch(setPage(pages))
+          dispatch(getFilteredScreenshots({ page: pages }))
+        }
+        break
+      default:
+        return
+    }
   }
 }
 

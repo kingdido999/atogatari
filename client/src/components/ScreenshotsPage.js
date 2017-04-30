@@ -23,14 +23,14 @@ class ScreenshotsPage extends Component {
 
     return (
       <Container>
+        <Segment vertical basic>
+          <ScreenshotCards {...this.props} zooming={zooming} />
+        </Segment>
+
         <Menu fixed="bottom" className="transparent-white" secondary borderless>
           <Menu.Item content="All Screenshots" />
           <FiltersContainer />
         </Menu>
-
-        <Segment vertical basic>
-          <ScreenshotCards {...this.props} zooming={zooming} />
-        </Segment>
       </Container>
     )
   }
