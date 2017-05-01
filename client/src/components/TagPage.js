@@ -27,7 +27,7 @@ class TagPage extends Component {
 
     return (
       <Container>
-        <Menu fixed="bottom" className="transparent-white" secondary borderless>
+        <Menu fixed="bottom" className="opacity-high" secondary borderless>
           <Menu.Item>
             <Label color={TAG_TYPE_COLOR_MAP[type]} circular empty />
           </Menu.Item>

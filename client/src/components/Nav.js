@@ -63,7 +63,13 @@ class Nav extends Component {
     const { Character, Anime, General } = tagLists
 
     return (
-      <Menu size="large" fixed="top" secondary borderless>
+      <Menu
+        size="large"
+        fixed="top"
+        className="opacity-high"
+        secondary
+        borderless
+      >
         <Menu.Item as={Link} to="/" name="ATOGATARI" header />
         <Menu.Item
           as={Link}
@@ -125,7 +131,13 @@ class Nav extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <Menu size="large" fixed="top" secondary borderless>
+      <Menu
+        size="large"
+        fixed="top"
+        className="opacity-high"
+        secondary
+        borderless
+      >
         <Menu.Item as={Link} to="/" name="ATOGATARI" header fitted />
 
         <Menu.Item

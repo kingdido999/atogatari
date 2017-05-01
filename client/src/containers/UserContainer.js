@@ -26,7 +26,8 @@ class UserContainer extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities, routing } = state
+  const { environment, entities, routing } = state
+  const { isMobile } = environment
   const { users } = entities
   const { params } = ownProps
   const { userId } = params
@@ -35,6 +36,7 @@ function mapStateToProps(state, ownProps) {
   const matches = pathname.match('/favorites') || pathname.match('/uploads')
 
   return {
+    isMobile,
     user: users[userId],
     showFilters: matches !== null
   }

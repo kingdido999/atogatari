@@ -5,18 +5,19 @@ import { Link } from 'react-router'
 import FiltersContainer from '../containers/FiltersContainer'
 
 const propTypes = {
+  isMobile: PropTypes.bool.isRequired,
   user: PropTypes.object,
   showFilters: PropTypes.bool
 }
 
 class UserPage extends Component {
   render() {
-    const { user, showFilters } = this.props
+    const { isMobile, user, showFilters } = this.props
     if (!user) return null
 
     return (
       <Container>
-        <Menu fixed="bottom" className="transparent-white" secondary borderless>
+        <Menu fixed="bottom" className="opacity-high" secondary borderless>
           <Menu.Item>
             <Header>
               <Link to={`/user/${user._id}`}>{user.username}</Link>
@@ -29,7 +30,8 @@ class UserPage extends Component {
             activeClassName="active"
           >
             Favorites
-            {user.favorites.length > 0 &&
+            {!isMobile &&
+              user.favorites.length > 0 &&
               <Label color="yellow" content={user.favorites.length} />}
           </Menu.Item>
           <Menu.Item
@@ -39,10 +41,10 @@ class UserPage extends Component {
             activeClassName="active"
           >
             Uploads
-            {user.screenshots.length > 0 &&
+            {!isMobile &&
+              user.screenshots.length > 0 &&
               <Label color="teal" content={user.screenshots.length} />}
           </Menu.Item>
-          {/* <Menu.Item name='Settings' activeClassName="active" /> */}
 
           {showFilters && <FiltersContainer />}
 

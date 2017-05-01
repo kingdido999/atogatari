@@ -27,7 +27,7 @@ class ScreenshotsPage extends Component {
           <ScreenshotCards {...this.props} zooming={zooming} />
         </Segment>
 
-        <Menu fixed="bottom" className="transparent-white" secondary borderless>
+        <Menu fixed="bottom" className="opacity-high" secondary borderless>
           <Menu.Item content="All Screenshots" />
           <FiltersContainer />
         </Menu>
