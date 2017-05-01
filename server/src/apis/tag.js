@@ -123,6 +123,7 @@ async function addTag(ctx) {
 
 	ctx.response.body = {
 		name,
+		type: tag.type,
 		screenshotId
 	}
 
