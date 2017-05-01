@@ -38,7 +38,7 @@ class TagTypesDropdown extends Component {
 		return (
 			<Dropdown
 				disabled={!isAuthenticated}
-				text={type}
+				text=" "
 				selectOnBlur={false}
 				options={options}
 				onChange={this.handleChangeType}

@@ -22,20 +22,20 @@ export class TagCard extends Component {
         <Card.Content>
           <Card.Header>
             <Grid>
-              <Grid.Column floated="left" width={13}>
+              <Grid.Column floated="left" width={12}>
                 <Link to={`/tag/${name}`}>{name}</Link>
+                {isAuthenticated &&
+                  <TagTypesDropdown {...this.props} name={name} type={type} />}
               </Grid.Column>
               <Grid.Column floated="right" width={3} textAlign="right">
-                <small className="text grey">+{tag.screenshots.length}</small>
+
+                <span className="text grey">+{tag.screenshots.length}</span>
+
               </Grid.Column>
             </Grid>
           </Card.Header>
         </Card.Content>
-        {isAuthenticated &&
-          <Card.Content>
-            <TagTypesDropdown {...this.props} name={name} type={type} />
 
-          </Card.Content>}
       </Card>
     )
   }
