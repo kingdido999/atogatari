@@ -11,6 +11,7 @@ async function search(ctx) {
   })
     .select('name type screenshots')
     .sort('-updatedAt')
+    .limit(6)
     .exec()
 
   ctx.response.body = tags
