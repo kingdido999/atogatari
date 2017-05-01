@@ -22,7 +22,7 @@ class TagsButton extends Component {
         trigger={this.renderButton()}
         content={this.renderTags()}
         on="hover"
-        position="top left"
+        position="bottom left"
         hoverable
       />
     )
