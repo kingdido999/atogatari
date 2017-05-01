@@ -33,7 +33,7 @@ class GlobalSearch extends Component {
     clearTimeout(this.state.typingTimer)
     this.setState({
       typingTimer: setTimeout(
-        () => this.handleDoneTyping(value),
+        () => this.handleDoneTyping(value.trim()),
         DONE_TYPING_INTERVAL
       )
     })

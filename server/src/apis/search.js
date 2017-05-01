@@ -10,6 +10,7 @@ async function search(ctx) {
     screenshots: { $gt: [] }
   })
     .select('name type screenshots')
+    .sort('-updatedAt')
     .exec()
 
   ctx.response.body = tags
