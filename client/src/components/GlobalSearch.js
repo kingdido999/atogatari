@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Search, Grid, Label } from 'semantic-ui-react'
+import { Search, Grid } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import Tag from './Tag'
@@ -14,11 +14,11 @@ const propTypes = {
 const resultRenderer = ({ name, type, screenshots }) => {
   return (
     <Grid>
-      <Grid.Column floated="left">
+      <Grid.Column floated="left" width={12}>
         <Tag name={name} type={type} />
       </Grid.Column>
-      <Grid.Column floated="right" width={3}>
-        <Label circular content={screenshots.length} />
+      <Grid.Column floated="right" width={4} textAlign="right">
+        <small className="text grey">{screenshots.length}</small>
       </Grid.Column>
     </Grid>
   )
