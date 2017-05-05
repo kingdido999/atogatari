@@ -90,19 +90,20 @@ class ScreenshotPage extends Component {
 
     return (
       <div>
-        <Tags
-          {...this.props}
-          tagNames={screenshot.tags}
-          screenshotId={screenshot._id}
-          deletable={true}
-        />
-
-        {authedUser &&
-          <AddTagDropdown
-            dispatch={dispatch}
+        {screenshot.tags.length > 0 &&
+          <Tags
+            {...this.props}
+            tagNames={screenshot.tags}
             screenshotId={screenshot._id}
-            fluid={true}
+            deletable={true}
           />}
+
+        <AddTagDropdown
+          dispatch={dispatch}
+          screenshotId={screenshot._id}
+          fluid={true}
+          disabled={!authedUser}
+        />
       </div>
     )
   }

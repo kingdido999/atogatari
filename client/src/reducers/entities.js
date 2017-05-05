@@ -23,7 +23,7 @@ function screenshot(state = {}, action) {
     case 'ADD_TAG_FULFILLED':
       return {
         ...state,
-        tags: [...state.tags, action.payload.data.name]
+        tags: [...state.tags, action.payload.data.tag.name]
       }
     case 'DELETE_TAG_FROM_SCREENSHOT_FULFILLED':
       return {

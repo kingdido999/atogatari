@@ -3,8 +3,13 @@ import { Label } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import { deleteTagFromScreenshot } from '../actions/authed'
-import { resetTagList, resetScreenshotLists } from '../actions/entities'
+import {
+  resetTagList,
+  resetScreenshotLists,
+  getTagsByTypeIfNeeded
+} from '../actions/entities'
 import { TAG_TYPE_COLOR_MAP } from '../constants/tag'
+import { capitalizeFirstLetter } from '../utils'
 
 const propTypes = {
   dispatch: PropTypes.func,
@@ -28,6 +33,7 @@ class Tag extends Component {
     const { dispatch, name, type, screenshotId } = this.props
     dispatch(deleteTagFromScreenshot(name, screenshotId))
     dispatch(resetTagList(type))
+    dispatch(getTagsByTypeIfNeeded(capitalizeFirstLetter(type)))
     dispatch(resetScreenshotLists())
   }
 
@@ -43,28 +49,19 @@ class Tag extends Component {
     } = this.props
     const color = TAG_TYPE_COLOR_MAP[type]
 
-    if (deletable && isAdmin && screenshotId) {
-      return (
-        <Label
-          as="a"
-          color={color}
-          content={name}
-          detail={count}
-          onClick={this.handleClick}
-          onRemove={this.handleRemove}
-          horizontal={horizontal}
-        />
-      )
-    }
-
     return (
       <Label
+        className="fluid-tag"
         as="a"
         color={color}
         content={name}
         detail={count}
         onClick={this.handleClick}
+        onRemove={
+          deletable && isAdmin && screenshotId ? this.handleRemove : null
+        }
         horizontal={horizontal}
+        basic
       />
     )
   }

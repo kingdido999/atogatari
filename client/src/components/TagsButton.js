@@ -33,11 +33,11 @@ class TagsButton extends Component {
   }
 
   renderTags = () => {
-    const { dispatch, isAuthenticated, screenshotId } = this.props
+    const { dispatch, isAuthenticated, tagNames, screenshotId } = this.props
 
     return (
       <div>
-        <Tags {...this.props} />
+        {tagNames.length > 0 && <Tags {...this.props} />}
 
         {isAuthenticated &&
           <AddTagDropdown dispatch={dispatch} screenshotId={screenshotId} />}

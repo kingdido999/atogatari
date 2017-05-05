@@ -122,8 +122,7 @@ async function addTag(ctx) {
 	await screenshot.save()
 
 	ctx.response.body = {
-		name,
-		type: tag.type,
+		tag,
 		screenshotId
 	}
 

@@ -16,7 +16,7 @@ function tagList(
     case 'ADD_TAG_FULFILLED':
       return {
         ...state,
-        names: [...state.names, action.payload.data.name]
+        names: [...state.names, action.payload.data.tag.name]
       }
     case 'REMOVE_TAG_FROM_LIST':
       return {
@@ -43,8 +43,8 @@ export default function tagLists(state = {}, action) {
     case 'ADD_TAG_FULFILLED':
       return {
         ...state,
-        [action.payload.data.type]: tagList(
-          state[action.payload.data.type],
+        [action.payload.data.tag.type]: tagList(
+          state[action.payload.data.tag.type],
           action
         )
       }

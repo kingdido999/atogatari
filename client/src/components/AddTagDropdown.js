@@ -9,7 +9,8 @@ import { MIN_CHARACTERS, DONE_TYPING_INTERVAL } from '../constants/search'
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	screenshotId: PropTypes.string.isRequired,
-	fluid: PropTypes.bool
+	fluid: PropTypes.bool,
+	disabled: PropTypes.bool
 }
 
 class AddTagDropdown extends Component {
@@ -19,12 +20,13 @@ class AddTagDropdown extends Component {
 	}
 
 	render() {
-		const { fluid } = this.props
+		const { fluid, disabled } = this.props
+		const placeholder = disabled ? 'Login to add a tag' : 'Add a tag'
 
 		return (
 			<Dropdown
 				options={this.state.tagSuggestions}
-				placeholder="Enter a new tag"
+				placeholder={placeholder}
 				additionLabel=""
 				additionPosition="bottom"
 				icon={null}
@@ -36,6 +38,7 @@ class AddTagDropdown extends Component {
 				noResultsMessage={'Type to show suggestions...'}
 				onSearchChange={this.handleSearchChange}
 				onChange={this.handleChange}
+				disabled={disabled}
 			/>
 		)
 	}
