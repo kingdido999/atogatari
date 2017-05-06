@@ -29,20 +29,19 @@ class ScreenshotPage extends Component {
   render() {
     return (
       <Container>
-        <Grid stackable>
-          <Grid.Row columns={2}>
-            <Grid.Column width={12}>
-              {this.renderImage()}
-            </Grid.Column>
-            <Grid.Column width={4}>
-              <Segment.Group>
-                <Segment>{this.renderUploader()}</Segment>
-                <Segment>{this.renderTags()}</Segment>
-                <Segment>{this.renderNSFW()}</Segment>
-                <Segment>{this.renderActionButtons()}</Segment>
-              </Segment.Group>
-            </Grid.Column>
-          </Grid.Row>
+        <Grid reversed="mobile" stackable>
+          <Grid.Column width={4}>
+            <Segment.Group>
+              <Segment>{this.renderUploader()}</Segment>
+              <Segment>{this.renderTags()}</Segment>
+              <Segment>{this.renderNSFW()}</Segment>
+              <Segment>{this.renderActionButtons()}</Segment>
+            </Segment.Group>
+          </Grid.Column>
+          <Grid.Column width={12}>
+            {this.renderImage()}
+          </Grid.Column>
+
         </Grid>
       </Container>
     )

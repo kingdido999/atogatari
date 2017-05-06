@@ -14,6 +14,7 @@ export const setView = makeActionCreator('SET_VIEW', 'view')
 export const setQuery = makeActionCreator('SET_QUERY', 'query')
 export const resetFilter = makeActionCreator('RESET_FILTER')
 export const resetTagList = makeActionCreator('RESET_TAG_LIST', 'tagType')
+export const clearSearch = makeActionCreator('CLEAR_SEARCH')
 
 export function login(creds) {
   return {

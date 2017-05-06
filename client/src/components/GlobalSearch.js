@@ -3,7 +3,7 @@ import { Search, Grid } from 'semantic-ui-react'
 import { browserHistory } from 'react-router'
 
 import Tag from './Tag'
-import { search, setQuery } from '../actions/entities'
+import { search, setQuery, clearSearch } from '../actions/entities'
 import { MIN_CHARACTERS, DONE_TYPING_INTERVAL } from '../constants/search'
 
 const propTypes = {
@@ -48,7 +48,9 @@ class GlobalSearch extends Component {
   }
 
   handleResultSelect = (e, item) => {
+    const { dispatch } = this.props
     const { name } = item
+    dispatch(clearSearch())
     browserHistory.push(`/tag/${name}`)
   }
 

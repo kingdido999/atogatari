@@ -22,6 +22,8 @@ function query(state = '', action) {
   switch (action.type) {
     case 'SET_QUERY':
       return action.query
+    case 'CLEAR_SEARCH':
+      return ''
     default:
       return state
   }
