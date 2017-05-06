@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Menu, Dropdown, Checkbox } from 'semantic-ui-react'
 
+import TipsDimmer from './TipsDimmer'
 import { SORT_BY } from '../constants/filter'
 
 import {
@@ -8,12 +9,14 @@ import {
   toggleNSFW,
   setView,
   setPage,
-  getFilteredScreenshots
+  getFilteredScreenshots,
+  showTips
 } from '../actions/entities'
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
   isMobile: PropTypes.bool.isRequired,
+  showTips: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   nsfw: PropTypes.bool.isRequired,
   view: PropTypes.string.isRequired,
@@ -54,7 +57,16 @@ class Filters extends Component {
   }
 
   renderFilters = () => {
-    const { sortBy, nsfw, view, pages, page, total } = this.props
+    const {
+      sortBy,
+      nsfw,
+      view,
+      pages,
+      page,
+      total,
+      dispatch,
+      showTips
+    } = this.props
     const isFirstPage = page === 1
     const hasPrevPage = page > 1
     const hasNextPage = page < pages
@@ -101,8 +113,6 @@ class Filters extends Component {
           />
         </Menu.Item>
 
-        <Menu.Item icon="refresh" onClick={this.handleRefresh} />
-
         <Menu.Item
           icon="expand"
           active={view === 'single'}
@@ -113,7 +123,10 @@ class Filters extends Component {
           active={view === 'grid'}
           onClick={() => this.handleChangeView('grid')}
         />
+        <Menu.Item icon="refresh" onClick={this.handleRefresh} />
+        <Menu.Item icon="keyboard" onClick={() => this.handleShowTips(true)} />
 
+        <TipsDimmer dispatch={dispatch} active={showTips} />
       </Menu.Menu>
     )
   }
@@ -196,14 +209,21 @@ class Filters extends Component {
     }
   }
 
+  handleShowTips = visible => {
+    const { dispatch } = this.props
+    dispatch(showTips(visible))
+  }
+
   handleKeyDown = event => {
     if (!/INPUT|SELECT|TEXTAREA/.test(event.target.tagName)) {
       event.preventDefault()
-      const { view } = this.props
+      const { view, showTips } = this.props
 
       switch (event.key) {
-        case ' ':
         case 'Enter':
+          this.handleShowTips(!showTips)
+          break
+        case ' ':
           this.handleChangeView(view === 'grid' ? 'single' : 'grid')
           break
         case 'r':

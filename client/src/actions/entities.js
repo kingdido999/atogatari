@@ -4,6 +4,7 @@ import { merge } from 'lodash'
 import { ax, makeActionCreator } from '../utils'
 import * as schemas from '../constants/schemas'
 
+export const showTips = makeActionCreator('SHOW_TIPS', 'visible')
 export const setTotal = makeActionCreator('SET_TOTAL', 'key', 'total')
 export const setPages = makeActionCreator('SET_PAGES', 'key', 'pages')
 export const setPage = makeActionCreator('SET_PAGE', 'page')
