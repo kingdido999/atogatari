@@ -39,6 +39,14 @@ const SORT_BY_OPTIONS = [
 ]
 
 class Filters extends Component {
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown)
+  }
+
   render() {
     const { isMobile } = this.props
     const filters = isMobile ? this.renderMobileFilters() : this.renderFilters()
@@ -185,6 +193,33 @@ class Filters extends Component {
         break
       default:
         return
+    }
+  }
+
+  handleKeyDown = event => {
+    if (!/INPUT|SELECT|TEXTAREA/.test(event.target.tagName)) {
+      event.preventDefault()
+      const { view } = this.props
+
+      switch (event.key) {
+        case ' ':
+        case 'Enter':
+          this.handleChangeView(view === 'grid' ? 'single' : 'grid')
+          break
+        case 'r':
+          this.handleRefresh()
+          break
+        case 'ArrowLeft':
+        case 'k':
+          this.handlePaginate('prev')
+          break
+        case 'ArrowRight':
+        case 'j':
+          this.handlePaginate('next')
+          break
+        default:
+          return
+      }
     }
   }
 }
