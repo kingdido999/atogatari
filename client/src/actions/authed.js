@@ -2,6 +2,14 @@ import { normalize } from 'normalizr'
 import { ax } from '../utils'
 import * as schemas from '../constants/schemas'
 
+const config = () => {
+  return {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  }
+}
+
 export function logout() {
   return {
     type: 'LOGOUT',
@@ -47,46 +55,54 @@ export function getAuthedUser() {
 export function addFavorite(screenshotId) {
   return {
     type: 'ADD_FAVORITE',
-    payload: ax.post('/favorite', { screenshotId })
+    payload: ax.post('/favorite', { screenshotId }, config())
   }
 }
 
 export function removeFavorite(screenshotId) {
   return {
     type: 'REMOVE_FAVORITE',
-    payload: ax.delete('/favorite', {
-      params: { screenshotId }
-    })
+    payload: ax.delete(
+      '/favorite',
+      {
+        params: { screenshotId }
+      },
+      config()
+    )
   }
 }
 
 export function uploadScreenshot(data) {
   return {
     type: 'UPLOAD',
-    payload: ax.post('/screenshot/upload', data)
+    payload: ax.post('/screenshot/upload', data, config())
   }
 }
 
 export function deleteScreenshot(id) {
   return {
     type: 'DELETE_SCREENSHOT',
-    payload: ax.delete(`/screenshot/${id}`)
+    payload: ax.delete(`/screenshot/${id}`, config())
   }
 }
 
 export function addTag(name, screenshotId) {
   return {
     type: 'ADD_TAG',
-    payload: ax.post('/tag', { name, screenshotId })
+    payload: ax.post('/tag', { name, screenshotId }, config())
   }
 }
 
 export function deleteTagFromScreenshot(name, screenshotId) {
   return {
     type: 'DELETE_TAG_FROM_SCREENSHOT',
-    payload: ax.delete(`/tag/${name}`, {
-      params: { screenshotId }
-    })
+    payload: ax.delete(
+      `/tag/${name}`,
+      {
+        params: { screenshotId }
+      },
+      config()
+    )
   }
 }
 
@@ -96,7 +112,7 @@ export function updateTagType(name, fromType, toType) {
       type: 'UPDATE_TAG_PENDING'
     })
     ax
-      .put(`/tag/${name}`, { type: toType })
+      .put(`/tag/${name}`, { type: toType }, config())
       .then(res => {
         dispatch({
           type: 'UPDATE_TAG_FULFILLED',
@@ -112,7 +128,7 @@ export function updateTagType(name, fromType, toType) {
 export function updateTag(name, params) {
   return {
     type: 'UPDATE_TAG',
-    payload: ax.put(`/tag/${name}`, params)
+    payload: ax.put(`/tag/${name}`, params, config())
   }
 }
 
@@ -139,6 +155,6 @@ export function setScreenshotNSFW(screenshotId, nsfw) {
 export function updateScreenshot(screenshotId, params) {
   return {
     type: 'UPDATE_SCREENSHOT',
-    payload: ax.put(`/screenshot/${screenshotId}`, params)
+    payload: ax.put(`/screenshot/${screenshotId}`, params, config())
   }
 }
