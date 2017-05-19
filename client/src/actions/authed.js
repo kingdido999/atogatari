@@ -42,6 +42,7 @@ export function getAuthedUser() {
       '/user',
       {},
       {
+        ...config(),
         transformResponse: [
           function(data) {
             return normalize(JSON.parse(data), schemas.userSchema)
@@ -62,13 +63,10 @@ export function addFavorite(screenshotId) {
 export function removeFavorite(screenshotId) {
   return {
     type: 'REMOVE_FAVORITE',
-    payload: ax.delete(
-      '/favorite',
-      {
-        params: { screenshotId }
-      },
-      config()
-    )
+    payload: ax.delete('/favorite', {
+      params: { screenshotId },
+      ...config()
+    })
   }
 }
 
@@ -96,13 +94,10 @@ export function addTag(name, screenshotId) {
 export function deleteTagFromScreenshot(name, screenshotId) {
   return {
     type: 'DELETE_TAG_FROM_SCREENSHOT',
-    payload: ax.delete(
-      `/tag/${name}`,
-      {
-        params: { screenshotId }
-      },
-      config()
-    )
+    payload: ax.delete(`/tag/${name}`, {
+      params: { screenshotId },
+      ...config()
+    })
   }
 }
 

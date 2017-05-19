@@ -5,10 +5,7 @@ const baseURL = process.env.NODE_ENV === 'production'
   : ''
 
 export const ax = axios.create({
-  baseURL,
-  headers: {
-    Authorization: localStorage.getItem('token')
-  }
+  baseURL
 })
 
 export function getImageUrl(filename) {
