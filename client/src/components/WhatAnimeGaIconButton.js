@@ -12,7 +12,7 @@ class WhatAnimeGaIconButton extends Component {
         as='a'
         icon='play'
         target='_blank'
-        href={`https://whatanime.ga/?url=${url}`}
+        href={`https://trace.moe/?url=${url}`}
       />
     )
   }
