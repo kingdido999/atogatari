@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const baseURL = process.env.NODE_ENV === 'production'
-  ? 'https://api.atogatari.com'
+  ? 'https://api.atogatari.desmonding.me'
   : ''
 
 export const ax = axios.create({

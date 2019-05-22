@@ -12,19 +12,19 @@
     "koa-router": "next",
     "koa-static": "next",
     "koa2-cors": "^2.0.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "mongoose": "^4.8.0",
     "sharp": "^0.17.2",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.1",
-    "babel-preset-env": "^1.2.2",
-    "babel-register": "^6.24.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "eslint": "^3.16.1",
     "faker": "^4.1.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.19.0"
   },
   "scripts": {
     "start": "DEBUG=koa* nodemon src/index.js --exec babel-node",
